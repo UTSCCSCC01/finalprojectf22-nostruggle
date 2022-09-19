@@ -7,4 +7,4 @@
 | Jiakai Sun | sunjiak1 | 1007625385 | jiakai.sun@mail.utoronto.ca | email | Zane#8568 |
 | Christine Zhao | zhaochr3 | 1007914786 | christine.zhao@mail.utoronto.ca | 416-270-5239 | Penguinfami#0494 |
 
-[Discord Server Invite Link](https://discord.gg/q6TFQ4qM)
+[Discord Server Invite Link](https://discord.gg/3u7mvF7Pkk)
