@@ -5,7 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\" "
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\" ",
+    "postinstall": "concurrently \"cd backend && npm install\" \"cd frontend && npm install\" "
   },
   "keywords": [],
   "author": "",
