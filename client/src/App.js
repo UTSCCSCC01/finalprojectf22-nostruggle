@@ -13,6 +13,7 @@ function App() {
     axios.get('http://localhost:5000/users/get').then( res => setUsers(res.data)).catch( err => setError(err.message))
   }
   const addUser = async () =>{
+    alert("You can add users at http://localhost:5000/users/post")
     setError("Post from client coming soon")
   }
   return (
