@@ -1,0 +1,4 @@
+- All the code is well-written. That is, code is written and annotated when different developers are working on the same functionality.
+- The code is peer-reviewed and explained if necessary.
+- Full tests should be made. That is, testing should be done either with written tests or manually tested and all tests should pass.
+- All functionality is covered and all the user stories should be satisfied once the coding is finished and fully tested.
