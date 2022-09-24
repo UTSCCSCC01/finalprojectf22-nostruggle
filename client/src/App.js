@@ -10,7 +10,6 @@ function App() {
     axios.get('http://localhost:5000/test').then(res => setMsg(res.data.message)).catch( err => setMsg(err.message))
   }
 
-
   return (
     <div className="App">
       <button onClick={getMsg}>Click button to get data:</button>
