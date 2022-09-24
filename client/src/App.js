@@ -17,15 +17,15 @@ function App() {
   }
   return (
     <Container maxWidth="lg">
-      { error != "" ? error : null}
-      <Button  onClick={goToUsers} color="primary">Click to get users (on /users/get )</Button>
+      <h3>{ error != "" ? error : null}</h3>
+      <Button onClick={goToUsers} color="primary">Click to get users (on /users/get )</Button>
       {users.map(user => 
         <h4>{user.username},{user.createdAt}</h4>
       )}
       <Container>
         <label>Add a user</label>
         <Input ref={inputRef}></Input>
-        <Button  onClick={addUser} color="primary">Click to add user ( on /users/post </Button>
+        <Button onClick={addUser} color="primary">Click to add user ( on /users/post ) </Button>
       </Container>
 
     </Container>
