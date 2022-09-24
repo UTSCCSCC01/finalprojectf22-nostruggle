@@ -22,9 +22,11 @@ function App() {
       {users.map(user => 
         <h4>{user.username},{user.createdAt}</h4>
       )}
-      <label>Add a user</label>
-      <Input ref={inputRef}></Input>
-      <Button  onClick={addUser} color="primary">Click to add user ( on /users/post </Button>
+      <Container>
+        <label>Add a user</label>
+        <Input ref={inputRef}></Input>
+        <Button  onClick={addUser} color="primary">Click to add user ( on /users/post </Button>
+      </Container>
 
     </Container>
   );
