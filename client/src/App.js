@@ -1,10 +1,13 @@
-import logo from './logo.svg';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Container } from '@material-ui/core';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-    </div>
+    <Container maxWidth="lg">
+      <Button component={Link} to="/users" color="primary">Click to go to users</Button>
+    </Container>
   );
 }
 
