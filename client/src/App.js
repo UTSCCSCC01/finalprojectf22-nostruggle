@@ -1,20 +1,34 @@
-import logo from './logo.svg';
+import React, { useState, useRef } from 'react';
+import { Button, Container, Input } from '@material-ui/core';
 import './App.css';
-import { useState } from 'react'
 import axios from 'axios'
+
 function App() {
 
-  const [ msg, setMsg ] = useState( "this is not the data" )
-  
-  const getMsg = () => {
-    axios.get('http://localhost:5000/test').then(res => setMsg(res.data.message)).catch( err => setMsg(err.message))
-  }
+  const [ users, setUsers ] = useState([])
+  const [ error, setError ] = useState("")
+  const inputRef = useRef()
 
+  const goToUsers = async () =>{
+    axios.get('http://localhost:5000/users/get').then( res => setUsers(res.data)).catch( err => setError(err.message))
+  }
+  const addUser = async () =>{
+    setError("Post from client coming soon")
+  }
   return (
-    <div className="App">
-      <button onClick={getMsg}>Click button to get data:</button>
-      <h2>Message: {`${ msg }`} </h2>
-    </div>
+    <Container maxWidth="lg">
+      <h3>{ error != "" ? error : null}</h3>
+      <Button onClick={goToUsers} color="primary">Click to get users (on /users/get )</Button>
+      {users.map(user => 
+        <h4>{user.username},{user.createdAt}</h4>
+      )}
+      <Container>
+        <label>Add a user</label>
+        <Input ref={inputRef}></Input>
+        <Button onClick={addUser} color="primary">Click to add user ( on /users/post ) </Button>
+      </Container>
+
+    </Container>
   );
 }
 
