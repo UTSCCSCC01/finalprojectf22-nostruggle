@@ -28,6 +28,13 @@ function App() {
         <Button onClick={addUser} color="primary">Click to add user ( on /users/post ) </Button>
       </Container>
 
+      <Button>Catherine</Button>
+      <Button>Ishika</Button>
+      <Button>Madison</Button>
+      <Button>Christine</Button>
+      <Button>Tara</Button>
+      <Button>Zane</Button>
+      
     </Container>
   );
 }
