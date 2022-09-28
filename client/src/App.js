@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Button, Container, Input } from '@material-ui/core';
+import { Button, Container, Input } from '@mui/material';
 import './App.css';
 import Features from './components/features'
 function App() {

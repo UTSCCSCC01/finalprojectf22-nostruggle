@@ -12,7 +12,7 @@ import userRouter from './routes/users.js';
 app.use('/users', userRouter);
 
 const uri = process.env.URI;
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 2800;
 const options = { useNewUrlParser: true, useUnifiedTopology: true};
 
 try {
