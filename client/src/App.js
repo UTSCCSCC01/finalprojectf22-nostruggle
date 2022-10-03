@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Button, Container, Input } from '@material-ui/core';
+import { Button, Container, Input } from '@mui/material';
 import './App.css';
 import Features from './components/features'
 function App() {
@@ -10,7 +10,6 @@ function App() {
   return (
     <Container maxWidth="lg">
       
-
       <Button onClick={() => setPage("Catherine")}>Catherine</Button>
       <Button onClick={() => setPage("Ishika")}>Ishika</Button>
       <Button onClick={() => setPage("Madison")}>Madison</Button>
