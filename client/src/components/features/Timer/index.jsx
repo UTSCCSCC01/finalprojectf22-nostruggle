@@ -114,7 +114,7 @@ const StudyTimer = (props) => {
         dispatch({
             type: 'start',
         })
-        if (studyTimer.mode !== 'timer'){
+        if (studyTimer.mode !== 'timer' || studyTimer.time.seconds <= 0){
             dispatch({
                 type: 'time',
                 payload: 10
