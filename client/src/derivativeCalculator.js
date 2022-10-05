@@ -8,13 +8,16 @@ Ex. 3x+7+2x^4 -> 3+8x^3
 "3x+7+2x^4";
 "3x^2";
 "7";
+"3x-7+2x^-4"
+"3x-7-2x^-4"
 */
-var eqn = "7";
+var eqn = "3+7x-2x^4";
 console.log(eqn);
 
-//Convert minus to plus sign with negative term, then store in array
+//Convert minus to plus sign with negative term (except for "^-" since it is within a term)
+eqn = eqn.replace(/(?<!\^)-/g, '+-');
 
-//Separating terms by + sign, and storing each term in an array
+//Separating terms by + sign, and storing each operator in an array
 const operators = [];
 for (const s of eqn) {
     if (s == '+') {
@@ -27,7 +30,7 @@ const terms = eqn.split("+");
 //Deriving each term and store in string array
 const derivedTerms = [];
 for (var i = 0; i < terms.length; i++) {
-    if (/^\d$/.test(terms[i])) {
+    if (!(isNaN(terms[i]))) {
         derivedTerms.push("0");
     }
     else if (terms[i].includes('^')) {
@@ -63,6 +66,10 @@ for (var countDerived = 0; countDerived < derivedTerms.length; countDerived++) {
         countOps++;
     }
 }
-//Removes occurences of "+0" or "-0"
-completeDerivative = completeDerivative.replace(/(\+|-)0/g, '');
+
+//Replaces "+-" with "-" 
+completeDerivative = completeDerivative.replace(/(\+-)/g, '-');
+//Removes occurences of "+0", "-0", "0-", or "0+"
+completeDerivative = completeDerivative.replace(/(((\+|-)0)|(0\+))/g, '');
+completeDerivative = completeDerivative.replace(/0-/g, '-');
 console.log(completeDerivative);
