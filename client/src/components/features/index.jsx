@@ -13,7 +13,7 @@ const index = (props) => {
             case "Tara" :
                 return "Tara's page"                    
             case "Christine" :
-                return <div><Scheduler/></div>
+                return <Scheduler/>
             case "Zane" :
                 return "Zane's page"
             default: 
