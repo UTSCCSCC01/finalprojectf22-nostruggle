@@ -21,6 +21,14 @@ export const postUser = async (req, res) => {
         res.status(201).json(newUser);
 
     } catch (e) {
+        /*
+        if ( e.errors['username'].message === 'Must be at least 6 characters' || e.errors['password'].message === 'Must be at least 6 characters') {
+            res.status(400);
+        } else {
+            res.status(409);
+        }
+        res.json({ message: e.message })
+        */
         res.status(409).json({ message: e.message });
     };
 };
