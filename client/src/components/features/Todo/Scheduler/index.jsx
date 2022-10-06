@@ -3,6 +3,7 @@ import { useRef, useState, useEffect, useReducer } from 'react'
 import { pageActions } from './types'
 import { pageReducer, taskReducer } from './reducers'
 import AddNewTask from './AddNewTask';
+import TodoList from './TodoList'
 import axios from 'axios';
 const Scheduler = () => {
 
@@ -21,12 +22,6 @@ const Scheduler = () => {
     const [ incompleteOnly, toggleIncompleteOnly ] = useState(true)
     const [ addTask, toggleAddTask ] = useState(false)
     const scheduleRef = useRef()
-
-    const dateFormat = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    }
 
     const completeTask = async (taskId) => {
         console.log("Completing task")
@@ -52,48 +47,24 @@ const Scheduler = () => {
     }
     const getPage = () =>{
         console.log(schedule)
-        switch (schedule.page) {
-            case pageActions.ALL_TASKS:
-                console.log("this is all tasks page")
-                return (
-                    <div>
-                        Schedule for Catherine 
-                        <Button onClick={() => toggleAddTask(true)}>Add new task</Button>
-                        <Container  ref={scheduleRef}>
-                            <Button onClick={() => toggleIncompleteOnly(!incompleteOnly)}>{ incompleteOnly ? "SHOW COMPLETE TASKS" : "VIEW INCOMPLETE ONLY"}</Button>
-                            { !schedule.isLoading || schedule.userTasks.length > 0 ?
-                                <div>
-                                { schedule.userTasks.map((task) => {
-                                        return ( !task.done || !incompleteOnly ? 
-                                        <Paper variant='outlined'>
-                                            <header><strong>{task.title}</strong></header>
-                                            <div>{task.done ? "COMPLETED" : <Button size='small' onClick={() => completeTask(task._id)}>Mark As Complete</Button>}</div>
-                                            { task.deadline ? <div>Deadline: {new Date(task.deadline).toLocaleDateString('en-us', dateFormat)}{ !task.done && Date.parse(task.deadline) < Date.now() ? ": OVERDUE" : null }</div> : null } 
-                                        </Paper>
-                                        : null )
-                                    })
-                                }  
-                                </div>
-                                : "Loading your  tasks"
-                            }
-                        </Container>
-                        <AddNewTask 
-                            open={addTask} 
-                            close={closeAddTask}
-                            anchor={scheduleRef}
-                            pageDispatch={pageDispatch}
-                        />
-
-                    </div>
-                )
-            case pageActions.ADD_TASK:
-                console.log("Add task page")
-                return 
-        }
+        return (
+            <div>
+                <h1>My Todolist</h1> 
+                <Button onClick={() => toggleAddTask(true)}>Add new task</Button>
+                <TodoList scheduleRef={scheduleRef} schedule={schedule} tasks={schedule.userTasks} completeTask={completeTask}/>
+                <AddNewTask 
+                    open={addTask} 
+                    close={closeAddTask}
+                    anchor={scheduleRef}
+                    pageDispatch={pageDispatch}
+                />
+            </div>
+        )
+        
         
     }
     
-    const fetchTasks = async (state, onFinish) => {
+    const fetchTasks = async () => {
         pageDispatch({ type: pageActions.LOADING })
         console.log("fetching tasks")
         await axios.get(process.env.REACT_APP_SERVER_URL + '/tasks')
@@ -118,9 +89,6 @@ const Scheduler = () => {
         fetchTasks()
     }, [schedule.page] )
 
-    useEffect(() => {
-
-    }, [])
 
     useEffect(() => {
         fetchTasks()
