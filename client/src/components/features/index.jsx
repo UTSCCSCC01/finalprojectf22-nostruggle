@@ -1,3 +1,4 @@
+import CreatePostPage from "./Post/CreatePostPage";
 const index = (props) => {
 
     const getPage = () =>{
@@ -7,7 +8,7 @@ const index = (props) => {
             case "Ishika" :
                 return "Ishika's page"
             case "Madison" :
-                return "Madison's page"
+                return <CreatePostPage />
             case "Tara" :
                 return "Tara's page"                    
             case "Christine" :
