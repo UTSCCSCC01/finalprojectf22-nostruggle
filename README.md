@@ -4,14 +4,14 @@ finalprojectf22-nostruggle created by GitHub Classroom
 ## How to run
 Using npm script:
 ```
-npm install concurrently
+npm install
 npm run dev
 ```
 Run the server:
 ```
 cd server
 npm install
-npm start
+npm run dev
 ```
 Run the client:
 ```
