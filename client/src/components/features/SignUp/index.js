@@ -12,11 +12,9 @@ const SignUp = () => {
     const signIn = async (event) => {
         clearErrMsg();
         event.preventDefault();
+        console.log('trying: ' + process.env.REACT_APP_SERVER_URL + '/users/get/' + user.username + '/' + user.password)
 
-        await axios.get(process.env.REACT_APP_SERVER_URL + '/users/get', { data: {
-            'username': user.username,
-            'password': user.password
-        }})
+        await axios.get(process.env.REACT_APP_SERVER_URL + '/users/get/' + user.username + '/' + user.password )
         .then(res => console.log(res.data))
         .catch(e => console.log(e))
     }

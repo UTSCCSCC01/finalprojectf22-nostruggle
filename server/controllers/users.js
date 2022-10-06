@@ -1,5 +1,17 @@
 import User from '../models/user.model.js';
 
+export const getUser = async (req, res) => {
+    try {
+        const user = await User.find({ username: req.params.username, password: req.params.password });
+        console.log('got ' + req.params.username + ' ' + req.params.password )
+        console.log(user);
+        res.status(200).json(user);
+    
+    } catch (e) {
+        res.status(404).json({ message: e.message });
+    }
+}
+
 export const getUsers = async (req, res) => {
     try {
         const users = await User.find();
