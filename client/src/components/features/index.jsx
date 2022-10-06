@@ -1,11 +1,11 @@
-import Timer from './Timer'
-import Scheduler from './Todo/Scheduler'
+import SignUp from "./SignUp"
+
 const index = (props) => {
 
     const getPage = () =>{
         switch (props.page) {
             case "Catherine" :
-                return "Catherine's page"
+                return <SignUp />
             case "Ishika" :
                 return "Ishika's page"
             case "Madison" :

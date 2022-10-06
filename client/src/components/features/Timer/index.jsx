@@ -1,6 +1,5 @@
 import { Button, Container, Input, Card, Box, Autocomplete, TextField } from '@mui/material';
 import { useState, useReducer, useEffect } from 'react'
-import AddNewTask from '../Todo/Scheduler/AddNewTask'
 import Timer from './Timer'
 import Stopwatch from './Stopwatch'
 import css from './StudyTimer.css'
@@ -115,7 +114,7 @@ const StudyTimer = (props) => {
         dispatch({
             type: 'start',
         })
-        if (studyTimer.mode !== 'timer'){
+        if (studyTimer.mode !== 'timer' || studyTimer.time.seconds <= 0){
             dispatch({
                 type: 'time',
                 payload: 10
@@ -193,7 +192,7 @@ const StudyTimer = (props) => {
                     }
                 </div>
                 :
-                    studyTimer.running && <div>{studyTimer.time.string}</div>
+                    studyTimer.running && <div><b>{studyTimer.time.string}</b></div>
             }
         </Card>
     

@@ -9,12 +9,18 @@ app.use(express.json());
 app.use(cors());
 
 import userRouter from './routes/users.js';
+
 import taskRouter from './routes/tasks.js'
+
+import openApiRouter from './routes/openApi.js';
+
 app.use('/users', userRouter);
+app.use('/openapi', openApiRouter);
 app.use('/tasks', taskRouter)
 
+
 const uri = process.env.URI;
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 2800;
 const options = { useNewUrlParser: true, useUnifiedTopology: true};
 
 try {
