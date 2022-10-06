@@ -2,13 +2,12 @@ import { FormLabel, Popper, Popover, Input, TextField, FormControl, FormControlL
 import { useRef, useState, useReducer, useEffect } from 'react'
 import { pageActions, taskActions } from './types'
 import { pageReducer, taskReducer } from './reducers'
-
+import axios from 'axios'
 import css from './style.css'
 const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
 
     const titleRef = useRef(), dateRef = useRef()
 
-    const [ formOn, toggleFormOn ] = useState(true)
     const [ hasDeadline, toggleHasDeadline ] = useState(false)
     const [ taskState, taskDispatch ] = useReducer(taskReducer, {
         isAddingTask: false,
@@ -20,24 +19,7 @@ const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
         }
     } )
 
-    const onCreateTask = {
-        success: () => {
-            taskDispatch({ type: taskActions.SUCCESS })
-            pageDispatch({ type: pageActions.ALL_TASKS, payload: { onFinish: { 
-                success: (t) => {
-                    close()
-                    pageDispatch({ type: pageActions.ALL_TASKS, payload: { allTasks: t}})
-                }, 
-                failure: () => pageDispatch({ type: pageActions.ERROR, payload: { message:  "There was a problem fetching your tasks..." }})
-            }}
-        })},
-        failure: (e) => {
-            taskDispatch({ type: taskActions.ERROR, payload: { message: 'There was a problem creating the new task...' }})
-        }
-    }
-
-    const createTask = () =>{
-        if ( !formOn ) return;
+    const createTask = async () =>{
         let title = titleRef.current.value;
         if (!title.trim()) 
             return taskDispatch( { type: taskActions.ERROR, payload: { message: 'Title required', target: titleRef } })
@@ -59,7 +41,14 @@ const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
             userId: '3242'
         }
         console.log(newTask)
-        taskDispatch({ type: taskActions.ADD_TASK, payload:{ task: newTask, onFinish: onCreateTask }})
+        taskDispatch({ type: taskActions.ADD_TASK })
+
+        axios.post(process.env.REACT_APP_SERVER_URL + '/tasks', newTask)
+        .then(() => {
+            taskDispatch({ type: taskActions.SUCCESS })
+            close(true);
+        })
+        .catch( () =>  taskDispatch({ type: taskActions.ERROR, payload: { message: 'There was a problem creating the new task...' }}))
         titleRef.current.value = ''
         dateRef.current.value = ''
     }
@@ -68,6 +57,15 @@ const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
         horizontal: document.documentElement.clientWidth / 2 - 100,
         vertical: document.documentElement.clientHeight / 2 - 150
     }
+
+    useEffect(() => {
+        if (taskState.added) {
+            close(false)
+        } else if (taskState.isLoading && taskState.error) {
+            pageDispatch({ type: pageActions.ERROR, payload: { message:  "There was a problem fetching your tasks..." }})
+        }
+    }, [taskState])
+
     return (
         <Popover open={open} anchorOrigin={anchorOrigin} anchorEl={anchor}>
             <Button onClick={close}>Back to schedule</Button>
@@ -77,7 +75,7 @@ const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
                         <TextField error={taskState.error.error && taskState.error.target === titleRef} helperText={taskState.error.error && taskState.error.target === titleRef ? "Title is required" : ""}
                             margin="normal" disabled={taskState.isLoading} size="small" inputRef={titleRef} required label="Title" variant="outlined" placeholder="Enter here"></TextField>
                         <FormGroup>
-                            <FormControlLabel size="small" label="Deadline" value={hasDeadline} control={<Switch onChange={(e) => toggleHasDeadline(!hasDeadline)}/>}></FormControlLabel>
+                            <FormControlLabel size="small" label="Deadline" value={hasDeadline} checked={hasDeadline} control={<Switch onChange={(e) => toggleHasDeadline(!hasDeadline)}/>}></FormControlLabel>
                             <TextField error={taskState.error.error && taskState.error.target === dateRef} helperText={taskState.error.error && taskState.error.target === dateRef ? taskState.error.message : ""}  disabled={!hasDeadline} size="small" inputRef={dateRef} type="date" variant="outlined" ></TextField>
                         </FormGroup>
                         <Button margin="normal" type="submit" disabled={taskState.isLoading} onClick={createTask} variant="contained">Create</Button>

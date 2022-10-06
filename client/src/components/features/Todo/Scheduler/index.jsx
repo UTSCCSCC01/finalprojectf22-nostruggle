@@ -30,18 +30,25 @@ const Scheduler = () => {
 
     const completeTask = async (taskId) => {
         console.log("Completing task")
-        try {
-            let tasks = await axios.patch('http://localhost:5000/tasks',
-            {
-                filters: {_id: taskId },
-                update: { done: true }
-            }  )  
-            console.log("Fetching") 
-            fetchTasks()      
-        } catch (e) {
-            pageDispatch({type: pageActions.ERROR, payload: "There was a problem updating the database"})
-        }
+        axios.patch(process.env.REACT_APP_SERVER_URL + '/tasks',
+        {
+            filters: {_id: taskId },
+            update: { done: true }
+        } )  
+        .then((res) => fetchTasks())
+        .catch(e => pageDispatch({type: pageActions.ERROR, payload: "There was a problem updating the database"}))
+        console.log("Fetching") 
+        fetchTasks()    
+       
         
+    }
+
+    const closeAddTask = (reload) => {
+        toggleAddTask(false)
+
+        if (reload){
+            fetchTasks()
+        }
     }
     const getPage = () =>{
         console.log(schedule)
@@ -54,7 +61,7 @@ const Scheduler = () => {
                         <Button onClick={() => toggleAddTask(true)}>Add new task</Button>
                         <Container  ref={scheduleRef}>
                             <Button onClick={() => toggleIncompleteOnly(!incompleteOnly)}>{ incompleteOnly ? "SHOW COMPLETE TASKS" : "VIEW INCOMPLETE ONLY"}</Button>
-                            { !schedule.isLoading ?
+                            { !schedule.isLoading || schedule.userTasks.length > 0 ?
                                 <div>
                                 { schedule.userTasks.map((task) => {
                                         return ( !task.done || !incompleteOnly ? 
@@ -70,7 +77,12 @@ const Scheduler = () => {
                                 : "Loading your  tasks"
                             }
                         </Container>
-                        <AddNewTask open={addTask} close={() => toggleAddTask(false)} anchor={scheduleRef} pageDispatch={pageDispatch}/>
+                        <AddNewTask 
+                            open={addTask} 
+                            close={closeAddTask}
+                            anchor={scheduleRef}
+                            pageDispatch={pageDispatch}
+                        />
 
                     </div>
                 )
@@ -80,13 +92,36 @@ const Scheduler = () => {
         }
         
     }
-    const fetchTasks =  () => {
-            pageDispatch({ type: pageActions.ALL_TASKS, payload: { onFinish: { 
-                success: (t) => pageDispatch({ type: pageActions.ALL_TASKS, payload: { allTasks: t}}),
-                failure: () => pageDispatch({ type: pageActions.ERROR, payload: { message: "There was a problem fetching your tasks..." }})
-            }}
+    
+    const fetchTasks = async (state, onFinish) => {
+        pageDispatch({ type: pageActions.LOADING })
+        console.log("fetching tasks")
+        await axios.get(process.env.REACT_APP_SERVER_URL + '/tasks')
+        .then( res => {
+            console.log(res.data)
+            let tasks = res.data
+            tasks.sort((task1, task2) => {
+            
+                if (task1.deadline && task2.deadline) {
+                    return Date.parse(task1.deadline) - Date.parse(task2.deadline)
+                } else if (task1.deadline) return -1
+                return 1
+                
+            })
+            pageDispatch({ type: pageActions.ALL_TASKS, payload: tasks })
         })
+        .catch(e => pageDispatch({ type: pageActions.ERROR, payload: { message: "There was a problem fetching your tasks..." }}))
     }
+
+    useEffect(() => {
+        console.log("Fetching tasks")
+        fetchTasks()
+    }, [schedule.page] )
+
+    useEffect(() => {
+
+    }, [])
+
     useEffect(() => {
         fetchTasks()
     }, [] )

@@ -1,5 +1,5 @@
 import SignUp from "./SignUp"
-
+import Scheduler from "./Todo/Scheduler"
 const index = (props) => {
 
     const getPage = () =>{
@@ -13,7 +13,7 @@ const index = (props) => {
             case "Tara" :
                 return "Tara's page"                    
             case "Christine" :
-                return <div><Scheduler/><Timer/></div>
+                return <div><Scheduler/></div>
             case "Zane" :
                 return "Zane's page"
             default: 
