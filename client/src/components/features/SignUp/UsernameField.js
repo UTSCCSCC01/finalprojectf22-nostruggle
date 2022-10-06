@@ -1,11 +1,11 @@
-import { TextField } from "@mui/material";
+import { TextField } from '@mui/material';
 
 const UsernameField = (props) => {
     return (
         <TextField
         { ...props.innerRef }
-        label="username"
-        error={ props.errMsg !== "" }
+        label='username'
+        error={ props.errMsg !== '' }
         />
     )
 }

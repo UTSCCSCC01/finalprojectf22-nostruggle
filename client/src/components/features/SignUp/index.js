@@ -49,10 +49,10 @@ const SignUp = () => {
 
     return (
         <>
-            <p>Your username is {user.username} and password is {user.password}</p>
+            <p>Your username is { user.username } and password is { user.password }</p>
 
             <Autocomplete
-            freeSolo={true}
+            freeSolo
             options={[]}
             renderInput={ (params) => <UsernameField innerRef={ params } errMsg={ errMsg } /> }
             value={ user.username || '' }
@@ -60,7 +60,7 @@ const SignUp = () => {
             />
             
             <Autocomplete
-            freeSolo={true}
+            freeSolo
             options={[]}
             renderInput={ (params) => <PasswordField innerRef={ params } errMsg={ errMsg } /> }
             value={ user.password || '' }
