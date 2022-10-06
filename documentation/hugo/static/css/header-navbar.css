@@ -1,0 +1,232 @@
+:root{
+    --titleSize: 1.3rem;
+    --dropdownSize: 1rem;
+    --sideNavButtonWidth: 12rem;
+    --topNavButtonWidth: 100%;
+    --selected-dropdown: var(--main-sidebar-background);
+}
+
+.my-navbar {
+    background-color: var(--main-sidebar-background);
+    width: 90%;   
+    margin: auto;
+    color: var(--main-dark);
+    align-self: flex-start; 
+}
+
+.navbar-option-bottom {
+    height: 0.12rem;
+    width: 0%;
+    margin: auto;
+    background-color: var(--main-dark);
+    transition: width 0.6s linear 0s;
+}
+
+.my-navbar-link {
+    font: 500 1.1rem var(--main-navbar-font); 
+    line-height: calc(var(--titleSize) + 7px);
+    width: var(--topNavButtonWidth);
+    min-width: var(--topNavButtonWidth);
+    display: block; 
+    text-align: center;
+    text-decoration: none;
+    padding: 10px;
+    color: var(--main-dark);
+    background-color: var(--main-sidebar-background);
+    margin: auto;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    word-break: break-all;
+}
+
+.my-navbar-link:hover, .my-navbar-link:active {
+    color: var(--main-dark);
+}
+
+.my-navbar-link:hover ~ .navbar-option-bottom, .my-navbar-link:active ~ .navbar-option-bottom{
+    width: 90%;
+}
+
+.show ~ .navbar-option-bottom{
+    visibility: hidden;
+}
+
+.dropdown .my-navbar-link::after {
+    content:'\f107';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 20;
+}
+
+.dropdown .my-navbar-link.show::after {
+    content:'\f106';
+}
+
+.my-navbar-item {
+    background-color: var(--selected-dropdown);
+    border-radius: 14px;
+}
+
+.my-navbar-item .dropdown-item{
+    margin-top: 0.2rem;
+}
+
+
+.inner-dropdown-menu {
+    width: var(--topNavButtonWidth);
+    border: 1px solid var(--main-dark);
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    border-top: 2px solid var(--main-dark);
+    font: var(--dropdownSize) var(--main-navbar-font) !important;
+    position: relative;
+    z-index: 1 !important;
+}
+
+.my-navbar .dropdown-item{
+    display: block;
+    z-index: 1;
+}
+
+.my-navbar .dropdown-item:active{
+    color: black;
+    background-color: var(--main-light) !important;
+}
+
+.my-navbar .dropdown-item:hover{
+    border-right:5px solid var(--main-dark);
+    background-color: var(--main-lightest);
+    font-weight: 400 !important;
+}
+
+.my-navbar .show:first-child{
+    background-color: var(--selected-dropdown);
+    border-bottom: none;
+}
+
+.my-navbar .dropdown-item [data-bs-popper="none"]{
+    display: inline-block;
+}
+
+#navbar-visible {
+    display: block;
+}
+
+#navbar-invisible{
+    display: none;
+}
+
+#navbar-toggler[data-open-show="true"] {
+    display: block;
+}
+
+#navbar-toggler[data-open-show="false"] {
+    display: none;
+}
+
+.top-navbar-title-header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+#top-navbar-title {
+    font-size: 1.2rem; 
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    text-align: right;
+    /*word-break:break-word;*/
+    width: 100%;
+    text-transform: uppercase;
+    align-items: baseline;
+}
+
+#top-navbar-header-toggler {
+    color: var(--main-dark);
+    font-size: 2rem;
+    width: 2rem;
+    text-align: center;
+}
+
+#navbar-page-title {
+    text-align: center;
+    font-family: var(--main-navbar-font);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0 0.5rem;
+}
+
+#navbar-home-icon {
+    color: var(--main-dark);
+    font-size: 2rem !important;
+}
+
+.nav-logo {
+    display: none;
+}
+
+
+@media only screen and (min-width: 800px){
+
+    .navbar {
+        padding: 0 !important;
+        width: 100%;
+        border-right: 1px dotted var(--main-dark);
+    }
+
+    .my-navbar{
+        margin:auto;
+    }
+
+    .my-navbar-link {
+        font-size: var(--titleSize); 
+        line-height: var(--titleSize);
+        width: var(--sideNavButtonWidth);
+        min-width: var(--sideNavButtonWidth);
+        text-align: left;
+        padding: 10px 10px 10px 15px;
+    }
+
+    .inner-dropdown-menu{
+        border-top: 2px solid var(--main-dark);
+        width: var(--sideNavButtonWidth);
+    }
+
+    .top-navbar-title-header{
+        display: none;
+    }
+
+    .navbar-option-bottom{
+        margin-left: 10px;
+        transition-timing-function: cubic-bezier(0.1, 0.4, 0.9, 1);
+    }
+    .my-navbar-link:hover + .navbar-option-bottom, .my-navbar-link:active + .navbar-option-bottom{
+        width: 90%;
+    }
+
+
+    #navbar-visible, #navbar-invisible{
+        display: block;
+    }
+
+    #navbar-toggler {
+        display: block !important;
+    }
+
+    .nav-logo{
+        width: 95%;
+        margin: auto;
+        height: 110px;
+        background-size: 95%;
+        /*background-image: url("/images/utsc_logo.png");*/
+        background-repeat: no-repeat;
+        display: block;
+    }
+
+
+}

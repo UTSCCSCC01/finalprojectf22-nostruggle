@@ -1,0 +1,14 @@
+
+{{ define "main" }}     
+{{ $urlTitle := replace .Name " " "-" | lower }}
+<div class="main-content-box {{ $urlTitle }}">
+    <div class="main-page-content">
+        <h1 class="main-content-page-title">{{ .Title }}</h1>
+        {{range .Site.RegularPages }}
+            <h1>{{ .RelPermalink }}</h1>
+        {{ end }}
+        <div class="single-page-whitespace"></div>    
+    </div>
+    {{ partial "prev-next-page-buttons" . }}
+</div> 
+{{ end }}
