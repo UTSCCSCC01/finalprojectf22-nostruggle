@@ -2,14 +2,14 @@
   "openapi": "3.0.3",
   "info": {
     "title": "NoStruggle - OpenAPI 3.0",
-    "description": "NoStruggle - Helping you along your computer science journey",
-    "termsOfService": "coming soon",
+    "description": "NoStruggle - Helping you along your computer science journey\n \n Some useful links:\n - [The NoStruggle repository](https://github.com/UTSCCSCC01/finalprojectf22-nostruggle)\n - [The source AP definition for NoStruggle (coming-soon)](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)",
+    "termsOfService": "coming-soon.com",
     "contact": {
-      "email": "coming soon"
+      "email": "coming-soon@gmail.com"
     },
     "license": {
       "name": "n/a",
-      "url": "coming soon"
+      "url": "coming-soon.com"
     },
     "version": "1.0.0"
   },
@@ -224,9 +224,9 @@
         "operationId": "findTasksByUserId",
         "parameters": [
           {
-            "userId": "The userId the tasks belong to",
-            "in": "query",
-            "description": "Tags to filter by",
+            "name": "userId",
+            "in": "path",
+            "description": "User id to filter by",
             "required": true,
             "explode": true,
             "schema": {
@@ -503,7 +503,7 @@
           }
         ],
         "requestBody": {
-          "description": "Update an existent user in the store",
+          "description": "Update an existent user",
           "content": {
             "application/json": {
               "schema": {
@@ -576,7 +576,8 @@
             "example": "Read chapter 1 of textbook"
           },
           "deadline": {
-            "type": "date",
+            "type": "string",
+            "description": "String representing the date of the task's deadline",
             "example": "2022-09-05T00:00:00.000Z"
           },
           "timespent": {
