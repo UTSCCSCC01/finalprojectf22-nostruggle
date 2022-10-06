@@ -38,7 +38,7 @@
   ],
   "paths": {
     "/tasks": {
-      "put": {
+      "patch": {
         "tags": [
           "tasks"
         ],
