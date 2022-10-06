@@ -29,7 +29,7 @@ tags:
     description: Operations about user
 paths:
   /tasks:
-    put:
+    patch:
       tags:
         - tasks
       summary: Update an existing task
@@ -116,10 +116,9 @@ paths:
           required: false
           explode: true
           schema:
-            type: string
-            default: {
-              
-            }
+            type: object
+            default: {}
+            example: { userId: '10', done: true }
       responses:
         '200':
           description: successful operation
@@ -367,9 +366,9 @@ components:
         - userId
       properties:
         id:
-          type: integer
+          type: string
           format: int64
-          example: 10
+          example: '10'
         title:
           type: string
           example: Read chapter 1 of textbook

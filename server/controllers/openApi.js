@@ -1,5 +1,5 @@
-//import openApi from '../openApi/openapi.json' assert {type: 'json'};
-import openApi from '../openApi/openapi.yaml' assert {type: 'yaml'}
+import openApi from '../openApi/openapi.json' assert {type: 'json'};
+
 export const getOpenApi = async (req, res) => {
     try {
         res.status(200).json(openApi);

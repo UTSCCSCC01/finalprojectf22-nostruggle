@@ -173,8 +173,12 @@
             "required": false,
             "explode": true,
             "schema": {
-              "type": "string",
-              "default": {}
+              "type": "object",
+              "default": {},
+              "example": {
+                "userId": "10",
+                "done": true
+              }
             }
           }
         ],
@@ -567,9 +571,9 @@
         ],
         "properties": {
           "id": {
-            "type": "integer",
+            "type": "string",
             "format": "int64",
-            "example": 10
+            "example": "10"
           },
           "title": {
             "type": "string",
