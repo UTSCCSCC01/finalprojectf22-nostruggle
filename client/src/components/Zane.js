@@ -16,7 +16,7 @@ function Zane(props){
                 <br/>
                 <button className="cal" onClick={developing}>Eigenvalues and Eigenvectors Solver</button>
                 <br/>
-                <button className="cal" onClick={() => props.setTrigger(false)}>close</button>
+                <button className="cal" onClick={() => props.setTrigger(false)}>fold</button>
                 { props.children }
 
             </div>
