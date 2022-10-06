@@ -1,0 +1,21 @@
+<!DOCTYPE html5>
+<html>
+    {{- partial "head" . -}}
+    <body>
+        <div class="web-container">
+            {{- partial "header" . -}}
+            <div id="content">
+                <div class="nav-container">
+                    {{ partial "navBar" . }}
+                </div>
+                <div class="main-content">
+                    This page doesn't seem to exist.
+                </div>
+                {{range .Site.RegularPages }}
+                    <h1>{{ .RelPermalink }}</h1>
+                {{ end }}
+            </div>
+            {{- partial "footer.html" . -}}
+        </div>
+    </body>
+</html>

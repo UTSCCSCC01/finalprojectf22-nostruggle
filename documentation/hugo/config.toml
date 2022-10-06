@@ -1,0 +1,42 @@
+baseURL = 'https://no-struggle-doc.netlify.app/'
+languageCode = 'en-us'
+title = 'NOSTRUGGLE'
+[params]
+  custom_css = ["css/style.css", "css/header-navbar.css", "css/homepage-highlights.css", "css/single-page-specs.css", "css/gallery.css"]
+[menu]
+[[menu.main]]
+  identifier = 'home'
+  name = 'home'
+  title = 'Home'
+  url = ''
+  weight = 1
+[[menu.main]]
+  identifier = 'about'
+  name = 'about'
+  title = 'About'
+  url = 'about'
+  weight = 2
+[[menu.main]]
+  identifier = 'setup'
+  name = 'setup'
+  title = 'Setup'
+  url = 'setup'
+  weight = 2
+[[menu.main]]
+  identifier = 'structure'
+  name = 'This is the code structure section'
+  title = 'Structure'
+  url = 'structure'
+  weight = 3
+[[menu.main]]
+  identifier = 'resources'
+  name = 'This is the resources section'
+  title = 'Resources'
+  url = 'resources'
+  weight = 4
+[[menu.main]]
+  identifier = 'docs'
+  name = 'This is the docs section'
+  title = 'Docs'
+  url = 'docs'
+  weight = 5

@@ -1,0 +1,82 @@
+<nav class="navbar navbar-inverse navbar-expand-lg">
+    <div class="my-navbar">
+        <!-- <div class="nav-logo"></div>-->
+        <div class="top-navbar-title-header">
+            <div id="top-navbar-title">
+                {{ if ne .Title "Home" }}
+                    <a class="text-decoration-none" href="{{ .Site.BaseURL }}"><i id="navbar-home-icon" class="fas fa-home"></i></a>                   
+                {{ end }}
+                <strong title={{.Title}} id="navbar-page-title">{{.Title}}</strong>
+                <a class="dropdown" data-bs-toggle="collapse" data-bs-content="#navbar-toggler" href="#">
+                    <i id="top-navbar-header-toggler" class="fas fa-bars"></i>
+                </a>
+            </div>
+
+        </div>
+        <ul id="navbar-toggler" data-open-show="false" class="nav navbar-nav" aria-expanded="false">
+            <h5 class="text-center pt-3 nav-logo text-uppercase">No Struggle (CSCC01 UTSC)</h5>
+
+            {{range .Site.Menus.main }}
+                    {{ $fileTitle := replace .Title ' ' '-' | lower}}
+                    {{ $title := .Title}}
+                    {{ if .HasChildren}}
+                        <li class="dropdown my-navbar-item">
+                            <a id="{{ $fileTitle }}" class="my-navbar-link" data-bs-toggle="dropdown" href="#">{{ .Title }}</a>
+                            <div class="dropdown-menu inner-dropdown-menu">
+                                {{ range .Children }}
+                                    <a class="dropdown-item" href="{{ .URL }}">{{ .Title }}</a>
+                                {{ end }}
+                            </div>
+                            <div class="navbar-option-bottom {{ $fileTitle }}"></div>
+                        </li>
+                    {{ else }}
+                        <li class="my-navbar-item">
+                            <a id="{{ $fileTitle }}" class="my-navbar-link {{$fileTitle}}" href="{{site.BaseURL }}{{ .URL }}">{{ $title }}</a>
+                            <div class="navbar-option-bottom {{ $fileTitle }}"></div>
+                        </li>
+                    {{ end }}
+                </li>
+            {{ end }} 
+        </ul> 
+    </div>
+</nav>
+
+<script>
+    const pageTitle = document.getElementById("navbar-page-title").innerText;
+
+
+    $(document).ready(function(){
+        
+        $("#top-navbar-header-toggler").on("click", function(){
+            $(this).toggleClass("fa-times").toggleClass("fa-bars")
+            $("#navbar-toggler").slideToggle();
+            let windowHeight = window.innerHeight;
+            console.log(windowHeight);
+            if (windowHeight < 450){
+                window.scrollTo({top: document.body.scrollHeight});
+                console.log("Window is small");
+            }
+        });
+
+
+    });
+
+    function removeOptionBottom(clickedOption){
+        let optionList = document.getElementsByClassName("my-navbar-link");
+        for (let index = 0; index < optionList.length; index++){
+            let element = optionList[index];
+            let bottomLine = document.getElementsByClassName(element.id)[0];
+            if (element === clickedOption){
+                if (bottomLine.style.visibility === "visible"){
+                    bottomLine.style.visibility = "hidden";
+                } else {
+                    bottomLine.style.visibility = "visible";
+                }
+            } else {
+                bottomLine.style.visibility = "visible";
+            }       
+        }
+    }
+
+
+</script>

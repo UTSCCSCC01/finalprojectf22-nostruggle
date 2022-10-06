@@ -1,0 +1,7 @@
+.StudyTimer {
+    max-width: 400px;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    border: 4px solid black;
+}

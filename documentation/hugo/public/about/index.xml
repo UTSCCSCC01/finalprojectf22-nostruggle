@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Abouts on NOSTRUGGLE</title>
+    <link>http://localhost:1313/about/</link>
+    <description>Recent content in Abouts on NOSTRUGGLE</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 06 Oct 2022 11:41:27 -0400</lastBuildDate><atom:link href="http://localhost:1313/about/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>App Features</title>
+      <link>http://localhost:1313/about/app-features/</link>
+      <pubDate>Thu, 06 Oct 2022 11:41:27 -0400</pubDate>
+      
+      <guid>http://localhost:1313/about/app-features/</guid>
+      <description>Features  Forum Study Timer Calculator  </description>
+    </item>
+    
+  </channel>
+</rss>

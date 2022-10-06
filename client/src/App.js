@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Button, Container, Input } from '@material-ui/core';
+import { Button, Container, Input } from '@mui/material';
 import './App.css';
 import Features from './components/features'
+import Timer from './components/features/Timer'
 function App() {
 
   // temporary navigator for setup, will be replaced with actual toggles/navbars
@@ -19,7 +20,7 @@ function App() {
       <Button onClick={() => setPage("Zane")}>Zane</Button>
 
       <Features page={page}/>
-
+      <Timer/>
     </Container>
   );
 }
