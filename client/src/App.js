@@ -1,41 +1,35 @@
 import React, { useState, useRef } from 'react';
-import { Button, Container, Input } from '@material-ui/core';
+import { Button, Container, Input } from '@mui/material';
 import './App.css';
-import axios from 'axios'
-
+import Features from './components/features'
+import { useNavigate } from "react-router-dom";
+import Zane from './components/Zane';
 function App() {
 
-  const [ users, setUsers ] = useState([])
-  const [ error, setError ] = useState("")
-  const inputRef = useRef()
+  const [buttonPopup, setButtonPopup] = useState(false);
 
-  const goToUsers = async () =>{
-    axios.get('http://localhost:5000/users/get').then( res => setUsers(res.data)).catch( err => setError(err.message))
-  }
-  const addUser = async () =>{
-    setError("Post from client coming soon")
-  }
+  // temporary navigator for setup, will be replaced with actual toggles/navbars
+  const [ page, setPage ] = useState("")
+
+  
+
   return (
     <Container maxWidth="lg">
-      <h3>{ error != "" ? error : null}</h3>
-      <Button onClick={goToUsers} color="primary">Click to get users (on /users/get )</Button>
-      {users.map(user => 
-        <h4>{user.username},{user.createdAt}</h4>
-      )}
-      <Container>
-        <label>Add a user</label>
-        <Input ref={inputRef}></Input>
-        <Button onClick={addUser} color="primary">Click to add user ( on /users/post ) </Button>
-      </Container>
-
-      <Button>Catherine</Button>
-      <Button>Ishika</Button>
-      <Button>Madison</Button>
-      <Button>Christine</Button>
-      <Button>Tara</Button>
-      <Button>Zane</Button>
       
+
+      <Button onClick={() => setPage("Catherine")}>Catherine</Button>
+      <Button onClick={() => setPage("Ishika")}>Ishika</Button>
+      <Button onClick={() => setPage("Madison")}>Madison</Button>
+      <Button onClick={() => setPage("Tara")}>Tara</Button>
+      <Button onClick={() => setPage("Christine")}>Christine</Button>
+      <Button onClick={() => setButtonPopup(true)}>Zane</Button>
+      <Zane trigger={buttonPopup} setTrigger={setButtonPopup}>
+        <h3>Linear Algebra Calculators</h3>
+      </Zane>
+      <Features page={page}/>
+
     </Container>
+
   );
 }
 
