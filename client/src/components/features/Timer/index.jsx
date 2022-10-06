@@ -153,7 +153,7 @@ const StudyTimer = (props) => {
     }, [studyTimer.time])
 
     return (
-        <Card raised='true' className='StudyTimer'>
+        <Card raised={true} className='StudyTimer'>
             <Button onClick={() => toggleOpen(!open)}>Toggle Timer</Button>
             { open ? 
                 <div>
