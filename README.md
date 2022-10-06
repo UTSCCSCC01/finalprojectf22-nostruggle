@@ -1,7 +1,36 @@
 # finalprojectf22-nostruggle
 finalprojectf22-nostruggle created by GitHub Classroom
 
-# Motivation :
+## How to run
+Using npm script:
+```
+npm install concurrently
+npm run dev
+```
+Run the server:
+```
+cd server
+npm install
+npm start
+```
+Run the client:
+```
+cd client
+npm install
+npm start
+```
+
+# Documentation
+### Client
+Coming soon
+
+### Server
+The server must be running on localhost:2800 in order to view the api endpoints documentation.
+It can be found in `documentation/dist/index.html`.
+
+
+# General plan
+## Motivation :
 Often first year students feel lost because of a lack of social circle and increasing   complexity of the material they study. Due to vast resources available on the internet , it becomes difficult for them to filter the applications and advice that are most productive to their learning. Upper year students who have a strong desire to help freshmen navigate university are unable to do so due to lack of connection. Our website is a one stop solution designed to help first year computer science students to connect with other students , join various forums to get ideas and their questions answered. We also have an essential toolkit to help our users with everyday calculations, linear algebra and calculus. In order to promote good study habits, there is also a study timer with which users can log their study hours and schedule tasks. The main incentive is to make all useful tools at one place to help students thrive in every way possible.
 
 ### Do you use git flow? 
