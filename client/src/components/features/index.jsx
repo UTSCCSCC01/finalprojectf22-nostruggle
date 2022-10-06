@@ -1,11 +1,11 @@
-import Login from "../../Login/Login"
+import SignUp from "./SignUp"
 
 const index = (props) => {
 
     const getPage = () =>{
         switch (props.page) {
             case "Catherine" :
-                return <Login />
+                return <SignUp />
             case "Ishika" :
                 return "Ishika's page"
             case "Madison" :

@@ -27,7 +27,6 @@ export const postUser = async (req, res) => {
         } else {
             res.status(409);
         }
-        res.json({ message: e.message })
         */
         res.status(409).json({ message: e.message });
     };
