@@ -1,5 +1,5 @@
 ---
-title: ""
+title: "Home"
 date: 2022-10-06T11:15:54-04:00
 draft: false
 author: "Team NoStruggle"
