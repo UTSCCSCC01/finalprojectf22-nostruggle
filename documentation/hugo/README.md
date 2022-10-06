@@ -1,0 +1,1 @@
+# NoStruggle Documentation

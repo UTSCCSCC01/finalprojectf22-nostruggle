@@ -1,0 +1,63 @@
+<div class="prev-next-page-buttons">
+    {{ $currentpage := .Title }}
+    {{ range $index, $val := $.Site.Menus.main }}
+        {{ if .HasChildren }}
+            {{ range $childIndex, $childVal := .Children }}
+                {{ if eq $currentpage .Title }}
+                    {{ if ne $childIndex 0 }}
+                        {{ $prevpage := (index (index $.Site.Menus.main $index).Children (sub $childIndex 1))}}
+                        <a class="prev-page-button" href="{{$prevpage.URL}}" ><i class="fas fa-angle-left"></i><div class="page-button-title">{{ $prevpage.Title }}</div></a>
+                    {{ else }}
+                        {{ if ne $index 0 }}
+                            {{ $prevpage := (index $.Site.Menus.main (sub $index 1)) }}
+                            {{ $prevname := 0}}
+                            {{ if $prevpage.HasChildren }}
+                                {{ $prevpage := (index $prevpage.Children (sub (len $prevpage.Children) 1 ))}}
+                                <a class="prev-page-button" href="{{$.Site.BaseURL}}{{$prevpage.URL}}"><i class="fas fa-angle-left"></i><div class="page-button-title">{{ $prevpage.Title }}</div></a>
+                            {{ else }}
+                                <a class="prev-page-button" href="{{$.Site.BaseURL}}{{$prevpage.URL}}"><i class="fas fa-angle-left"></i><div class="page-button-title">{{ $prevpage.Title }}</div></a>
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                    {{ if ne $childIndex (sub (len (index $.Site.Menus.main $index).Children) 1 )}}
+                        {{ $nextpage := (index (index $.Site.Menus.main $index).Children (add $childIndex 1))}}
+                        <a class="next-page-button" href="{{$nextpage.URL}}"><div class="page-button-title">{{ $nextpage.Title }}</div><i class="fas fa-angle-right"></i></a>
+                    {{ else }}
+                        {{ if ne $index (sub (len ($.Site.Menus.main)) 1 )}}
+                            {{ if (index $.Site.Menus.main (add $index 1)).HasChildren }}
+                                {{ $nextpage := (index (index $.Site.Menus.main ( add $index 1)).Children 0)}}
+                                <a class="next-page-button" href="{{$.Site.BaseURL}}{{$nextpage.URL}}"><div class="page-button-title">{{ $nextpage.Title }}</div><i class="fas fa-angle-right"></i></a>
+                            {{ else }}
+                                {{ $nextpage := (index (index $.Site.Menus.main ( add $index 1)))}}
+                                <a class="next-page-button" href="{{$.Site.BaseURL}}{{$nextpage.URL}}"><div class="page-button-title">{{ $nextpage.Title }}</div><i class="fas fa-angle-right"></i></a>
+                            {{ end }}
+                        {{ end }}
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+        {{ else }}
+            {{ if eq $currentpage .Title }}
+                {{ if ne $index 0 }}
+                    {{ $prevpage := (index $.Site.Menus.main (sub $index 1)) }}
+                    {{ $prevname := 0}}
+                    {{ if $prevpage.HasChildren }}
+                        {{ $prevpage := (index $prevpage.Children (sub (len $prevpage.Children) 1 ))}}
+                        <a class="prev-page-button" href="{{$.Site.BaseURL}}{{$prevpage.URL}}"><i class="fas fa-angle-left"></i><div class="page-button-title">{{ $prevpage.Title }}</div></a>
+                    {{ else }}
+                        <a class="prev-page-button" href="{{$.Site.BaseURL}}{{$prevpage.URL}}"><i class="fas fa-angle-left"></i><div class="page-button-title">{{ $prevpage.Title }}</div></a>
+                    {{ end }}
+                {{ end }}
+                {{ if ne $index (sub (len $.Site.Menus.main) 1)}}
+                    {{ $nextpage := (index $.Site.Menus.main (add $index 1 )) }}
+                    {{ $nextname := 0}}
+                    {{ if $nextpage.HasChildren }}
+                        {{ $nextpage := (index $nextpage.Children 0 )}}
+                        <a class="next-page-button" href="{{$.Site.BaseURL}}{{$nextpage.URL}}"><div class="page-button-title">{{ $nextpage.Title }}</div><i class="fas fa-angle-right"></i></a>
+                    {{ else }}
+                        <a class="next-page-button" href="{{$.Site.BaseURL}}{{$nextpage.URL}}"><div class="page-button-title">{{ $nextpage.Title }}</div><i class="fas fa-angle-right"></i></a>
+                    {{ end }}
+                {{ end }}
+            {{ end }}
+        {{ end }}
+    {{ end }}
+</div>
