@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const PostSchema = new Schema({
+const postSchema = mongoose.Schema({
     title: { type: String, required: true },
     content: { type: String, required: true },
     created_by: {type:mongoose.Schema.Types.ObjectId, ref: "users"},
@@ -18,6 +18,6 @@ PostSchema.pre("save", (next) => {
     next();
 });
 
-const Post = mongoose.model('Post', PostSchema);
+const Post = mongoose.model('Post', postSchema);
 
 export default Post;

@@ -10,6 +10,8 @@ app.use(cors());
 
 import userRouter from './routes/users.js';
 app.use('/users', userRouter);
+import postRouter from './routes/post.js';
+app.use('/forumPosts', postRouter);
 
 const uri = process.env.URI;
 const port = process.env.PORT || 2800;
