@@ -38,7 +38,7 @@ The routers will route the endpoints for a specific api. It will be appended to 
 ![routes/users.js](https://i.imgur.com/KcUJFO9.png)
 
 ##### routes/tasks.js
-![routes/tasks.js](https://i.imgur.com/s0urgkW.png)
+![routes/tasks.js](https://i.imgur.com/0JYDcbo.png)
 
 For example, to (get) a new user, the url will be `baseURL` + `/users` + `/get` = `baseURL/users/get`
 
