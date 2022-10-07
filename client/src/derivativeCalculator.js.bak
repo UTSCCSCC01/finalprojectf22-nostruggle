@@ -27,13 +27,11 @@ function validate(equation) {
 		//Checking if +...... or .....- or .....+
 		if ((s == 0 && equation[s].includes('+')) || (equation[equation.length - 1].includes('+') || equation[equation.length - 1].includes('-')))
 			return false;
-		/*
         else if ((equation[s].includes('+') || (equation[s].includes('-'))) && s > 0 && s < equation.length) {
 			if (equation[s-1].includes('(') || equation[s-1].includes(')') || equation[s+1].includes('(') || equation[s-1].includes(')')) {
 				return false;
 			}
         }
-		*/
     }
 	
 	return count_ops == 0;
