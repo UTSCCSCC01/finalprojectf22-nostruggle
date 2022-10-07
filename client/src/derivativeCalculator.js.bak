@@ -6,12 +6,13 @@ Ex. 3x+7+2x^4 -> 3+8x^3
 function validate(equation) {
 	
 	//Removing spaces
-	equation = equation.split(' ').join();
+	equation = equation.replaceAll(" ", "");
 	
 	//Checking if everything is not a letter other than x
 	if (/[a-wyz]/.test(equation))
 		return false;
 	
+	//Checking brackets
     var count_ops = 0;
     for (s in equation) {
         if (equation[s].includes('('))
@@ -27,13 +28,13 @@ function validate(equation) {
 		//Checking if +...... or .....- or .....+
 		if ((s == 0 && equation[s].includes('+')) || (equation[equation.length - 1].includes('+') || equation[equation.length - 1].includes('-')))
 			return false;
-        else if ((equation[s].includes('+') || (equation[s].includes('-'))) && s > 0 && s < equation.length) {
-			if (equation[s-1].includes('(') || equation[s-1].includes(')') || equation[s+1].includes('(') || equation[s-1].includes(')')) {
-				return false;
-			}
-        }
     }
 	
+	//Invalidating (+, ^+, +), +^, -), and -^
+	if (/\(\+/g.test(equation) || /\^\+/g.test(equation) || /\+\)/g.test(equation) || /\+\^/g.test(equation) || /\-\)/g.test(equation) || /\-\^/g.test(equation))
+		return false;
+	
+	//Ensuring bracket pairs remain matched
 	return count_ops == 0;
 }
 
@@ -120,7 +121,12 @@ function findSectionDerivative(section) {
 
 function chainRule(section) {
     section = section.replaceAll(" ", "");
-    var constant = parseInt(section.substring(0, section.indexOf("(")));
+	
+	//Dealing with case if there is no constant at the front
+	var constant = 1;
+	if (section.indexOf("(") > 0)
+		constant = parseInt(section.substring(0, section.indexOf("(")));
+	
     var innerSection = section.substring(section.indexOf("(") + 1, section.indexOf(")")); 
     var exponent = parseInt(section.substring(section.indexOf(")") + 2,));
 
@@ -129,7 +135,11 @@ function chainRule(section) {
     derivedSection = findSectionDerivative(innerSection);
     
     //Concatenating terms
-    derivative = newConstant + '(' + innerSection + ")^" + newExponent + "(" + derivedSection + ")" 
+	if (newExponent != 1) 
+		derivative = newConstant + '(' + innerSection + ")^" + newExponent + "(" + derivedSection + ")";
+	else if (newExponent == 1)
+		derivative = newConstant + '(' + innerSection + ")(" + derivedSection + ")"
+	
     return derivative;
 }
 
