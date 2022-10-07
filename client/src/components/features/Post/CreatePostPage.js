@@ -1,31 +1,32 @@
 
 import { TextField, Button, Chip } from "@mui/material";
 import React from "react";
+import { useState } from 'react'
 import axios from 'axios'
 
 
 function CreatePostPage(){
-    //const [forumPost, setForumPost] = React.useState({username: "example", password: "content"});
+    const [forumPost, setForumPost] = React.useState({username: "example", password: "content"});
 
-   // const [title, setTitle] = React.useState('');
-  //  const [content, setContent] = React.useState('');
-  //  const [tags, setTags] = React.userState([]);
-    const [postData, setPostData] = React.useState({ title: '',
-        content: '',
+    const [title, setTitle] = React.useState({title: ''});
+    const [content, setContent] = React.useState({content: ''});
+    const [tags, setTags] = React.useState([]);
+    const [postData, setPostData] = React.useState({ title: 'How to find derivative?',
+        content: 'How can you find the derivative of 2x?',
         created_by: 'default-user',
         tags: [],
-        createdeAt: Date.now,
+        created_At: Date.now,
         nLikes: 0});
 
     const handleClick = (event) => {
-
+        
     }
 
     const createForumPost = async (event) => {
     
         event.preventDefault();
 
-        //setPostData()
+        //setPostData(previousState => { return {...previousState, title: `${title}`, content: `${content}`}});
         await axios.post('http://localhost:2800/forumPosts/post', postData)
         .then(res => console.log(res.data))
         .catch(e => {
@@ -33,15 +34,18 @@ function CreatePostPage(){
         });
         
     }
-/*
+
     const enterTitle = (event) => {
         setTitle(event.target.value);
+        console.log({title});
+        setPostData(previousState => { return {...previousState, title: event.target.value}});
     }
 
     const enterContent = (event) => {
         setContent(event.target.value);
+        setPostData(previousState => { return {...previousState, content: event.target.value}});
     }
-*/
+
 
     return (
         <div>
@@ -52,7 +56,7 @@ function CreatePostPage(){
                 label="Title of Post" 
                 variant="outlined"
                 fullWidth={true}
-               // onChange={enterTitle}
+                onChange={enterTitle}
                 />
             </p>
 
@@ -64,7 +68,7 @@ function CreatePostPage(){
                 fullWidth={true}
                 multiline={true}
                 rows={8}
-              //  onChange={enterContent}
+                onChange={enterContent}
                 /> 
             </p>
 
@@ -73,23 +77,23 @@ function CreatePostPage(){
             <p>
                 <Chip 
                     label="Advice"
-                  //  onClick={handleClick}
+                    onClick={handleClick}
                 /> 
                 <Chip 
                     label="Homework Help"
-                   // onClick={handleClick}
+                    onClick={handleClick}
                 />   
                 <Chip 
                     label="Computer Science"
-                 //   onClick={handleClick}
+                    onClick={handleClick}
                 />   
                 <Chip 
                     label="Linear Algebra"
-                 //   onClick={handleClick}
+                   onClick={handleClick}
                 />   
                 <Chip 
                     label="Calculus"
-                 //   onClick={handleClick}
+                    onClick={handleClick}
                 />
             </p>
 
