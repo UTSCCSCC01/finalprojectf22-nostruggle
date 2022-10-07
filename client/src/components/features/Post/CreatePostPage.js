@@ -10,8 +10,8 @@ function CreatePostPage(){
    // const [title, setTitle] = React.useState('');
   //  const [content, setContent] = React.useState('');
   //  const [tags, setTags] = React.userState([]);
-    const [postData, setPostData] = React.useState({ title: '',
-        content: '',
+    const [postData, setPostData] = React.useState({ title: 'this is a title',
+        content: 'this is content',
         created_by: 'default-user',
         tags: [],
         createdeAt: Date.now,

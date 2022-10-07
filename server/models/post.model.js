@@ -6,9 +6,9 @@ const postSchema = mongoose.Schema({
     created_by: {type:mongoose.Schema.Types.ObjectId, ref: "users"},
     tags: { type: [String] },
     createdeAt: { type: Date, default: Date.now },
-    nLikes: {type: int},
+    nLikes: {type: Number},
 });
-
+/*
 PostSchema.pre("save", (next) => {
     now = new Date();
     if(!this.createdAt){
@@ -17,7 +17,7 @@ PostSchema.pre("save", (next) => {
 
     next();
 });
-
+*/
 const Post = mongoose.model('Post', postSchema);
 
 export default Post;
