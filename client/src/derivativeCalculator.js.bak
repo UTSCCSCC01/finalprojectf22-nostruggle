@@ -155,16 +155,6 @@ function derivativeType(equation) {
     return result;
 }
 
-/*
-"3x+7+2x^4";
-"3x^2";
-"7";
-"3x-7+2x^-4"
-"3x-7-2x^-4"
-"-3  (  2x^-5 - 3x^2 ) ^ 4  "
-" -3y - 5y^4 "
-*/
-
 const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,

@@ -1,8 +1,3 @@
-/*
-Expected user input so far: no brackets, variables exclusively in terms of x
-Ex. 3x+7+2x^4 -> 3+8x^3
-*/
-
 function validate(equation) {
 	
 	//Removing spaces
