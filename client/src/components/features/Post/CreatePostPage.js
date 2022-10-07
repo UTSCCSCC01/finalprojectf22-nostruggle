@@ -14,7 +14,7 @@ function CreatePostPage(){
         content: 'this is content',
         created_by: 'default-user',
         tags: [],
-        createdeAt: Date.now,
+        created_At: Date.now,
         nLikes: 0});
 
     const handleClick = (event) => {
