@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Structures on NOSTRUGGLE</title>
+    <link>https://no-struggle-doc.netlify.app/structure/</link>
+    <description>Recent content in Structures on NOSTRUGGLE</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 07 Oct 2022 10:22:21 -0400</lastBuildDate><atom:link href="https://no-struggle-doc.netlify.app/structure/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Create New Endpoint</title>
+      <link>https://no-struggle-doc.netlify.app/structure/create-new-endpoint/</link>
+      <pubDate>Fri, 07 Oct 2022 10:22:21 -0400</pubDate>
+      
+      <guid>https://no-struggle-doc.netlify.app/structure/create-new-endpoint/</guid>
+      <description>Model The model will contain the definition of the mongoose schema that represents the document on MongoDB
+models/user.model.js Controller Controllers will contain the functions that handle the various request methods for the endpoint.
+controller/users.js Routes and Index.js The routers will route the endpoints for a specific api. It will be appended to the server&amp;rsquo;s baseURL found it .env and the api path defined in the server&amp;rsquo;s index.js file.
+index.js app.use() tells the app to run the routes/users.</description>
+    </item>
+    
+  </channel>
+</rss>

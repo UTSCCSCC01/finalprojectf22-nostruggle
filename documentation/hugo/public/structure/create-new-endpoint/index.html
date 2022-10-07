@@ -19,7 +19,7 @@
     
     
     
-    <title>NOSTRUGGLE | Tags</title>
+    <title>NOSTRUGGLE | Create New Endpoint</title>
 </head><body>
         <div class="web-container"><div class="my-site-header">
     <a class="text-white department-links text-uppercase" target="_blank" href="https://github.com/UTSCCSCC01/finalprojectf22-nostruggle">Github</a>
@@ -41,7 +41,7 @@
                 
                     <a class="text-decoration-none" href="https://no-struggle-doc.netlify.app/"><i id="navbar-home-icon" class="fas fa-home"></i></a>                   
                 
-                <strong title=Tags id="navbar-page-title">Tags</strong>
+                <strong title=Create&#32;New&#32;Endpoint id="navbar-page-title">Create New Endpoint</strong>
                 <a class="dropdown" data-bs-toggle="collapse" data-bs-content="#navbar-toggler" href="#">
                     <i id="top-navbar-header-toggler" class="fas fa-bars"></i>
                 </a>
@@ -158,25 +158,33 @@
 
                     <div class="nav-white-space"></div>
                 </div>
-                <div class="main-content">     
+                <div class="main-content">
+    
+    <div class="main-content-box structure create-new-endpoint">
+        <div class="main-page-content">
+            <h1 class="main-content-page-title">Create New Endpoint</h1>
+            <h4 id="model">Model</h4>
+<p>The model will contain the definition of the mongoose schema that represents the document on MongoDB</p>
+<h5 id="modelsusermodeljs">models/user.model.js</h5>
+<p><img src="https://i.imgur.com/z6noBBy.png" alt="models/user.model.js"></p>
+<h4 id="controller">Controller</h4>
+<p>Controllers will contain the functions that handle the various request methods for the endpoint.</p>
+<h5 id="controllerusersjs">controller/users.js</h5>
+<p><img src="https://i.imgur.com/Ml4BaBt.png" alt="controller/users.js"></p>
+<h4 id="routes-and-indexjs">Routes and Index.js</h4>
+<p>The routers will route the endpoints for a specific api. It will be appended to the server&rsquo;s baseURL found it <code>.env</code> and the api path defined in the server&rsquo;s <code>index.js</code> file.</p>
+<h5 id="indexjs">index.js</h5>
+<p><img src="https://i.imgur.com/vRtyG7s.png" alt="index.js"></p>
+<p><strong>app.use()</strong> tells the app to run the routes/users.js <code>userRouter</code> function (which contains methods handling requests), on the path <code>/users</code>.</p>
+<h5 id="routesusersjs">routes/users.js</h5>
+<p><img src="https://i.imgur.com/KcUJFO9.png" alt="routes/users.js"></p>
+<h5 id="routestasksjs">routes/tasks.js</h5>
+<p><img src="https://i.imgur.com/s0urgkW.png" alt="routes/tasks.js"></p>
+<p>For example, to (get) a new user, the url will be <code>baseURL</code> + <code>/users</code> + <code>/get</code> = <code>baseURL/users/get</code></p>
+<p>To (post) a new task, the url will be <code>baseURL</code> + <code>/tasks</code> + <code>/</code> =  <code>baseURL/tasks</code></p>
 
-<div class="main-content-box tags">
-    <div class="main-page-content">
-        <h1 class="main-content-page-title">Tags</h1>
-        
-            <h1>/structure/create-new-endpoint/</h1>
-        
-            <h1>/docs/</h1>
-        
-            <h1>/structure/</h1>
-        
-            <h1>/features/app-features/</h1>
-        
-            <h1>/setup/</h1>
-        
-        <div class="single-page-whitespace"></div>    
-    </div>
-    <div class="prev-next-page-buttons">
+        </div>
+        <div class="prev-next-page-buttons">
     
     
         
@@ -195,6 +203,25 @@
     
         
             
+                
+                    
+                        
+                            
+                            
+                            
+                                
+                                <a class="prev-page-button" href="https://no-struggle-doc.netlify.app//features/app-features/"><i class="fas fa-angle-left"></i><div class="page-button-title">App Features</div></a>
+                            
+                        
+                    
+                    
+                        
+                            
+                                
+                                <a class="next-page-button" href="https://no-struggle-doc.netlify.app/docs"><div class="page-button-title">Docs</div><i class="fas fa-angle-right"></i></a>
+                            
+                        
+                    
                 
             
         
@@ -205,7 +232,8 @@
     
 </div>
 
-</div> 
+    </div>
+
 
                 </div>                   
             </div><div class="site-footer">
