@@ -38,69 +38,6 @@
   ],
   "paths": {
     "/tasks": {
-      "patch": {
-        "tags": [
-          "tasks"
-        ],
-        "summary": "Update an existing task",
-        "description": "Update an existing task in a schedule",
-        "operationId": "updatePet",
-        "requestBody": {
-          "description": "Update an existing task in a schedule",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Task"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Task"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Task"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Task"
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Task"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Task not found"
-          },
-          "405": {
-            "description": "Validation exception"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      },
       "post": {
         "tags": [
           "tasks"
@@ -206,6 +143,84 @@
           },
           "400": {
             "description": "Invalid filter keys"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "patch": {
+        "tags": [
+          "tasks"
+        ],
+        "summary": "Update an existing task",
+        "description": "Update an existing task in a schedule",
+        "operationId": "updatePet",
+        "requestBody": {
+          "description": "Update an existing task in a schedule",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "filters": {
+                    "userId": "10",
+                    "title": "Read chapter 1 of textbook"
+                  },
+                  "update": {
+                    "done": true,
+                    "timespent": 1700
+                  }
+                }
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Task"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Task"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "1032432",
+                  "title": "Read chapter 1 of textbook",
+                  "deadline": "2022-09-05T00:00:00.000+00:00",
+                  "timespent": 1700,
+                  "userId": "10",
+                  "done": true
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Task not found"
+          },
+          "405": {
+            "description": "Validation exception"
           }
         },
         "security": [

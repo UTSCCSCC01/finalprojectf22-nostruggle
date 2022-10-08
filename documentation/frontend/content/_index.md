@@ -7,5 +7,5 @@ author: "Team NoStruggle"
 
 ##### The documentation for the NoStruggle App
 
-##### For the api documentation, it can be found in documentation/dist/index.html. The server must be running on localhost:2800. 
+##### For the api documentation, it can be found in documentation/api/index.html. The server must be running on localhost:2800. 
 
