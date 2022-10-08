@@ -129,7 +129,7 @@ paths:
                 id: '1032432'
                 title: Read chapter 1 of textbook
                 deadline: '2022-09-05T00:00:00.000+00:00'
-                timespent: 1600
+                timespent: 1700
                 userId: '10'
                 done: true
             application/xml:
