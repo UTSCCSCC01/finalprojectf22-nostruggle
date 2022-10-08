@@ -6,7 +6,7 @@ author: "Team NoStruggle"
 menu: 
     main: 
         title: "App Features"
-        parent: 'about'
+        parent: 'features'
         weight: 1
 ---
 
