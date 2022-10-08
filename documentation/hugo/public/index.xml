@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>NOSTRUGGLE</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on NOSTRUGGLE</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 06 Oct 2022 11:15:54 -0400</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Docs</title>
+      <link>http://localhost:1313/docs/</link>
+      <pubDate>Thu, 06 Oct 2022 12:09:08 -0400</pubDate>
+      
+      <guid>http://localhost:1313/docs/</guid>
+      <description>Info on how to make changes to the website you are viewing right now.  Installing hugo In order to use the hugo command, install hugo from https://gohugo.io/getting-started/installing/
+Editing a page Locate the correspond markdown file in the /content folder to edit the page content.
+How to create a new page Navigate to the documentation root folder inside your terminal
+To create a page called Example Page, run the following command:</description>
+    </item>
+    
+    <item>
+      <title>Structure</title>
+      <link>http://localhost:1313/structure/</link>
+      <pubDate>Thu, 06 Oct 2022 11:59:08 -0400</pubDate>
+      
+      <guid>http://localhost:1313/structure/</guid>
+      <description>This page contains info on the overall code structure of NoStruggle</description>
+    </item>
+    
+    <item>
+      <title>Resources</title>
+      <link>http://localhost:1313/resources/</link>
+      <pubDate>Thu, 06 Oct 2022 11:59:01 -0400</pubDate>
+      
+      <guid>http://localhost:1313/resources/</guid>
+      <description>-Replace this with text-</description>
+    </item>
+    
+    <item>
+      <title>App Features</title>
+      <link>http://localhost:1313/about/app-features/</link>
+      <pubDate>Thu, 06 Oct 2022 11:41:27 -0400</pubDate>
+      
+      <guid>http://localhost:1313/about/app-features/</guid>
+      <description>Features  Forum Study Timer Calculator  </description>
+    </item>
+    
+    <item>
+      <title>Setup</title>
+      <link>http://localhost:1313/setup/</link>
+      <pubDate>Thu, 06 Oct 2022 11:17:25 -0400</pubDate>
+      
+      <guid>http://localhost:1313/setup/</guid>
+      <description>System Requirements  Node v16.17.1  Clone the Github repository to local git clone https://github.com/UTSCCSCC01/finalprojectf22-nostruggle Running the application Using npm script:
+npm install npm run dev Run the server:
+cd server npm install npm run dev Run the client:
+cd client npm install npm start Creating a pull request On the github repository, navigate to the Pull requests tab.
+ Set the working(?) base branch. For development features, this will always be dev Set the compare branch.</description>
+    </item>
+    
+  </channel>
+</rss>
