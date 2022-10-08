@@ -559,6 +559,56 @@
           }
         }
       }
+    },
+    "/post": {
+      "post": {
+        "tags": [
+          "post"
+        ],
+        "summary": "Create a post",
+        "description": "This can only be done",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "This can only be done by a logged in user on a page for making new posts",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Title and/or content not filled"
+          },
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -618,6 +668,45 @@
           },
           "password": {
             "type": "string"
+          }
+        },
+        "xml": {
+          "name": "user"
+        }
+      },
+      "Post": {
+        "type": "object",
+        "required": [
+          "title",
+          "content",
+          "created_by",
+          "tags",
+          "created_At",
+          "nLikes"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "How to multiply?"
+          },
+          "content": {
+            "type": "string",
+            "example": "What are fast ways to multiply?"
+          },
+          "created_by": {
+            "type": "string",
+            "example": "Catherine"
+          },
+          "tags": {
+            "type": "array"
+          },
+          "created_At": {
+            "type": "string",
+            "example": "07_10_2022"
+          },
+          "nLikes": {
+            "type": "number",
+            "example": 0
           }
         },
         "xml": {
