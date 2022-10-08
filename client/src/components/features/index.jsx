@@ -10,11 +10,11 @@ const index = (props) => {
             case "Catherine" :
                 return <SignUp />
             case "Ishika" :
-                return "Ishika's page"
+                return "Coming Soon!"
             case "Madison" :
                 return <CreatePostPage />
             case "Tara" :
-                return "Tara's page"                    
+                return "derivativeCalculator.js in the terminal"                    
             case "Christine" :
                 return <Scheduler/>
             case "Zane" :
