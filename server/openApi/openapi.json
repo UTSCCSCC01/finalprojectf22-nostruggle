@@ -166,7 +166,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": {},
+                "type": "object",
                 "example": {
                   "filters": {
                     "userId": "10",

@@ -111,7 +111,7 @@ paths:
         content:
           application/json:
             schema:
-              type: {}
+              type: object
               example: { filters: { userId: '10', title: "Read chapter 1 of textbook"}, update: { done: true, timespent: 1700 }}
           application/xml:
             schema:
