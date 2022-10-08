@@ -27,11 +27,11 @@ View the deployed version at https://no-struggle-doc.netlify.app/
 
 ### Server
 The server must be running on localhost:2800 in order to view the api endpoints documentation.
-It can be found by opening `documentation/dist/index.html`.
+It can be found by opening `documentation/api/index.html`.
 
 Steps:
 1. Run the server, such as following the commands above.
-2. View `documentation/dist/index.html`, either by running it or opening it, depending the environment
+2. View `documentation/api/index.html`, either by running it or opening it, depending the environment
 
 
 # General plan
