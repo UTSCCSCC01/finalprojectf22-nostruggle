@@ -7,7 +7,7 @@ menu:
     main: 
         title: "Create New Endpoint"
         parent: 'structure'
-        weight: 1
+        weight: 2
 ---
 
 #### Model

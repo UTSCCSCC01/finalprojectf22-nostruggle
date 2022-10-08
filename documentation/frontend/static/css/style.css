@@ -57,6 +57,9 @@ p, h6, li {
     font: 1rem var(--main-paragraph-font); 
 }
 
+blockquote {
+    margin-left: 1rem !important;
+}
 img {
     max-width: calc(100vw - 2.6rem);
 }
