@@ -22,11 +22,12 @@ npm start
 
 # Documentation
 ### Client
-Coming soon
+The documentation hugo webpages for the client side can be found in `documentation/frontend`.
+View the deployed version at https://no-struggle-doc.netlify.app/
 
 ### Server
 The server must be running on localhost:2800 in order to view the api endpoints documentation.
-It can be found in `documentation/dist/index.html`.
+It can be found by opening `documentation/dist/index.html`.
 
 
 # General plan

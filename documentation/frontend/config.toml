@@ -11,29 +11,23 @@ title = 'NOSTRUGGLE'
   url = ''
   weight = 1
 [[menu.main]]
-  identifier = 'about'
-  name = 'about'
-  title = 'About'
-  url = 'about'
-  weight = 2
-[[menu.main]]
   identifier = 'setup'
   name = 'setup'
   title = 'Setup'
   url = 'setup'
-  weight = 2
+  weight = 1
+[[menu.main]]
+  identifier = 'features'
+  name = 'This is the features section'
+  title = 'Features'
+  url = 'features'
+  weight = 1
 [[menu.main]]
   identifier = 'structure'
   name = 'This is the code structure section'
   title = 'Structure'
   url = 'structure'
   weight = 3
-[[menu.main]]
-  identifier = 'resources'
-  name = 'This is the resources section'
-  title = 'Resources'
-  url = 'resources'
-  weight = 4
 [[menu.main]]
   identifier = 'docs'
   name = 'This is the docs section'

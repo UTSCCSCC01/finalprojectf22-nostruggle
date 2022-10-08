@@ -5,9 +5,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Spartan&family=Raleway&display=swap');
 :root{
-    --main-heading-font: 'Spartan', sans-serif;
+    --main-heading-font: 'Arial', sans-serif;
     /*--main-navbar-font: 'Encode Sans SC', sans-serif;*/
-    --main-navbar-font: 'Roboto', sans-serif;
+    --main-navbar-font: 'Arial', sans-serif;
     /*--main-paragraph-font: 'Mada', sans-serif;*/
     --main-paragraph-font: 'Roboto', sans-serif;
     /*--main-box-snippet-font: 'Mate', serif;*/
@@ -45,10 +45,11 @@ body {
 h1, h2, h3, h4, h5{
     color: var(black);
     font-family: var(--main-heading-font), Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
 }
 
 h1, h2, h3, h4 {
-    text-transform: uppercase; 
+    text-transform: capitalize; 
     margin-bottom: 0.7rem;
 }
 
