@@ -1,0 +1,28 @@
+<!DOCTYPE html5>
+<html>
+    {{- partial "head" . -}}
+    <body>
+        <div class="web-container">
+            {{- partial "header" . -}}
+            <div id="content">
+                <div class="nav-container sidebar">
+                    {{ partial "navBar" . }}
+                    <div class="nav-white-space"></div>
+                </div>
+                <div class="main-content home">
+                    <div class="main-content-box">
+                        <div class="main-page-content text-break">
+                            <h1 class="homepage-title">NoStruggle Documentation</h1>
+                           
+                                <div id="home-desc">
+                                    {{.Content}}
+                                </div>
+       
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{- partial "footer" . -}}
+        </div>
+    </body>
+</html>

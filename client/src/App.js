@@ -11,7 +11,6 @@ function App() {
   return (
     <Container maxWidth="lg">
       
-
       <Button onClick={() => setPage("Catherine")}>Catherine</Button>
       <Button onClick={() => setPage("Ishika")}>Ishika</Button>
       <Button onClick={() => setPage("Madison")}>Madison</Button>

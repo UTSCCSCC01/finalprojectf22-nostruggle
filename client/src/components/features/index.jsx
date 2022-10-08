@@ -1,10 +1,14 @@
+
 import CreatePostPage from "./Post/CreatePostPage";
+import SignUp from "./SignUp"
+import Scheduler from "./Todo/Scheduler"
+
 const index = (props) => {
 
     const getPage = () =>{
         switch (props.page) {
             case "Catherine" :
-                return "Catherine's page"
+                return <SignUp />
             case "Ishika" :
                 return "Ishika's page"
             case "Madison" :
@@ -12,7 +16,7 @@ const index = (props) => {
             case "Tara" :
                 return "Tara's page"                    
             case "Christine" :
-                return "Christine's page"
+                return <Scheduler/>
             case "Zane" :
                 return "Zane's page"
             default: 
