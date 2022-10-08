@@ -1,5 +1,8 @@
+
+import CreatePostPage from "./Post/CreatePostPage";
 import SignUp from "./SignUp"
 import Scheduler from "./Todo/Scheduler"
+
 const index = (props) => {
 
     const getPage = () =>{
@@ -7,11 +10,11 @@ const index = (props) => {
             case "Catherine" :
                 return <SignUp />
             case "Ishika" :
-                return "Ishika's page"
+                return "Coming Soon!"
             case "Madison" :
-                return "Madison's page"
+                return <CreatePostPage />
             case "Tara" :
-                return "Tara's page"                    
+                return "derivativeCalculator.js in the terminal"                    
             case "Christine" :
                 return <Scheduler/>
             case "Zane" :
