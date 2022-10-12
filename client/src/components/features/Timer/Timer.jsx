@@ -8,9 +8,6 @@ const Timer = ({ dispatch, setTime }) => {
     const [ timeInputProps, setTimeInputProps ] = useState({})
     const timeValidation = (e) => {
         const time = e.target.value
-        console.log(timeRegex)
-        console.log(time)
-        console.log(timeRegex.test(time))
         if (timeRegex.test(time) || !time) {
             setTimeInputProps({...timeInputProps, inputTime: time, value: time, error: false, helperText: null})
         } else {
@@ -23,10 +20,6 @@ const Timer = ({ dispatch, setTime }) => {
         const args = time.split(":").reverse()
         const seconds = args.reduce(
             (total, current, index) => {
-                console.log(index)
-                console.log(total)
-                console.log(current)
-                console.log(Math.pow(60, index))
                 return total + (parseInt(current) * (Math.pow(60, index)))
             }, 
             0

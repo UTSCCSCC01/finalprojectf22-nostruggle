@@ -108,7 +108,6 @@ const StudyTimer = (props) => {
 
     const startTimer = () => {
         stopTime()
-        console.log(studyTimer.mode)
         if (studyTimer.mode !== 'timer'){
             dispatch({
                 type: 'mode',
@@ -155,7 +154,6 @@ const StudyTimer = (props) => {
 
     useEffect(() => {
         setSound(new Sound(studyTimerSound))
-        console.log(sound)
     }, [])
 
     useEffect(() => {
