@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Zane from './components/Linear_Algebra_Calculators.js';
 
 import Timer from './components/features/Timer'
+import NavBar from './components/NavBar';
 function App() {
 
   const [buttonPopup, setButtonPopup] = useState(false);
@@ -16,6 +17,10 @@ function App() {
   
 
   return (
+    <>
+      <NavBar active='Home' />
+    </>
+    /*
     <Container maxWidth="lg">
       
       <Button onClick={() => setPage("Catherine")}>Login/Signup</Button>
@@ -30,7 +35,7 @@ function App() {
       <Features page={page}/>
       <Timer/>
     </Container>
-
+    */
   );
 }
 
