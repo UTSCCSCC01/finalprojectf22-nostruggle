@@ -12,7 +12,7 @@ const TodoList = ({ tasks, scheduleRef, schedule, completeTask }) => {
     }
 
     return (
-        <Container ref={scheduleRef}>
+        <div ref={scheduleRef}>
             <Button onClick={() => toggleIncompleteOnly(!incompleteOnly)}>{ incompleteOnly ? "SHOW COMPLETE TASKS" : "VIEW INCOMPLETE ONLY"}</Button>
             { !schedule.isLoading || schedule.userTasks.length > 0 ?
                 <div>
@@ -30,7 +30,7 @@ const TodoList = ({ tasks, scheduleRef, schedule, completeTask }) => {
                 </div>
                 : "Loading your  tasks"
             }
-        </Container>
+        </div>
   )
 }
 
