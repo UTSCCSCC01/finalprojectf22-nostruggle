@@ -107,16 +107,12 @@ const StudyTimer = (props) => {
     }
 
     const startTimer = () => {
-        stopTime()
         if (studyTimer.mode !== 'timer'){
             dispatch({
                 type: 'mode',
                 payload: 'timer'
             })
-            dispatch({
-                type: 'time',
-                payload: 0
-            })
+            timerSetTime(0)
         } else {
             if (studyTimer.time.seconds > 0){
                 console.log("Starting time")
