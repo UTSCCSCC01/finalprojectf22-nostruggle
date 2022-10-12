@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar } from "@mui/material";
+import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar } from "@mui/material";
+
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
 import UserMenu from "./UserMenu";
 import './NavBar.css'
+import SideBar from './SideBar';
 
 const NavBar = (props) => {
 
-    const pages = ['Home', 'Discover'];
-    const [ open, setOpen ] = useState(false);
+    const pages = ['Forum', 'Discover'];
+    const [ openDrawer, setOpenDrawer ] = useState(false);
+    const [ openMenu, setOpenMenu ] = useState(false);
     
     const showPage = (page) => {
         return (
@@ -24,15 +28,33 @@ const NavBar = (props) => {
 
     return (
         <>
+            { openDrawer && 
+            <Drawer variant='persistent' anchor='left' open={ openDrawer } sx={{ width: 240, flexShrink: 0 }}>
+                <div className='DrawerHeader'>
+                    <IconButton onClick={() => setOpenDrawer(false) }>
+                        { openDrawer === true ? <ChevronLeft /> : <ChevronRight /> }
+                    </IconButton>
+                </div>
+                <div className='SideBar'><SideBar /></div>
+            </Drawer>
+            }
+
             <AppBar position='static'>
-                <span>
+                <span className={ openDrawer ? 'shift' : null }>
                     <Toolbar>
+                        <Box>
+                            <IconButton onClick={ () => setOpenDrawer(!openDrawer) }>
+                                { openDrawer === true ? null : <ChevronRight /> }
+                            </IconButton>
+                        </Box>
+
                         <Box sx={{ flexGrow: 1, display: 'flex' }}>
                         { pages.map((page) => showPage(page)) }
                         </Box>
+
                         <Box className='icon'>
                             <Tooltip title='Click to Open Menu'>
-                                <IconButton onClick={() => setOpen(!open)}>
+                                <IconButton onClick={ () => setOpenMenu(!openMenu) }>
                                     <Avatar /*alt='put alt text' src='../../static/images/???'*//>
                                 </IconButton>
                             </Tooltip>
@@ -40,7 +62,8 @@ const NavBar = (props) => {
                     </Toolbar>
                 </span>
             </AppBar>
-            { open && <UserMenu /> }
+
+            { openMenu && <UserMenu /> }
         </>
     )
 }

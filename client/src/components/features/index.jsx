@@ -2,6 +2,7 @@
 import CreatePostPage from "./Post/CreatePostPage";
 import SignUp from "./SignUp"
 import Scheduler from "./Todo/Scheduler"
+import LinearAlgebraCalculator from '../LinearAlgebraCalculator.js'
 
 const index = (props) => {
 
@@ -18,7 +19,7 @@ const index = (props) => {
             case "Christine" :
                 return <Scheduler/>
             case "Zane" :
-                return "Zane's page"
+                return <LinearAlgebraCalculator />
             default: 
                 return "Default page"
         }

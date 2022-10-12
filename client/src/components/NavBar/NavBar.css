@@ -3,3 +3,18 @@
     position: absolute;
     right: 0px;
 }
+
+.DrawerHeader {
+    position: absolute;
+    right: 0px;
+    padding: 12px 20px;
+}
+
+.shift {
+    margin-left: 240px;
+}
+
+.SideBar {
+    margin-top: 40px;
+    visibility: inherit;
+}
