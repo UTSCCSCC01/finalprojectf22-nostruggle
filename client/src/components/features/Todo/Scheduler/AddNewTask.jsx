@@ -4,7 +4,7 @@ import { pageActions, taskActions } from './types'
 import { pageReducer, taskReducer } from './reducers'
 import axios from 'axios'
 import css from './style.css'
-const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
+const AddNewTask = ({ pageDispatch, open, close, anchor, isTaskTitleTaken }) => {
 
     const titleRef = useRef(), dateRef = useRef()
 
@@ -20,19 +20,18 @@ const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
     } )
 
     const createTask = async () =>{
-        let title = titleRef.current.value;
-        if (!title.trim()) 
+        let title = titleRef.current.value.trim();
+        if (!title) 
             return taskDispatch( { type: taskActions.ERROR, payload: { message: 'Title required', target: titleRef } })
-            
+        
         if (hasDeadline && !dateRef.current.value)
             return taskDispatch( { type: taskActions.ERROR, payload: { message: 'No deadline set', target: dateRef } })
-        
-        console.log(dateRef.current.value)
-        console.log(!dateRef.current.value)
 
+        if (isTaskTitleTaken(title))
+            return taskDispatch( { type: taskActions.ERROR, payload: { message: 'Task with the same title already exists', target: titleRef } })
+ 
         let dateEntered = new Date(dateRef.current.value);
-        console.log(dateEntered)
-        console.log(title)
+
         let newTask = {
             title: title,
             deadline: dateEntered,
@@ -66,13 +65,17 @@ const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
         }
     }, [taskState])
 
+    useEffect(() => {
+        taskDispatch({ type:  taskActions.CLEAR })
+    }, [open])
+
     return (
         <Popover open={open} anchorOrigin={anchorOrigin} anchorEl={anchor}>
             <Button onClick={close}>Back to schedule</Button>
                 <Container>
                     <FormControl>
                         <h1>Add New Task</h1>
-                        <TextField error={taskState.error.error && taskState.error.target === titleRef} helperText={taskState.error.error && taskState.error.target === titleRef ? "Title is required" : ""}
+                        <TextField error={taskState.error.error && taskState.error.target === titleRef} helperText={taskState.error.error && taskState.error.target === titleRef ? taskState.error.message : ""}
                             margin="normal" disabled={taskState.isLoading} size="small" inputRef={titleRef} required label="Title" variant="outlined" placeholder="Enter here"></TextField>
                         <FormGroup>
                             <FormControlLabel size="small" label="Deadline" value={hasDeadline} checked={hasDeadline} control={<Switch onChange={(e) => toggleHasDeadline(!hasDeadline)}/>}></FormControlLabel>

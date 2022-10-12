@@ -45,6 +45,11 @@ const Scheduler = () => {
             fetchTasks()
         }
     }
+
+    const isTaskTitleTaken = (title) => {
+        return schedule.userTasks.filter((task) => task.title === title).length !== 0
+    }
+    
     const getPage = () =>{
         console.log(schedule)
         return (
@@ -57,6 +62,7 @@ const Scheduler = () => {
                     close={closeAddTask}
                     anchor={scheduleRef}
                     pageDispatch={pageDispatch}
+                    isTaskTitleTaken={isTaskTitleTaken}
                 />
             </div>
         )
