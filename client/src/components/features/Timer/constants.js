@@ -14,3 +14,5 @@ export const timerBreakInterval = [
     '75:00',
     '90:00'
 ]
+
+export const timeFormat = "^(([0-9][0-9]:)?[0-5][0-9]:)?[0-5][0-9]$"

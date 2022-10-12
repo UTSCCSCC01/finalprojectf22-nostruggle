@@ -85,14 +85,6 @@ const StudyTimer = (props) => {
     const [ studyTimer, dispatch ] = useReducer(reducer, initialState)
 
     const startStopwatch = () => {
-        setTimerId(setInterval(() => {
-            dispatch({
-                type: 'countup',
-            })
-        }, 1000))
-        dispatch({
-            type: 'start',
-        })
         if (studyTimer.mode !== 'stopwatch'){
             dispatch({
                 type: 'time',
@@ -102,28 +94,51 @@ const StudyTimer = (props) => {
                 type: 'mode',
                 payload: 'stopwatch'
             })
+        } else {
+            setTimerId(setInterval(() => {
+                dispatch({
+                    type: 'countup',
+                })
+            }, 1000))
+            dispatch({
+                type: 'start',
+            })
         }
     }
 
     const startTimer = () => {
-        setTimerId(setInterval(() => {
-            dispatch({
-                type: 'countdown',
-            })
-        }, 1000))
-        dispatch({
-            type: 'start',
-        })
-        if (studyTimer.mode !== 'timer' || studyTimer.time.seconds <= 0){
-            dispatch({
-                type: 'time',
-                payload: 10
-            })
+        stopTime()
+        console.log(studyTimer.mode)
+        if (studyTimer.mode !== 'timer'){
             dispatch({
                 type: 'mode',
                 payload: 'timer'
             })
+            dispatch({
+                type: 'time',
+                payload: 0
+            })
+        } else {
+            if (studyTimer.time.seconds > 0){
+                console.log("Starting time")
+                setTimerId(setInterval(() => {
+                    dispatch({
+                        type: 'countdown',
+                    })
+                }, 1000))
+                dispatch({
+                    type: 'start',
+                })        
+            }
         }
+    }
+
+    const timerSetTime = (time) => {
+        stopTime()
+        dispatch({
+            type: 'time',
+            payload: time
+        })
     }
 
     const saveTime = () => {
@@ -145,9 +160,10 @@ const StudyTimer = (props) => {
 
     useEffect(() => {
         if (studyTimer.running && studyTimer.time.seconds <= 0 ){
-            if (studyTimer.mode !== 'stopwatch'){
+            if (studyTimer.mode === 'timer'){
                 sound.play();
                 stopTime()
+                toggleOpen(true)
             }
         }
     }, [studyTimer.time])
@@ -159,6 +175,7 @@ const StudyTimer = (props) => {
                 <div>
                     <Button >Edit To-do List</Button>
                     <div>
+                        <header>Mode: {studyTimer.mode}</header>
                         <header>{ studyTimer.mode === 'stopwatch' ? "You haven't struggled on:" : "Currently not struggling with: "}</header>
                         <header><strong>{studyTimer.todo.title}</strong> {studyTimer.mode === 'stopwatch' && "for"}</header>
                         <h1>{studyTimer.time.string}</h1>
@@ -174,21 +191,23 @@ const StudyTimer = (props) => {
                         </div>                        
                         }
                     </div>
+                    <div>
+                        { studyTimer.mode === 'stopwatch' && <Stopwatch/> }
+                        { studyTimer.mode === 'timer' && <Timer dispatch={dispatch} setTime={timerSetTime}/> }
+                        
+                    </div>
                     { ! studyTimer.running ?
                         <Box>
-                            <Button onClick={startTimer}>{ studyTimer.time.seconds > 0 && studyTimer.mode === 'timer' ? "Resume Timer" : "Start Timer"}</Button>
-                            <Button onClick={startStopwatch}>{ studyTimer.time.seconds > 0 && studyTimer.mode === 'stopwatch' ? "Resume Stopwatch" : "Start Stopwatch"}</Button>
+                            <Button onClick={startTimer}>{ studyTimer.time.seconds > 0 && studyTimer.mode === 'timer' ? "Start Timer" : "Timer"}</Button>
+                            <Button onClick={startStopwatch}>
+                                {studyTimer.mode === 'stopwatch' 
+                                ? (studyTimer.time.seconds === 0 ? "Start Stopwatch" : "Resume Stopwatch") 
+                                : "Stopwatch"}
+                            </Button>
                             <Button onClick={() => dispatch({type: 'time', payload: 0 })}>Reset Time</Button>
                         </Box>
-                        : (
-                        <div>
-                            { studyTimer.mode === 'stopwatch'
-                            ? <Stopwatch/>
-                            : <Timer/>
-                            }
-                            <Button onClick={stopTime}>Stop Time</Button>
-                        </div>
-                        )
+                        : <Button onClick={stopTime}>Stop Time</Button>
+
                     }
                 </div>
                 :
