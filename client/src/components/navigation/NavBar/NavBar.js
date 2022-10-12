@@ -3,9 +3,10 @@ import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar } fro
 
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
-import UserMenu from "./UserMenu";
+import ListMenu from "../../lists/ListMenu.js";
+import ListPlain from '../../lists/ListPlain.js';
+
 import './NavBar.css'
-import SideBar from './SideBar';
 
 const NavBar = (props) => {
 
@@ -35,7 +36,7 @@ const NavBar = (props) => {
                         { openDrawer === true ? <ChevronLeft /> : <ChevronRight /> }
                     </IconButton>
                 </div>
-                <div className='SideBar'><SideBar /></div>
+                <div className='SideBar'><ListPlain items={[ 'Search?', 'No Struggle Browsing' ]} /></div>
             </Drawer>
             }
 
@@ -55,7 +56,7 @@ const NavBar = (props) => {
                         <Box className='icon'>
                             <Tooltip title='Click to Open Menu'>
                                 <IconButton onClick={ () => setOpenMenu(!openMenu) }>
-                                    <Avatar /*alt='put alt text' src='../../static/images/???'*//>
+                                    <Avatar /*alt='put alt text' src='../../assets/images/???'*//>
                                 </IconButton>
                             </Tooltip>
                         </Box>
@@ -63,7 +64,7 @@ const NavBar = (props) => {
                 </span>
             </AppBar>
 
-            { openMenu && <UserMenu /> }
+            { openMenu && <ListMenu className='UserMenu' items={[ 'Profile', 'Sign Out' ]}/> }
         </>
     )
 }

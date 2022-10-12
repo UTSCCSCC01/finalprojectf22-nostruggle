@@ -1,8 +1,6 @@
 import { Card, MenuList, MenuItem, Typography } from "@mui/material"
 
-const UserMenu = () => {
-
-    const menuItems = [ 'Profile', 'Sign Out' ];
+const ListMenu = (props) => {
 
     const showItems = (item) => {
         return (
@@ -13,10 +11,10 @@ const UserMenu = () => {
     };
 
     return (
-        <Card raised='true' className='UserMenu'>
-            <MenuList>{ menuItems.map((item) => showItems(item)) }</MenuList>
+        <Card raised={true} className={ props.className }>
+            <MenuList>{ props.items.map((item) => showItems(item)) }</MenuList>
         </Card>
     )
 }
 
-export default UserMenu
+export default ListMenu
