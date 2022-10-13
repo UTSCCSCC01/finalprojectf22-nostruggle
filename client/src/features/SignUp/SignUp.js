@@ -14,7 +14,7 @@ const SignUp = () => {
         event.preventDefault();
         console.log('trying: ' + process.env.REACT_APP_SERVER_URL + '/users/get/' + user.username + '/' + user.password)
 
-        await ApiCall.get('/users/get/' + user.username + '/' + user.password )
+        await ApiCall.get(`/users/get/${user.username}/${user.password}`)
         .then(res => console.log(res.data))
         .catch(e => console.log(e))
     }
