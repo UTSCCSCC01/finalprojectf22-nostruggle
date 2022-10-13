@@ -3,8 +3,8 @@ import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar } fro
 
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 
-import ListMenu from "../../lists/ListMenu.jsx";
-import ListPlain from '../../lists/ListPlain.jsx';
+import ListMenu from "../../lists/ListMenu";
+import ListPlain from '../../lists/ListPlain';
 
 import './NavBar.css'
 
