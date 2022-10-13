@@ -2,8 +2,8 @@ import { Autocomplete, Button } from '@mui/material';
 import { useState } from 'react';
 import axios from 'axios';
 
-import UsernameField from '../../components/forms/UsernameField.js';
-import PasswordField from '../../components/forms/PasswordField.js';
+import UsernameField from './UsernameField';
+import PasswordField from './PasswordField';
 
 const SignUp = () => {
     const [user, setUser] = useState({ username: '', password: '' });

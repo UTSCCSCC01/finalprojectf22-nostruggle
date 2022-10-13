@@ -1,13 +1,12 @@
 import React from 'react';
 import { Button } from '@mui/material';
-
-function LinearAlgebraCalculator(props){
+function Zane(props){
     
     const developing = () => {
         alert("developing!");
     }
 
-    return (
+    return (props.trigger) ? (
         <div className="AC">
             <div className='AC-inner'>
                 
@@ -24,7 +23,10 @@ function LinearAlgebraCalculator(props){
         </div>
 
         
-    )    
+    ) : "";
+
+
+    
 }
 
-export default LinearAlgebraCalculator;
+export default Zane;
