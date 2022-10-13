@@ -1,7 +1,7 @@
-
-import CreatePostPage from "./Post/CreatePostPage";
-import SignUp from "./SignUp"
-import Scheduler from "./Todo/Scheduler"
+import CreatePost from './CreatePost/CreatePost.js'
+import SignUp from './SignUp/SignUp.js'
+import Scheduler from './Todo/Scheduler'
+import LinearAlgebraCalculator from './LinearAlgebraCalculator/LinearAlgebraCalculator';
 
 const index = (props) => {
 
@@ -12,13 +12,13 @@ const index = (props) => {
             case "Ishika" :
                 return "Coming Soon!"
             case "Madison" :
-                return <CreatePostPage />
+                return <CreatePost />
             case "Tara" :
                 return "derivativeCalculator.js in the terminal"                    
             case "Christine" :
                 return <Scheduler/>
             case "Zane" :
-                return "Zane's page"
+                return <LinearAlgebraCalculator />
             default: 
                 return "Default page"
         }

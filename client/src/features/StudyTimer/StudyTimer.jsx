@@ -1,9 +1,9 @@
-import { Button, Container, Input, Card, Box, Autocomplete, TextField } from '@mui/material';
+import { Button, Card, Box, Autocomplete, TextField } from '@mui/material';
 import { useState, useReducer, useEffect } from 'react'
 import Timer from './Timer'
 import Stopwatch from './Stopwatch'
-import css from './StudyTimer.css'
-import studyTimerSound from '../../../resources/christmasbell.wav'
+import './StudyTimer.css'
+import studyTimerSound from '../../assets/sfx/christmasbell.wav'
 import { timerBreakInterval } from './constants';
 import Sound from '../Sound'
 
@@ -153,7 +153,7 @@ const StudyTimer = (props) => {
     }, [studyTimer.time])
 
     return (
-        <Card raised='true' className='StudyTimer'>
+        <Card raised={true} className='StudyTimer'>
             <Button onClick={() => toggleOpen(!open)}>Toggle Timer</Button>
             { open ? 
                 <div>
