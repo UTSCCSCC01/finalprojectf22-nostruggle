@@ -1,23 +1,25 @@
 import { Button, Card, Box, Autocomplete, TextField } from '@mui/material';
-import { useState, useReducer, useEffect } from 'react'
+import { useState, useReducer, useEffect, useCallback } from 'react'
 import Timer from './Timer'
 import Stopwatch from './Stopwatch'
 import './StudyTimer.css'
-import studyTimerSound from '../../assets/sfx/christmasbell.wav'
+import studyTimerSound from '../../../assets/sfx/christmasbell.wav'
 import { timerBreakInterval } from './constants';
-import Sound from '../Sound'
-
+import Sound from '../../Sound'
+import axios from 'axios'
 const StudyTimer = (props) => {
 
     const [ timerId, setTimerId ] = useState(0)
     const [ saveTimerId, setSaveTimerId ] = useState(0)
     const [ open, toggleOpen ] = useState(true)
     const [ sound, setSound ] = useState(null)
+    const [ isSavingTime, setIsSavingTime ] = useState(false)
 
     const initialState = {
         todo: {
             title: "This is an example task",
-            taskId: 0
+            taskId: 0,
+            timespent: 10
         },
         mode: 'none',
         time: {
@@ -26,8 +28,8 @@ const StudyTimer = (props) => {
         },
         running: false,
         totalStopwatchTime: 0,
-        totalTimerTime: 0
-
+        totalTimerTime: 0,
+        totalCount: 0
     }
 
     const convertSecondsToString = (seconds) => {
@@ -45,6 +47,10 @@ const StudyTimer = (props) => {
                         ...state,
                         seconds: state.time.seconds + 1,
                         string: convertSecondsToString(state.time.seconds + 1)
+                    },
+                    todo: {
+                        ...state.todo,
+                        timespent: state.todo.timespent + 1
                     }
                 }
             case 'countdown':
@@ -54,6 +60,18 @@ const StudyTimer = (props) => {
                         ...state,
                         seconds: state.time.seconds - 1,
                         string: convertSecondsToString(state.time.seconds - 1)
+                    },
+                    todo: {
+                        ...state.todo,
+                        timespent: state.todo.timespent + 1
+                    }
+                }
+            case 'timespent':
+                return {
+                    ...state,
+                    todo: {
+                        ...state.todo,
+                        timespent: action.paylaod
                     }
                 }
             case 'stop':
@@ -79,10 +97,30 @@ const StudyTimer = (props) => {
                     ...state,
                     mode: action.payload
                 }
+            case 'todo':
+                return {
+                    ...state,
+                    todo: action.payload
+                }
         }
     }
 
     const [ studyTimer, dispatch ] = useReducer(reducer, initialState)
+
+    // TODO: choose actual task
+    const setUpTask = async () => {
+        const res = await axios.get(process.env.REACT_APP_SERVER_URL + '/tasks')
+        console.log(res)
+        const task = res.data.filter((t) => !t.done)[0]
+        console.log(task)
+        if (!task) return;
+        const taskInfo = {
+            taskId: task._id,
+            title: task.title,
+            timespent: task.timespent
+        }
+        dispatch({ type: 'todo', payload: taskInfo})
+    }
 
     const startStopwatch = () => {
         setTimerId(setInterval(() => {
@@ -126,31 +164,55 @@ const StudyTimer = (props) => {
         }
     }
 
-    const saveTime = () => {
-        
+    const saveTime = async () => {
+        console.log("save time")
+        setIsSavingTime(true)
+        const data = {
+            filters: { _id: studyTimer.todo.taskId, title: studyTimer.todo.title },
+            update: {
+                timespent: studyTimer.todo.timespent
+            }
+        }
+        axios.patch(process.env.REACT_APP_SERVER_URL + '/tasks', data)
+        .then(() => {
+            console.log("success saving time") 
+            setIsSavingTime(false)
+        })
+        .catch( e => {
+            console.log(e)
+            setIsSavingTime(false)
+        })
     }
+
     const stopTime = () => {
+        clearTimeout(saveTimerId)
         clearInterval(timerId)
         dispatch({
             type: 'stop'
         })
         saveTime()
-        clearInterval(saveTimerId)
     }
 
     useEffect(() => {
         setSound(new Sound(studyTimerSound))
+        setUpTask()
         console.log(sound)
     }, [])
 
     useEffect(() => {
-        if (studyTimer.running && studyTimer.time.seconds <= 0 ){
-            if (studyTimer.mode !== 'stopwatch'){
-                sound.play();
+        if (studyTimer.running){
+            if (studyTimer.time.seconds <= 0 && studyTimer.mode !== 'stopwatch'){
                 stopTime()
+                sound.play();
+            } else if (!isSavingTime && studyTimer.time.seconds % 5 === 1){ // limit the number of requests
+                saveTime()
             }
         }
     }, [studyTimer.time])
+
+    useEffect(() => {
+        console.log("Timer id " + saveTimerId)
+    }, [saveTimerId])
 
     return (
         <Card raised={true} className='StudyTimer'>
