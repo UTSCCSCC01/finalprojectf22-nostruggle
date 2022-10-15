@@ -6,7 +6,8 @@ import './StudyTimer.css'
 import studyTimerSound from '../../../assets/sfx/christmasbell.wav'
 import { timerBreakInterval } from './constants';
 import Sound from '../../Sound'
-import axios from 'axios'
+import ApiCall from '../../../components/api/ApiCall';
+
 const StudyTimer = (props) => {
 
     const [ timerId, setTimerId ] = useState(0)
@@ -109,7 +110,7 @@ const StudyTimer = (props) => {
 
     // TODO: choose actual task
     const setUpTask = async () => {
-        const res = await axios.get(process.env.REACT_APP_SERVER_URL + '/tasks')
+        const res = await ApiCall.get(process.env.REACT_APP_SERVER_URL + '/tasks')
         console.log(res)
         const task = res.data.filter((t) => !t.done)[0]
         console.log(task)
@@ -173,7 +174,7 @@ const StudyTimer = (props) => {
                 timespent: studyTimer.todo.timespent
             }
         }
-        axios.patch(process.env.REACT_APP_SERVER_URL + '/tasks', data)
+        ApiCall.patch(process.env.REACT_APP_SERVER_URL + '/tasks', data)
         .then(() => {
             console.log("success saving time") 
             setIsSavingTime(false)
