@@ -4,7 +4,7 @@ import './App.css';
 import Features from './features'
 import { useNavigate } from "react-router-dom";
 
-import Timer from './features/StudyTimer/StudyTimer'
+import Timer from './features/Todo/StudyTimer/StudyTimer'
 import NavBar from './components/navigation/NavBar/NavBar';
 
 function App() {
