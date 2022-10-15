@@ -310,5 +310,3 @@ class MatrixCalculator {
 		}		
 	}
 }
-
-var mc = new MatrixCalculator();
