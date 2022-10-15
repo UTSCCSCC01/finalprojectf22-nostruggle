@@ -1,6 +1,6 @@
 import { Autocomplete, Button } from '@mui/material';
 import { useState } from 'react';
-import axios from 'axios';
+import ApiCall from '../../components/api/ApiCall.js';
 
 import UsernameField from '../../components/forms/UsernameField.js';
 import PasswordField from '../../components/forms/PasswordField.js';
@@ -14,7 +14,7 @@ const SignUp = () => {
         event.preventDefault();
         console.log('trying: ' + process.env.REACT_APP_SERVER_URL + '/users/get/' + user.username + '/' + user.password)
 
-        await axios.get(process.env.REACT_APP_SERVER_URL + '/users/get/' + user.username + '/' + user.password )
+        await ApiCall.get(`/users/get/${user.username}/${user.password}`)
         .then(res => console.log(res.data))
         .catch(e => console.log(e))
     }
@@ -23,7 +23,7 @@ const SignUp = () => {
         clearErrMsg();
         event.preventDefault();
 
-        await axios.post(process.env.REACT_APP_SERVER_URL + '/users/post', user)
+        await ApiCall.post('/users/post', user)
         .then(res => console.log(res.data))
         .catch(e => {
             console.log(e);

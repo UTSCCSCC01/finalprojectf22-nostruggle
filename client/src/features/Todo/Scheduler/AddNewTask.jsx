@@ -2,7 +2,7 @@ import { FormLabel, Popper, Popover, Input, TextField, FormControl, FormControlL
 import { useRef, useState, useReducer, useEffect } from 'react'
 import { pageActions, taskActions } from './types'
 import { pageReducer, taskReducer } from './reducers'
-import axios from 'axios'
+import ApiCall from '../../../components/api/ApiCall';
 import css from './style.css'
 const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
 
@@ -43,7 +43,7 @@ const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
         console.log(newTask)
         taskDispatch({ type: taskActions.ADD_TASK })
 
-        axios.post(process.env.REACT_APP_SERVER_URL + '/tasks', newTask)
+        ApiCall.post('/tasks', newTask)
         .then(() => {
             taskDispatch({ type: taskActions.SUCCESS })
             close(true);
