@@ -4,7 +4,6 @@ import './App.css';
 import Features from './features'
 import { useNavigate } from "react-router-dom";
 
-import Timer from './features/Todo/StudyTimer/StudyTimer'
 import NavBar from './components/navigation/NavBar/NavBar';
 
 import { Provider as UserProvider, contextState } from './features/SignUp/UserContext';
@@ -56,13 +55,16 @@ function App() {
         <>UserId: {userState.user._id} Username: {userState.user.username} Password: {userState.user.password}</>
         <NavBar active='Forum' />
         <Button onClick={() => navigate("Catherine")}>Login/Signup</Button>
-        <Button onClick={() => navigate("Ishika")}>Forum</Button>
-        <Button onClick={() => navigate("Madison")}>Create New Post</Button>
-        <Button onClick={() => navigate("Tara")}>Derivative Calculator</Button>
-        <Button onClick={() => navigate("Christine")}>To-do List</Button>
-        <Button onClick={() => navigate("Zane")}>Linear Algebra Calculator</Button>
+        { userState.signedIn && 
+          <>
+            <Button onClick={() => navigate("Ishika")}>Forum</Button>
+            <Button onClick={() => navigate("Madison")}>Create New Post</Button>
+            <Button onClick={() => navigate("Tara")}>Derivative Calculator</Button>
+            <Button onClick={() => navigate("Christine")}>To-do List</Button>
+            <Button onClick={() => navigate("Zane")}>Linear Algebra Calculator</Button>
+          </>
+        }
         <Features page={page}/>
-        { userState.signedIn && <Timer/> }
       </UserProvider>
     </>
   );
