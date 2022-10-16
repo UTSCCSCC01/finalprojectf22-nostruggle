@@ -9,7 +9,7 @@ import { useUserState } from '../../SignUp/UserContext';
 
 const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
     
-    const { globalState } = useUserState()
+    const { userState } = useUserState()
 
     const titleRef = useRef(), dateRef = useRef()
     
@@ -39,7 +39,7 @@ const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
             deadline: dateEntered,
             timespent: 0,
             done: false,
-            userId: globalState.user._id
+            userId: userState.user._id
         }
         console.log(newTask)
         taskDispatch({ type: taskActions.ADD_TASK })

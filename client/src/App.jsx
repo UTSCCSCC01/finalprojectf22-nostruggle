@@ -13,17 +13,17 @@ function App() {
   
   // temporary navigator for setup, will be replaced with actual toggles/navbars
   const [ page, setPage ] = useState("Catherine")
-  const [ globalState, setGlobalState ] = useState(contextState)
-  
 
+  const [ userState, setUserState ] = useState(contextState)
+  
   useEffect(() => {
-    if (!globalState.signedIn) {    
+    if (!userState.signedIn) {    
         const username = localStorage.getItem('nostruggle:username')
         const password = localStorage.getItem('nostruggle:password')
         if (username && password){
             console.log("signing in " + username + password)
-            setGlobalState({
-              ...globalState, 
+            setUserState({
+              ...userState, 
               user: {
                 username: username,
                 password: password
@@ -34,15 +34,15 @@ function App() {
   }, [])
 
   useEffect(() => {
-    console.log(globalState.user)
-    if (!globalState.user.username && !globalState.user.password && globalState.signedIn ){
+    console.log(userState.user)
+    if (!userState.user.username && !userState.user.password && userState.signedIn ){
       console.log("Not logged in")
-      setGlobalState({...globalState, signedIn: false})
+      setUserState({...userState, signedIn: false})
     } 
-  }, [ page, globalState ] )
+  }, [ page, userState ] )
 
   const navigate = (pageId) => {
-    if (!globalState.signedIn){
+    if (!userState.signedIn){
       setPage("Catherine")
       alert("Not logged in")
     } else {
@@ -52,18 +52,18 @@ function App() {
 
   return (
     <>
-      <UserProvider value={ { globalState, setGlobalState } }>
-      <>UserId: {globalState.user._id} Username: {globalState.user.username} Password: {globalState.user.password}</>
-      <NavBar active='Forum' />
-      <Button onClick={() => navigate("Catherine")}>Login/Signup</Button>
-      <Button onClick={() => navigate("Ishika")}>Forum</Button>
-      <Button onClick={() => navigate("Madison")}>Create New Post</Button>
-      <Button onClick={() => navigate("Tara")}>Derivative Calculator</Button>
-      <Button onClick={() => navigate("Christine")}>To-do List</Button>
-      <Button onClick={() => navigate("Zane")}>Linear Algebra Calculator</Button>
-      <Features page={page}/>
-      { globalState.signedIn && <Timer/> }
-    </UserProvider>
+      <UserProvider value={ { userState, setUserState } }>
+        <>UserId: {userState.user._id} Username: {userState.user.username} Password: {userState.user.password}</>
+        <NavBar active='Forum' />
+        <Button onClick={() => navigate("Catherine")}>Login/Signup</Button>
+        <Button onClick={() => navigate("Ishika")}>Forum</Button>
+        <Button onClick={() => navigate("Madison")}>Create New Post</Button>
+        <Button onClick={() => navigate("Tara")}>Derivative Calculator</Button>
+        <Button onClick={() => navigate("Christine")}>To-do List</Button>
+        <Button onClick={() => navigate("Zane")}>Linear Algebra Calculator</Button>
+        <Features page={page}/>
+        { userState.signedIn && <Timer/> }
+      </UserProvider>
     </>
   );
 }

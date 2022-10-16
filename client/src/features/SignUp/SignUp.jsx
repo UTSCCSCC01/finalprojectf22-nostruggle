@@ -5,13 +5,13 @@ import ApiCall from '../../components/api/ApiCall.js';
 import UsernameField from '../../components/forms/UsernameField';
 import PasswordField from '../../components/forms/PasswordField';
 
-import UserContext from './UserContext.js';
+import { useUserState } from './UserContext.js';
 
 const SignUp = () => {
     const [user, setUser] = useState({ username: '', password: '' });
     const [errMsg, setErrMsg] = useState('');
 
-    const { globalState, setGlobalState } = useContext(UserContext)
+    const { userState, setUserState } = useUserState()
 
     const signIn = async (event) => {
         if (!user.username || !user.password) return 
@@ -56,24 +56,24 @@ const SignUp = () => {
     const saveUser = (userInfo) => {
         localStorage.setItem('nostruggle:username', userInfo.username)
         localStorage.setItem('nostruggle:password', userInfo.password)
-        setGlobalState({
-            ...globalState,
+        setUserState({
+            ...userState,
             user: userInfo,
             signedIn: true
         })
     }
 
     useEffect(() => {
-        console.log(globalState.user)
-        if (globalState.user.username && globalState.user.password){
+        console.log(userState.user)
+        if (userState.user.username && userState.user.password){
             console.log("Saved session")
             const storedUser = {
-                username: globalState.user.username,
-                password: globalState.user.password                
+                username: userState.user.username,
+                password: userState.user.password                
             }
             setUser(storedUser)
         }
-    }, [globalState])
+    }, [userState])
 
     return (
         <>
