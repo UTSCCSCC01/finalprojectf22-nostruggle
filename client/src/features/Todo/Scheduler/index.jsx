@@ -4,7 +4,8 @@ import { pageActions } from './types'
 import { pageReducer, taskReducer } from './reducers'
 import AddNewTask from './AddNewTask';
 import TodoList from './TodoList'
-import axios from 'axios';
+import ApiCall from '../../../components/api/ApiCall';
+
 const Scheduler = () => {
 
     const initialState = {
@@ -25,7 +26,7 @@ const Scheduler = () => {
 
     const completeTask = async (taskId) => {
         console.log("Completing task")
-        axios.patch(process.env.REACT_APP_SERVER_URL + '/tasks',
+        ApiCall.patch('/tasks',
         {
             filters: {_id: taskId },
             update: { done: true }
@@ -67,7 +68,7 @@ const Scheduler = () => {
     const fetchTasks = async () => {
         pageDispatch({ type: pageActions.LOADING })
         console.log("fetching tasks")
-        await axios.get(process.env.REACT_APP_SERVER_URL + '/tasks')
+        await ApiCall.get('/tasks')
         .then( res => {
             console.log(res.data)
             let tasks = res.data

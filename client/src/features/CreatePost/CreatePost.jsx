@@ -1,6 +1,6 @@
 import { TextField, Button, Chip } from "@mui/material";
 import { useState } from 'react'
-import axios from 'axios'
+import ApiCall from "../../components/api/ApiCall";
 
 function CreatePost(){
     
@@ -36,7 +36,7 @@ function CreatePost(){
     
         event.preventDefault();
 
-        await axios.post(process.env.REACT_APP_SERVER_URL + '/forumPosts/post', postData)
+        await ApiCall.post('forumPosts/post', postData)
         .then(res => console.log(res.data))
         .catch(e => {
             console.log(e);
