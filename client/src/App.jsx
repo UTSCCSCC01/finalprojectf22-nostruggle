@@ -53,7 +53,7 @@ function App() {
     <>
       <UserProvider value={ { userState, setUserState } }>
         <>UserId: {userState.user._id} Username: {userState.user.username} Password: {userState.user.password}</>
-        <NavBar active='Forum' />
+        { userState.signedIn && <NavBar active='Forum' /> }
         <Button onClick={() => navigate("Catherine")}>Login/Signup</Button>
         { userState.signedIn && 
           <>
