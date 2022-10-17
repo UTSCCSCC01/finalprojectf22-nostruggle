@@ -5,7 +5,7 @@ import ApiCall from '../../components/api/ApiCall.js';
 import UsernameField from '../../components/forms/UsernameField';
 import PasswordField from '../../components/forms/PasswordField';
 
-import { useUserState } from './UserContext.js';
+import { useUserState } from './UserContext';
 
 const SignUp = () => {
     const [user, setUser] = useState({ username: '', password: '' });
