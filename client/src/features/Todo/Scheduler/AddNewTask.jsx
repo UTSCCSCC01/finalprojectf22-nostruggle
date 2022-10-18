@@ -7,7 +7,7 @@ import css from './style.css'
 
 import { useUserState } from '../../SignUp/UserContext';
 
-const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
+const AddNewTask = ({ pageDispatch, open, close, anchor, isTaskTitleTaken }) => {
     
     const { userState } = useUserState()
 

@@ -1,0 +1,30 @@
+:root {
+    --TodoListItemBackgroundColour: #EFF3F6;
+}
+
+.TodoList {
+    width: 80%;
+}
+
+.TodoListItem{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    background-color: var(--TodoListItemBackgroundColour) !important;
+}
+
+.TodoListItem .MuiCardHeader-title {
+    text-align: center;
+    font-weight: bold !important;
+}
+
+.markComplete [data-testid='CheckBoxIcon']{
+    background-color: green !important;
+    color: white !important;
+}
+
+.markComplete [data-testid='CheckBoxOutlineBlankIcon'] {
+    background-color: white !important;
+    color: green !important;
+    border-color: black;
+}
