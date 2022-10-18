@@ -8,16 +8,7 @@ const postSchema = mongoose.Schema({
     created_At: { type: Date, default: Date.now },
     nLikes: {type: Number},
 });
-/*
-PostSchema.pre("save", (next) => {
-    now = new Date();
-    if(!this.createdAt){
-        this.createdAt = now;
-    }
 
-    next();
-});
-*/
 const Post = mongoose.model('Post', postSchema);
 
 export default Post;
