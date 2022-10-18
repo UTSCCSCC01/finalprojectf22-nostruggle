@@ -1,8 +1,8 @@
-import CreatePost from './CreatePost/CreatePost.js'
-import SignUp from './SignUp/SignUp.js'
+import CreatePost from './CreatePost/CreatePost'
+import SignUp from './SignUp/SignUp'
 import Scheduler from './Todo/Scheduler'
 import LinearAlgebraCalculator from './LinearAlgebraCalculator/LinearAlgebraCalculator';
-
+import StudyTimer from './Todo/StudyTimer/StudyTimer';
 const index = (props) => {
 
     const getPage = () =>{
@@ -26,6 +26,7 @@ const index = (props) => {
   return (
         <div>
             { getPage() }
+            <StudyTimer/>
         </div>
     )
 }

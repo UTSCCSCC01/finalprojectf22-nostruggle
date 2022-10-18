@@ -1,14 +1,18 @@
 import { FormLabel, Popper, Popover, Input, TextField, FormControl, FormControlLabel, FormGroup, Switch, Button, Container, Box } from '@mui/material';
-import { useRef, useState, useReducer, useEffect } from 'react'
+import { useRef, useState, useReducer, useEffect, useContext } from 'react'
 import { pageActions, taskActions } from './types'
 import { pageReducer, taskReducer } from './reducers'
-import axios from 'axios'
+import ApiCall from '../../../components/api/ApiCall';
 import css from './style.css'
-import { dateFormat } from './constants';
-const AddNewTask = ({ pageDispatch, open, close, anchor, isTaskTitleTaken }) => {
+
+import { useUserState } from '../../SignUp/UserContext';
+
+const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
+    
+    const { userState } = useUserState()
 
     const titleRef = useRef(), dateRef = useRef()
-
+    
     const [ hasDeadline, toggleHasDeadline ] = useState(false)
     const [ taskState, taskDispatch ] = useReducer(taskReducer, {
         isAddingTask: false,
@@ -41,12 +45,12 @@ const AddNewTask = ({ pageDispatch, open, close, anchor, isTaskTitleTaken }) => 
             deadline: dateEntered,
             timespent: 0,
             done: false,
-            userId: '3242'
+            userId: userState.user._id
         }
         console.log(newTask)
         taskDispatch({ type: taskActions.ADD_TASK })
 
-        axios.post(process.env.REACT_APP_SERVER_URL + '/tasks', newTask)
+        ApiCall.post('/tasks', newTask)
         .then(() => {
             taskDispatch({ type: taskActions.SUCCESS })
             close(true);

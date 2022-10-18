@@ -1,3 +1,3 @@
-import Dashboard from './Dashboard.js';
-import Forum from './Forum.js';
-import Profile from './Profile.js';
+import Dashboard from './Dashboard';
+import Forum from './Forum';
+import Profile from './Profile';
