@@ -1,0 +1,43 @@
+div.CalculatorBox {
+    position: fixed;
+    margin: 20px;
+    padding: 10px;
+    border-style: solid;
+    border-radius: 10px;
+    border-color: black;
+    border-width: 2px;
+    height: 500px;
+    width: 500px;
+}
+
+div.CalculatorInputField {
+    position: relative;
+    margin: auto;
+    width: 480px;
+    border: 2px solid lightskyblue;
+    border-radius: 4px;
+}
+
+/*
+input {
+    border: none;
+}
+*/
+input.DefaultField {
+    width: 98%;
+    height: 40px;
+    font-size: 20px;
+    padding: 4px;
+    margin: auto;
+}
+
+input.ExponentBase {
+    font-size: 20px;
+    position: relative;
+}
+
+input.ExponentPower {
+    position: absolute;
+    font-size:10px;
+    top: 0;
+}

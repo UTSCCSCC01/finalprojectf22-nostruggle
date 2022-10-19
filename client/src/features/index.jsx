@@ -3,6 +3,7 @@ import SignUp from './SignUp/SignUp'
 import Scheduler from './Todo/Scheduler'
 import LinearAlgebraCalculator from './LinearAlgebraCalculator/LinearAlgebraCalculator';
 import StudyTimer from './Todo/StudyTimer/StudyTimer';
+import Calculator from './Calculator/Calculator';
 const index = (props) => {
 
     const getPage = () =>{
@@ -14,7 +15,7 @@ const index = (props) => {
             case "Madison" :
                 return <CreatePost />
             case "Tara" :
-                return "derivativeCalculator.js in the terminal"                    
+                return <Calculator />                    
             case "Christine" :
                 return <Scheduler/>
             case "Zane" :
