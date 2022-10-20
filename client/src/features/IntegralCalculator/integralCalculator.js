@@ -53,48 +53,102 @@ function storeOperators(section) {
 }
 
 function integrateTerms(terms) {
+
+    for (var i = 0; i < terms.length; i++)
+        console.log(terms[i]);
+
     const integratedTerms = [];
     for (var i = 0; i < terms.length; i++) {
         var integratedTerm;
-        //Case when term is constant
-        if (!(isNaN(terms[i])) && terms[i] != '') {
-            integratedTerm = terms[i] + 'x';
+        //Case when term has variable
+        if (terms[i].includes('x')) {
+            console.log(terms[i] + ' has a variable');
+
+             //Taking the exponent
+             var exponent;
+             if (terms[i].includes('^')) {
+                 exponent = parseInt(terms[i].substring(terms[i].indexOf("^") + 1,));
+             }
+             else {
+                 exponent = 1;
+             }
+             var newExponent = exponent + 1;
+
+            var constant;
+            //Whole number constant
+            if (!(isNaN(terms[i].substring(0, terms[i].indexOf("x"))))) {
+
+                constant = parseInt(terms[i].substring(0, terms[i].indexOf("x")));
+
+                //Seeing if fraction can be simplified
+                var newConstant;
+                if (constant % newExponent == 0) {
+                    newConstant = constant / newExponent;
+
+                    //Accounting for 1 or -1
+                    if (newConstant == 1)
+                        newConstant = '';
+                    else if (newConstant == -1)
+                        newConstant = '-';
+                }
+                else {
+                    newConstant = constant + "/" + newExponent;
+                }
+
+                if (newExponent > 1)
+                    integratedTerm = newConstant + 'x^' + newExponent;
+                else
+                    integratedTerm = newConstant = 'x';
+
+            }
+                
+            //Fractional constant
+            else if (terms[i].substring(0, terms[i].indexOf("x")).includes("/")) {
+
+                constant = terms[i].substring(0, terms[i].indexOf("x"));
+                numerator = parseInt(constant.substring(0, terms[i].indexOf("/")));
+                denominator = parseInt(constant.substring(terms[i].indexOf("/") + 1, terms[i].indexOf("x")));
+
+                //Seeing if fraction can be simplified
+                var newConstant;
+                if (numerator / (denominator * newExponenet) == 0) {
+                    newConstant = numerator / (denominator * newExponenet);
+
+                    //Accounting for 1 or -1
+                    if (newConstant == 1)
+                        newConstant = '';
+                    else if (newConstant == -1)
+                        newConstant = '-';
+                }
+                else {
+                    newConstant = numerator + "/" + (denominator * newExponent);
+                }
+
+                if (newExponent > 1)
+                    integratedTerm = newConstant + 'x^' + newExponent;
+                else
+                    integratedTerm = newConstant = 'x';
+
+            }
+
             integratedTerms.push(integratedTerm);
         }
-        //Case when term has variable
-        else if (terms[i] != '') {
-            var constant = parseInt(terms[i].substring(0, terms[i].indexOf("x")));
-            //Taking the exponenet
-            var exponent;
-            if (terms[i].includes('^')) {
-                exponent = parseInt(terms[i].substring(terms[i].indexOf("^") + 1,));
-            }
-            else {
-                exponent = 1;
-            }
-            var newExponent = exponent + 1;
-
-            //Seeing if fraction can be simplified
-            var newConstant;
-            if (constant % newExponent == 0) {
-                newConstant = constant / newExponent;
-
-                //Accounting for 1 or -1
-                if (newConstant == 1)
-                    newConstant = '';
-                else if (newConstant == -1)
-                    newConstant = '-';
-            }
-            else {
-                newConstant = constant + "/" + newExponent;
-            }
-
-            if (newExponent > 1)
-                integratedTerm = newConstant + 'x^' + newExponent;
-            else
-                integratedTerm = newConstant = 'x';
-
+        //Case when term is constant and a whole number
+        else if (!(isNaN(terms[i]))) {
+            if (terms[i] != '')
+                integratedTerm = terms[i] + 'x';
+            else 
+                integratedTerm = terms[i];
             integratedTerms.push(integratedTerm);
+        }
+        //Case when term is constant and a fraction
+        else if (terms[i].includes("/")) {
+            const fraction_parts = terms[i].split("/");
+            //Ensuring terms around division are numbers
+            if (!(isNaN(fraction_parts[0])) && !(isNaN(fraction_parts[1]))) {
+                integratedTerm = terms[i] + 'x';
+                integratedTerms.push(integratedTerm);
+            }
         }
     }
 
