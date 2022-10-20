@@ -26,8 +26,34 @@ function integrateTerms(terms) {
             integratedTerms.push(integratedTerm);
         }
         //Case when term has variable
-    
-        //Adding + C at the end for indefinite integral
+        else {
+            var constant = parseInt(terms[i].substring(0, terms[i].indexOf("x")));
+            //Taking the exponenet
+            if (terms[i].includes('^')) {
+                var exponent = parseInt(terms[i].substring(terms[i].indexOf("^") + 1,));
+            }
+            else {
+                var exponent = 1;
+            }
+            var newExponent = exponent + 1;
+
+            //Seeing if fraction can be simplified
+            var newConstant;
+            if (constant % newExponent == 0) {
+                newConstant = '';
+            }
+            else {
+                newConstant = constant + "/" + newExponent;
+            }
+
+            var integratedTerm;
+            if (newExponent > 1)
+                integratedTerm = newConstant + 'x^' + newExponent;
+            else
+                integratedTerm = newConstant = 'x';
+
+            integratedTerms.push(integratedTerm);
+        }
     }
 
     return integratedTerms;
@@ -43,6 +69,9 @@ function concatenateTerms(integratedTerms, operators) {
             countOps++;
         }
     }
+
+    //Adds + C for indefinite integral
+    completeIntegral += ' + C';
 
     //Replaces "+-" with "-" 
     completeIntegral = completeIntegral.replace(/(\+-)/g, '-');
