@@ -4,7 +4,7 @@ import { pageActions, taskActions } from './types'
 import { pageReducer, taskReducer } from './reducers'
 import ApiCall from '../../../components/api/ApiCall';
 import css from './style.css'
-
+import { anchorPopover } from '../../utils/styleUtils';
 import { useUserState } from '../../SignUp/UserContext';
 
 const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
@@ -54,11 +54,6 @@ const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
         dateRef.current.value = ''
     }
 
-    const anchorOrigin = {
-        horizontal: document.documentElement.clientWidth / 2 - 100,
-        vertical: document.documentElement.clientHeight / 2 - 150
-    }
-
     useEffect(() => {
         if (taskState.added) {
             close(false)
@@ -68,7 +63,7 @@ const AddNewTask = ({ pageDispatch, open, close, anchor }) => {
     }, [taskState])
 
     return (
-        <Popover open={open} anchorOrigin={anchorOrigin} anchorEl={anchor}>
+        <Popover open={open} anchorOrigin={anchorPopover(300, 75)} anchorEl={anchor}>
             <Button onClick={close}>Back to schedule</Button>
                 <Container>
                     <FormControl>

@@ -1,5 +1,5 @@
 import { Button, Card, Box, Autocomplete, TextField } from '@mui/material';
-import { useState, useReducer, useEffect, useCallback } from 'react'
+import { useState, useReducer, useEffect, useCallback, useContext } from 'react'
 import Timer from './Timer'
 import Stopwatch from './Stopwatch'
 import './StudyTimer.css'
@@ -7,7 +7,7 @@ import studyTimerSound from '../../../assets/sfx/christmasbell.wav'
 import { timerBreakInterval } from './constants';
 import Sound from '../../Sound'
 import ApiCall from '../../../components/api/ApiCall';
-
+import TimerSelectTask from './TimerSelectTask';
 const StudyTimer = (props) => {
 
     const [ timerId, setTimerId ] = useState(0)
@@ -15,7 +15,8 @@ const StudyTimer = (props) => {
     const [ open, toggleOpen ] = useState(true)
     const [ sound, setSound ] = useState(null)
     const [ isSavingTime, setIsSavingTime ] = useState(false)
-
+    const [ selectTask, toggleSelectTask ] = useState(false)
+    
     const initialState = {
         todo: {
             title: "This is an example task",
@@ -233,9 +234,18 @@ const StudyTimer = (props) => {
             { open ? 
                 <div>
                     <Button >Edit To-do List</Button>
+                    <Button onClick={() => toggleSelectTask(!selectTask)}>Select Task</Button>
                     <div>
                         <header>Mode: {studyTimer.mode}</header>
                         <header>{ studyTimer.mode === 'stopwatch' ? "You haven't struggled on:" : "Currently not struggling with: "}</header>
+                        <TimerSelectTask 
+                            open={selectTask} 
+                            setOpen={toggleSelectTask} 
+                            onSelect={(task) => { 
+                                dispatch({ type: 'todo', payload: task})
+                                toggleSelectTask(false)                            
+                            }}
+                        />
                         <header><strong>{studyTimer.todo.title}</strong> {studyTimer.mode === 'stopwatch' && "for"}</header>
                         <h1>{studyTimer.time.string}</h1>
                         { studyTimer.mode === 'pomodoro' &&

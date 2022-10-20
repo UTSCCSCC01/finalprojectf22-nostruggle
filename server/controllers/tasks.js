@@ -2,8 +2,8 @@ import Task from '../models/task.model.js';
 
 export const getTasks = async (req, res) => {
     try {
-        const tasks = await Task.find({ ...req.filters });
-        console.log(tasks);
+        console.log(req)
+        const tasks = await Task.find({ ...req.query });
         res.status(200).json(tasks);
     } catch (e) {
         res.status(404).json({ ...e });
