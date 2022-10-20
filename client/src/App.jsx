@@ -5,6 +5,7 @@ import Features from './features'
 import { useNavigate } from "react-router-dom";
 
 import NavBar from './components/navigation/NavBar/NavBar';
+import Calculator from './features/Calculator/Calculator';
 
 import { Provider as UserProvider, contextState } from './features/SignUp/UserContext';
 
@@ -50,6 +51,8 @@ function App() {
   }
 
   return (
+    <Calculator />
+    /*
     <>
       <UserProvider value={ { userState, setUserState } }>
         <>UserId: {userState.user._id} Username: {userState.user.username} Password: {userState.user.password}</>
@@ -67,6 +70,7 @@ function App() {
         <Features page={page}/>
       </UserProvider>
     </>
+    */
   );
 }
 

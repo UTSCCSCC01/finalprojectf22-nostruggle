@@ -31,13 +31,17 @@ input.DefaultField {
     margin: auto;
 }
 
-input.ExponentBase {
+input.ExponentBase, span.ExponentBase {
     font-size: 20px;
     position: relative;
+    padding: 4px;
+    text-align: center;
 }
 
-input.ExponentPower {
+input.ExponentPower, span.ExponentPower {
     position: absolute;
     font-size:10px;
+    padding: 4px;
     top: 0;
+    text-align: center;
 }
