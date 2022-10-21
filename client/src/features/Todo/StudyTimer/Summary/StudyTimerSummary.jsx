@@ -9,7 +9,7 @@ const StudyTimerSummary = () => {
     const [ tasks, setTasks ] = useState([])
     const [ totalTime,  setTotalTime ] = useState('')
     const [ waiting, toggleWaiting ] = useState(false)
-    const [ summaryDate, setSummaryDate ] = useState(null)
+    const [ summaryDate, setSummaryDate ] = useState()
     const dateInput = useRef()
 
     // TODO: move this + format GMT-4 datet into a utils(?) file
@@ -29,7 +29,8 @@ const StudyTimerSummary = () => {
                     const matchingUserTask = userTasks.data.find((userTask) => userTask._id === task.taskId)
                     return {
                         title: matchingUserTask.title,
-                        timespent: task.timespent
+                        timespent: task.timespent,
+                        overall: matchingUserTask.timespent
                     }
                 })
                 setTasks(summaryTasksInfo)
@@ -54,7 +55,8 @@ const StudyTimerSummary = () => {
                     const matchingUserTask = userTasks.data.find((userTask) => userTask._id === task.taskId)
                     return {
                         title: matchingUserTask.title,
-                        timespent: task.timespent
+                        timespent: task.timespent,
+                        overall: matchingUserTask.timespent
                     }
                 })
                 setTasks(summaryTasksInfo)
@@ -100,8 +102,11 @@ const StudyTimerSummary = () => {
                     {
                         tasks.map((task) => (
                             <Paper className='TodoListItem' variant='outlined'>
-                                <header><strong>{task.title}</strong></header>
-                                <div>Timespent: {formatTimeSpent(task.timespent)}</div>
+                                <header style={{ fontSize: '1.2rem'}}><strong>{task.title}</strong></header>
+                                <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'end' }}>
+                                    <div style={{ fontSize: '1.2rem', fontWeight: 700 }}>Time: {formatTimeSpent(task.timespent)}</div>
+                                    <div style={{ fontSize: '0.8rem'}}>Total: {formatTimeSpent(task.overall)}</div>
+                                </div>
                             </Paper>
                         ))
                     }
