@@ -1,5 +1,5 @@
 import { Button, Container, Paper, Checkbox, CardHeader, IconButton } from '@mui/material';
-import { Delete } from '@mui/icons-material';
+import { Delete, CheckOutlined, SquareTwoTone } from '@mui/icons-material';
 import { useState } from 'react'
 import { dateFormat } from './constants';
 const TodoList = ({ tasks, scheduleRef, schedule, toggleCompletion, deleteTask }) => {
@@ -29,16 +29,18 @@ const TodoList = ({ tasks, scheduleRef, schedule, toggleCompletion, deleteTask }
                         return ( !task.done || !incompleteOnly ? 
                         <Paper className='TodoListItem' variant='outlined'>
                             <div className='markComplete'>
-                                <Checkbox 
+                                <IconButton 
                                     size='large' 
-                                    onChange={() => toggleCompletion(task)} 
+                                    onClick={() => toggleCompletion(task)} 
                                     checked={task.done}
-                                ></Checkbox>
+                                    children={task.done ? <><SquareTwoTone/><CheckOutlined/></> : <SquareTwoTone/>}
+                                ></IconButton>
                             </div>
-                            <div>
+                            <div className='TodoListItemTaskInfo'>
                                 <CardHeader title={task.title}/>
-                                <div>
-                                    <span>{formatTimeSpent(task.timespent)} { task.deadline ? <span>Deadline: {new Date(task.deadline).toLocaleString('en-us', { timeZone: 'UTC', ...dateFormat })}{ !task.done && isOverdue(task.deadline) ? ": OVERDUE" : null }</span> : null }</span>
+                                <div className='TodoListItemSubHeading' nos-hasdeadline={task.deadline ? 'true' : 'false' }>
+                                    { task.deadline && <div>Deadline: {new Date(task.deadline).toLocaleString('en-us', { timeZone: 'UTC', ...dateFormat })}{ !task.done && isOverdue(task.deadline) ? ": OVERDUE" : null }</div> }
+                                    { task.timespent > 0 && <div>{formatTimeSpent(task.timespent)} </div>}
                                 </div>
                             </div>
                             <div>

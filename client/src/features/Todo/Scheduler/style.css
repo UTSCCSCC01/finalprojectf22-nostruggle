@@ -2,29 +2,73 @@
     --TodoListItemBackgroundColour: #EFF3F6;
 }
 
-.TodoList {
-    width: 80%;
+.Scheduler {
+    margin: auto;
+    width: 100%;
+    max-width: 700px;
+    display: flex;
+    flex-flow: column wrap;
 }
 
-.TodoListItem{
+.MuiPopover-paper{
+    padding: 1rem;
+    border-radius: 5% !important;
+}
+
+.TodoListItem {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
+    align-items: center;
     background-color: var(--TodoListItemBackgroundColour) !important;
+    padding: 0.5rem;
 }
 
 .TodoListItem .MuiCardHeader-title {
-    text-align: center;
     font-weight: bold !important;
 }
 
-.markComplete [data-testid='CheckBoxIcon']{
-    background-color: green !important;
-    color: white !important;
+.TodoListItemTaskInfo {
+    width: 80%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
 }
 
-.markComplete [data-testid='CheckBoxOutlineBlankIcon'] {
-    background-color: white !important;
+.TodoListItemSubHeading {
+    width: 50%;
+    display: flex;
+    flex-flow: column;
+    justify-content:start;
+    align-items:flex-end;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.TodoListItemSubHeading[has-deadline='true'] {
+    justify-content:space-between;
+}
+
+.markComplete [data-testid='CheckOutlinedIcon']{
     color: green !important;
-    border-color: black;
+    position: absolute;
+    font-size: 50px;
+    left: 10px;
+    bottom: 10px;
+}
+
+.markComplete [data-testid='SquareTwoToneIcon'] {
+    font-size: 30px;
+    fill: white;
+    box-shadow: 2px 2px 1px 1px grey;
+    background-color: white;
+}
+
+.markComplete [data-testid='SquareTwoToneIcon'] path:first-child {
+    fill: white !important;
+    opacity: 1 !important;
+}
+
+#AddTaskButton {
+    align-self: flex-end;
 }

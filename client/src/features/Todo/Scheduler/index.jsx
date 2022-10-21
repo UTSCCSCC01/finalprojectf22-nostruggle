@@ -1,5 +1,5 @@
 import { FormLabel, TextField, InputLabel, Button, Container, Box, Input, Grid , Paper, IconButton} from '@mui/material';
-import { Add } from '@mui/icons-material';
+import { AddBox } from '@mui/icons-material';
 import { useRef, useState, useEffect, useReducer } from 'react'
 import { pageActions } from './types'
 import { pageReducer, taskReducer } from './reducers'
@@ -58,7 +58,7 @@ const Scheduler = () => {
         return (
             <div className='Scheduler'>
                 <h1>NoStruggle Focusing</h1> 
-                <IconButton onClick={() => toggleAddTask(true)} size='large' children={<Add sx={{fontSize: '50px'}}/>}></IconButton>
+                <IconButton id='AddTaskButton' onClick={() => toggleAddTask(true)} sx={{ width: '60px', height: '60px' }} children={<AddBox sx={{fontSize: '60px'}}/>}></IconButton>
                 <TodoList 
                     scheduleRef={scheduleRef} 
                     schedule={schedule} tasks={schedule.userTasks}                     
