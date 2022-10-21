@@ -28,7 +28,7 @@ const Timer = ({ setTime }) => {
         return seconds
     }
 
-    const onStart = () => {
+    const onSetTime = () => {
         if (!timeInputProps.error && timeInputProps.inputtime.trim()){
             setTime(convertTimeToSeconds(timeInputProps.inputtime))
         }
@@ -36,10 +36,14 @@ const Timer = ({ setTime }) => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'start' }}>
-            <Button onClick={onStart}>Set Time</Button>
-            <FormControl>
-                <TextField {...timeInputProps} size='small' label="Time in hrs:mins:secs"
+            <Button onClick={onSetTime}>Set Time</Button>
+            <FormControl sx={{ width: 150 }}>
+                <TextField {...timeInputProps} size='small' label="Time"
                     onChange={(e) => timeValidation(e)}
+                    onKeyUp={(e) =>  {
+                        if (e.key === 'Enter') onSetTime() 
+                    }}
+                    
                 />
             </FormControl>            
         </div>

@@ -25,7 +25,7 @@ const StudyTimer = (props) => {
         time: {
             seconds: 0,
             string: '00:00',
-            savedSeconds: 0
+            newSavedSeconds: 0
         },
         running: false,
         totalStopwatchTime: 0,
@@ -47,7 +47,8 @@ const StudyTimer = (props) => {
                     time: {
                         ...state.time,
                         seconds: state.time.seconds + 1,
-                        string: convertSecondsToString(state.time.seconds + 1)
+                        string: convertSecondsToString(state.time.seconds + 1),
+                        newSavedSeconds: state.time.newSavedSeconds + 1
                     },
                     todo: state.todo ? {
                         ...state.todo,
@@ -60,7 +61,8 @@ const StudyTimer = (props) => {
                     time: {
                         ...state.time,
                         seconds: state.time.seconds - 1,
-                        string: convertSecondsToString(state.time.seconds - 1)
+                        string: convertSecondsToString(state.time.seconds - 1),
+                        newSavedSeconds: state.time.newSavedSeconds + 1
                     },
                     todo: state.todo ? {
                         ...state.todo,
@@ -91,7 +93,7 @@ const StudyTimer = (props) => {
                     time: {
                         ...state.time,
                         seconds: action.payload,
-                        string: convertSecondsToString(action.payload)
+                        string: convertSecondsToString(action.payload),
                     }
                 }
             case 'mode':
@@ -102,6 +104,10 @@ const StudyTimer = (props) => {
             case 'todo':
                 return {
                     ...state,
+                    time: {
+                        ...state.time,
+                        newSavedSeconds: 0
+                    },
                     todo: action.payload
                 }
             case 'save':
@@ -109,7 +115,7 @@ const StudyTimer = (props) => {
                     ...state,
                     time: {
                         ...state.time,
-                        savedSeconds: action.payload
+                        newSavedSeconds: 0
                     }
                 }
         }
@@ -179,7 +185,7 @@ const StudyTimer = (props) => {
             }
         }
         console.log(studyTimer.time)
-        const secondsSinceLastSave = studyTimer.time.seconds - studyTimer.time.savedSeconds
+        const secondsSinceLastSave = studyTimer.time.newSavedSeconds
         ApiCall.patch(process.env.REACT_APP_SERVER_URL + '/tasks', data)
         .then(() => {
             console.log("success saving time")
@@ -190,10 +196,10 @@ const StudyTimer = (props) => {
             setIsSavingTime(false)
         })
 
+        dispatch({ type: 'save' }) 
         ApiCall.post(`${process.env.REACT_APP_SERVER_URL}/tasks/daily?userId=${userState.user._id}&taskId=${studyTimer.todo._id}&timespent=${secondsSinceLastSave}`)
         .then(() => {
             console.log("success saving daily time")
-            dispatch({ type: 'save', payload: studyTimer.time.savedSeconds + secondsSinceLastSave }) 
             setIsSavingTime(false)
         })
         .catch( e => {
@@ -201,7 +207,7 @@ const StudyTimer = (props) => {
             console.log('fail daily save')
             setIsSavingTime(false)
         })
-
+    
     }
 
     const stopTime = () => {
