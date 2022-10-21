@@ -77,3 +77,18 @@ export const postDaily = async (req, res) => {
         res.status(409).json(e);
     };
 };
+
+
+export const getDailySpecificDate = async (req, res) => {
+    try {
+        const now = new Date(Date.now()).toLocaleDateString('en-us', dateFormat)
+        console.log(req.query)
+        const tasks = await TaskTime.find({ ...req.query.userId, date: new Date(parseInt(req.query.date)) })
+        console.log(tasks)
+        console.log("Finished updating")
+        res.status(200).json(tasks);
+    } catch (e) {
+        console.log(e)
+        res.status(409).json({ ...e});
+    };
+};
