@@ -180,7 +180,6 @@ const StudyTimer = (props) => {
         }
         console.log(studyTimer.time)
         const secondsSinceLastSave = studyTimer.time.seconds - studyTimer.time.savedSeconds
-        console.log(secondsSinceLastSave)
         ApiCall.patch(process.env.REACT_APP_SERVER_URL + '/tasks', data)
         .then(() => {
             console.log("success saving time")
