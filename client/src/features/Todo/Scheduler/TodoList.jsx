@@ -1,15 +1,11 @@
-import { Button, Container, Paper } from '@mui/material';
+import { Button, Container, Paper, Checkbox, CardHeader, IconButton } from '@mui/material';
+import { Delete, CheckOutlined, SquareTwoTone } from '@mui/icons-material';
 import { useState } from 'react'
-
-const TodoList = ({ tasks, scheduleRef, schedule, completeTask }) => {
+import { dateFormat } from './constants';
+const TodoList = ({ tasks, scheduleRef, schedule, toggleCompletion, deleteTask }) => {
 
     const [ incompleteOnly, toggleIncompleteOnly ] = useState(true)
 
-    const dateFormat = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    }
 
     const formatTimeSpent = (seconds) => {
         return `${ seconds >= 60*60 
@@ -17,27 +13,48 @@ const TodoList = ({ tasks, scheduleRef, schedule, completeTask }) => {
             : `${ Math.floor(seconds / (60)) } minutes, ${ seconds % (60)} seconds`}`
     }
 
+    const isOverdue = (date) => {
+        const now = new Date(Date.now()).toLocaleDateString('en-us', dateFormat)
+        const utcNow = new Date(now)
+        const dateToCompare = new Date(new Date(date).toLocaleDateString('en-us', { timeZone: 'UTC', ...dateFormat }))
+        return dateToCompare < utcNow
+    } 
+
     return (
-        <Container ref={scheduleRef}>
+        <div className='TodoList'  ref={scheduleRef}>
             <Button onClick={() => toggleIncompleteOnly(!incompleteOnly)}>{ incompleteOnly ? "SHOW COMPLETE TASKS" : "VIEW INCOMPLETE ONLY"}</Button>
             { !schedule.isLoading || schedule.userTasks.length > 0 ?
                 <div>
                 { tasks.map((task) => {
                         return ( !task.done || !incompleteOnly ? 
-                        <Paper variant='outlined'>
-                            <header><strong>{task.title}</strong></header>
-                            <div>{task.done ? "COMPLETED" : <Button size='small' onClick={() => completeTask(task._id)}>Mark As Complete</Button>}</div>
-                            { task.deadline ? <div>Deadline: {new Date(task.deadline).toLocaleDateString('en-us', dateFormat)}{ !task.done && Date.parse(task.deadline) < Date.now() ? ": OVERDUE" : null }</div> : null } 
-                            <div>Timespent: {formatTimeSpent(task.timespent)}</div>
+                        <Paper className='TodoListItem' variant='outlined'>
+                            <div className='markComplete'>
+                                <IconButton 
+                                    size='large' 
+                                    onClick={() => toggleCompletion(task)} 
+                                    checked={task.done}
+                                    children={task.done ? <><SquareTwoTone/><CheckOutlined/></> : <SquareTwoTone/>}
+                                ></IconButton>
+                            </div>
+                            <div className='TodoListItemTaskInfo'>
+                                <CardHeader title={task.title}/>
+                                <div className='TodoListItemSubHeading' nos-hasdeadline={task.deadline ? 'true' : 'false' }>
+                                    { task.deadline && <div>Deadline: {new Date(task.deadline).toLocaleString('en-us', { timeZone: 'UTC', ...dateFormat })}{ !task.done && isOverdue(task.deadline) ? ": OVERDUE" : null }</div> }
+                                    { task.timespent > 0 && <div>{formatTimeSpent(task.timespent)} </div>}
+                                </div>
+                            </div>
+                            <div>
+                                <IconButton children={<Delete/>} onClick={() => deleteTask(task)}/>
+                            </div>
                         </Paper>
                         : null )
                     })
-                }  
+                }
                 { tasks.filter((task) => !task.done).length === 0 && "You have no incomplete tasks. Congrats!" }
                 </div>
                 : "Loading your  tasks"
             }
-        </Container>
+        </div>
   )
 }
 
