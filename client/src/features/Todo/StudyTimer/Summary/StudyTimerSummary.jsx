@@ -35,6 +35,7 @@ const StudyTimerSummary = () => {
                 })
                 setTasks(summaryTasksInfo)
                 toggleWaiting(false)
+                setSummaryDate((new Date(Date.now()).toLocaleDateString('en-us', { timeZone: 'UTC', ...dateFormat })))
             }    
             console.log(res)
             
@@ -44,9 +45,9 @@ const StudyTimerSummary = () => {
 
     const getDailySummarySpecifiedDate = () => {
         toggleWaiting(true)
-        const date = dateInput.current.value
+        const date = new Date(dateInput.current.value).toLocaleDateString('en-us', { timeZone: 'UTC', ...dateFormat })
         setSummaryDate(date)
-        const specifiedDate = new Date(new Date(date).toLocaleDateString('en-us', { timeZone: 'UTC', ...dateFormat }))
+        const specifiedDate = new Date(date)
         ApiCall.get(`${process.env.REACT_APP_SERVER_URL}/tasks/daily/date?userId=${userState.user._id}&date=${specifiedDate.getTime()}`)
         .then( async res => {
             if (res.status === 200){
