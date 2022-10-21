@@ -1,3 +1,36 @@
+function reduceFraction(numerator, denominator) {
+
+    originalNum = numerator;
+
+    if (numerator < 0)
+        numerator = numerator * -1;
+
+    var lowest;
+    if (numerator < denominator)
+        lowest = numerator;
+    else if (denominator < numerator)
+        lowest = denominator;
+
+    var i = 2;
+    while (i <= lowest) {
+
+        if (numerator % i == 0 && denominator % i == 0) {
+            numerator = numerator / i;
+            denominator = denominator / i;
+            i = 1;
+        }
+
+        i++;
+
+    }
+
+    if (originalNum > 0)
+        return numerator + "/" + denominator;
+    else if (originalNum < 0)
+        return (numerator * -1) + "/" + denominator;
+
+}
+
 function validate(equation) {
 	
 	//Removing spaces
@@ -54,15 +87,11 @@ function storeOperators(section) {
 
 function integrateTerms(terms) {
 
-    for (var i = 0; i < terms.length; i++)
-        console.log('Term #' + i + ": " + terms[i]);
-
     const integratedTerms = [];
     for (var i = 0; i < terms.length; i++) {
         var integratedTerm;
         //Case when term has variable
         if (terms[i].includes('x')) {
-            console.log(terms[i] + ' has a variable');
 
              //Taking the exponent
              var exponent;
@@ -92,7 +121,7 @@ function integrateTerms(terms) {
                         newConstant = '-';
                 }
                 else {
-                    newConstant = constant + "/" + newExponent;
+                    newConstant = reduceFraction(constant, newExponent);
                 }
 
                 if (newExponent > 1)
@@ -121,7 +150,7 @@ function integrateTerms(terms) {
                         newConstant = '-';
                 }
                 else {
-                    newConstant = numerator + "/" + (denominator * newExponent);
+                    newConstant = reduceFraction(numerator, denominator * newExponent);
                 }
 
                 if (newExponent > 1)
@@ -173,7 +202,7 @@ function concatenateTerms(integratedTerms, operators) {
     completeIntegral = completeIntegral.replace(/0-/g, '-');
 
     //Adds + C for indefinite integral
-    //completeIntegral += ' + C';
+    completeIntegral += '+C';
 
     return completeIntegral;
 }
