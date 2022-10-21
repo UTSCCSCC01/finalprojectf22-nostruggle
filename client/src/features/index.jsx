@@ -4,6 +4,7 @@ import Scheduler from './Todo/Scheduler'
 import LinearAlgebraCalculator from './LinearAlgebraCalculator/LinearAlgebraCalculator';
 import StudyTimer from './Todo/StudyTimer/StudyTimer';
 import StudyTimerSummary from './Todo/StudyTimer/Summary/StudyTimerSummary';
+import Forum from './Forum/Forum';
 const index = (props) => {
 
     const getPage = () =>{
@@ -11,7 +12,7 @@ const index = (props) => {
             case "Catherine" :
                 return <SignUp />
             case "Ishika" :
-                return "Coming Soon!"
+                return <Forum/>
             case "Madison" :
                 return <CreatePost />
             case "Tara" :
