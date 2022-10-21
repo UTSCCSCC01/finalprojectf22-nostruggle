@@ -1,4 +1,4 @@
-export class MatrixCalculator {
+class MatrixCalculator {
 	constructor() {
 		this.matrixA = [];
 		this.matrixB = [];
@@ -13,7 +13,7 @@ export class MatrixCalculator {
 		this.ByDimension = 3;
 	}
 	
-	/*calculateRank() {
+	calculateRank() {
 		this.rebuildMatrix();
 		
 		var rank = this.AxDimension;
@@ -54,7 +54,7 @@ export class MatrixCalculator {
 			} 
 		} 
 		this.printOnConsole("Matrix rank is: "+rank); 		
-	}*/
+	}
 	
 	invertMatrix() {		
 		this.calculateDeterminant();
