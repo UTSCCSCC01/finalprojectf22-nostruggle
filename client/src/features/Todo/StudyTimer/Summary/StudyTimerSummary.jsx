@@ -81,10 +81,6 @@ const StudyTimerSummary = () => {
         setTotalTime(formatTimeSpent(totalTimeSpent))
     }, [tasks])
 
-    useEffect(() => {
-        console.log(summaryDate)
-    }, [summaryDate])
-
     return (
         <div>
             <h1>NoStruggle Focusing</h1>
