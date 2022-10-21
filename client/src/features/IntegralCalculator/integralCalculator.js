@@ -55,7 +55,7 @@ function storeOperators(section) {
 function integrateTerms(terms) {
 
     for (var i = 0; i < terms.length; i++)
-        console.log(terms[i]);
+        console.log('Term #' + i + ": " + terms[i]);
 
     const integratedTerms = [];
     for (var i = 0; i < terms.length; i++) {
@@ -111,8 +111,8 @@ function integrateTerms(terms) {
 
                 //Seeing if fraction can be simplified
                 var newConstant;
-                if (numerator / (denominator * newExponenet) == 0) {
-                    newConstant = numerator / (denominator * newExponenet);
+                if (numerator / (denominator * newExponent) == 0) {
+                    newConstant = numerator / (denominator * newExponent);
 
                     //Accounting for 1 or -1
                     if (newConstant == 1)
