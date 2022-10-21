@@ -28,7 +28,7 @@ const index = (props) => {
         }
     }
   return (
-        <div>
+        <div style={{ padding: '0px 50px 200px 50px' }}>
             { getPage() }
             <StudyTimer/>
         </div>
