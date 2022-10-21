@@ -36,7 +36,6 @@
 }
 
 .TodoListItemSubHeading {
-    width: 50%;
     display: flex;
     flex-flow: column;
     justify-content:flex-start;

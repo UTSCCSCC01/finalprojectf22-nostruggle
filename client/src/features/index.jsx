@@ -3,6 +3,7 @@ import SignUp from './SignUp/SignUp'
 import Scheduler from './Todo/Scheduler'
 import LinearAlgebraCalculator from './LinearAlgebraCalculator/LinearAlgebraCalculator';
 import StudyTimer from './Todo/StudyTimer/StudyTimer';
+import StudyTimerSummary from './Todo/StudyTimer/Summary/StudyTimerSummary';
 import Forum from './Forum/Forum';
 const index = (props) => {
 
@@ -20,6 +21,8 @@ const index = (props) => {
                 return <Scheduler/>
             case "Zane" :
                 return <LinearAlgebraCalculator />
+            case "TimeSummary" :
+                return <StudyTimerSummary />
             default: 
                 return "Default page"
         }

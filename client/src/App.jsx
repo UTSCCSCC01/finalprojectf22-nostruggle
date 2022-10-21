@@ -62,6 +62,8 @@ function App() {
             <Button onClick={() => navigate("Tara")}>Derivative Calculator</Button>
             <Button onClick={() => navigate("Christine")}>To-do List</Button>
             <Button onClick={() => navigate("Zane")}>Linear Algebra Calculator</Button>
+            <Button onClick={() => navigate("TimeSummary")}>StudyTimer Summary</Button>
+
           </>
         }
         <Features page={page}/>
