@@ -1,4 +1,5 @@
 import Task from '../models/task.model.js';
+import TaskTime from '../models/taskTime.model.js';
 
 export const getTasks = async (req, res) => {
     try {
@@ -26,15 +27,6 @@ export const postTasks = async (req, res) => {
 };
 
 export const patchTasks = async (req, res) => {
-
-    /*const taskToUpdate = Task.find(req.body.filters)[0];
-    const updateValues = req.body.update;
-    for (let changeKey in updateValues)
-        taskToUpdate[changeKey] = updateValues[changeKey]
-
-    //taskToUpdate.set(req.body.update)
-    console.log(req)
-    console.log(taskToUpdate)*/
     try {
         console.log('updating task')
         await Task.updateMany(req.body.filters, req.body.update)
@@ -43,5 +35,55 @@ export const patchTasks = async (req, res) => {
     } catch (e) {
         console.log(e)
         res.status(409).json({ ...e});
+    };
+};
+
+const dateFormat = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+}
+
+export const getDaily = async (req, res) => {
+    try {
+        const now = new Date(Date.now()).toLocaleDateString('en-us', dateFormat)
+        const utcNow = new Date(now)
+        /*const dateToCompare = new Date(new Date(date).toLocaleDateString('en-us', { timeZone: 'UTC', ...dateFormat }))
+        return dateToCompare < utcNow*/
+        const today = new Date(Date.now());
+        const tasks = await TaskTime.find({ ...req.query.userId, date: now })
+        console.log(tasks)
+        console.log("Finished updating")
+        res.status(200).json(tasks);
+    } catch (e) {
+        console.log(e)
+        res.status(409).json({ ...e});
+    };
+};
+
+export const postDaily = async (req, res) => {
+    try {
+        console.log(
+            "posting daily"
+        )
+        console.log(req.query)
+        const now = new Date(Date.now()).toLocaleDateString('en-us', dateFormat)
+        const utcNow = new Date(now)
+        const today = new Date(Date.now());
+        const filter = { userId: req.query.userId, taskId: req.query.taskId, date: now }
+        const taskForToday = await TaskTime.find(filter)
+        if (taskForToday.length > 0){
+            await TaskTime.updateOne(filter, { timespent: taskForToday[0].timespent + parseInt(req.query.timespent) })
+        } else {
+            const newTaskTime = new TaskTime({
+                ...filter,
+                timespent: req.query.timespent
+            })
+            await newTaskTime.save()
+        }        
+        res.status(201).json(filter);
+    } catch (e) {
+        console.log(e)
+        res.status(409).json(e);
     };
 };

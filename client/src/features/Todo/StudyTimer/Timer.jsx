@@ -25,7 +25,6 @@ const Timer = ({ setTime }) => {
             }, 
             0
         )
-        console.log(seconds)
         return seconds
     }
 

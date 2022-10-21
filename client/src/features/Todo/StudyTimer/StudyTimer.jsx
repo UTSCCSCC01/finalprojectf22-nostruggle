@@ -8,6 +8,7 @@ import { timerBreakInterval } from './constants';
 import Sound from '../../Sound'
 import ApiCall from '../../../components/api/ApiCall';
 import TimerSelectTask from './TimerSelectTask';
+import { useUserState } from '../../SignUp/UserContext';
 const StudyTimer = (props) => {
 
     const [ timerId, setTimerId ] = useState(0)
@@ -16,18 +17,20 @@ const StudyTimer = (props) => {
     const [ sound, setSound ] = useState(null)
     const [ isSavingTime, setIsSavingTime ] = useState(false)
     const [ selectTask, toggleSelectTask ] = useState(false)
+    const { userState } = useUserState()
     
     const initialState = {
         todo: null,
         mode: 'none',
         time: {
             seconds: 0,
-            string: '00:00'
+            string: '00:00',
+            savedSeconds: 0
         },
         running: false,
         totalStopwatchTime: 0,
         totalTimerTime: 0,
-        totalCount: 0
+        totalCount: 0,
     }
 
     const convertSecondsToString = (seconds) => {
@@ -42,7 +45,7 @@ const StudyTimer = (props) => {
                 return {
                     ...state,
                     time: {
-                        ...state,
+                        ...state.time,
                         seconds: state.time.seconds + 1,
                         string: convertSecondsToString(state.time.seconds + 1)
                     },
@@ -55,7 +58,7 @@ const StudyTimer = (props) => {
                 return {
                     ...state,
                     time: {
-                        ...state,
+                        ...state.time,
                         seconds: state.time.seconds - 1,
                         string: convertSecondsToString(state.time.seconds - 1)
                     },
@@ -86,6 +89,7 @@ const StudyTimer = (props) => {
                 return {
                     ...state,
                     time: {
+                        ...state.time,
                         seconds: action.payload,
                         string: convertSecondsToString(action.payload)
                     }
@@ -99,6 +103,14 @@ const StudyTimer = (props) => {
                 return {
                     ...state,
                     todo: action.payload
+                }
+            case 'save':
+                return {
+                    ...state,
+                    time: {
+                        ...state.time,
+                        savedSeconds: action.payload
+                    }
                 }
         }
     }
@@ -166,15 +178,31 @@ const StudyTimer = (props) => {
                 timespent: studyTimer.todo.timespent
             }
         }
+        console.log(studyTimer.time)
+        const secondsSinceLastSave = studyTimer.time.seconds - studyTimer.time.savedSeconds
+        console.log(secondsSinceLastSave)
         ApiCall.patch(process.env.REACT_APP_SERVER_URL + '/tasks', data)
         .then(() => {
-            console.log("success saving time") 
+            console.log("success saving time")
             setIsSavingTime(false)
         })
         .catch( e => {
             console.log(e)
             setIsSavingTime(false)
         })
+
+        ApiCall.post(`${process.env.REACT_APP_SERVER_URL}/tasks/daily?userId=${userState.user._id}&taskId=${studyTimer.todo._id}&timespent=${secondsSinceLastSave}`)
+        .then(() => {
+            console.log("success saving daily time")
+            dispatch({ type: 'save', payload: studyTimer.time.savedSeconds + secondsSinceLastSave }) 
+            setIsSavingTime(false)
+        })
+        .catch( e => {
+            console.log(e)
+            console.log('fail daily save')
+            setIsSavingTime(false)
+        })
+
     }
 
     const stopTime = () => {
