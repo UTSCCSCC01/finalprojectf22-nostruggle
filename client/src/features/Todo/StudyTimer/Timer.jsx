@@ -35,14 +35,13 @@ const Timer = ({ setTime }) => {
     }
 
     return (
-        <div>
+        <div style={{ display: 'flex', justifyContent: 'start' }}>
+            <Button onClick={onStart}>Set Time</Button>
             <FormControl>
                 <TextField {...timeInputProps} size='small' label="Time in hrs:mins:secs"
                     onChange={(e) => timeValidation(e)}
                 />
-            </FormControl>
-            <Button onClick={onStart}>Set Time</Button>
-            
+            </FormControl>            
         </div>
     )
 }

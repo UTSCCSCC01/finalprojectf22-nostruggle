@@ -32,19 +32,21 @@ const TimerSelectTask = ({ onSelect, open, setOpen }) => {
 
     return (
         <Popover open={open} anchorOrigin={anchorPopover(300, 300)} anchor={document.body}>
-            <Button onClick={() => setOpen(false)}>Back</Button>
-            <header><h2>Select Timer Task</h2></header>
-            <Autocomplete
-                options={tasks}
-                getOptionLabel={(option) => option.title}
-                sx={{ width: 200 }}
-                onInputChange={(event, newInputValue) => {
-                    setSelectedTask(tasks.find(task => newInputValue === task.title));
-                }}
-                size='small'
-                renderInput={(params) => <TextField {...params} label="Todo" />}
-            />
-            <Button onClick={() => onSelect(selectedTask)}>Set</Button>
+            <div style={{ padding: '1rem' }} >
+                <Button onClick={() => setOpen(false)}>Back</Button>
+                <header><h2>Select Timer Task</h2></header>
+                <Autocomplete
+                    options={tasks}
+                    getOptionLabel={(option) => option.title}
+                    sx={{ width: 300 }}
+                    onInputChange={(event, newInputValue) => {
+                        setSelectedTask(tasks.find(task => newInputValue === task.title));
+                    }}
+                    size='small'
+                    renderInput={(params) => <TextField {...params} label="Todo" />}
+                />
+                <Button onClick={() => onSelect(selectedTask)}>Set</Button>
+            </div>
         </Popover> 
     )
 }

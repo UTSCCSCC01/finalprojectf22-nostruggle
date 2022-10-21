@@ -238,9 +238,9 @@ const StudyTimer = (props) => {
 
     return (
         <Card raised={true} className='StudyTimer'>
-            <Button onClick={() => toggleOpen(!open)}>Toggle Timer</Button>
+            <Button sx={{ width: '100%' }} onClick={() => toggleOpen(!open)}>Toggle Timer</Button>
             { open ? 
-                <div>
+                <div style={{ padding: '0.5rem'}} >
                     <Button >Edit To-do List</Button>
                     <Button onClick={() => toggleSelectTask(!selectTask)}>Select Task</Button>
                     <Button onClick={() => dispatch({ type: 'todo', payload: null })}>Clear Task</Button>
