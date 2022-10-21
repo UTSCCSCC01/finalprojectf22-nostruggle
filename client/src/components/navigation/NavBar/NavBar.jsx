@@ -64,7 +64,7 @@ const NavBar = (props) => {
                 </span>
             </AppBar>
 
-            { openMenu && <ListMenu className='UserMenu' items={[ 'Profile', 'Sign Out' ]}/> }
+            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Sign Out' ]} path={{ 'Profile': '/profile', 'Sign Out': '' }}/> }
         </>
     )
 }
