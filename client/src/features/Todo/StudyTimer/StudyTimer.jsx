@@ -18,11 +18,7 @@ const StudyTimer = (props) => {
     const [ selectTask, toggleSelectTask ] = useState(false)
     
     const initialState = {
-        todo: {
-            title: "This is an example task",
-            taskId: 0,
-            timespent: 10
-        },
+        todo: null,
         mode: 'none',
         time: {
             seconds: 0,
@@ -109,21 +105,6 @@ const StudyTimer = (props) => {
 
     const [ studyTimer, dispatch ] = useReducer(reducer, initialState)
 
-    // TODO: choose actual task
-    const setUpTask = async () => {
-        const res = await ApiCall.get(process.env.REACT_APP_SERVER_URL + '/tasks')
-        console.log(res)
-        const task = res.data.filter((t) => !t.done)[0]
-        console.log(task)
-        if (!task) return;
-        const taskInfo = {
-            taskId: task._id,
-            title: task.title,
-            timespent: task.timespent
-        }
-        dispatch({ type: 'todo', payload: taskInfo})
-    }
-
     const startStopwatch = () => {
         if (studyTimer.mode !== 'stopwatch'){
             dispatch({
@@ -207,8 +188,6 @@ const StudyTimer = (props) => {
 
     useEffect(() => {
         setSound(new Sound(studyTimerSound))
-        setUpTask()
-        console.log(sound)
     }, [])
 
     useEffect(() => {
@@ -217,7 +196,7 @@ const StudyTimer = (props) => {
                 stopTime()
                 sound.play();
                 toggleOpen(true)
-            } else if (!isSavingTime && studyTimer.time.seconds % 5 === 1){ // limit the number of requests
+            } else if (!isSavingTime && studyTimer.time.seconds % 5 === 1 && studyTimer.todo){ // limit the number of requests
                 saveTime()
                 
             }
@@ -235,6 +214,7 @@ const StudyTimer = (props) => {
                 <div>
                     <Button >Edit To-do List</Button>
                     <Button onClick={() => toggleSelectTask(!selectTask)}>Select Task</Button>
+                    <Button onClick={() => dispatch({ type: 'todo', payload: null })}>Clear Task</Button>
                     <div>
                         <header>Mode: {studyTimer.mode}</header>
                         <header>{ studyTimer.mode === 'stopwatch' ? "You haven't struggled on:" : "Currently not struggling with: "}</header>
@@ -246,7 +226,7 @@ const StudyTimer = (props) => {
                                 toggleSelectTask(false)                            
                             }}
                         />
-                        <header><strong>{studyTimer.todo.title}</strong> {studyTimer.mode === 'stopwatch' && "for"}</header>
+                        <header><strong>{studyTimer.todo ? studyTimer.todo.title : <span><i>No task selected</i></span>}</strong> {studyTimer.mode === 'stopwatch' && "for"}</header>
                         <h1>{studyTimer.time.string}</h1>
                         { studyTimer.mode === 'pomodoro' &&
                         <div>
@@ -274,9 +254,9 @@ const StudyTimer = (props) => {
                                 : "Stopwatch"}
                             </Button>
                             <Button onClick={() => dispatch({type: 'time', payload: 0 })}>Reset Time</Button>
-                        </Box>
-                        : <Button onClick={stopTime}>Stop Time</Button>
-
+                        </Box>                     
+                        : <Button onClick={stopTime}>Stop Time</Button>                           
+                        
                     }
                 </div>
                 :
