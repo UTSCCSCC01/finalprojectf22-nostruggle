@@ -1,19 +1,14 @@
 
-import { Typography, CardContent, Card, Box, Chip, Item, Button, CardActionArea} from '@mui/material';
+import { Typography, CardContent, Card, Box, Chip, Item, Button} from '@mui/material';
 import { useState } from 'react';
-import viewPost from '../../features/ViewPost/ViewPost';
 const ForumCard = (props) => {
     const title = props.title;
     const content = props.content;
     const tag = props.tag;
     const date = props.date;
     const nLikes = props.nLikes;
-
-
-const viewPost = () => {
-    return <viewPost/>
-}
-
+    const updatedDate = date.split("T")[0];
+   
 
 /*
 <Box sx = {{ display: 'grid', gridAutoColumns: '1fr', gap: 1}}
@@ -23,10 +18,8 @@ const viewPost = () => {
                     </Box>
 */
     return (
-        <Card>
-
-            <CardContent sx={{mb: 2}}>
-               
+        <Card sx={{mb: 3}}>
+            <CardContent>
                 <Typography variant="h5" sx={{fontWeight: "bold"}}>
                     {title}
                 </Typography>
@@ -35,15 +28,14 @@ const viewPost = () => {
                 </Typography>
                 
                 <Typography>
-                    {date}       
+                    {updatedDate}       
                 </Typography>  
                 <Typography>     
                     Likes: {nLikes}
                 </Typography>
             
                 <Chip label={tag}></Chip>
-                <Button variant="outlined" onClick={viewPost}>View Post</Button>
-                
+                <Button variant="outlined" >View Post</Button>
             </CardContent>
 
 

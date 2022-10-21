@@ -50,7 +50,7 @@ function Forum(){
     return(
         <Container maxWidth='md'>
             <h2>NoStruggle Browsing</h2>
-            <ForumCard title="This is a title" content="This is content" tag="Computer Science"  date="Oct 19, 2022" nLikes="0" />
+            
             {data.map((item) => <ForumCard onClick={goToPost} title={item.title} content={item.content} tag={item.tags} date={item.created_At} nLikes={item.nLikes} />)}
         </Container>
         
