@@ -2,16 +2,17 @@ import { Button, Container, Input, Card, Box, Autocomplete, TextField, FormContr
 import { useState, useEffect } from 'react'
 import { timeFormat } from './constants'
 
-const Timer = ({ dispatch, setTime }) => {
+const Timer = ({ setTime }) => {
 
     const timeRegex = new RegExp(timeFormat)
     const [ timeInputProps, setTimeInputProps ] = useState({})
+
     const timeValidation = (e) => {
         const time = e.target.value
         if (timeRegex.test(time) || !time) {
-            setTimeInputProps({...timeInputProps, inputTime: time, value: time, error: false, helperText: null})
+            setTimeInputProps({...timeInputProps, inputtime: time, value: time, error: false, helperText: null})
         } else {
-            setTimeInputProps({...timeInputProps, inputTime: time, value: time, error: true, helperText: "Invalid time format"})
+            setTimeInputProps({...timeInputProps, inputtime: time, value: time, error: true, helperText: "Invalid time format"})
         }
         return timeRegex.test(time)
     }
@@ -29,8 +30,8 @@ const Timer = ({ dispatch, setTime }) => {
     }
 
     const onStart = () => {
-        if (!timeInputProps.error && timeInputProps.inputTime.trim()){
-            setTime(convertTimeToSeconds(timeInputProps.inputTime))
+        if (!timeInputProps.error && timeInputProps.inputtime.trim()){
+            setTime(convertTimeToSeconds(timeInputProps.inputtime))
         }
     }
 

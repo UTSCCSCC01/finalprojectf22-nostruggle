@@ -46,10 +46,10 @@ const StudyTimer = (props) => {
                         seconds: state.time.seconds + 1,
                         string: convertSecondsToString(state.time.seconds + 1)
                     },
-                    todo: {
+                    todo: state.todo ? {
                         ...state.todo,
                         timespent: state.todo.timespent + 1
-                    }
+                    } : null
                 }
             case 'countdown':
                 return {
@@ -59,10 +59,10 @@ const StudyTimer = (props) => {
                         seconds: state.time.seconds - 1,
                         string: convertSecondsToString(state.time.seconds - 1)
                     },
-                    todo: {
+                    todo: state.todo ? {
                         ...state.todo,
                         timespent: state.todo.timespent + 1
-                    }
+                    } : null
                 }
             case 'timespent':
                 return {
@@ -183,7 +183,9 @@ const StudyTimer = (props) => {
         dispatch({
             type: 'stop'
         })
-        saveTime()
+        if (studyTimer.todo){
+            saveTime()           
+        }
     }
 
     useEffect(() => {
@@ -242,7 +244,7 @@ const StudyTimer = (props) => {
                     </div>
                     <div>
                         { studyTimer.mode === 'stopwatch' && <Stopwatch/> }
-                        { studyTimer.mode === 'timer' && <Timer dispatch={dispatch} setTime={timerSetTime}/> }
+                        { studyTimer.mode === 'timer' && <Timer setTime={timerSetTime}/> }
                         
                     </div>
                     { ! studyTimer.running ?
