@@ -9,7 +9,7 @@ The updated numbers now correspond with the ticket numbers on Trello and branch 
 
 4. As an unregistered user(Sarah/Mark), I want to register a new account through username and password so that I can join the website (3 story points).
 
-5. As a registered use(Sarah/Mark), I want to view my profile so that I can edit my account details (3 story points).
+5. As a registered user(Sarah/Mark), I want to view my profile so that I can edit my account details (3 story points).
 
 ### Dashboard
 6. As a user(Sarah/Mark), I want to view a dashboard with a navigation bar and toggles that open tools once I login so that I can easily access the website’s features (5 story points).
