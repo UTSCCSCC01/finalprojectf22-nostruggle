@@ -1,5 +1,6 @@
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
+
 import Profile from './pages/Profile';
 import StartPage from './pages/StartPage';
 import NoPage from './pages/NoPage';
