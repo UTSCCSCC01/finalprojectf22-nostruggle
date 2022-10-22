@@ -5,11 +5,11 @@ The updated numbers now correspond with the ticket numbers on Trello and branch 
 	
 >	34. As a user(Sarah/Mark), I want the browser to remember my current session so that I can easily sign in to my account whenever I come back to the website (2 story points).
 	
-3. As a user(Sarah/Mark), I want to log out so that I can prevent others around me from accessing my account when I’m absent (1 story point).
+2. As a user(Sarah/Mark), I want to log out so that I can prevent others around me from accessing my account when I’m absent (1 story point).
 
-4. As an unregistered user(Sarah/Mark), I want to register a new account through username and password so that I can join the website (3 story points).
+3. As an unregistered user(Sarah/Mark), I want to register a new account through username and password so that I can join the website (3 story points).
 
-5. As a registered user(Sarah/Mark), I want to view my profile so that I can edit my account details (3 story points).
+4. As a registered user(Sarah/Mark), I want to view my profile so that I can edit my account details (3 story points).
 
 ### Dashboard
 6. As a user(Sarah/Mark), I want to view a dashboard with a navigation bar and toggles that open tools once I login so that I can easily access the website’s features (5 story points).
