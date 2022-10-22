@@ -2,6 +2,7 @@
 - Tara Jorjani
 - Christine Zhao
 - Madison Majarais
+- Catherine Sun
 - Jiakai Sun (Zane)
 
 ## Incomplete Tasks (as of Oct 07)
