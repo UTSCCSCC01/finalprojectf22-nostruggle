@@ -755,6 +755,35 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "post"
+        ],
+        "summary": "Get posts",
+        "description": "Get posts from database",
+        "operationId": "getPost",
+        "parameters": [],
+        "responses": {
+          "409": {
+            "description": "Error getting data from database"
+          },
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },
@@ -884,8 +913,8 @@
             "example": "Catherine"
           },
           "tags": {
-            "type": "array",
-            "items": {}
+            "type": "String",
+            "example": "Computer Science"
           },
           "created_At": {
             "type": "string",
