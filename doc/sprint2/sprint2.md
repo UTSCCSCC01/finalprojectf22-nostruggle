@@ -12,8 +12,7 @@
 - Added new website layout user stories and assigned points to them
 - Created Trello accounts and uploaded the stories and tasks to the workspace
 
-# **Tasks breakdown:**
-**User stories to be completed sprint 2**
+# **User stories to be completed sprint 2**
 
 ### User Story 13: As a student learning math (Mark), I want to access the derivative calculator so that I can verify homework answers for calculus I - Assigned to Tara, Catherine
 #### Task Breakdown:
