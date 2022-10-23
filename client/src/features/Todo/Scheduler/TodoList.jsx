@@ -34,13 +34,17 @@ const TodoList = ({ tasks, scheduleRef, schedule, toggleCompletion, deleteTask }
 
     return (
         <div className='TodoList'  ref={scheduleRef}>
-            <div>
-                {
-                    optionsFilter.map((option) => <Chip  color={option.on ? "primary": "default" } clickable onClick={() => setOptionsFilter(optionsFilter.map(o => o === option ? { ...o, on: !option.on } : o ))} label={option.title}/>)
-                }
-                {
-                    optionsSorting.map((option) => <Chip  color={option.on ? "primary": "default" } clickable onClick={() => setOptionsSorting(optionsSorting.map(o => ({ ...o, on: o === option ? !option.on : false })))} label={option.title}/>)
-                }
+            <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+                <div>
+                    {
+                        optionsFilter.map((option) => <Chip  color={option.on ? "primary": "default" } clickable onClick={() => setOptionsFilter(optionsFilter.map(o => o === option ? { ...o, on: !option.on } : o ))} label={option.title}/>)
+                    }
+                </div>
+                <div>
+                    {
+                        optionsSorting.map((option) => <Chip  color={option.on ? "primary": "default" } clickable onClick={() => setOptionsSorting(optionsSorting.map(o => ({ ...o, on: o === option ? !option.on : false })))} label={option.title}/>)
+                    }
+                </div>
             </div>
             { !schedule.isLoading || schedule.userTasks.length > 0 ?
                 <div>
