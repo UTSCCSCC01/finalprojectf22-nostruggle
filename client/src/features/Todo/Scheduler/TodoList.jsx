@@ -5,17 +5,6 @@ import { dateFormat, taskSorting, taskFilter, taskDefaultOptions } from './const
 
 const TodoList = ({ tasks, scheduleRef, schedule, toggleCompletion, deleteTask }) => {
 
-   /* const filtersReducer = (state, action) => {
-        const newState = state;
-        switch(action.type){
-            case 'TOGGLE':
-                newState[action.payload].on = !newState[action.payload].on;
-                return newState;
-            case 'CLEAR':
-                filters.forEach((filter) => )
-        }
-    }*/
-    const [ incompleteOnly, toggleIncompleteOnly ] = useState(true)
     const [ optionsFilter, setOptionsFilter ] = useState(taskFilter.map(option => taskDefaultOptions.includes(option.title) ? {...option, on: true } : option))
     const [ optionsSorting, setOptionsSorting ] = useState(taskSorting.map(option => taskDefaultOptions.includes(option.title) ? {...option, on: true } : option))
 
@@ -49,7 +38,6 @@ const TodoList = ({ tasks, scheduleRef, schedule, toggleCompletion, deleteTask }
             { !schedule.isLoading || schedule.userTasks.length > 0 ?
                 <div>
                 { optionsFilter.concat(optionsSorting).reduce((prev, current) => current.on ? current.fn(prev) : prev , [...schedule.userTasks]).map((task) => (
-                        //return ( !task.done || !incompleteOnly ? 
                         <Paper className='TodoListItem' variant='outlined'>
                             <div className='markComplete'>
                                 <IconButton 
