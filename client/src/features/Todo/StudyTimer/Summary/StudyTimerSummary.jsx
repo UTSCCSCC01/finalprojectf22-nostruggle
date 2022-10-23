@@ -2,7 +2,7 @@ import { Button, Paper, Container, Input, Card, Box, Autocomplete, TextField, Fo
 import { useState, useEffect, useRef } from 'react'
 import ApiCall from '../../../../components/api/ApiCall';
 import { useUserState } from '../../../SignUp/UserContext';
-import { dateFormat } from '../../Scheduler/constants';
+import { dateFormat, formatDateInput } from '../../Scheduler/constants';
 const StudyTimerSummary = () => {
 
     const { userState } = useUserState()
@@ -35,7 +35,7 @@ const StudyTimerSummary = () => {
                 })
                 setTasks(summaryTasksInfo)
                 toggleWaiting(false)
-                setSummaryDate((new Date(Date.now()).toLocaleDateString('en-us', { timeZone: 'UTC', ...dateFormat })))
+                setSummaryDate(new Date(Date.now()).toLocaleDateString('en-us', { timeZone: 'UTC', ...dateFormat }))
             }    
             console.log(res)
             
@@ -44,8 +44,15 @@ const StudyTimerSummary = () => {
     }
 
     const getDailySummarySpecifiedDate = () => {
-        toggleWaiting(true)
+
         const date = new Date(dateInput.current.value).toLocaleDateString('en-us', { timeZone: 'UTC', ...dateFormat })
+        console.log(date)
+        if (date === 'Invalid Date') {
+            alert("Invalid date") 
+            return
+        }
+
+        toggleWaiting(true)
         setSummaryDate(date)
         const specifiedDate = new Date(date)
         ApiCall.get(`${process.env.REACT_APP_SERVER_URL}/tasks/daily/date?userId=${userState.user._id}&date=${specifiedDate.getTime()}`)
@@ -92,7 +99,9 @@ const StudyTimerSummary = () => {
                     <FormControl sx={{ display: 'flex', flexFlow: 'row wrap' }}>
                         <Input inputRef={dateInput} size="small" type="date" variant="outlined" defaultValue={summaryDate}></Input>
                         <Button onClick={getDailySummarySpecifiedDate}>Set Date</Button>
-                        <Button onClick={() => setSummaryDate((new Date(Date.now()).toLocaleDateString('en-us', { timeZone: 'UTC', ...dateFormat })))}>Set As Today</Button>
+                        <Button onClick={() => dateInput.current.value = formatDateInput(new Date(new Date(Date.now()).toLocaleDateString('en-us', { year: 'numeric', month: '2-digit',  day: '2-digit' })))}>
+                            Set As Today
+                        </Button>
                     </FormControl>
                     <h3>Date: {summaryDate}</h3>
                     <h3>Total Timespent: {totalTime}</h3>
