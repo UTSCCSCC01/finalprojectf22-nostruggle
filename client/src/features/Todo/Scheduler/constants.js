@@ -32,7 +32,7 @@ export const taskSorting = [
 
 export const taskFilter = [
     {
-        title: 'Incomplete Only',
+        title: 'Incomplete only',
         fn: (tasks) => {
             const filtered = tasks.filter(task => !task.done)
             console.log(filtered)
@@ -40,7 +40,7 @@ export const taskFilter = [
         }
     },
     {
-        title: 'Has Deadline',
+        title: 'Has deadline',
         fn: (tasks) => {
             const filtered = tasks.filter(task => task.deadline)
             console.log(filtered)
@@ -49,5 +49,5 @@ export const taskFilter = [
     }
 ]
 export const taskDefaultOptions = [
-    'Incomplete Only'
+    'Incomplete only'
 ]
