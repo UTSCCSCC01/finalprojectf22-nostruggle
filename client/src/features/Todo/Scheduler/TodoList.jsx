@@ -1,11 +1,23 @@
-import { Button, Container, Paper, Checkbox, CardHeader, IconButton } from '@mui/material';
+import { Button, Container, Paper, Checkbox, CardHeader, IconButton, Chip } from '@mui/material';
 import { Delete, CheckOutlined, SquareTwoTone } from '@mui/icons-material';
-import { useState } from 'react'
-import { dateFormat } from './constants';
+import { useReducer, useState } from 'react'
+import { dateFormat, taskSorting, taskFilter, taskDefaultOptions } from './constants';
+
 const TodoList = ({ tasks, scheduleRef, schedule, toggleCompletion, deleteTask }) => {
 
+   /* const filtersReducer = (state, action) => {
+        const newState = state;
+        switch(action.type){
+            case 'TOGGLE':
+                newState[action.payload].on = !newState[action.payload].on;
+                return newState;
+            case 'CLEAR':
+                filters.forEach((filter) => )
+        }
+    }*/
     const [ incompleteOnly, toggleIncompleteOnly ] = useState(true)
-
+    const [ optionsFilter, setOptionsFilter ] = useState(taskFilter.map(option => taskDefaultOptions.includes(option.title) ? {...option, on: true } : option))
+    const [ optionsSorting, setOptionsSorting ] = useState(taskSorting.map(option => taskDefaultOptions.includes(option.title) ? {...option, on: true } : option))
 
     const formatTimeSpent = (seconds) => {
         return `${ seconds >= 60*60 
@@ -22,11 +34,18 @@ const TodoList = ({ tasks, scheduleRef, schedule, toggleCompletion, deleteTask }
 
     return (
         <div className='TodoList'  ref={scheduleRef}>
-            <Button onClick={() => toggleIncompleteOnly(!incompleteOnly)}>{ incompleteOnly ? "SHOW COMPLETE TASKS" : "VIEW INCOMPLETE ONLY"}</Button>
+            <div>
+                {
+                    optionsFilter.map((option) => <Chip  color={option.on ? "primary": "default" } clickable onClick={() => setOptionsFilter(optionsFilter.map(o => o === option ? { ...o, on: !option.on } : o ))} label={option.title}/>)
+                }
+                {
+                    optionsSorting.map((option) => <Chip  color={option.on ? "primary": "default" } clickable onClick={() => setOptionsSorting(optionsSorting.map(o => ({ ...o, on: o === option ? !option.on : false })))} label={option.title}/>)
+                }
+            </div>
             { !schedule.isLoading || schedule.userTasks.length > 0 ?
                 <div>
-                { tasks.map((task) => {
-                        return ( !task.done || !incompleteOnly ? 
+                { optionsFilter.concat(optionsSorting).reduce((prev, current) => current.on ? current.fn(prev) : prev , [...schedule.userTasks]).map((task) => (
+                        //return ( !task.done || !incompleteOnly ? 
                         <Paper className='TodoListItem' variant='outlined'>
                             <div className='markComplete'>
                                 <IconButton 
@@ -47,8 +66,8 @@ const TodoList = ({ tasks, scheduleRef, schedule, toggleCompletion, deleteTask }
                                 <IconButton children={<Delete/>} onClick={() => deleteTask(task)}/>
                             </div>
                         </Paper>
-                        : null )
-                    })
+                        //: null )
+                ))
                 }
                 { tasks.filter((task) => !task.done).length === 0 && "You have no incomplete tasks. Congrats!" }
                 </div>
