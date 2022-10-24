@@ -60,6 +60,7 @@ function StartPage() {
             <Button onClick={() => navigate("Tara")}>Derivative Calculator</Button>
             <Button onClick={() => navigate("Christine")}>To-do List</Button>
             <Button onClick={() => navigate("Zane")}>Linear Algebra Calculator</Button>
+            <Button onClick={() => navigate("TimeSummary")}>Study Timer Summary</Button>
           </>
         }
         <Features page={page}/>
