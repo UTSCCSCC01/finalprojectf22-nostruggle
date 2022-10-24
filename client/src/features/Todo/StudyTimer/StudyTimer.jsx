@@ -2,6 +2,7 @@ import { Button, Card, Box, Autocomplete, TextField } from '@mui/material';
 import { useState, useReducer, useEffect, useCallback, useContext } from 'react'
 import Timer from './Timer'
 import Stopwatch from './Stopwatch'
+import PomodoroTimer from './PomodoroTimer'
 import './StudyTimer.css'
 import studyTimerSound from '../../../assets/sfx/christmasbell.wav'
 import { timerBreakInterval } from './constants';
@@ -26,6 +27,12 @@ const StudyTimer = (props) => {
             seconds: 0,
             string: '00:00',
             newSavedSeconds: 0
+        },
+        pomodoro: {
+            studySeconds: 10,
+            breakSeconds: 5,
+            interval: 'study',
+            seconds: 10
         },
         running: false,
         totalStopwatchTime: 0,
@@ -118,6 +125,46 @@ const StudyTimer = (props) => {
                         newSavedSeconds: 0
                     }
                 }
+
+            case 'pomodoroStudyInterval':
+                console.log(action.payload)
+                return {
+                    ...state,
+                    pomodoro: {
+                        ...state.pomodoro,
+                        studySeconds: action.payload,
+                        seconds: state.running ? state.pomodoro.seconds : action.payload,
+                        string: state.running ? state.pomodoro.string : convertSecondsToString(action.payload),
+
+                    }
+                }
+            case 'pomodoroMode':
+                return {
+                    ...state,
+                    pomodoro: {
+                        ...state.pomodoro,
+                        interval: action.payload
+                    }
+                }
+            case 'pomodoroCountdown':
+                return {
+                    ...state,
+                    pomodoro: {
+                        ...state.pomodoro,
+                        seconds: state.pomodoro.seconds - 1,
+                        string: convertSecondsToString(state.pomodoro.seconds - 1),
+                    }
+                }
+            case 'pomodoroTime':
+                return {
+                    ...state,
+                    pomodoro: {
+                        ...state.pomodoro,
+                        seconds: action.payload,
+                        string: convertSecondsToString(action.payload),
+
+                    }
+                }
         }
     }
 
@@ -160,6 +207,35 @@ const StudyTimer = (props) => {
                         type: 'countdown',
                     })
                 }, 1000))
+                dispatch({
+                    type: 'start',
+                })        
+            }
+        }
+    }
+
+    const startPomodoro = () => {
+        if (studyTimer.mode !== 'pomodoro'){
+            dispatch({
+                type: 'mode',
+                payload: 'pomodoro'
+            })
+            timerSetTime(0)
+        } else {
+            if (studyTimer.pomodoro.seconds > 0){
+                console.log("Starting time")
+                setTimerId(setInterval(() => {
+                    dispatch({
+                        type: 'countup',
+                    })
+                    dispatch({
+                        type: 'pomodoroCountdown',
+                    })
+                }, 1000))
+                dispatch({
+                    type: 'mode',
+                    payload: 'pomodoro'
+                })
                 dispatch({
                     type: 'start',
                 })        
@@ -221,15 +297,26 @@ const StudyTimer = (props) => {
         }
     }
 
+    const resetTime = () => {
+        dispatch({type: 'time', payload: 0 })
+        dispatch({type: 'pomodoroTime', payload: 0 })
+    }
+
     useEffect(() => {
         setSound(new Sound(studyTimerSound))
     }, [])
 
     useEffect(() => {
         if (studyTimer.running){
-            if (studyTimer.time.seconds <= 0 && studyTimer.mode !== 'stopwatch'){
+            if (studyTimer.time.seconds <= 0 && studyTimer.mode === 'timer') {
                 stopTime()
                 sound.play();
+                saveTime()
+                toggleOpen(true)
+            }  else if (studyTimer.mode === 'pomodoro' && studyTimer.pomodoro.seconds <= 0){
+                sound.play();
+                dispatch({ type: 'pomodoroMode', payload: studyTimer.pomodoro.interval === 'break' ? 'study' : 'break'})
+                dispatch({ type: 'pomodoroTime', payload: studyTimer.pomodoro.interval === 'break' ? studyTimer.pomodoro.breakSeconds : studyTimer.pomodoro.studySeconds})
                 toggleOpen(true)
             } else if (!isSavingTime && studyTimer.time.seconds % 5 === 1 && studyTimer.todo){ // limit the number of requests
                 saveTime()
@@ -246,39 +333,28 @@ const StudyTimer = (props) => {
         <Card raised={true} className='StudyTimer'>
             <Button sx={{ width: '100%' }} onClick={() => toggleOpen(!open)}>Toggle Timer</Button>
             { open ? 
-                <div style={{ padding: '0.5rem'}} >
+                <div >
                     <Button >Edit To-do List</Button>
                     <Button onClick={() => toggleSelectTask(!selectTask)}>Select Task</Button>
                     <Button onClick={() => dispatch({ type: 'todo', payload: null })}>Clear Task</Button>
-                    <div>
-                        <header>Mode: {studyTimer.mode}</header>
+                    <TimerSelectTask 
+                        open={selectTask} 
+                        setOpen={toggleSelectTask} 
+                        onSelect={(task) => { 
+                            dispatch({ type: 'todo', payload: task })
+                            toggleSelectTask(false)                            
+                        }}
+                    />
+                    <header>Mode: {studyTimer.mode}</header>
+                    <div style={{ padding: '0.5rem', fontWeight: 700, textAlign: 'center'}}> 
                         <header>{ studyTimer.mode === 'stopwatch' ? "You haven't struggled on:" : "Currently not struggling with: "}</header>
-                        <TimerSelectTask 
-                            open={selectTask} 
-                            setOpen={toggleSelectTask} 
-                            onSelect={(task) => { 
-                                dispatch({ type: 'todo', payload: task})
-                                toggleSelectTask(false)                            
-                            }}
-                        />
-                        <header><strong>{studyTimer.todo ? studyTimer.todo.title : <span><i>No task selected</i></span>}</strong> {studyTimer.mode === 'stopwatch' && "for"}</header>
-                        <h1>{studyTimer.time.string}</h1>
-                        { studyTimer.mode === 'pomodoro' &&
-                        <div>
-                            <div>Countdown until break</div>
-                            <div>
-                                <div>Set Time: </div>
-                                <Autocomplete options={timerBreakInterval} 
-                                    renderInput={(params) => <TextField {...params} size='small' label="Interval before break" />}
-                                />
-                            </div>
-                        </div>                        
-                        }
+                        <div className='StudyTimerTaskTitle' style={{ fontSize: '1.5rem'}}><strong>{studyTimer.todo ? studyTimer.todo.title : <span><i>No task selected</i></span>}</strong> {studyTimer.mode === 'stopwatch' && "for"}</div>
+                        <div className='StudyTimerTaskTime' style={{ fontSize: '2rem'}}>{studyTimer.time.string}</div>
                     </div>
                     <div>
                         { studyTimer.mode === 'stopwatch' && <Stopwatch/> }
                         { studyTimer.mode === 'timer' && <Timer setTime={timerSetTime}/> }
-                        
+                        { studyTimer.mode === 'pomodoro' && <PomodoroTimer intervalMode={studyTimer.pomodoro.interval} currentTimeString={studyTimer.pomodoro.string} setIntervalTime={(time) => dispatch({ type: 'pomodoroStudyInterval', payload: time}) }/> }
                     </div>
                     { ! studyTimer.running ?
                         <Box>
@@ -288,7 +364,8 @@ const StudyTimer = (props) => {
                                 ? (studyTimer.time.seconds === 0 ? "Start Stopwatch" : "Resume Stopwatch") 
                                 : "Stopwatch"}
                             </Button>
-                            <Button onClick={() => dispatch({type: 'time', payload: 0 })}>Reset Time</Button>
+                            <Button onClick={startPomodoro}>Pomodoro</Button>
+                            <Button onClick={resetTime}>Reset Time</Button>
                         </Box>                     
                         : <Button onClick={stopTime}>Stop Time</Button>                           
                         

@@ -1,4 +1,5 @@
 export const timerBreakInterval = [
+    '0:10',
     '05:00',
     '10:00',
     '15:00',
