@@ -2,33 +2,82 @@ openapi: 3.0.3
 info:
   title: NoStruggle - OpenAPI 3.0
   description: |-
-   NoStruggle - Helping you along your computer science journey
+    This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about
+    Swagger at [https://swagger.io](https://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!
+    You can now help us improve the API whether it's by making changes to the definition itself or to the code.
+    That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
+
+    _If you're looking for the Swagger 2.0/OAS 2.0 version of Petstore, then click [here](https://editor.swagger.io/?url=https://petstore.swagger.io/v2/swagger.yaml). Alternatively, you can load via the `Edit > Load Petstore OAS 2.0` menu option!_
     
     Some useful links:
-    - [The NoStruggle repository](https://github.com/UTSCCSCC01/finalprojectf22-nostruggle)
-    - [The source AP definition for NoStruggle (coming-soon)](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
-  termsOfService: coming-soon.com
+    - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
+    - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+  termsOfService: coming soon
   contact:
-    email: coming-soon@gmail.com
+    email: coming soon
   license:
     name: n/a
-    url: coming-soon.com
+    url: coming soon
   version: 1.0.0
 externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-  - url: https://localhost:2800/api/v1
+  - url: https://localhost:5000/api/v1
 tags:
   - name: tasks
     description: Add tasks to your todolist
     externalDocs:
       description: Find out more
       url: http://swagger.io
+  - name: store
+    description: Access to Petstore orders
+    externalDocs:
+      description: Find out more about our store
+      url: http://swagger.io
   - name: user
     description: Operations about user
 paths:
   /tasks:
+    put:
+      tags:
+        - tasks
+      summary: Update an existing task
+      description: Update an existing task in a schedule
+      operationId: updatePet
+      requestBody:
+        description: Update an existing task in a schedule
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Task'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Task not found
+        '405':
+          description: Validation exception
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
     post:
       tags:
         - tasks
@@ -77,9 +126,10 @@ paths:
           required: false
           explode: true
           schema:
-            type: object
-            default: {}
-            example: { userId: '10', done: true }
+            type: string
+            default: {
+              
+            }
       responses:
         '200':
           description: successful operation
@@ -100,62 +150,17 @@ paths:
         - petstore_auth:
             - write:pets
             - read:pets
-    patch:
-      tags:
-        - tasks
-      summary: Update an existing task
-      description: Update an existing task in a schedule
-      operationId: updatePet
-      requestBody:
-        description: Update an existing task in a schedule
-        content:
-          application/json:
-            schema:
-              type: object
-              example: { filters: { userId: '10', title: "Read chapter 1 of textbook"}, update: { done: true, timespent: 1700 }}
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Task'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Task'
-        required: true
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              example:
-                id: '1032432'
-                title: Read chapter 1 of textbook
-                deadline: '2022-09-05T00:00:00.000+00:00'
-                timespent: 1700
-                userId: '10'
-                done: true
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Task'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Task not found
-        '405':
-          description: Validation exception
-      security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
-  /tasks/daily:
+  /tasks/{userId}:
     get:
       tags:
         - tasks
-      summary: Get user's daily task summary for the current date
+      summary: Finds tasks by user id
       description: pending desc.
       operationId: findTasksByUserId
       parameters:
-        - name: userId
+        - userId: The userId the tasks belong to
           in: query
-          description: User id to filter by
+          description: Tags to filter by
           required: true
           explode: true
           schema:
@@ -168,97 +173,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TaskTime'          
+                  $ref: '#/components/schemas/Task'          
             application/xml:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TaskTime'
-        '400':
-          description: Invalid userId
-      security:
-        - petstore_auth:
-            - write:pets
-            - read:pets
-    post:
-      tags:
-        - tasks
-      summary: Update a task's tracking time
-      operationId: addTaskTime
-      parameters:
-        - name: userId
-          in: query
-          description: User id belonging to the task
-          required: true
-          explode: true
-          schema:
-            type: string
-        - name: taskId
-          in: query
-          description: Task id to update
-          required: true
-          explode: true
-          schema:
-            type: number
-        - name: timespent
-          in: query
-          description: Amount of time in seconds logged
-          required: true
-          explode: true
-          schema:
-          type: number
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Task'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Task'
-        '405':
-          description: Invalid input
-      security:
-        - petstore_auth:
-            - write:pets
-            - read:pets    
-  /tasks/daily/date:
-    get:
-      tags:
-        - tasks
-      summary: Get user's daily task summary for a specified date
-      description: pending desc.
-      operationId: findTasksByUserId
-      parameters:
-        - name: userId
-          in: query
-          description: User id to filter by
-          required: true
-          explode: true
-          schema:
-            type: string
-        - name: date
-          in: query
-          description: Specified date in milliseconds since Jan 1 1970
-          required: true
-          explode: true
-          schema:
-            type: number
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TaskTime'          
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TaskTime'
+                  $ref: '#/components/schemas/Task'
         '400':
           description: Invalid userId
       security:
@@ -416,7 +336,7 @@ paths:
           schema:
             type: string
       requestBody:
-        description: Update an existent user
+        description: Update an existent user in the store
         content:
           application/json:
             schema:
@@ -448,57 +368,6 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
-  /post:
-    post:
-      tags:
-        - post
-      summary: Create a post
-      description: This can only be done 
-      operationId: createPost
-      requestBody:
-        description: This can only be done by a logged in user on a page for making new posts
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Post'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Post'
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/Post'
-      responses:
-        default:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Post'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Post'
-        '409':
-          description: Title and/or content not filled
-    get:
-      tags:
-        - post
-      summary: Get posts
-      description: Get posts from database
-      operationId: getPost
-      parameters: []
-      responses:
-        default:
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Post'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Post'
-        '409':
-          description: Error getting data from database
-      
 components:
   schemas:
     Task:
@@ -508,15 +377,14 @@ components:
         - userId
       properties:
         id:
-          type: string
+          type: integer
           format: int64
-          example: '10'
+          example: 10
         title:
           type: string
           example: Read chapter 1 of textbook
         deadline:
-          type: string
-          description: String representing the date of the task's deadline
+          type: date
           example: 2022-09-05T00:00:00.000+00:00
         timespent:
           type: number
@@ -526,36 +394,6 @@ components:
           type: string
         done:
           type: boolean
-      xml:
-        name: task
-    TaskTime:
-      type: object
-      required:
-        - taskId
-        - userId
-        - date
-        - timespent
-      properties:
-        id:
-          type: string
-          format: int64
-          example: '10'
-        taskId:
-          type: string
-          description: The task's _id
-          example: '111111'
-        userId:
-          type: string
-          description: The user's _id
-          example: '333333'
-        timespent:
-          type: number
-          description: The amount of time user has tracked the task in seconds using the study timer during specified date
-          example: 1500
-        date:
-          type: string
-          description: The date of which the task was tracked 
-          example: 'October 2 2022'
       xml:
         name: task
     User:
@@ -573,37 +411,6 @@ components:
           example: catherine
         password:
           type: string
-      xml:
-        name: user
-    Post:
-      type: object
-      required:
-        - title
-        - content
-        - created_by
-        - tags
-        - created_At
-        - nLikes
-      properties:
-        title:
-          type: string
-          example: How to multiply?
-        content:
-          type: string
-          example: What are fast ways to multiply?
-        created_by:
-          type: string
-          example: Catherine
-        tags:
-          type: String
-          example: "Computer Science"
-        created_At:
-          type: string
-          example: "07_10_2022"
-        nLikes:
-          type: number
-          example: 0
-        
       xml:
         name: user
     ApiResponse:

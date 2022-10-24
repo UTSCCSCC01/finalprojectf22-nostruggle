@@ -233,18 +233,18 @@
         ]
       }
     },
-    "/tasks/{userId}": {
+    "/tasks/daily": {
       "get": {
         "tags": [
           "tasks"
         ],
-        "summary": "Finds tasks by user id",
+        "summary": "Get user's daily task summary for the current date",
         "description": "pending desc.",
         "operationId": "findTasksByUserId",
         "parameters": [
           {
             "name": "userId",
-            "in": "path",
+            "in": "query",
             "description": "User id to filter by",
             "required": true,
             "explode": true,
@@ -261,7 +261,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Task"
+                    "$ref": "#/components/schemas/TaskTime"
                   }
                 }
               },
@@ -269,7 +269,139 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Task"
+                    "$ref": "#/components/schemas/TaskTime"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid userId"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "tasks"
+        ],
+        "summary": "Update a task's tracking time",
+        "operationId": "addTaskTime",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "User id belonging to the task",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "taskId",
+            "in": "query",
+            "description": "Task id to update",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "timespent",
+            "in": "query",
+            "description": "Amount of time in seconds logged",
+            "required": true,
+            "explode": true,
+            "schema": null,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/tasks/daily/date": {
+      "get": {
+        "tags": [
+          "tasks"
+        ],
+        "summary": "Get user's daily task summary for a specified date",
+        "description": "pending desc.",
+        "operationId": "findTasksByUserId",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "User id to filter by",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "description": "Specified date in milliseconds since Jan 1 1970",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskTime"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskTime"
                   }
                 }
               }
@@ -582,7 +714,7 @@
         ],
         "summary": "Create a post",
         "description": "This can only be done",
-        "operationId": "createUser",
+        "operationId": "createPost",
         "requestBody": {
           "description": "This can only be done by a logged in user on a page for making new posts",
           "content": {
@@ -606,6 +738,35 @@
         "responses": {
           "409": {
             "description": "Title and/or content not filled"
+          },
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "post"
+        ],
+        "summary": "Get posts",
+        "description": "Get posts from database",
+        "operationId": "getPost",
+        "parameters": [],
+        "responses": {
+          "409": {
+            "description": "Error getting data from database"
           },
           "default": {
             "description": "successful operation",
@@ -665,6 +826,45 @@
           "name": "task"
         }
       },
+      "TaskTime": {
+        "type": "object",
+        "required": [
+          "taskId",
+          "userId",
+          "date",
+          "timespent"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "int64",
+            "example": "10"
+          },
+          "taskId": {
+            "type": "string",
+            "description": "The task's _id",
+            "example": "111111"
+          },
+          "userId": {
+            "type": "string",
+            "description": "The user's _id",
+            "example": "333333"
+          },
+          "timespent": {
+            "type": "number",
+            "description": "The amount of time user has tracked the task in seconds using the study timer during specified date",
+            "example": 1500
+          },
+          "date": {
+            "type": "string",
+            "description": "The date of which the task was tracked",
+            "example": "October 2 2022"
+          }
+        },
+        "xml": {
+          "name": "task"
+        }
+      },
       "User": {
         "type": "object",
         "required": [
@@ -713,7 +913,8 @@
             "example": "Catherine"
           },
           "tags": {
-            "type": "array"
+            "type": "String",
+            "example": "Computer Science"
           },
           "created_At": {
             "type": "string",

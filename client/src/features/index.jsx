@@ -3,8 +3,10 @@ import SignUp from './SignUp/SignUp'
 import Scheduler from './Todo/Scheduler'
 import LinearAlgebraCalculator from './LinearAlgebraCalculator/LinearAlgebraCalculator';
 import StudyTimer from './Todo/StudyTimer/StudyTimer';
+import Calculator from './Calculator/Calculator';
 import StudyTimerSummary from './Todo/StudyTimer/Summary/StudyTimerSummary';
 import Forum from './Forum/Forum';
+
 const index = (props) => {
 
     const getPage = () =>{
@@ -16,7 +18,7 @@ const index = (props) => {
             case "Madison" :
                 return <CreatePost />
             case "Tara" :
-                return "derivativeCalculator.js in the terminal"                    
+                return <Calculator />                    
             case "Christine" :
                 return <Scheduler/>
             case "Zane" :
@@ -28,7 +30,7 @@ const index = (props) => {
         }
     }
   return (
-        <div>
+        <div style={{ padding: '0px 50px 200px 50px' }}>
             { getPage() }
             <StudyTimer/>
         </div>
