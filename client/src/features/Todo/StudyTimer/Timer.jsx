@@ -1,6 +1,7 @@
 import { Button, Container, Input, Card, Box, Autocomplete, TextField, FormControl } from '@mui/material';
 import { useState, useEffect } from 'react'
 import { timeFormat } from './constants'
+import { convertTimeStringToSeconds } from '../../utils/timeUtils';
 
 const Timer = ({ setTime }) => {
 
@@ -17,20 +18,10 @@ const Timer = ({ setTime }) => {
         return timeRegex.test(time)
     }
 
-    const convertTimeToSeconds = (time) => {
-        const args = time.split(":").reverse()
-        const seconds = args.reduce(
-            (total, current, index) => {
-                return total + (parseInt(current) * (Math.pow(60, index)))
-            }, 
-            0
-        )
-        return seconds
-    }
-
     const onSetTime = () => {
+        if (!timeInputProps.inputtime) return
         if (!timeInputProps.error && timeInputProps.inputtime.trim()){
-            setTime(convertTimeToSeconds(timeInputProps.inputtime))
+            setTime(convertTimeStringToSeconds(timeInputProps.inputtime))
         }
     }
 

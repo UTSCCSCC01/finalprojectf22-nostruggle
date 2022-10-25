@@ -1,14 +1,17 @@
-import { Button, Card, Box, Autocomplete, TextField } from '@mui/material';
+import { Button, Card, Box, Autocomplete, TextField, IconButton, breadcrumbsClasses, accordionActionsClasses } from '@mui/material';
+import { PlayCircleOutline, PauseCircleOutline, SwitchRight } from '@mui/icons-material'
 import { useState, useReducer, useEffect, useCallback, useContext } from 'react'
 import Timer from './Timer'
 import Stopwatch from './Stopwatch'
+import PomodoroTimer from './PomodoroTimer'
 import './StudyTimer.css'
 import studyTimerSound from '../../../assets/sfx/christmasbell.wav'
-import { timerBreakInterval } from './constants';
+import { timerBreakInterval, defaultTimerBreakInterval, defaultTimerBreakTime } from './constants';
 import Sound from '../../Sound'
 import ApiCall from '../../../components/api/ApiCall';
 import TimerSelectTask from './TimerSelectTask';
 import { useUserState } from '../../SignUp/UserContext';
+import { convertTimeStringToSeconds } from '../../utils/timeUtils';
 const StudyTimer = (props) => {
 
     const [ timerId, setTimerId ] = useState(0)
@@ -18,7 +21,13 @@ const StudyTimer = (props) => {
     const [ isSavingTime, setIsSavingTime ] = useState(false)
     const [ selectTask, toggleSelectTask ] = useState(false)
     const { userState } = useUserState()
-    
+
+    const convertSecondsToString = (seconds) => {
+        let date = new Date(seconds * 1000)
+        let time = date.toISOString()
+        return seconds / 60 / 60 >= 1 ? time.slice(11, 19) : time.slice(14, 19)
+    }
+
     const initialState = {
         todo: null,
         mode: 'none',
@@ -27,16 +36,17 @@ const StudyTimer = (props) => {
             string: '00:00',
             newSavedSeconds: 0
         },
+        pomodoro: {
+            studySeconds: convertTimeStringToSeconds(defaultTimerBreakInterval),
+            breakSeconds: convertTimeStringToSeconds(defaultTimerBreakTime),
+            interval: 'study',
+            seconds: convertTimeStringToSeconds(defaultTimerBreakInterval),
+            string: defaultTimerBreakInterval
+        },
         running: false,
         totalStopwatchTime: 0,
         totalTimerTime: 0,
         totalCount: 0,
-    }
-
-    const convertSecondsToString = (seconds) => {
-        let date = new Date(seconds * 1000)
-        let time = date.toISOString()
-        return seconds / 60 / 60 >= 1 ? time.slice(11, 19) : time.slice(14, 19)
     }
 
     const reducer = (state, action) => {
@@ -99,7 +109,12 @@ const StudyTimer = (props) => {
             case 'mode':
                 return {
                     ...state,
-                    mode: action.payload
+                    mode: action.payload,
+                    time: action.payload === 'stopwatch' ? {
+                        ...state.time,
+                        seconds: 0,
+                        string: convertSecondsToString(0),
+                    } : state.time
                 }
             case 'todo':
                 return {
@@ -118,52 +133,109 @@ const StudyTimer = (props) => {
                         newSavedSeconds: 0
                     }
                 }
+
+            case 'pomodoroStudyInterval':
+                console.log(action.payload)
+                return {
+                    ...state,
+                    pomodoro: {
+                        ...state.pomodoro,
+                        studySeconds: action.payload,
+                        seconds: state.running ? state.pomodoro.seconds : action.payload,
+                        string: state.running ? state.pomodoro.string : convertSecondsToString(action.payload),
+
+                    }
+                }
+            case 'pomodoroMode':
+                return {
+                    ...state,
+                    pomodoro: {
+                        ...state.pomodoro,
+                        interval: action.payload
+                    }
+                }
+            case 'pomodoroCountdown':
+                return {
+                    ...state,
+                    pomodoro: {
+                        ...state.pomodoro,
+                        seconds: state.pomodoro.seconds - 1,
+                        string: convertSecondsToString(state.pomodoro.seconds - 1),
+                    }
+                }
+            case 'pomodoroTime':
+                return {
+                    ...state,
+                    pomodoro: {
+                        ...state.pomodoro,
+                        seconds: action.payload,
+                        string: convertSecondsToString(action.payload),
+
+                    }
+                }
         }
     }
 
     const [ studyTimer, dispatch ] = useReducer(reducer, initialState)
 
     const startStopwatch = () => {
-        if (studyTimer.mode !== 'stopwatch'){
+        setTimerId(setInterval(() => {
             dispatch({
-                type: 'time',
-                payload: 0
+                type: 'countup',
             })
-            dispatch({
-                type: 'mode',
-                payload: 'stopwatch'
-            })
-        } else {
+        }, 1000))
+        dispatch({
+            type: 'start',
+        })
+    }
+
+    const startTimer = () => {
+
+        if (studyTimer.time.seconds > 0){
+            console.log("Starting time")
             setTimerId(setInterval(() => {
                 dispatch({
-                    type: 'countup',
+                    type: 'countdown',
                 })
             }, 1000))
             dispatch({
                 type: 'start',
-            })
+            })        
         }
+        
     }
 
-    const startTimer = () => {
-        if (studyTimer.mode !== 'timer'){
+    const startPomodoro = () => {
+
+        if (studyTimer.pomodoro.seconds > 0){
+            console.log("Starting time")
+            setTimerId(setInterval(() => {
+                dispatch({
+                    type: 'countup',
+                })
+                dispatch({
+                    type: 'pomodoroCountdown',
+                })
+            }, 1000))
             dispatch({
                 type: 'mode',
-                payload: 'timer'
+                payload: 'pomodoro'
             })
-            timerSetTime(0)
-        } else {
-            if (studyTimer.time.seconds > 0){
-                console.log("Starting time")
-                setTimerId(setInterval(() => {
-                    dispatch({
-                        type: 'countdown',
-                    })
-                }, 1000))
-                dispatch({
-                    type: 'start',
-                })        
-            }
+            dispatch({
+                type: 'start',
+            })        
+        }
+        
+    }
+
+    const startTime = () => {
+        switch(studyTimer.mode){
+            case 'timer': 
+                return startTimer()
+            case 'stopwatch':
+                return startStopwatch()
+            case 'pomodoro':
+                return startPomodoro()
         }
     }
 
@@ -221,15 +293,30 @@ const StudyTimer = (props) => {
         }
     }
 
+    const resetTime = () => {
+        dispatch({type: 'time', payload: 0 })
+        dispatch({type: 'pomodoroTime', payload: studyTimer.pomodoro.studySeconds })
+    }
+
     useEffect(() => {
         setSound(new Sound(studyTimerSound))
     }, [])
 
     useEffect(() => {
+        timerSetTime(0)
+    }, [studyTimer.mode])
+
+    useEffect(() => {
         if (studyTimer.running){
-            if (studyTimer.time.seconds <= 0 && studyTimer.mode !== 'stopwatch'){
+            if (studyTimer.time.seconds <= 0 && studyTimer.mode === 'timer') {
                 stopTime()
                 sound.play();
+                saveTime()
+                toggleOpen(true)
+            }  else if (studyTimer.mode === 'pomodoro' && studyTimer.pomodoro.seconds <= 0){
+                sound.play();
+                dispatch({ type: 'pomodoroTime', payload: studyTimer.pomodoro.interval === 'break' ? studyTimer.pomodoro.studySeconds : studyTimer.pomodoro.breakSeconds})
+                dispatch({ type: 'pomodoroMode', payload: studyTimer.pomodoro.interval === 'break' ? 'study' : 'break'})
                 toggleOpen(true)
             } else if (!isSavingTime && studyTimer.time.seconds % 5 === 1 && studyTimer.todo){ // limit the number of requests
                 saveTime()
@@ -245,58 +332,57 @@ const StudyTimer = (props) => {
     return (
         <Card raised={true} className='StudyTimer'>
             <Button sx={{ width: '100%' }} onClick={() => toggleOpen(!open)}>Toggle Timer</Button>
-            { open ? 
-                <div style={{ padding: '0.5rem'}} >
-                    <Button >Edit To-do List</Button>
-                    <Button onClick={() => toggleSelectTask(!selectTask)}>Select Task</Button>
-                    <Button onClick={() => dispatch({ type: 'todo', payload: null })}>Clear Task</Button>
-                    <div>
-                        <header>Mode: {studyTimer.mode}</header>
-                        <header>{ studyTimer.mode === 'stopwatch' ? "You haven't struggled on:" : "Currently not struggling with: "}</header>
-                        <TimerSelectTask 
-                            open={selectTask} 
-                            setOpen={toggleSelectTask} 
-                            onSelect={(task) => { 
-                                dispatch({ type: 'todo', payload: task})
-                                toggleSelectTask(false)                            
-                            }}
-                        />
-                        <header><strong>{studyTimer.todo ? studyTimer.todo.title : <span><i>No task selected</i></span>}</strong> {studyTimer.mode === 'stopwatch' && "for"}</header>
-                        <h1>{studyTimer.time.string}</h1>
-                        { studyTimer.mode === 'pomodoro' &&
-                        <div>
-                            <div>Countdown until break</div>
-                            <div>
-                                <div>Set Time: </div>
-                                <Autocomplete options={timerBreakInterval} 
-                                    renderInput={(params) => <TextField {...params} size='small' label="Interval before break" />}
-                                />
-                            </div>
-                        </div>                        
+            { open &&
+            <div>
+                <div >
+                        { ! studyTimer.running &&
+                            <>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between'}}>
+                                    <Button variant={studyTimer.mode === 'timer' ? "contained": "outlined"} onClick={() => dispatch({ type: 'mode', payload: 'timer'})}>Timer</Button> 
+                                    <Button variant={studyTimer.mode === 'stopwatch' ? "contained": "outlined"} onClick={() => dispatch({ type: 'mode', payload: 'stopwatch'})}>Stopwatch</Button> 
+                                    <Button variant={studyTimer.mode === 'pomodoro' ? "contained": "outlined"} onClick={() => dispatch({ type: 'mode', payload: 'pomodoro'})}>Pomodoro</Button>
+                                </Box>
+                            </>
                         }
+                    <Button >Edit To-do List</Button>
+
+                    <header>Mode: {studyTimer.mode}</header>
+                    <div style={{ padding: '0.5rem', fontWeight: 700, textAlign: 'center'}}> 
+                        <header>{ studyTimer.mode === 'stopwatch' ? "You haven't struggled on:" : "Currently not struggling with: "}</header>
+                        <div className='StudyTimerTaskTitle' style={{ fontSize: '1.5rem'}}><strong>{studyTimer.todo ? studyTimer.todo.title : <span><i>No task selected</i></span>}</strong> {studyTimer.mode === 'stopwatch' && "for"}</div>
+                        <div className='StudyTimerTaskTime' style={{ fontSize: '2rem'}}>{studyTimer.time.string}</div>
                     </div>
                     <div>
                         { studyTimer.mode === 'stopwatch' && <Stopwatch/> }
                         { studyTimer.mode === 'timer' && <Timer setTime={timerSetTime}/> }
-                        
+                        { studyTimer.mode === 'pomodoro' && <PomodoroTimer isRunning={studyTimer.running} currentTime={studyTimer.time.seconds} intervalMode={studyTimer.pomodoro.interval} currentTimeString={studyTimer.pomodoro.string} setIntervalTime={(time) => dispatch({ type: 'pomodoroStudyInterval', payload: time}) }/> }
                     </div>
-                    { ! studyTimer.running ?
-                        <Box>
-                            <Button onClick={startTimer}>{ studyTimer.time.seconds > 0 && studyTimer.mode === 'timer' ? "Start Timer" : "Timer"}</Button>
-                            <Button onClick={startStopwatch}>
-                                {studyTimer.mode === 'stopwatch' 
-                                ? (studyTimer.time.seconds === 0 ? "Start Stopwatch" : "Resume Stopwatch") 
-                                : "Stopwatch"}
-                            </Button>
-                            <Button onClick={() => dispatch({type: 'time', payload: 0 })}>Reset Time</Button>
-                        </Box>                     
-                        : <Button onClick={stopTime}>Stop Time</Button>                           
-                        
-                    }
+                    <div>
+                        <Button onClick={() => toggleSelectTask(!selectTask)}>Select Task</Button>
+                        <Button onClick={() => dispatch({ type: 'todo', payload: null })}>Clear Task</Button>
+                        <TimerSelectTask 
+                            open={selectTask} 
+                            setOpen={toggleSelectTask} 
+                            onSelect={(task) => { 
+                                dispatch({ type: 'todo', payload: task })
+                                toggleSelectTask(false)                            
+                            }}
+                        />
+                    </div>
                 </div>
-                :
-                    studyTimer.running && <div><b>{studyTimer.time.string}</b></div>
+            </div>                
             }
+            <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+                { 
+                    !studyTimer.running 
+                    ? <IconButton size='small' disabled={studyTimer.mode === 'none' || (studyTimer.time.seconds <= 0 && studyTimer.mode === 'timer')} onClick={startTime} children={<PlayCircleOutline sx={{ fontSize: open ?  '2.5rem' : '1.3rem'}}/>}/>
+                    : 
+                    <IconButton size='small' onClick={stopTime} children={<PauseCircleOutline sx={{ fontSize: open ? '2.5rem' : '1.3rem'}}/>}/>
+                }
+                { !open  ? ( studyTimer.time.seconds && <div><b>{studyTimer.time.string}</b></div>)
+                    : (  !studyTimer.running && <Button onClick={resetTime}>Reset</Button>)
+                }     
+            </div> 
         </Card>
     
     )
