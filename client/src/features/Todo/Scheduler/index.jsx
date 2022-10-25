@@ -6,7 +6,7 @@ import { pageReducer, taskReducer } from './reducers'
 import AddNewTask from './AddNewTask';
 import TodoList from './TodoList'
 import ApiCall from '../../../components/api/ApiCall';
-
+import { useUserState } from '../../SignUp/UserContext';
 const Scheduler = () => {
 
     const initialState = {
@@ -21,7 +21,7 @@ const Scheduler = () => {
     }
 
     const [ schedule, pageDispatch ] = useReducer(pageReducer, initialState)
-    const [ incompleteOnly, toggleIncompleteOnly ] = useState(true)
+    const  { userState } = useUserState()
     const [ addTask, toggleAddTask ] = useState(false)
     const scheduleRef = useRef()
 
@@ -80,18 +80,10 @@ const Scheduler = () => {
     const fetchTasks = async () => {
         pageDispatch({ type: pageActions.LOADING })
         console.log("fetching tasks")
-        await ApiCall.get('/tasks')
+        await ApiCall.get(`/tasks?userId=${userState.user._id}`)
         .then( res => {
             console.log(res.data)
-            let tasks = res.data
-            tasks.sort((task1, task2) => {
-            
-                if (task1.deadline && task2.deadline) {
-                    return Date.parse(task1.deadline) - Date.parse(task2.deadline)
-                } else if (task1.deadline) return -1
-                return 1
-                
-            })
+            const tasks = res.data
             pageDispatch({ type: pageActions.ALL_TASKS, payload: tasks })
         })
         .catch(e => pageDispatch({ type: pageActions.ERROR, payload: { message: "There was a problem fetching your tasks..." }}))
