@@ -18,18 +18,8 @@ const Timer = ({ setTime }) => {
         return timeRegex.test(time)
     }
 
-    const convertTimeToSeconds = (time) => {
-        const args = time.split(":").reverse()
-        const seconds = args.reduce(
-            (total, current, index) => {
-                return total + (parseInt(current) * (Math.pow(60, index)))
-            }, 
-            0
-        )
-        return seconds
-    }
-
     const onSetTime = () => {
+        if (!timeInputProps.inputtime) return
         if (!timeInputProps.error && timeInputProps.inputtime.trim()){
             setTime(convertTimeStringToSeconds(timeInputProps.inputtime))
         }
