@@ -4,14 +4,14 @@ import Features from '../features'
 
 import NavBar from '../components/navigation/NavBar/NavBar';
 
-import { Provider as UserProvider, contextState } from '../features/SignUp/UserContext';
+import { Provider as UserProvider, useUserState } from '../features/SignUp/UserContext';
 
 function StartPage() {
   
   // temporary navigator for setup, will be replaced with actual toggles/navbars
   const [ page, setPage ] = useState("Catherine")
 
-  const [ userState, setUserState ] = useState(contextState)
+  const { userState, setUserState } = useUserState()
   
   useEffect(() => {
     if (!userState.signedIn) {    
@@ -49,8 +49,6 @@ function StartPage() {
 
   return (
     <>
-      <UserProvider value={ { userState, setUserState } }>
-        <>UserId: {userState.user._id} Username: {userState.user.username} Password: {userState.user.password}</>
         { userState.signedIn && <NavBar active='Forum' /> }
         <Button onClick={() => navigate("Catherine")}>Login/Signup</Button>
         { userState.signedIn && 
@@ -64,7 +62,6 @@ function StartPage() {
           </>
         }
         <Features page={page}/>
-      </UserProvider>
     </>
   );
 }
