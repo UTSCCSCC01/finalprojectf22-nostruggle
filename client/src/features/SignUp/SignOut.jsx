@@ -1,6 +1,8 @@
 import { useUserState } from "./UserContext"
 import { useEffect, useState } from "react"
 import NavBar from "../../components/navigation/NavBar/NavBar"
+import { Button } from "@mui/material"
+import { Link } from "react-router-dom"
 const SignOut = () => {
 
     const { userState, setUserState } = useUserState()
@@ -23,7 +25,12 @@ const SignOut = () => {
             SignOut
             { success ?
                 <div>
-                    You have been successfully signed out
+                    <h2>You have been successfully signed out</h2>
+                    <Link style={{ textDecoration: 'none'}} to='/'>
+                        <Button variant='contained'>
+                            Login
+                        </Button>
+                    </Link>
                 </div>
                 : "signing out"
             }
