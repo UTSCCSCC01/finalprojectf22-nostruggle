@@ -45,8 +45,8 @@ input.ExponentBase, span.ExponentBase {
 
 input.ExponentPower, span.ExponentPower {
     position: relative;
-    font-size:20px;
+    font-size: 12px;
     padding: 4px;
-    top: -9px;
+    top: -16px;
     text-align: center;
 }
