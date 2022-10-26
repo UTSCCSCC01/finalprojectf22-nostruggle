@@ -3,10 +3,10 @@ import WrapContentField from './WrapContentField';
 const ExponentField = () => {
 
     return (
-        <div className='CalculatorContentField'>
+        <span className='ExponentField'>
             <WrapContentField className='ExponentBase' />
             <WrapContentField className='ExponentPower' />
-        </div>
+        </span>
     )
 }
 
