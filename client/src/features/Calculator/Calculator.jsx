@@ -11,10 +11,21 @@ const Calculator = () => {
     const [ inputType, setInputType ] = useState(['default']);
 
     const [ entry, setEntry ] = useState('');
+
+    const getFormattedInput = (item) => {
+        console.log(item.classList.value);
+        switch (item.classList.value) {
+            case 'ExponentPower':
+                return item.value.length === 0 ? item.value : '^' + item.value;
+            default:
+                return item.value
+        }
+    }
     
     const getInput = () => {
         const collection = Array.from(document.querySelectorAll('div.CalculatorInputField input'));
-        setEntry(collection.map((item) => item.value));
+        console.log(collection);
+        setEntry( collection.map((item) => getFormattedInput(item)));
     }
 
 
