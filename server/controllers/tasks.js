@@ -47,8 +47,7 @@ const dateFormat = {
 export const getDaily = async (req, res) => {
     try {
         const now = new Date(Date.now()).toLocaleDateString('en-us', dateFormat)
-        const tasks = await TaskTime.find({ ...req.query.userId, date: now })
-        console.log(tasks)
+        const tasks = await TaskTime.find({ userId: req.query.userId, date: now })
         console.log("Finished updating")
         res.status(200).json(tasks);
     } catch (e) {
@@ -83,8 +82,7 @@ export const getDailySpecificDate = async (req, res) => {
     try {
         const now = new Date(Date.now()).toLocaleDateString('en-us', dateFormat)
         console.log(req.query)
-        const tasks = await TaskTime.find({ ...req.query.userId, date: new Date(parseInt(req.query.date)) })
-        console.log(tasks)
+        const tasks = await TaskTime.find({ userId: req.query.userId, date: new Date(parseInt(req.query.date)) })
         console.log("Finished updating")
         res.status(200).json(tasks);
     } catch (e) {
