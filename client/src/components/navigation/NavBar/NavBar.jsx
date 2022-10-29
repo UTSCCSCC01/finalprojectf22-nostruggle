@@ -1,46 +1,71 @@
 import React, { useState } from 'react';
 import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar } from "@mui/material";
+import { useNavigate, useLocation } from 'react-router-dom';
 
-import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import { ChevronLeft, ChevronRight, Home } from '@mui/icons-material';
  
 import ListMenu from "../../lists/ListMenu";
 import ListPlain from '../../lists/ListPlain';
 
 import './NavBar.css'
 
-const NavBar = (props) => {
+import { navBarSignedInPages, navBarSignedOutPages } from '../../../pages/constants';
+import { useUserState } from '../../../features/SignUp/UserContext';
+import ToolBar from '../../../features/ToolBar';
+import { useEffect } from 'react';
+const NavBar = () => {
 
-    const pages = ['Forum', 'Discover'];
+    const { userState } = useUserState();
+    const navigate = useNavigate();
+    const location = useLocation();
     const [ openDrawer, setOpenDrawer ] = useState(false);
     const [ openMenu, setOpenMenu ] = useState(false);
     
     const showPage = (page) => {
+        const buttonProps = {
+            disabled: page.path === location.pathname ,
+            sx : { color: 'white', fontSize: '1.2rem' },
+            onClick: () => navigate(page.path),
+            className: 'NavBarButton'
+        }
         return (
-            <Tooltip title={ 'Open ' + page } key={ page }>
+            <Tooltip title={ 'Open ' + page.title } key={ page.title }>
                 <span>
-                    <Button
-                    disabled={ props.active === page }
-                    sx={{ color: 'white' }}
-                    >{ page }</Button>
+                    {
+                        page.path !== '/home' ?
+                        <Button
+                            {...buttonProps}
+                        >{ page.title }
+                        </Button>
+                        : 
+                        <IconButton {...buttonProps} children={<Home sx={{fontSize: "2rem"}}/>}/>
+
+                    }
                 </span>
             </Tooltip>
         )
     };
-
+    
+    useEffect(() => {
+        if (!userState.signedIn && (!navBarSignedOutPages.map((page) => page.path).includes(location.pathname))){
+            console.log("BAD PAGE")
+            navigate('/login')
+        }
+    }, [location.pathname])
     return (
         <>
-            { openDrawer && 
+            { openDrawer && userState.signedIn &&
             <Drawer variant='persistent' anchor='left' open={ openDrawer } sx={{ width: 240, flexShrink: 0 }}>
                 <div className='DrawerHeader'>
                     <IconButton onClick={() => setOpenDrawer(false) }>
                         { openDrawer === true ? <ChevronLeft /> : <ChevronRight /> }
                     </IconButton>
                 </div>
-                <div className='SideBar'><ListPlain items={[ 'Search?', 'No Struggle Browsing' ]} /></div>
+                <div className='SideBar'><ToolBar/></div>
             </Drawer>
             }
 
-            <AppBar position='static'>
+            <AppBar sx={{ zIndex: 2000}} position='fixed'>
                 <span className={ openDrawer ? 'shift' : null }>
                     <Toolbar>
                         <Box>
@@ -50,7 +75,7 @@ const NavBar = (props) => {
                         </Box>
 
                         <Box sx={{ flexGrow: 1, display: 'flex' }}>
-                        { pages.map((page) => showPage(page)) }
+                        { userState.signedIn ? navBarSignedInPages.map((page) => showPage(page)) : navBarSignedOutPages.map((page) => showPage(page)) }
                         </Box>
 
                         <Box className='icon'>

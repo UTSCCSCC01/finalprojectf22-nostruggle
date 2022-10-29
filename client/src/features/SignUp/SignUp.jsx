@@ -1,5 +1,6 @@
 import { Autocomplete, Button } from '@mui/material';
-import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import ApiCall from '../../components/api/ApiCall.js';
 
 import UsernameField from '../../components/forms/UsernameField';
@@ -8,6 +9,7 @@ import PasswordField from '../../components/forms/PasswordField';
 import { useUserState } from './UserContext';
 
 const SignUp = () => {
+    const navigate = useNavigate()
     const [user, setUser] = useState({ username: '', password: '' });
     const [errMsg, setErrMsg] = useState('');
 
@@ -20,7 +22,14 @@ const SignUp = () => {
         console.log('trying: ' + process.env.REACT_APP_SERVER_URL + '/users/get/' + user.username + '/' + user.password)
 
         await ApiCall.get(`/users/get/${user.username}/${user.password}`)
-        .then(res => res.data.length > 0 ? saveUser(res.data[0]) : console.log("fail login user DNE"))
+        .then(res => {
+            if (res.data.length > 0 ){
+                saveUser(res.data[0])
+                navigate('/home')
+             } else {
+                console.log("fail login user DNE")
+             } 
+        })
         .catch(e => console.log("fail" + e.message))
         setUser({})
     }
@@ -77,6 +86,7 @@ const SignUp = () => {
 
     return (
         <>
+            <CalculatorTest/>
             <p>Your username is { user.username } and password is { user.password }</p>
 
             <Autocomplete

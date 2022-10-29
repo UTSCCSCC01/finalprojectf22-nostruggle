@@ -1,0 +1,8 @@
+.ToolBar > div{
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center !important;
+    justify-content: center;
+    overflow: hidden;
+    width: 70px;
+}

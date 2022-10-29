@@ -1,7 +1,8 @@
 .UserMenu {
     max-width: 400px;
-    position: absolute;
-    right: 0px;
+    position: fixed;
+    right: 5px;
+    top: 60px;
 }
 
 .DrawerHeader {
@@ -11,10 +12,15 @@
 }
 
 .shift {
-    margin-left: 240px;
+    margin-left: 40px;
 }
 
 .SideBar {
     margin-top: 40px;
     visibility: inherit;
+}
+
+.NavBarButton[disabled]{
+    color: white !important;
+    text-shadow: black 2px 2px 3px !important;
 }
