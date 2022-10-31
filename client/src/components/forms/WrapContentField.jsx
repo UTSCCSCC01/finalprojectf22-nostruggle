@@ -1,8 +1,5 @@
-import { useState } from 'react';
 
 const WrapContentField = (props) => {
-
-    const [ entry, setEntry ] = useState('');
 
     function getStringWidth(str, className) {
         var strElement = document.createElement('span');
@@ -18,15 +15,19 @@ const WrapContentField = (props) => {
     }
 
     function resizeInput() {
-        const strlen = getStringWidth(entry, props.className);
-        console.log('got ' + entry.length + ' characters, trying ' + strlen + 'px');
+        const strlen = getStringWidth(props.value, props.type);
+        console.log('got ' + props.value.length + ' characters, trying ' + strlen + 'px');
         return strlen !== 0 ? strlen + 'px' : 1;
     }
 
     return (
-        <input className={ props.className } 
-            style={{ width: resizeInput() }}
-            onChange={ (e) => setEntry(e.target.value) }/>
+        <input
+        className={ props.type }
+        style={{ width: resizeInput() }}
+        value={ props.value }
+        onChange={(e) => props.onChangedInput(e)}
+        onKeyUp={ (e) => props.onBackspace(e) }
+        />
     )
 }
 

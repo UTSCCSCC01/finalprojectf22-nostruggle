@@ -1,14 +1,13 @@
-import ExponentField from '../../components/forms/ExponentField'
 import WrapContentField from '../../components/forms/WrapContentField'
 
 const CalculatorInput = (props) => {
 
     const getInputStyle = () => {
-        switch( props.inputType ) {
+        switch( props.type ) {
             case 'exponent':
-                return <ExponentField />
+                return <WrapContentField value={ props.value } onChangedValue={ props.onChangedValue } onBackspace={ props.onBackspace } />
             default:
-                return <WrapContentField className='DefaultField' />
+                return <WrapContentField value={ props.value } onChangedValue={ props.onChangedValue } onBackspace={ props.onBackspace } />
         }
     }
 
