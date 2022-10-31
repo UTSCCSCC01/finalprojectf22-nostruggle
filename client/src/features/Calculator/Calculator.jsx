@@ -6,8 +6,11 @@ import { ButtonPad } from './ButtonPad';
 import WrapContentField from '../../components/forms/WrapContentField';
 
 const Calculator = () => {
-    
-    const [ inputs, setInputs ] = useState([{ type: 'DefaultField', inputValue: 'a'}]);
+
+    const MIN_SIZE = 18;
+
+    const [ inputs, setInputs ] = useState([]);
+    const [ remainingSize, setRemainingSize ] = useState(384);
     
     const checkBackspace = (e, i) => {
         if (e.key === 'Backspace'){
@@ -21,11 +24,22 @@ const Calculator = () => {
         checkForEmptyInput(i)
     }
 
+    useEffect(() => {
+        let remaining = 376;
+        const collection = document.querySelectorAll('div.CalculatorInputField > input:not(.FixedField)');
+        for (let index = 0; index < collection.length; index++) {
+            console.log("FOUND AN INPUT WITH WIDTH " + collection[index].offsetWidth);
+            remaining -= collection[index].offsetWidth;
+        }
+        setRemainingSize(remaining);
+        console.log("new remaining size is " + remainingSize)
+    }, [inputs]);
+
     const onInput = (event, i) => {
         const inputSelectionIndex = event.target.selectionStart // checks where in the input the user typed at
         console.log(inputSelectionIndex)
         // check if the event is typing text
-        if (event.inputType === 'insertText'){
+        if ( remainingSize > MIN_SIZE && event.inputType === 'insertText'){
             setInputs(inputs.map((input, index) => index != i ? input : {...input, inputValue: input.inputValue.slice(0, inputSelectionIndex - 1) + event.data + input.inputValue.slice(inputSelectionIndex - 1)})) // append event.data (the char inputted) to inputValue
         } else if (event.inputType === 'deleteContentBackward' || event.inputType === 'deleteContentForward'){
             if (inputs[i].inputValue.length > 0){ // if the input has text, remove the char at the selected index
@@ -44,23 +58,26 @@ const Calculator = () => {
         setInputs(inputs.slice(0, 1).concat([{ type: 'orange', inputValue: '', isEmpty: true}]).concat(inputs.slice(1)))
     }
     
-    const ButtonPadJsx = [];
-    
-    for (let i = 0; i < ButtonPad.length; i += 7) {
-        ButtonPadJsx.push(
-            <Grid container
-            justifyContent="center">
-                {ButtonPad.filter((value, index) => index > i && index <= i + 7).map((button) => (
-                    <IconButton 
-                    sx={{ boxShadow: 1, borderRadius: 2 }}
-                    onClick={() => {
-                        setInputs([...inputs, { type: button.action, inputValue: '' }])
-                    }}>
-                        { button.icon }
-                    </IconButton>
-                ))}
-            </Grid>
-        )
+    const addInputField = (type, index) => {
+        switch (type) {
+            case 'exponent':
+                console.log(index);
+                setInputs(inputs.slice(0,index).concat([{ type: 'ExponentPower', inputValue: '' }]).concat(inputs.slice(index)));
+                break;
+            default:
+                setInputs([...inputs, { type: 'DefaultField', inputValue: '' }]);
+                break;
+        }
+    }
+
+    const getEndOfInput = () => {
+        for (let index = 0; index < inputs.length; index++) {
+            const element = inputs[index].inputValue;
+            if (element === '') {
+                return index;
+            }
+        }
+        return inputs.length;
     }
 
     const getFormattedInput = (item) => {
@@ -72,18 +89,42 @@ const Calculator = () => {
         }
     }
 
+    const ButtonPadJsx = [];
+    
+    for (let i = 0; i < ButtonPad.length; i += 7) {
+        ButtonPadJsx.push(
+            <Grid container
+            justifyContent="center">
+                {ButtonPad.filter((value, index) => index > i && index <= i + 7).map((button) => (
+                    <IconButton 
+                    sx={{ boxShadow: 1, borderRadius: 2 }}
+                    onClick={ () => {
+                        if (remainingSize > MIN_SIZE)
+                            addInputField( button.action, getEndOfInput() );
+                    }}>
+                        { button.icon }
+                    </IconButton>
+                ))}
+            </Grid>
+        )
+    }
+
     return (
         <div className='CalculatorBox'>
 
             <div className='CalculatorInputField' >
                 { inputs.map((input, i) => (
-                    <WrapContentField
-                    type={ input.type }
-                    value={ input.inputValue }
-                    onChangedInput={(e) => onInput(e.nativeEvent, i)}
-                    onBackspace={ (e) => checkBackspace(e, i) }
-                    />
+                <WrapContentField
+                type={ input.type }
+                value={ input.inputValue }
+                onChangedInput={ (e) => onInput(e.nativeEvent, i) }
+                onBackspace={ (e) => checkBackspace(e, i) }
+                />
                 ))}
+                <input 
+                className='FixedField'
+                style={{ width: remainingSize }}
+                />
             </div>
 
             <Grid container>

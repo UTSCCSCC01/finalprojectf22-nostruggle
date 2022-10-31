@@ -21,7 +21,7 @@ input {
     border: none;
 }
 */
-input.DefaultField, span.DefaultField {
+input.DefaultField, span.DefaultField, input.FixedField, span.FixedField {
     width: 98%;
     height: 40px;
     font-size: 20px;
