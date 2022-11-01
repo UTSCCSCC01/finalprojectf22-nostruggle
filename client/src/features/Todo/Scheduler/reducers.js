@@ -29,6 +29,16 @@ export const taskReducer = (state, action) =>{
                     ...action.payload
                 }
             }
+        case taskActions.CLEAR:
+            return {
+                isAddingTask: false,
+                isLoading: false,
+                added: false,
+                error: {
+                    error: false,
+                    message: ''
+                }
+            }
     }
 }
 

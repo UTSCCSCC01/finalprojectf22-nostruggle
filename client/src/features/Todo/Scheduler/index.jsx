@@ -1,4 +1,5 @@
-import { FormLabel, TextField, InputLabel, Button, Container, Box, Input, Grid , Paper} from '@mui/material';
+import { FormLabel, TextField, InputLabel, Button, Container, Box, Input, Grid , Paper, IconButton} from '@mui/material';
+import { AddBox } from '@mui/icons-material';
 import { useRef, useState, useEffect, useReducer } from 'react'
 import { pageActions } from './types'
 import { pageReducer, taskReducer } from './reducers'
@@ -24,19 +25,20 @@ const Scheduler = () => {
     const [ addTask, toggleAddTask ] = useState(false)
     const scheduleRef = useRef()
 
-    const completeTask = async (taskId) => {
+    const toggleCompletion = async (task) => {
         console.log("Completing task")
         ApiCall.patch('/tasks',
         {
-            filters: {_id: taskId },
-            update: { done: true }
+            filters: {_id: task._id },
+            update: { done: !task.done }
         } )  
         .then((res) => fetchTasks())
         .catch(e => pageDispatch({type: pageActions.ERROR, payload: "There was a problem updating the database"}))
         console.log("Fetching") 
-        fetchTasks()    
-       
-        
+    }
+
+    const deleteTask = (task) => {
+        alert("Coming soon")
     }
 
     const closeAddTask = (reload) => {
@@ -46,18 +48,28 @@ const Scheduler = () => {
             fetchTasks()
         }
     }
+
+    const isTaskTitleTaken = (title) => {
+        return schedule.userTasks.filter((task) => task.title === title).length !== 0
+    }
+    
     const getPage = () =>{
         console.log(schedule)
         return (
-            <div>
-                <h1>My Todolist</h1> 
-                <Button onClick={() => toggleAddTask(true)}>Add new task</Button>
-                <TodoList scheduleRef={scheduleRef} schedule={schedule} tasks={schedule.userTasks} completeTask={completeTask}/>
+            <div className='Scheduler'>
+                <h1>NoStruggle Focusing</h1> 
+                <IconButton id='AddTaskButton' onClick={() => toggleAddTask(true)} sx={{ width: '60px', height: '60px' }} children={<AddBox sx={{fontSize: '60px'}}/>}></IconButton>
+                <TodoList 
+                    scheduleRef={scheduleRef} 
+                    schedule={schedule} tasks={schedule.userTasks}                     
+                    deleteTask={deleteTask}
+                    toggleCompletion={toggleCompletion}/>
                 <AddNewTask 
                     open={addTask} 
                     close={closeAddTask}
                     anchor={scheduleRef}
                     pageDispatch={pageDispatch}
+                    isTaskTitleTaken={isTaskTitleTaken}
                 />
             </div>
         )

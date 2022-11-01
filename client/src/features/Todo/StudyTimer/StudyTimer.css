@@ -1,5 +1,6 @@
 .StudyTimer {
-    max-width: 400px;
+    max-width: 300px;
+    width: 90%;
     position: fixed;
     bottom: 0px;
     left: 0px;

@@ -14,8 +14,14 @@ The app's directory contains the following:
 
 > **client/** - contains the client side of the app, written using react
 > 
->> **client/src** - contains all the frontend components
+>> **client/src/assets** - contains all the static assets, such as images and sound effects
 > 
+>> **client/src/components** - contains all the frontend components
+> 
+>> **client/src/features** - contains all the application frontend features
+> 
+>> **client/src/pages** - contains all the frontend routes
+>
 > **server/** - contains the server side of the app, written using mongoose and express
 > 
 >> **server/controllers** - contains the api controllers

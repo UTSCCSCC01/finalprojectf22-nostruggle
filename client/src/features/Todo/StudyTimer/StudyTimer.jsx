@@ -1,5 +1,5 @@
 import { Button, Card, Box, Autocomplete, TextField } from '@mui/material';
-import { useState, useReducer, useEffect, useCallback } from 'react'
+import { useState, useReducer, useEffect, useCallback, useContext } from 'react'
 import Timer from './Timer'
 import Stopwatch from './Stopwatch'
 import './StudyTimer.css'
@@ -7,7 +7,8 @@ import studyTimerSound from '../../../assets/sfx/christmasbell.wav'
 import { timerBreakInterval } from './constants';
 import Sound from '../../Sound'
 import ApiCall from '../../../components/api/ApiCall';
-
+import TimerSelectTask from './TimerSelectTask';
+import { useUserState } from '../../SignUp/UserContext';
 const StudyTimer = (props) => {
 
     const [ timerId, setTimerId ] = useState(0)
@@ -15,22 +16,21 @@ const StudyTimer = (props) => {
     const [ open, toggleOpen ] = useState(true)
     const [ sound, setSound ] = useState(null)
     const [ isSavingTime, setIsSavingTime ] = useState(false)
-
+    const [ selectTask, toggleSelectTask ] = useState(false)
+    const { userState } = useUserState()
+    
     const initialState = {
-        todo: {
-            title: "This is an example task",
-            taskId: 0,
-            timespent: 10
-        },
+        todo: null,
         mode: 'none',
         time: {
             seconds: 0,
-            string: '00:00'
+            string: '00:00',
+            newSavedSeconds: 0
         },
         running: false,
         totalStopwatchTime: 0,
         totalTimerTime: 0,
-        totalCount: 0
+        totalCount: 0,
     }
 
     const convertSecondsToString = (seconds) => {
@@ -45,27 +45,29 @@ const StudyTimer = (props) => {
                 return {
                     ...state,
                     time: {
-                        ...state,
+                        ...state.time,
                         seconds: state.time.seconds + 1,
-                        string: convertSecondsToString(state.time.seconds + 1)
+                        string: convertSecondsToString(state.time.seconds + 1),
+                        newSavedSeconds: state.time.newSavedSeconds + 1
                     },
-                    todo: {
+                    todo: state.todo ? {
                         ...state.todo,
                         timespent: state.todo.timespent + 1
-                    }
+                    } : null
                 }
             case 'countdown':
                 return {
                     ...state,
                     time: {
-                        ...state,
+                        ...state.time,
                         seconds: state.time.seconds - 1,
-                        string: convertSecondsToString(state.time.seconds - 1)
+                        string: convertSecondsToString(state.time.seconds - 1),
+                        newSavedSeconds: state.time.newSavedSeconds + 1
                     },
-                    todo: {
+                    todo: state.todo ? {
                         ...state.todo,
                         timespent: state.todo.timespent + 1
-                    }
+                    } : null
                 }
             case 'timespent':
                 return {
@@ -89,8 +91,9 @@ const StudyTimer = (props) => {
                 return {
                     ...state,
                     time: {
+                        ...state.time,
                         seconds: action.payload,
-                        string: convertSecondsToString(action.payload)
+                        string: convertSecondsToString(action.payload),
                     }
                 }
             case 'mode':
@@ -101,27 +104,24 @@ const StudyTimer = (props) => {
             case 'todo':
                 return {
                     ...state,
+                    time: {
+                        ...state.time,
+                        newSavedSeconds: 0
+                    },
                     todo: action.payload
+                }
+            case 'save':
+                return {
+                    ...state,
+                    time: {
+                        ...state.time,
+                        newSavedSeconds: 0
+                    }
                 }
         }
     }
 
     const [ studyTimer, dispatch ] = useReducer(reducer, initialState)
-
-    // TODO: choose actual task
-    const setUpTask = async () => {
-        const res = await ApiCall.get(process.env.REACT_APP_SERVER_URL + '/tasks')
-        console.log(res)
-        const task = res.data.filter((t) => !t.done)[0]
-        console.log(task)
-        if (!task) return;
-        const taskInfo = {
-            taskId: task._id,
-            title: task.title,
-            timespent: task.timespent
-        }
-        dispatch({ type: 'todo', payload: taskInfo})
-    }
 
     const startStopwatch = () => {
         if (studyTimer.mode !== 'stopwatch'){
@@ -184,15 +184,30 @@ const StudyTimer = (props) => {
                 timespent: studyTimer.todo.timespent
             }
         }
+        console.log(studyTimer.time)
+        const secondsSinceLastSave = studyTimer.time.newSavedSeconds
         ApiCall.patch(process.env.REACT_APP_SERVER_URL + '/tasks', data)
         .then(() => {
-            console.log("success saving time") 
+            console.log("success saving time")
             setIsSavingTime(false)
         })
         .catch( e => {
             console.log(e)
             setIsSavingTime(false)
         })
+
+        dispatch({ type: 'save' }) 
+        ApiCall.post(`${process.env.REACT_APP_SERVER_URL}/tasks/daily?userId=${userState.user._id}&taskId=${studyTimer.todo._id}&timespent=${secondsSinceLastSave}`)
+        .then(() => {
+            console.log("success saving daily time")
+            setIsSavingTime(false)
+        })
+        .catch( e => {
+            console.log(e)
+            console.log('fail daily save')
+            setIsSavingTime(false)
+        })
+    
     }
 
     const stopTime = () => {
@@ -201,13 +216,13 @@ const StudyTimer = (props) => {
         dispatch({
             type: 'stop'
         })
-        saveTime()
+        if (studyTimer.todo){
+            saveTime()           
+        }
     }
 
     useEffect(() => {
         setSound(new Sound(studyTimerSound))
-        setUpTask()
-        console.log(sound)
     }, [])
 
     useEffect(() => {
@@ -216,7 +231,7 @@ const StudyTimer = (props) => {
                 stopTime()
                 sound.play();
                 toggleOpen(true)
-            } else if (!isSavingTime && studyTimer.time.seconds % 5 === 1){ // limit the number of requests
+            } else if (!isSavingTime && studyTimer.time.seconds % 5 === 1 && studyTimer.todo){ // limit the number of requests
                 saveTime()
                 
             }
@@ -229,14 +244,24 @@ const StudyTimer = (props) => {
 
     return (
         <Card raised={true} className='StudyTimer'>
-            <Button onClick={() => toggleOpen(!open)}>Toggle Timer</Button>
+            <Button sx={{ width: '100%' }} onClick={() => toggleOpen(!open)}>Toggle Timer</Button>
             { open ? 
-                <div>
+                <div style={{ padding: '0.5rem'}} >
                     <Button >Edit To-do List</Button>
+                    <Button onClick={() => toggleSelectTask(!selectTask)}>Select Task</Button>
+                    <Button onClick={() => dispatch({ type: 'todo', payload: null })}>Clear Task</Button>
                     <div>
                         <header>Mode: {studyTimer.mode}</header>
                         <header>{ studyTimer.mode === 'stopwatch' ? "You haven't struggled on:" : "Currently not struggling with: "}</header>
-                        <header><strong>{studyTimer.todo.title}</strong> {studyTimer.mode === 'stopwatch' && "for"}</header>
+                        <TimerSelectTask 
+                            open={selectTask} 
+                            setOpen={toggleSelectTask} 
+                            onSelect={(task) => { 
+                                dispatch({ type: 'todo', payload: task})
+                                toggleSelectTask(false)                            
+                            }}
+                        />
+                        <header><strong>{studyTimer.todo ? studyTimer.todo.title : <span><i>No task selected</i></span>}</strong> {studyTimer.mode === 'stopwatch' && "for"}</header>
                         <h1>{studyTimer.time.string}</h1>
                         { studyTimer.mode === 'pomodoro' &&
                         <div>
@@ -252,7 +277,7 @@ const StudyTimer = (props) => {
                     </div>
                     <div>
                         { studyTimer.mode === 'stopwatch' && <Stopwatch/> }
-                        { studyTimer.mode === 'timer' && <Timer dispatch={dispatch} setTime={timerSetTime}/> }
+                        { studyTimer.mode === 'timer' && <Timer setTime={timerSetTime}/> }
                         
                     </div>
                     { ! studyTimer.running ?
@@ -264,9 +289,9 @@ const StudyTimer = (props) => {
                                 : "Stopwatch"}
                             </Button>
                             <Button onClick={() => dispatch({type: 'time', payload: 0 })}>Reset Time</Button>
-                        </Box>
-                        : <Button onClick={stopTime}>Stop Time</Button>
-
+                        </Box>                     
+                        : <Button onClick={stopTime}>Stop Time</Button>                           
+                        
                     }
                 </div>
                 :

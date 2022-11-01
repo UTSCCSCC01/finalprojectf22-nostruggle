@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar } from "@mui/material";
 
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
-
+ 
 import ListMenu from "../../lists/ListMenu";
 import ListPlain from '../../lists/ListPlain';
 
@@ -64,7 +64,7 @@ const NavBar = (props) => {
                 </span>
             </AppBar>
 
-            { openMenu && <ListMenu className='UserMenu' items={[ 'Profile', 'Sign Out' ]}/> }
+            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Sign Out' ]} path={{ 'Profile': '/profile', 'Sign Out': '' }}/> }
         </>
     )
 }

@@ -158,5 +158,6 @@ const rl = readline.createInterface({
 
 rl.question('Type in an equation to be derived: ', function (input) {
 	console.log(derivativeType(`${input}`));
+    //console.log(formatPrior(`${input}`));
 	rl.close();
 });
