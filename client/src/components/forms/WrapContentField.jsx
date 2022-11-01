@@ -20,6 +20,7 @@ const WrapContentField = (props) => {
         return strlen !== 0 ? strlen + 'px' : 1;
     }
 
+
     return (
         <input
         className={ props.type }

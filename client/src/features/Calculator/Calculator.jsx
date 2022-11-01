@@ -1,7 +1,6 @@
-import CalculatorInput from './CalculatorInput';
 import './Calculator.css';
-import { Button, Grid , IconButton } from '@mui/material';
-import { useEffect, useRef, useState } from 'react'
+import { Grid , IconButton } from '@mui/material';
+import { useEffect, useState } from 'react'
 import { ButtonPad } from './ButtonPad';
 import WrapContentField from '../../components/forms/WrapContentField';
 import { resizeInput } from './WrapContent';
@@ -33,7 +32,7 @@ const Calculator = () => {
             remaining -= collection[index].offsetWidth;
         }
         const element = document.querySelector('div.CalculatorInputField > input.FixedField');
-        const min = remainingSize < MIN_SIZE ? remainingSize : resizeInput(element.value, 'FixedField');
+        const min = remainingSize <= MIN_SIZE ? remainingSize : resizeInput(element.value, 'FixedField');
         setRemainingSize(remaining < min ? min : remaining );
         console.log("new remaining size is " + remainingSize);
     }, [inputs, remainingSize]);
