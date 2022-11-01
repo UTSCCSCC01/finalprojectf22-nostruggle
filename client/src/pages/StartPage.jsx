@@ -53,6 +53,7 @@ function StartPage() {
         <Button onClick={() => navigate("Catherine")}>Login/Signup</Button>
         { userState.signedIn && 
           <>
+            <Button onClick={() => navigate("Dashboard")}>Dashboard</Button>
             <Button onClick={() => navigate("Ishika")}>Forum</Button>
             <Button onClick={() => navigate("Madison")}>Create New Post</Button>
             <Button onClick={() => navigate("Tara")}>Derivative Calculator</Button>

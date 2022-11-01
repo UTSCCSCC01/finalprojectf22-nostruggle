@@ -6,11 +6,13 @@ import StudyTimer from './Todo/StudyTimer/StudyTimer';
 import Calculator from './Calculator/Calculator';
 import StudyTimerSummary from './Todo/StudyTimer/Summary/StudyTimerSummary';
 import Forum from './Forum/Forum';
-
+import Dashboard from '../pages/Dashboard';
 const index = (props) => {
 
     const getPage = () =>{
         switch (props.page) {
+            case "Dashboard":
+                return <Dashboard/>
             case "Catherine" :
                 return <SignUp />
             case "Ishika" :
