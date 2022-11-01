@@ -48,7 +48,6 @@ const NavBar = () => {
     
     useEffect(() => {
         if (!userState.signedIn && (!navBarSignedOutPages.map((page) => page.path).includes(location.pathname))){
-            console.log("BAD PAGE")
             navigate('/login')
         }
     }, [location.pathname])

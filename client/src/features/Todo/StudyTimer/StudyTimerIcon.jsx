@@ -4,7 +4,7 @@ import  { Timer } from "@mui/icons-material"
 const StudyTimerIcon = ({ onClick, time, open }) => {
     return (
         <div className='StudyTimerIcon'>
-            <IconButton style={{ position: 'relative', top: time ? '10px' : ''}} size='small' onClick={onClick} children={
+            <IconButton style={{ position: 'relative', top: time ? '10px' : ''}} size='large' onClick={onClick} children={
                 <Timer sx={{ fontSize: '40px' }}
                     color={open ? 'primary' : ''}
                  />

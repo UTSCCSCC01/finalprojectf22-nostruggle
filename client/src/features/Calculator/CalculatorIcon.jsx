@@ -4,7 +4,7 @@ import  { CalculateOutlined } from "@mui/icons-material"
 const CalculatorIcon = ({ onClick, open }) => {
     return (
         <div className='Calculate'>
-            <IconButton onClick={onClick} children={<CalculateOutlined color={open ? 'primary' : ''} sx={{ fontSize: '40px'}} />}/>
+            <IconButton size='large' onClick={onClick} children={<CalculateOutlined color={open ? 'primary' : ''} sx={{ fontSize: '40px'}} />}/>
         </div>
     )
 }

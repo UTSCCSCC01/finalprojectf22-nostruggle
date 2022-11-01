@@ -6,3 +6,7 @@
     overflow: hidden;
     width: 70px;
 }
+
+.ToolBar > div > * {
+    margin: 0px 0;
+}
