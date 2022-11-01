@@ -5,7 +5,7 @@ const WrapContentField = (props) => {
     return (
         <input
         className={ props.type }
-        style={{ width: resizeInput() }}
+        style={{ width: resizeInput(props.value, props.type) }}
         value={ props.value }
         onChange={(e) => props.onChangedInput(e)}
         onKeyUp={ (e) => props.onBackspace(e) }

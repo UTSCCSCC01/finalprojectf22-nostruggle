@@ -8,6 +8,10 @@ div.CalculatorBox {
 
 }
 
+.CalculatorInputField > input {
+    outline: none !important;
+}
+
 div.CalculatorInputField {
     position: fixed;
     margin: 8px;
