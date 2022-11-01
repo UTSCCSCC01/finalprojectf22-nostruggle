@@ -9,35 +9,32 @@ div.CalculatorBox {
 }
 
 div.CalculatorInputField {
-    position: relative;
+    position: fixed;
     margin: 8px;
+    height: 60px;
     width: auto;
     border: 2px solid lightskyblue;
     border-radius: 4px;
 }
 
-/*
-input {
-    border: none;
+div.CalculatorButtonPad {
+    position: relative;
+    top: 100px;
 }
-*/
+
 input.DefaultField, span.DefaultField, input.FixedField, span.FixedField {
     width: 98%;
-    height: 40px;
+    height: 80%;
     font-size: 20px;
     padding: 4px;
     margin: auto;
-}
-
-span.InputContainer {
-    position: relative;
 }
 
 input.SuperScript, span.SuperScript {
     position: relative;
     font-size: 12px;
     padding: 4px;
-    top: -16px;
+    top: -20px;
     text-align: center;
 }
 
@@ -45,7 +42,7 @@ input.SubScript, span.SubScript {
     position: relative;
     font-size: 12px;
     padding: 4px;
-    bottom: -16px;
+    bottom: -14px;
     text-align: center;
 }
 

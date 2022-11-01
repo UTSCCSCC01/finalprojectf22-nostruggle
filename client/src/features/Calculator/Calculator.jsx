@@ -4,12 +4,13 @@ import { Button, Grid , IconButton } from '@mui/material';
 import { useEffect, useRef, useState } from 'react'
 import { ButtonPad } from './ButtonPad';
 import WrapContentField from '../../components/forms/WrapContentField';
+import { resizeInput } from './WrapContent';
 
 const Calculator = () => {
 
     const MIN_SIZE = 18;
 
-    const [ inputs, setInputs ] = useState([]);
+    const [ inputs, setInputs ] = useState([{ type: 'DefaultField', inputValue: '', affix: ['', ''], isEmpty: true }]);
     const [ remainingSize, setRemainingSize ] = useState(384);
     
     const checkBackspace = (e, i) => {
@@ -17,7 +18,7 @@ const Calculator = () => {
             console.log(inputs[i])
             if (inputs[i].isEmpty) { // if input has no text, remove the input from the inputs array
                 console.log("Removing " + i)
-                setInputs(inputs.filter((input, j) => i != j ))
+                setInputs(inputs.filter((input, j) => i !== j ))
                 return
             } 
         }
@@ -31,20 +32,23 @@ const Calculator = () => {
             console.log("FOUND AN INPUT WITH WIDTH " + collection[index].offsetWidth);
             remaining -= collection[index].offsetWidth;
         }
-        setRemainingSize(remaining);
-        console.log("new remaining size is " + remainingSize)
-    }, [inputs]);
+        const element = document.querySelector('div.CalculatorInputField > input.FixedField');
+        const min = remainingSize < MIN_SIZE ? remainingSize : resizeInput(element.value, 'FixedField');
+        setRemainingSize(remaining < min ? min : remaining );
+        console.log("new remaining size is " + remainingSize);
+    }, [inputs, remainingSize]);
+
 
     const onInput = (event, i) => {
         const inputSelectionIndex = event.target.selectionStart // checks where in the input the user typed at
         console.log(inputSelectionIndex)
         // check if the event is typing text
         if ( remainingSize > MIN_SIZE && event.inputType === 'insertText'){
-            setInputs(inputs.map((input, index) => index != i ? input : {...input, inputValue: input.inputValue.slice(0, inputSelectionIndex - 1) + event.data + input.inputValue.slice(inputSelectionIndex - 1)})) // append event.data (the char inputted) to inputValue
+            setInputs(inputs.map((input, index) => index !== i ? input : {...input, inputValue: input.inputValue.slice(0, inputSelectionIndex - 1) + event.data + input.inputValue.slice(inputSelectionIndex - 1)})) // append event.data (the char inputted) to inputValue
         } else if (event.inputType === 'deleteContentBackward' || event.inputType === 'deleteContentForward'){
             if (inputs[i].inputValue.length > 0){ // if the input has text, remove the char at the selected index
                 let newValue = inputs[i].inputValue.slice(0, inputSelectionIndex) + inputs[i].inputValue.slice(inputSelectionIndex + 1)
-                setInputs(inputs.map((input, index) => index != i ? input : {...input, inputValue: newValue}))
+                setInputs(inputs.map((input, index) => index !== i ? input : {...input, inputValue: newValue}))
             }
         }
     }
@@ -53,21 +57,24 @@ const Calculator = () => {
         console.log(`Checking empty at ${i}`)
         setInputs(inputs.map((input, index) => ({...input, isEmpty: input.inputValue.length === 0}))) 
     }
-
-    const addOrange = () => {
-        setInputs(inputs.slice(0, 1).concat([{ type: 'orange', inputValue: '', isEmpty: true}]).concat(inputs.slice(1)))
-    }
     
     const addInputField = (type, index) => {
+        let inputFields = [];
         switch (type) {
+            case 'cos': case 'log': case 'sin': case 'tan':
+                inputFields = [{ type: 'DefaultField', inputValue: '', affix: [type + '(', ')'], isEmpty: true }];
+                break;
+            case 'integrate':
+                inputFields = [{ type: 'DefaultField', inputValue: '', affix: ['integrate(', ''], isEmpty: true }, { type: 'SubScript', inputValue: '', affix: [',', ''], isEmpty: true }, { type: 'SuperScript', affix: [',', ')'], inputValue: '' }];
+                break;
             case 'exponent':
-                console.log(index);
-                setInputs(inputs.slice(0,index).concat([{ type: 'ExponentPower', inputValue: '' }]).concat(inputs.slice(index)));
+                inputFields = [{ type: 'DefaultField', inputValue: '', affix: ['exponent(', ''], isEmpty: true }, { type: 'SuperScript', inputValue: '', affix: [',', ')'], isEmpty: true }];
                 break;
             default:
-                setInputs([...inputs, { type: 'DefaultField', inputValue: '' }]);
+                inputFields = [{ type: 'DefaultField', inputValue: '', affix: ['', ''], isEmpty: true }];
                 break;
         }
+        setInputs(inputs.slice(0,index).concat(inputFields).concat(inputs.slice(index)));
     }
 
     const getEndOfInput = () => {
@@ -82,8 +89,10 @@ const Calculator = () => {
 
     const getFormattedInput = (item) => {
         switch (item.type) {
-            case 'exponent':
+            case 'SuperScript':
                 return item.inputValue.length === 0 ? item.inputValue : '^' + item.inputValue;
+            case 'SubScript':
+                return item.inputValue.length === 0 ? item.inputValue : '_' + item.inputValue;
             default:
                 return item.inputValue;
         }
@@ -100,7 +109,7 @@ const Calculator = () => {
                     sx={{ boxShadow: 1, borderRadius: 2 }}
                     onClick={ () => {
                         if (remainingSize > MIN_SIZE)
-                            addInputField( button.action, getEndOfInput() );
+                            addInputField( button.type, getEndOfInput() );
                     }}>
                         { button.icon }
                     </IconButton>
@@ -113,27 +122,26 @@ const Calculator = () => {
         <div className='CalculatorBox'>
 
             <div className='CalculatorInputField' >
-                { inputs.map((input, i) => (
-                <WrapContentField
-                type={ input.type }
-                value={ input.inputValue }
-                onChangedInput={ (e) => onInput(e.nativeEvent, i) }
-                onBackspace={ (e) => checkBackspace(e, i) }
-                />
+                {
+                    inputs.map((input, i) => ( <WrapContentField
+                    type={ input.type }
+                    value={ input.inputValue }
+                    onChangedInput={ (e) => onInput(e.nativeEvent, i) }
+                    onBackspace={ (e) => checkBackspace(e, i) }
+                    />
                 ))}
-                <input 
-                className='FixedField'
-                style={{ width: remainingSize }}
-                />
+                {
+                    remainingSize > MIN_SIZE && <input className='FixedField' style={{ width: remainingSize }}/> 
+                }
             </div>
 
-            <Grid container>
-                { ButtonPadJsx }
-            </Grid>
-
-            <h1>{inputs.map((input) => getFormattedInput(input)).join("")}</h1>
-            <button onClick={addOrange}>Add orange input at index 1</button>
-
+            <div className='CalculatorButtonPad'>
+                <Grid container>
+                    { ButtonPadJsx }
+                </Grid>
+                <h1>{inputs.map((input) => getFormattedInput(input)).join("")}</h1>
+                <p>{inputs.map((input) => ' ' + input.affix[0] + input.inputValue + input.affix[1]).join("")}</p>
+            </div>
         </div>
     )
 }
