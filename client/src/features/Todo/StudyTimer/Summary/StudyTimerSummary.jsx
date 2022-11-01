@@ -2,7 +2,7 @@ import { Button, Paper, Container, Input, Card, Box, Autocomplete, TextField, Fo
 import { useState, useEffect, useRef } from 'react'
 import ApiCall from '../../../../components/api/ApiCall';
 import { useUserState } from '../../../SignUp/UserContext';
-import { dateFormat, formatDateInput } from '../../Scheduler/constants';
+import { dateFormat, formatDateInput, formatLocaleDateInput } from '../../Scheduler/constants';
 const StudyTimerSummary = () => {
 
     const { userState } = useUserState()
@@ -35,7 +35,7 @@ const StudyTimerSummary = () => {
                 })
                 setTasks(summaryTasksInfo)
                 toggleWaiting(false)
-                setSummaryDate(new Date(Date.now()).toLocaleDateString('en-us', { timeZone: 'UTC', ...dateFormat }))
+                setSummaryDate(formatLocaleDateInput(new Date(Date.now()).toLocaleDateString('en-us', { ...dateFormat })))
             }    
             console.log(res)
             
@@ -78,6 +78,8 @@ const StudyTimerSummary = () => {
             toggleWaiting(false)
         })        
     }
+
+
     useEffect(() => {
         getDailySummaryToday()
     },[])
@@ -97,7 +99,7 @@ const StudyTimerSummary = () => {
                 ? "Fetching your tasks..."
                 : <div style={{ width: '80%', margin: 'auto'}}>
                     <FormControl sx={{ display: 'flex', flexFlow: 'row wrap' }}>
-                        <Input inputRef={dateInput} size="small" type="date" variant="outlined" defaultValue={summaryDate}></Input>
+                        <Input inputRef={dateInput} size="small" type="date" variant="outlined" ></Input>
                         <Button onClick={getDailySummarySpecifiedDate}>Set Date</Button>
                         <Button onClick={() => dateInput.current.value = formatDateInput(new Date(new Date(Date.now()).toLocaleDateString('en-us', { year: 'numeric', month: '2-digit',  day: '2-digit' })))}>
                             Set As Today
