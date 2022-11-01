@@ -86,7 +86,6 @@ const SignUp = () => {
 
     return (
         <>
-            <CalculatorTest/>
             <p>Your username is { user.username } and password is { user.password }</p>
 
             <Autocomplete
