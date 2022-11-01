@@ -8,8 +8,8 @@ function LinearAlgebraCalculator(props){
 
     function loadPage()
     {
-    
-        window.open("./Testing/TestUI.html");
+        const url = 'file:///E:/c01%20project/client/src/features/LinearAlgebraCalculator/MatrixCalculatorUI.html';
+        window.open(url);
     
     }
 
@@ -17,9 +17,9 @@ function LinearAlgebraCalculator(props){
         <div className="AC">
             <div className='AC-inner'>
 
-                <a href="Testing/TestUI.html"><button>Matrix Calculator</button></a>
+                <a href="file:///E:/c01%20project/client/src/features/LinearAlgebraCalculator/MatrixCalculatorUI.html"><button>Matrix Calculator</button></a>
                 <br/>
-                <button className="cal" onClick={window.open("https://www.3schools.in")}>Linear Transformation Multiplier</button>
+                <button className="cal" onClick={loadPage()}>Linear Transformation Multiplier</button>
                 <br/>
                 <button className="cal" onClick={developing}>Eigenvalues and Eigenvectors Solver</button>
                 <br/>
