@@ -5,7 +5,7 @@ import Profile from './pages/Profile';
 import StartPage from './pages/StartPage';
 import NoPage from './pages/NoPage';
 import SignOut from './features/SignUp/SignOut';
-import Calculator from './features/Calculator/Calculator';
+
 function App() {
   return (
     <BrowserRouter>
