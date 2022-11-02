@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar } from "@mui/material";
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { ChevronLeft, ChevronRight, Home } from '@mui/icons-material';
+import { ChevronLeft, ChevronRight, Home, HomeRepairService } from '@mui/icons-material';
  
 import ListMenu from "../../lists/ListMenu";
 import ListPlain from '../../lists/ListPlain';
@@ -11,7 +11,7 @@ import './NavBar.css'
 
 import { navBarSignedInPages, navBarSignedOutPages } from '../../../pages/constants';
 import { useUserState } from '../../../features/SignUp/UserContext';
-import ToolBar from '../../../features/ToolBar';
+import ToolsBar from '../../../features/ToolsBar';
 import { useEffect } from 'react';
 const NavBar = () => {
 
@@ -54,26 +54,23 @@ const NavBar = () => {
     return (
         <>
             { openDrawer && userState.signedIn &&
-            <Drawer variant='persistent' anchor='left' open={ openDrawer } sx={{ width: 240, flexShrink: 0 }}>
-                <div className='DrawerHeader'>
-                    <IconButton onClick={() => setOpenDrawer(false) }>
-                        { openDrawer === true ? <ChevronLeft /> : <ChevronRight /> }
-                    </IconButton>
-                </div>
-                <div className='SideBar'><ToolBar/></div>
+            <Drawer className='ToolbarDrawer' variant='persistent' anchor='left' open={ openDrawer } sx={{ width: 70, flexShrink: 0 }}>
+                <div className='SideBar'><ToolsBar/></div>
             </Drawer>
             }
 
             <AppBar sx={{ zIndex: 2000}} position='fixed'>
-                <span className={ openDrawer ? 'shift' : null }>
-                    <Toolbar>
-                        <Box>
-                            <IconButton onClick={ () => setOpenDrawer(!openDrawer) }>
-                                { openDrawer === true ? null : <ChevronRight /> }
-                            </IconButton>
-                        </Box>
-
-                        <Box sx={{ flexGrow: 1, display: 'flex' }}>
+                <span>
+                    <Toolbar className='Toolbar'>
+                        {
+                            userState.signedIn &&
+                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                <IconButton onClick={ () => setOpenDrawer(!openDrawer) }>
+                                    <HomeRepairService sx={{ fontSize: '40px', color: openDrawer === true ?  '#EFF3F6' : '' }} />
+                                </IconButton>
+                            </Box>
+                        }
+                        <Box sx={{ flexGrow: 1, paddingLeft: '20px', display: 'flex' }}>
                         { userState.signedIn ? navBarSignedInPages.map((page) => showPage(page)) : navBarSignedOutPages.map((page) => showPage(page)) }
                         </Box>
 

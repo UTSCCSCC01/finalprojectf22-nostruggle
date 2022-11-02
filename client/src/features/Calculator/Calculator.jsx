@@ -1,4 +1,4 @@
-import ToolBarDraggableWrapper from '../ToolBar/ToolBarDraggableWrapper';
+import ToolBarDraggableWrapper from '../ToolsBar/ToolBarDraggableWrapper';
 import CalculatorInput from './CalculatorInput';
 import './Calculator.css';
 import { Button } from '@mui/material';

@@ -2,7 +2,7 @@ import { Button, Card, Box, Autocomplete, TextField, IconButton, breadcrumbsClas
 import { PlayCircleOutline, PauseCircleOutline, Remove } from '@mui/icons-material'
 import { useState, useReducer, useEffect, useCallback, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import ToolBarDraggableWrapper from '../../ToolBar/ToolBarDraggableWrapper';
+import ToolBarDraggableWrapper from '../../ToolsBar/ToolBarDraggableWrapper';
 import Timer from './Timer'
 import Stopwatch from './Stopwatch'
 import PomodoroTimer from './PomodoroTimer'

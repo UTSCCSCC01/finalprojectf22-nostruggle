@@ -1,12 +1,12 @@
-.ToolBar > div{
+.ToolBar {
     display: flex;
     flex-flow: column wrap;
     align-items: center !important;
-    justify-content: center;
+    justify-content: center !important;
     overflow: hidden;
     width: 70px;
 }
 
-.ToolBar > div > * {
+.ToolBar > * {
     margin: 0px 0;
 }

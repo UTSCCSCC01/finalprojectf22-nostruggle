@@ -11,6 +11,15 @@
     padding: 12px 20px;
 }
 
+.Toolbar {
+    padding-left: 10px;
+}
+
+.ToolbarDrawer > div{
+    align-items: center;
+    justify-content: center;
+}
+
 .shift {
     margin-left: 40px;
 }
