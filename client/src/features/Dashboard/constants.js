@@ -1,5 +1,6 @@
 import Forum from "../Forum/Forum"
 import Scheduler from "../Todo/Scheduler"
+import DashboardStatistics from "./Content/DashboardStatistics"
 import StudyTimerSummary from "../Todo/StudyTimer/Summary/StudyTimerSummary"
 import DashboardTimeSummary from "./Content/DashboardTimeSummary"
 export const dashboardItems = [
@@ -13,7 +14,7 @@ export const dashboardItems = [
             headerOutline: '#009962'
         },
         title: "Welcome back!",
-        content: <h1>Welcome back!</h1>,
+        content: <><h1>Welcome back!</h1><DashboardStatistics/></>,
         link: {
             title: 'View your profile',
             path: '/profile'

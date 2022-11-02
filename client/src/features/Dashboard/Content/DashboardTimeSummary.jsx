@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Typography } from '@mui/material';
 import { useUserState } from '../../SignUp/UserContext';
+import { convertSecondsToString } from '../../Todo/StudyTimer/constants'
 import ApiCall from '../../../components/api/ApiCall';
 const DashboardTimeSummary = () => {
 
     const { userState } = useUserState()
     const [ totalTime, setTotalTime ] = useState(0)
-
-    const convertSecondsToString = (seconds) => {
-        let date = new Date(seconds * 1000)
-        let time = date.toISOString()
-        return seconds / 60 / 60 >= 1 ? time.slice(11, 19) : time.slice(14, 19)
-    }
-
+    
     const getTotalTime = async () => {
         ApiCall.get(`/tasks/daily?userId=${userState.user._id}`)
         .then(res => {
