@@ -90,7 +90,7 @@ const Scheduler = () => {
         await ApiCall.get(`/tasks?userId=${userState.user._id}`)
         .then( res => {
             console.log(res.data)
-            const tasks = res.data.filter((task) => !task.archived)
+            const tasks = res.data
             pageDispatch({ type: pageActions.ALL_TASKS, payload: tasks })
         })
         .catch(e => pageDispatch({ type: pageActions.ERROR, payload: { message: "There was a problem fetching your tasks..." }}))
