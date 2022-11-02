@@ -3,7 +3,7 @@ import { Grid } from "@mui/material"
 import DashboardCard from "../components/dashboard/DashboardCard"
 import Scheduler from "../features/Todo/Scheduler"
 import { useState } from "react"
-import { dashboardItems } from "./constants"
+import { dashboardItems } from "../features/Dashboard/constants"
 const Dashboard = () => {
 
     const [ dashboardItems1, setDashboardItems ] = useState(['To-Do', 'Completed', 'Summary'])
