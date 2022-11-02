@@ -5,7 +5,8 @@ const taskSchema = mongoose.Schema({
     deadline: { type: Date, required: false },
     timespent: { type: Number, required: false },
     done: { type: Boolean, required: false },
-    userId: { type: String }
+    userId: { type: String },
+    archived: { type: Boolean, required: false }
 }, {
     timestamps: true
 });
