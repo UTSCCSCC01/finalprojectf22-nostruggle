@@ -9,6 +9,7 @@ import Scheduler from './features/Todo/Scheduler';
 import Forum from './features/Forum/Forum';
 import StudyTimerSummary from './features/Todo/StudyTimer/Summary/StudyTimerSummary';
 import SignUp from './features/SignUp/SignUp';
+
 function App() {
   return (
     <BrowserRouter>
