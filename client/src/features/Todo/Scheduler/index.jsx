@@ -37,8 +37,15 @@ const Scheduler = () => {
         console.log("Fetching") 
     }
 
-    const deleteTask = (task) => {
-        alert("Coming soon")
+    const archiveTask = async (task) => {
+        if(window.confirm(`Are you sure you would like to archive the task '${task.title}' and remove it from the todolist? Study timer history will not be deleted.`)){
+            ApiCall.patch('/tasks',
+            {
+                filters: {_id: task._id },
+                update: { archived: true }
+            } ).then(() => fetchTasks())
+            .catch(e => pageDispatch({type: pageActions.ERROR, payload: "There was a problem updating the database"}))
+        }
     }
 
     const closeAddTask = (reload) => {
@@ -62,7 +69,7 @@ const Scheduler = () => {
                 <TodoList 
                     scheduleRef={scheduleRef} 
                     schedule={schedule} tasks={schedule.userTasks}                     
-                    deleteTask={deleteTask}
+                    deleteTask={archiveTask}
                     toggleCompletion={toggleCompletion}/>
                 <AddNewTask 
                     open={addTask} 
@@ -83,7 +90,7 @@ const Scheduler = () => {
         await ApiCall.get(`/tasks?userId=${userState.user._id}`)
         .then( res => {
             console.log(res.data)
-            const tasks = res.data
+            const tasks = res.data.filter(task => !task.archived)
             pageDispatch({ type: pageActions.ALL_TASKS, payload: tasks })
         })
         .catch(e => pageDispatch({ type: pageActions.ERROR, payload: { message: "There was a problem fetching your tasks..." }}))

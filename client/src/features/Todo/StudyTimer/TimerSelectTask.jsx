@@ -12,7 +12,7 @@ const TimerSelectTask = ({ onSelect, open, setOpen }) => {
     const fetchTasks = () => {
         ApiCall.get(`/tasks?userId=${userState.user._id}&done=false`)
         .then( res => {
-            let tasks = res.data
+            let tasks = res.data.filter((task) => !task.archived)
             tasks.sort((task1, task2) => {
                 if (task1.deadline && task2.deadline) {
                     return Date.parse(task1.deadline) - Date.parse(task2.deadline)
