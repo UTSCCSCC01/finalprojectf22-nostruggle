@@ -73,7 +73,7 @@ const AddNewTask = ({ pageDispatch, open, close, anchor, isTaskTitleTaken }) => 
     }, [open])
 
     return (
-        <Popover open={open} anchorOrigin={anchorPopover(300, 75)} anchorEl={anchor}>
+        <Popover open={open} anchorOrigin={anchorPopover(300, 400)} anchorEl={anchor}>
             <Button onClick={close}>Back to schedule</Button>
             <Container>
                 <FormControl>
