@@ -22,3 +22,9 @@ export const defaultTimerBreakTime = '5:00'
 
 
 export const timeFormat = "^((([0-1]?[0-9]|[2]?[0-3]):)?[0-5]?[0-9]:)?[0-5]?[0-9]$"
+
+export const convertSecondsToString = (seconds) => {
+    let date = new Date(seconds * 1000)
+    let time = date.toISOString()
+    return seconds / 60 / 60 >= 1 ? time.slice(11, 19) : time.slice(14, 19)
+}
