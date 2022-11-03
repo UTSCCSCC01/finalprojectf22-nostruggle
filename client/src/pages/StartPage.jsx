@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 import Features from '../features'
 
-import NavBar from '../components/navigation/NavBar/NavBar';
-
+import SignUp from '../features/SignUp/SignUp';
 import { Provider as UserProvider, useUserState } from '../features/SignUp/UserContext';
 
 function StartPage() {
   
   // temporary navigator for setup, will be replaced with actual toggles/navbars
-  const [ page, setPage ] = useState("Catherine")
+  const [ page, setPage ] = useState("Madison")
 
   const { userState, setUserState } = useUserState()
   
@@ -39,29 +38,24 @@ function StartPage() {
   }, [ page, userState ] )
 
   const navigate = (pageId) => {
-    if (!userState.signedIn){
-      setPage("Catherine")
-      alert("Not logged in")
-    } else {
       setPage(pageId)
-    }
   }
 
   return (
     <>
-        { userState.signedIn && <NavBar active='Forum' /> }
-        <Button onClick={() => navigate("Catherine")}>Login/Signup</Button>
-        { userState.signedIn && 
+      { userState.signedIn ?
           <>
+            <Button onClick={() => navigate("Dashboard")}>Dashboard</Button>
             <Button onClick={() => navigate("Ishika")}>Forum</Button>
             <Button onClick={() => navigate("Madison")}>Create New Post</Button>
             <Button onClick={() => navigate("Tara")}>Derivative Calculator</Button>
             <Button onClick={() => navigate("Christine")}>To-do List</Button>
             <Button onClick={() => navigate("Zane")}>Linear Algebra Calculator</Button>
             <Button onClick={() => navigate("TimeSummary")}>Study Timer Summary</Button>
+            <Features page={page}/>
           </>
+          : <SignUp/>
         }
-        <Features page={page}/>
     </>
   );
 }

@@ -3,6 +3,8 @@ div.CalculatorBox {
     margin: 20px;
     padding: 8px;
     border: 2px solid black;
+    left: 70px;
+    background-color: white;
     height: 500px;
     width: 410px;
 

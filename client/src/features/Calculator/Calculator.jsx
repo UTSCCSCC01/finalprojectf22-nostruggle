@@ -1,15 +1,18 @@
 import './Calculator.css';
-import { Grid , IconButton } from '@mui/material';
+import { Grid , IconButton, Button } from '@mui/material';
 import { useEffect, useState } from 'react'
 import { ButtonPad } from './ButtonPad';
 import WrapContentField from '../../components/forms/WrapContentField';
 import { resizeInput } from './WrapContent';
+import ToolBarDraggableWrapper from '../ToolsBar/ToolBarDraggableWrapper';
+import CalculatorIcon from './CalculatorIcon';
 
 const Calculator = () => {
-
+    
     const MIN_SIZE = 18;
-
-    const [ inputs, setInputs ] = useState([{ type: 'DefaultField', inputValue: '', affix: ['', ''], isEmpty: true }]);
+    
+    const [ open, toggleOpen ] = useState(false)
+    const [ inputs, setInputs ] = useState([]);
     const [ remainingSize, setRemainingSize ] = useState(384);
     
     const checkBackspace = (e, i) => {
@@ -32,7 +35,7 @@ const Calculator = () => {
             remaining -= collection[index].offsetWidth;
         }
         const element = document.querySelector('div.CalculatorInputField > input.FixedField');
-        const min = remainingSize <= MIN_SIZE ? remainingSize : resizeInput(element.value, 'FixedField');
+        const min = element == null || remainingSize <= MIN_SIZE ? remainingSize : resizeInput(element.value, 'FixedField');
         setRemainingSize(remaining < min ? min : remaining );
         console.log("new remaining size is " + remainingSize);
     }, [inputs, remainingSize]);
@@ -118,30 +121,41 @@ const Calculator = () => {
     }
 
     return (
-        <div className='CalculatorBox'>
+        <>
+            {
+                open &&
+                <ToolBarDraggableWrapper>
 
-            <div className='CalculatorInputField' >
-                {
-                    inputs.map((input, i) => ( <WrapContentField
-                    type={ input.type }
-                    value={ input.inputValue }
-                    onChangedInput={ (e) => onInput(e.nativeEvent, i) }
-                    onBackspace={ (e) => checkBackspace(e, i) }
-                    />
-                ))}
-                {
-                    remainingSize > MIN_SIZE && <input className='FixedField' style={{ width: remainingSize }}/> 
-                }
-            </div>
+                    <div className='CalculatorBox'>
 
-            <div className='CalculatorButtonPad'>
-                <Grid container>
-                    { ButtonPadJsx }
-                </Grid>
-                <h1>{inputs.map((input) => getFormattedInput(input)).join("")}</h1>
-                <p>{inputs.map((input) => ' ' + input.affix[0] + input.inputValue + input.affix[1]).join("")}</p>
-            </div>
-        </div>
+                        <div className='CalculatorInputField' >
+                            {
+                                inputs.map((input, i) => ( <WrapContentField
+                                type={ input.type }
+                                value={ input.inputValue }
+                                onChangedInput={ (e) => onInput(e.nativeEvent, i) }
+                                onBackspace={ (e) => checkBackspace(e, i) }
+                                />
+                            ))}
+                            {
+                                remainingSize > MIN_SIZE && <input className='FixedField' style={{ width: remainingSize }}/> 
+                            }
+                            </div>
+                            
+                            <div className='CalculatorButtonPad'>
+                            <Grid container>
+                                { ButtonPadJsx }
+                            </Grid>
+                            <h3>{inputs.map((input) => getFormattedInput(input)).join("")}</h3>
+                            <p id='ReadThis'>{ inputs.map((input) => ' ' + input.affix[0] + input.inputValue + input.affix[1]).join("")}</p>
+                            <p id='WriteToThis'></p>
+                        </div>
+                    </div>
+                 
+                </ToolBarDraggableWrapper>
+            }
+            <CalculatorIcon open={open} onClick={() => toggleOpen(!open)}/>
+        </>
     )
 }
 

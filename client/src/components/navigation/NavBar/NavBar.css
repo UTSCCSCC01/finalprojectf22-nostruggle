@@ -1,7 +1,8 @@
 .UserMenu {
     max-width: 400px;
-    position: absolute;
-    right: 0px;
+    position: fixed;
+    right: 5px;
+    top: 65px;
 }
 
 .DrawerHeader {
@@ -10,11 +11,28 @@
     padding: 12px 20px;
 }
 
+.Toolbar {
+    padding-left: 10px;
+}
+
+.ToolbarDrawer > div{
+    align-items: center;
+    justify-content: center;
+}
+
 .shift {
-    margin-left: 240px;
+    margin-left: 40px;
 }
 
 .SideBar {
     margin-top: 40px;
     visibility: inherit;
+}
+
+.NavBarButton{
+    text-shadow: black 2px 2px 3px !important;
+}
+.NavBarButton[disabled]{
+    color: white !important;
+    text-shadow: rgb(46, 44, 156) 2px 2px 3px !important;
 }

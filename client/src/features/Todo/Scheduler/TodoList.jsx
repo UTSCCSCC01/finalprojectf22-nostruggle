@@ -38,6 +38,7 @@ const TodoList = ({ tasks, scheduleRef, schedule, toggleCompletion, deleteTask }
             { !schedule.isLoading || schedule.userTasks.length > 0 ?
                 <div>
                 { optionsFilter.concat(optionsSorting).reduce((prev, current) => current.on ? current.fn(prev) : prev , [...schedule.userTasks]).map((task) => (
+                        !task.archived &&
                         <Paper className='TodoListItem' variant='outlined'>
                             <div className='markComplete'>
                                 <IconButton 
