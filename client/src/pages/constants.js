@@ -1,14 +1,29 @@
-export const navBarSignedIn = {
-    "FORUM": {
-        path: '/forum'
+export const navBarSignedInPages = [
+    {
+        path: '/home',
+        title: "HOME"
     },
-    "DISCOVER": {
-        path: '/discover'
+    {
+        path: '/forum',
+        title: "FORUM"
+    },
+    {
+        path: '/discover',
+        title: "DISCOVER"
+    },
+    {
+        path: '/todo',
+        title: "TODOLIST"
+    },
+    {
+        path: '/daily',
+        title: "DAILY SUMMARY"
     }
-}
+]
 
-export const navBarSignedOut = {
-    "SIGN IN": {
-        path: '/'
+export const navBarSignedOutPages = [
+    {
+        path: '/login',
+        title: "SIGN IN"
     }
-}
+]

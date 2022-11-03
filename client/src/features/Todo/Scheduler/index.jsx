@@ -67,7 +67,7 @@ const Scheduler = () => {
                 <AddNewTask 
                     open={addTask} 
                     close={closeAddTask}
-                    anchor={scheduleRef}
+                    anchor={document.body}
                     pageDispatch={pageDispatch}
                     isTaskTitleTaken={isTaskTitleTaken}
                 />

@@ -2,7 +2,12 @@
     max-width: 300px;
     width: 100vw;
     position: fixed;
-    bottom: 0px;
-    left: 0px;
-    border: 4px solid black;
+    left: 70px;
+    background-color: rgb(255, 255, 255);
+}
+
+.StudyTimerIcon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
