@@ -1,5 +1,7 @@
+import './MatrixCalculatorUI.css'
 
-const TestUI = () => {
+
+const MatrixCalculatorUI = () => {
     return ( 
     <>
         <div id="upper">
@@ -47,4 +49,4 @@ const TestUI = () => {
     )
 }
 
-export default TestUI
+export default MatrixCalculatorUI
