@@ -257,6 +257,7 @@ class MatrixCalculator {
 		var row1 = document.getElementsByClassName("m1r1");
 		var row2 = document.getElementsByClassName("m1r2");
 		var row3 = document.getElementsByClassName("m1r3");
+		
 		for (var i=0; i<3; i++) {
 			this.matrixA[0][i] = row1[i].value;
 			this.matrixA[1][i] = row2[i].value;
