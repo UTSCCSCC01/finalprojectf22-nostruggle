@@ -1,39 +1,29 @@
-import React from 'react';
-import { Button } from '@mui/material';
-function LinearAlgebraCalculator(props){
-
-    const developing = () => {
-        alert("developing!");
-    }
-
-    function loadPage()
-    {
-    
-        window.open("./Testing/TestUI.html");
-    
-    }
-
-    return (props.trigger) ? (
-        <div className="AC">
-            <div className='AC-inner'>
-
-                <a href="Testing/TestUI.html"><button>Matrix Calculator</button></a>
-                <br/>
-                <button className="cal" onClick={window.open("https://www.3schools.in")}>Linear Transformation Multiplier</button>
-                <br/>
-                <button className="cal" onClick={developing}>Eigenvalues and Eigenvectors Solver</button>
-                <br/>
-                <button className="btn-close" onClick={() => props.setTrigger(false)}>fold</button>
-                { props.children }
-
-            </div>
-        </div>
+import { useState } from 'react'
+import ToolBarDraggableWrapper from '../ToolsBar/ToolBarDraggableWrapper';
+import LinearAlgebraIcon from './LinearAlgebraIcon'
+import MatrixCalculatorUI from './MatrixCalculatorUI';
+import './MatrixCalculatorUI.css'
 
 
-    ) : "";
+const LinearAlgebraCalculator = () => {
 
+    const [ open, toggleOpen ] = useState(false);
 
+    return (
+        <>
+            {
+                open &&
+                <ToolBarDraggableWrapper>
+                    <div className='LinearAlgebraBox'>
+                        <MatrixCalculatorUI />
+                    </div>
+
+                </ToolBarDraggableWrapper>
+            }
+            <LinearAlgebraIcon open={open} onClick={() => toggleOpen(!open)}/>
+        </>
+    )
 
 }
 
-export default LinearAlgebraCalculator;
+export default LinearAlgebraCalculator

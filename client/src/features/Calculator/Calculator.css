@@ -1,47 +1,57 @@
 div.CalculatorBox {
     position: fixed;
     margin: 20px;
-    padding: 10px;
-    border-style: solid;
-    border-radius: 10px;
-    border-color: black;
-    border-width: 2px;
+    padding: 8px;
+    border: 2px solid black;
+    left: 70px;
+    background-color: white;
     height: 500px;
-    width: 500px;
+    width: 410px;
+
+}
+
+.CalculatorInputField > input {
+    outline: none !important;
 }
 
 div.CalculatorInputField {
-    position: relative;
-    margin: auto;
-    width: 480px;
+    position: fixed;
+    margin: 8px;
+    height: 60px;
+    width: auto;
     border: 2px solid lightskyblue;
     border-radius: 4px;
 }
 
-/*
-input {
-    border: none;
+div.CalculatorButtonPad {
+    position: relative;
+    top: 100px;
 }
-*/
-input.DefaultField {
+
+input.DefaultField, span.DefaultField, input.FixedField, span.FixedField {
     width: 98%;
-    height: 40px;
+    height: 80%;
     font-size: 20px;
     padding: 4px;
     margin: auto;
 }
 
-input.ExponentBase, span.ExponentBase {
-    font-size: 20px;
+input.SuperScript, span.SuperScript {
     position: relative;
+    font-size: 12px;
     padding: 4px;
+    top: -20px;
     text-align: center;
 }
 
-input.ExponentPower, span.ExponentPower {
-    position: absolute;
-    font-size:10px;
+input.SubScript, span.SubScript {
+    position: relative;
+    font-size: 12px;
     padding: 4px;
-    top: 0;
+    bottom: -14px;
     text-align: center;
+}
+
+.CalculatorButtonIcon {
+    font-size: 40px;
 }

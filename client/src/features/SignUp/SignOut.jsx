@@ -10,7 +10,9 @@ const SignOut = () => {
     
     useEffect(() => {
         console.log("signing out")
-        setUserState({...userState, user: {} })
+        localStorage.setItem('nostruggle:username', '')
+        localStorage.setItem('nostruggle:password', '')
+        setUserState({...userState, user: {}, signedIn: false })
     },[])
     
     useEffect(() => {
@@ -21,7 +23,6 @@ const SignOut = () => {
     }, [userState])
     return (
         <div>
-            <NavBar/>
             SignOut
             { success ?
                 <div>
