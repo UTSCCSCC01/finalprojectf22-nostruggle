@@ -1,12 +1,12 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext } from 'react'
 
-const contextState = {
-    postId: -1,
-    answerId: -1
+export const contextState = {
+    postId: {postId: "123"},
+    answerId: {}
 }
 
-const PostContext = createContext(contextState);
+const PostContext = createContext(contextState)
 
-export default PostContext;
-export const { Provider, Consumer } = PostContext;
-export const usePostState = () => useContext(PostContext);
+export default PostContext
+export const { Provider, Consumer } = PostContext
+export const usePostState = () => useContext(PostContext)
