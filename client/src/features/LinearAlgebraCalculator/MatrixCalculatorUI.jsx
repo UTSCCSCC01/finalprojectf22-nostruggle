@@ -1,44 +1,48 @@
+import MatrixCalculator from './MatrixCalculator';
 import './MatrixCalculatorUI.css'
 
 
 const MatrixCalculatorUI = () => {
+
+    var mc = new MatrixCalculator();
+
     return ( 
     <>
         <div id="upper">
             <div id="matrix1" class="parent">
                 <h1 className="title">Matrix A</h1>
-                <input className="m1r1" type="text" value="0"/>
-                <input className="m1r1" type="text" value="0"/>
-                <input className="m1r1" type="text" value="0"/>
-                <input className="m1r2" type="text" value="0"/>
-                <input className="m1r2" type="text" value="0"/>
-                <input className="m1r2" type="text" value="0"/>
-                <input className="m1r3" type="text" value="0"/>
-                <input className="m1r3" type="text" value="0"/>
-                <input className="m1r3" type="text" value="0"/>		
+                <input className="m1r1" type="text" defaultValue ="0"/>
+                <input className="m1r1" type="text" defaultValue ="0"/>
+                <input className="m1r1" type="text" defaultValue ="0"/>
+                <input className="m1r2" type="text" defaultValue ="0"/>
+                <input className="m1r2" type="text" defaultValue ="0"/>
+                <input className="m1r2" type="text" defaultValue ="0"/>
+                <input className="m1r3" type="text" defaultValue ="0"/>
+                <input className="m1r3" type="text" defaultValue ="0"/>
+                <input className="m1r3" type="text" defaultValue ="0"/>		
                 <div className="functions">
-                    <input className="function" type="button" value="Determinant" onclick="mc.calculateDeterminant()"/>
-                    <input className="function" type="button" value="Transpose" onclick="mc.transposeMatrix()"/>
-                    <input className="function" type="button" value="Invert" onclick="mc.invertMatrix()"/>
-                    <input className="function" type="button" value="Rank" onclick="mc.calculateRank()"/>
+                    <input className="function" type="button" defaultValue ="Determinant" onClick={ mc.calculateDeterminant }/>
+                    <input className="function" type="button" defaultValue ="Transpose" onClick={ mc.transposeMatrix }/>
+                    <input className="function" type="button" defaultValue ="Invert" onClick={ mc.invertMatrix }/>
+                    <input className="function" type="button" defaultValue ="Rank" onClick={ mc.calculateRank }/>
                 </div>
             </div>
             <div id="operations">
-                <input className="operation" type="button" value="A x B" onclick="mc.multiplyMatrix()"/>
-                <input className="operation" type="button" value="A + B" onclick="mc.addMatrix()"/>
-                <input className="operation" type="button" value="A - B" onclick="mc.subtractMatrix()"/>
+                <input className="operation" type="button" defaultValue ="A x B" onClick={ mc.multiplyMatrix }/>
+                <input className="operation" type="button" defaultValue ="A + B" onClick={ mc.addMatrix }/>
+                <input className="operation" type="button" defaultValue ="A - B" onClick={ mc.subtractMatrix }/>
             </div>
             <div id="matrix2" className="parent">
                 <h1 className="title">Matrix B</h1>
-                <input className="m2r1" type="text" value="0"/>
-                <input className="m2r1" type="text" value="0"/>
-                <input className="m2r1" type="text" value="0"/>
-                <input className="m2r2" type="text" value="0"/>
-                <input className="m2r2" type="text" value="0"/>
-                <input className="m2r2" type="text" value="0"/>
-                <input className="m2r3" type="text" value="0"/>
-                <input className="m2r3" type="text" value="0"/>
-                <input className="m2r3" type="text" value="0"/>		
+                <input className="m2r1" type="text" defaultValue ="0"/>
+                <input className="m2r1" type="text" defaultValue ="0"/>
+                <input className="m2r1" type="text" defaultValue ="0"/>
+                <input className="m2r2" type="text" defaultValue ="0"/>
+                <input className="m2r2" type="text" defaultValue ="0"/>
+                <input className="m2r2" type="text" defaultValue ="0"/>
+                <input className="m2r3" type="text" defaultValue ="0"/>
+                <input className="m2r3" type="text" defaultValue ="0"/>
+                <input className="m2r3" type="text" defaultValue ="0"/>		
             </div>
         </div>
         <br/>
