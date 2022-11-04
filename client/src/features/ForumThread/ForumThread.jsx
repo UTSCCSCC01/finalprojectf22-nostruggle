@@ -7,7 +7,7 @@ function ForumThread(){
 
     const [contentFilled, setContentFilled] = useState(true);
     const [answerField, setAnswerField] = useState("");
-    const [answerData, setAnswerDat]
+    //const [answerData, setAnswerDat]
 
     const enterContent = (event) => {
         setAnswerField(event.target.value)
