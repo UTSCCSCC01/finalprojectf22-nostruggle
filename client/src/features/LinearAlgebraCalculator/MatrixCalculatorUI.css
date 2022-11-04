@@ -1,8 +1,12 @@
-header {
-	text-align: center;
-	display: block;
-	margin-left: auto;
-    margin-right: auto;
+div.LinearAlgebraBox {
+    position: fixed;
+    margin: 20px;
+    padding: 20px;
+    border: 2px solid black;
+    left: 70px;
+    background-color: white;
+    height: 500px;
+    width: 460px;
 }
 
 #upper {

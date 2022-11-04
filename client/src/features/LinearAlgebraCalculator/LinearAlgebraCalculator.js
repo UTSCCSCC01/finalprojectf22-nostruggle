@@ -1,39 +1,28 @@
-import React from 'react';
-import { Button } from '@mui/material';
-function LinearAlgebraCalculator(props){
+import { useState } from 'react'
+import ToolBarDraggableWrapper from '../ToolsBar/ToolBarDraggableWrapper';
+import LinearAlgebraIcon from './LinearAlgebraIcon'
+import MatrixCalculatorUI from './MatrixCalculatorUI';
+import './MatrixCalculatorUI.css'
 
-    const developing = () => {
-        alert("developing!");
-    }
+const LinearAlgebraCalculator = () => {
 
-    function loadPage()
-    {
-        const url = 'file:///E:/c01%20project/client/src/features/LinearAlgebraCalculator/MatrixCalculatorUI.html';
-        window.open(url);
-    
-    }
+    const [ open, toggleOpen ] = useState(false);
 
-    return (props.trigger) ? (
-        <div className="AC">
-            <div className='AC-inner'>
+    return (
+        <>
+            {
+                open &&
+                <ToolBarDraggableWrapper>
+                    <div className='LinearAlgebraBox'>
+                        <MatrixCalculatorUI />
+                    </div>
 
-                <a href="file:///E:/c01%20project/client/src/features/LinearAlgebraCalculator/MatrixCalculatorUI.html"><button>Matrix Calculator</button></a>
-                <br/>
-                <button className="cal" onClick={loadPage()}>Linear Transformation Multiplier</button>
-                <br/>
-                <button className="cal" onClick={developing}>Eigenvalues and Eigenvectors Solver</button>
-                <br/>
-                <button className="btn-close" onClick={() => props.setTrigger(false)}>fold</button>
-                { props.children }
-
-            </div>
-        </div>
-
-
-    ) : "";
-
-
+                </ToolBarDraggableWrapper>
+            }
+            <LinearAlgebraIcon open={open} onClick={() => toggleOpen(!open)}/>
+        </>
+    )
 
 }
 
-export default LinearAlgebraCalculator;
+export default LinearAlgebraCalculator
