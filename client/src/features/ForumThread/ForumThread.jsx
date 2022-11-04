@@ -1,20 +1,29 @@
 import { TextField, Button } from '@mui/material';
 import ForumCard from '../../components/forumCard/ForumCard';
 import { useState } from 'react'
+import ApiCall from "../../components/api/ApiCall";
+
 function ForumThread(){
 
     const [contentFilled, setContentFilled] = useState(true);
     const [answerField, setAnswerField] = useState("");
+    const [answerData, setAnswerDat]
 
     const enterContent = (event) => {
         setAnswerField(event.target.value)
         setContentFilled(true);
     }
 
-    const submitAnswer = () => {
+    const submitAnswer = async (event) => {
         if(answerField == ""){
             setContentFilled(false);
         }
+
+        //await ApiCall.post('answers/post', postAnswer){
+
+        //}
+
+
     }
 
     return(
