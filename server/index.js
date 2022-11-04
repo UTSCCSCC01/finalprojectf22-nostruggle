@@ -16,11 +16,13 @@ import openApiRouter from './routes/openApi.js';
 
 import postRouter from './routes/post.js';
 
+import answerRouter from './routes/answers.js';
+
 app.use('/users', userRouter);
 app.use('/forumPosts', postRouter);
 app.use('/openapi', openApiRouter);
 app.use('/tasks', taskRouter)
-
+app.use('/answers', answerRouter);
 
 const uri = process.env.URI;
 const port = process.env.PORT || 2800;
