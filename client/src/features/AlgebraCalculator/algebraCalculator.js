@@ -1,6 +1,38 @@
+function formatPrior(section) {
+  //Replace all spaces
+  section = section.replaceAll(" ", "");
+  //Convert minus to plus sign with negative term 
+  section = section.replace(/(?<!\^)-/g, '+-');
+  return section;
+}
+
+function generateTerms(expression) {
+
+    expression = formatPrior(expression);
+    var terms = expression.split('+');
+    return terms;
+
+}
+
 function simplifyExpression(expression) {
 
-    return expression;
+    var terms = generateTerms(expression);
+
+    var constant = 0;
+    for (var i = 0; i < terms.length; i++) {
+
+        //Constant case
+        if (!isNaN(terms[i])) {
+            constant += parseInt(terms[i]);
+        }
+
+        //x case (to do later)
+
+    }
+
+    var simplified = constant;
+
+    return simplified;
 
 }
 
