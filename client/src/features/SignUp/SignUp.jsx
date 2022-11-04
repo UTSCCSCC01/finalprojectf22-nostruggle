@@ -63,26 +63,37 @@ const SignUp = () => {
     }
 
     const saveUser = (userInfo) => {
+        console.log("saving user")
         localStorage.setItem('nostruggle:username', userInfo.username)
         localStorage.setItem('nostruggle:password', userInfo.password)
         setUserState({
             ...userState,
             user: userInfo,
-            signedIn: true
+            signedIn: true,
+            signedOut: false
         })
     }
 
-    useEffect(() => {
-        console.log(userState.user)
-        if (userState.user.username && userState.user.password){
-            console.log("Saved session")
-            const storedUser = {
-                username: userState.user.username,
-                password: userState.user.password                
-            }
-            setUser(storedUser)
+    const signInFromSession = async () => {
+        const storedUser = {
+            username: localStorage.getItem('nostruggle:username'),
+            password: localStorage.getItem('nostruggle:password')               
         }
-    }, [userState])
+        await ApiCall.get(`/users/get/${storedUser.username}/${storedUser.password}`)
+        .then(res => {
+            if (res.data.length > 0 ){
+                saveUser(res.data[0])
+                navigate('/home')
+             } else {
+                console.log("fail login user DNE")
+             } 
+        })
+        .catch(e => console.log("fail" + e.message))    
+    }
+
+    useEffect(() => {
+        signInFromSession()    
+    }, [])
 
     return (
         <>

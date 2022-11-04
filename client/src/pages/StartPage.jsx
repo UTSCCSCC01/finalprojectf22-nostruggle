@@ -11,23 +11,6 @@ function StartPage() {
   const [ page, setPage ] = useState("Madison")
 
   const { userState, setUserState } = useUserState()
-  
-  useEffect(() => {
-    if (!userState.signedIn) {    
-        const username = localStorage.getItem('nostruggle:username')
-        const password = localStorage.getItem('nostruggle:password')
-        if (username && password){
-            console.log("signing in " + username + password)
-            setUserState({
-              ...userState, 
-              user: {
-                username: username,
-                password: password
-              }
-            })
-        }  
-      }
-  }, [])
 
   useEffect(() => {
     console.log(userState.user)

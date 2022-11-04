@@ -16,10 +16,14 @@ import openApiRouter from './routes/openApi.js';
 
 import postRouter from './routes/post.js';
 
+import notificationRouter from './routes/notifications.js';
+
+
 app.use('/users', userRouter);
 app.use('/forumPosts', postRouter);
 app.use('/openapi', openApiRouter);
 app.use('/tasks', taskRouter)
+app.use('/notification', notificationRouter)
 
 
 const uri = process.env.URI;

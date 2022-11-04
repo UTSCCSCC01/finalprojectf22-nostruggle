@@ -12,13 +12,14 @@ const SignOut = () => {
         console.log("signing out")
         localStorage.setItem('nostruggle:username', '')
         localStorage.setItem('nostruggle:password', '')
-        setUserState({...userState, user: {}, signedIn: false })
+        setUserState({...userState, user: {}, signedIn: false, signedOut: true })
     },[])
     
     useEffect(() => {
         if (!userState.user.username && !userState.user.password){
             console.log("Success")
             setSuccess(true)
+            console.log(userState)
         }
     }, [userState])
     return (
