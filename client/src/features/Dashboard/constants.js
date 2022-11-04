@@ -59,8 +59,8 @@ export const dashboardItems = [
             md: 4
         },
         color: {
-            header: 'red',
-            headerOutline: '#009962'
+            header: '#DED6FF',
+            headerOutline: '#947BFA'
         },
         title: "Deadlines",
         content: <Scheduler/>,
@@ -69,7 +69,7 @@ export const dashboardItems = [
             path: '/todo'
         }
     },
-    {
+    /*{
         dimensions: {
             xs: 12,
             sm: 6,
@@ -85,7 +85,7 @@ export const dashboardItems = [
             title: 'View your todolist',
             path: '/todo'
         }
-    },
+    },*/
     {
         dimensions: {
             xs: 12,
