@@ -75,7 +75,7 @@ Task Breakdown:
 -   Creating input tools for client to enter an equation, and displaying the result in a neat format (10 hours)
 	-   Acceptance Criteria: When buttons can be used on the website to transfer data to the user input of the program
 -   Distinguishing different terms (4 hours)
-    	-   Acceptance Criteria: When constants, and differing variables are distinguishable (ex. x and x^2 are two different terms, and a and b are different terms)
+	- Acceptance Criteria: When constants, and differing variables are distinguishable (ex. x and x^2 are two different terms, and a and b are different terms)
 -   Evaluating like-terms (3 hours)    
 	-   Acceptance Criteria: When terms can be simplified based on addition, subtraction, multiplication, exponentiation, and division
 -   Error-proofing user input (5 hours)
