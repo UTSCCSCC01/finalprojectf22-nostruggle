@@ -76,7 +76,7 @@ const FactorMultiple = () => {
                             <Typography variant='subtitle1'>a factor of </Typography>
                             <TextField variant='filled' sx={{width: 100}} size='small' type='number' value={factorOf} onChange={(e) => setFactorOf(e.target.value)} /> 
                         </div> 
-                        <Typography color={factorMessage.error ? 'error' : 'primary'}>
+                        <Typography color={multipleMessage.error ? 'error' : 'primary'}>
                             { multipleMessage.message }
                         </Typography>
                         <Button onClick={computeMultipleOf}>Compute</Button>   
