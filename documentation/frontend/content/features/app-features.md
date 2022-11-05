@@ -15,3 +15,11 @@ menu:
 - Forum
 - Study Timer
 - Calculator
+
+##### Tools
+
+The tools currently found on the toolbar are:
+
+- Study timer
+- Calculators
+- Compute factors/multiples
