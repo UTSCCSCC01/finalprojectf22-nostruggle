@@ -15,7 +15,7 @@ function ForumThread(){
         created_by: userState.user.username,
         nLikes: "0",
         created_At: { type: Date, default: Date.now},
-        child_of: "634b447487873860a7fdff48",
+        child_of: userState.postId,
         comments: []})
 
     const enterContent = (event) => {
@@ -23,7 +23,7 @@ function ForumThread(){
         setContentFilled(true);
         setAnswerData(previousState => {return {...previousState, content: event.target.value}});
     }
-
+    console.log(userState.postId);
     const submitAnswer = async (event) => {
         if(answerField == ""){
             setContentFilled(false);
