@@ -58,8 +58,8 @@
 - 55\. TASK: Implement calculator redirection UI
 
 16\. As a student learning math (Mark), I want to access a calculator supporting addition, subtraction, multiplication, division, exponentiation, and roots in order to verify math homework answers (8 story points).
-- TASK: Evaluating like terms
-- TASK: Distinguishing different terms
+- 70\. TASK: Evaluating like terms
+- 65\. TASK: Distinguishing different terms
 
 
 ### Productivity
