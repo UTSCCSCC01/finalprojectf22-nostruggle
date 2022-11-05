@@ -73,7 +73,7 @@ const FactorMultiple = () => {
                         <div className='multipleTitle' style={{ display: 'flex', alignItems: 'flex-end' }}>
                             <Typography variant='subtitle1'>Is </Typography>
                             <TextField variant='filled' sx={{width: 100}} size='small' type='number' value={multipleOf} onChange={(e) => setMultipleOf(e.target.value)} /> 
-                            <Typography variant='subtitle1'>a factor of </Typography>
+                            <Typography variant='subtitle1'>a multiple of </Typography>
                             <TextField variant='filled' sx={{width: 100}} size='small' type='number' value={factorOf} onChange={(e) => setFactorOf(e.target.value)} /> 
                         </div> 
                         <Typography color={multipleMessage.error ? 'error' : 'primary'}>
