@@ -61,6 +61,7 @@
 - 70\. TASK: Evaluating like terms
 - 65\. TASK: Distinguishing different terms
 
+73\. As a user, I would like to access a tool that can help me factor and find multiples of numbers in order to help me with my math (1 story point).
 
 ### Productivity
 11\. As a user(Sarah/Mark), I would like to schedule my day with a daily to-do list so that I can plan out activities/tasks in my day (5 story points).
