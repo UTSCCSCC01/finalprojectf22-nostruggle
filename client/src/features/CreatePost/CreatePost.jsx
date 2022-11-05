@@ -2,7 +2,6 @@ import { TextField, Button, Chip } from "@mui/material";
 import { useState } from 'react'
 import ApiCall from "../../components/api/ApiCall";
 import { useUserState } from '../SignUp/UserContext';
-import { Navigate, useNavigate } from 'react-router-dom'
 
 function CreatePost(){
     
@@ -16,7 +15,6 @@ function CreatePost(){
 
     const [tagError, setTagError] = useState(false);
 
-    const navigate = useNavigate();
 
     const {userState} = useUserState();
 
@@ -43,10 +41,7 @@ function CreatePost(){
         event.preventDefault();
 
         await ApiCall.post('forumPosts/post', postData)
-        .then(res => {
-            console.log(res.data);
-            navigate('/forum');
-        })
+        .then(res => console.log(res.data))
         .catch(e => {
             console.log(e);
    
@@ -70,10 +65,8 @@ function CreatePost(){
             }
             console.log(title);
             console.log(titleFilled);
-
             return <h3>Please add a title and content</h3>
         });
-
         
     }
 
