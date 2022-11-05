@@ -4,7 +4,6 @@ import LinearAlgebraIcon from './LinearAlgebraIcon'
 import MatrixCalculatorUI from './MatrixCalculatorUI';
 import './MatrixCalculatorUI.css'
 
-
 const LinearAlgebraCalculator = () => {
 
     const [ open, toggleOpen ] = useState(false);
