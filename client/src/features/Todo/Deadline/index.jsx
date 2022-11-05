@@ -71,13 +71,7 @@ const Scheduler = () => {
                     schedule={schedule} tasks={schedule.userTasks}                     
                     deleteTask={archiveTask}
                     toggleCompletion={toggleCompletion}/>
-                <AddNewTask 
-                    open={addTask} 
-                    close={closeAddTask}
-                    anchor={document.body}
-                    pageDispatch={pageDispatch}
-                    isTaskTitleTaken={isTaskTitleTaken}
-                />
+
             </div>
         )
         
