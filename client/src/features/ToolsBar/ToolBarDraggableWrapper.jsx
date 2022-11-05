@@ -1,8 +1,8 @@
 import Draggable from 'react-draggable'
 
-const ToolBarDraggableWrapper = ({children}) => {
+const ToolBarDraggableWrapper = ({children, handle}) => {
   return (
-    <Draggable bounds={{ left: 0 }}>
+    <Draggable handle={handle} bounds={{ left: 0 }}>
         {children}
     </Draggable>
   )

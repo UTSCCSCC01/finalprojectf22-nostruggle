@@ -6,7 +6,7 @@ import './ToolBar.css'
 import { IconButton } from "@mui/material"
 import { ReactComponent as FunctionIcon } from '../../assets/icons/functions.svg'
 import LinearAlgebraCalculator from "../LinearAlgebraCalculator/LinearAlgebraCalculator"
-
+import FactorMultiple from "../FactorMultiple/FactorMultiple"
 const ToolsBar = () => {
 
     return (
@@ -15,7 +15,7 @@ const ToolsBar = () => {
             <Calculator/>
             <IconButton size='small' children={<FunctionIcon width='50px' height='50px' style={{fill: 'grey'}}/>}/>
             <LinearAlgebraCalculator/>
-
+            <FactorMultiple/>
         </div>
     )
 }
