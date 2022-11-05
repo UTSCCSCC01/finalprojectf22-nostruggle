@@ -1,4 +1,4 @@
-export class MatrixCalculator {
+class MatrixCalculator {
 	constructor() {
 		this.matrixA = [];
 		this.matrixB = [];
@@ -13,7 +13,7 @@ export class MatrixCalculator {
 		this.ByDimension = 3;
 	}
 	
-	/*calculateRank() {
+	calculateRank() {
 		this.rebuildMatrix();
 		
 		var rank = this.AxDimension;
@@ -23,7 +23,7 @@ export class MatrixCalculator {
 		for (row = 0; row < rank; row++) { 
 			if (mat[row][row]) { 
 			   for (var col = 0; col < this.AyDimension; col++) { 
-				   if (col != row) { 
+				   if (col !== row) { 
 					 var mult = Math.round(mat[col][row] / mat[row][row]*100)/100; 
 					 for (var i = 0; i < rank; i++) 
 					   mat[col][i] -= mult * mat[row][i]; 
@@ -37,9 +37,6 @@ export class MatrixCalculator {
 				{ 
 					if (mat[i][row]) 
 					{ 
-						var aux = mat[row];
-						mat[row] = math[i];
-						math[i] = aux;
 						reduce = false; 
 						break; 
 					} 
@@ -54,13 +51,13 @@ export class MatrixCalculator {
 			} 
 		} 
 		this.printOnConsole("Matrix rank is: "+rank); 		
-	}*/
+	}
 	
 	invertMatrix() {		
 		this.calculateDeterminant();
-		if (this.determinantA==null)
+		if (this.determinantA===null)
 			return; //Error will already be printed out by calculateDeterminant method.
-		if(this.determinantA==0) {
+		if(this.determinantA===0) {
 			this.printOnConsole("Matrix is non-invertible.");
 			return;
 		}
@@ -75,24 +72,24 @@ export class MatrixCalculator {
 		//Calculating adjacency matrix
 		for (i =0; i<this.AyDimension; i++) {
 			for (var j=0; j<this.AxDimension; j++) {
-				if (this.AxDimension == 1)
+				if (this.AxDimension === 1)
 					adjacent[i][j] = 1+"/"+this.matrixA[i][j];
-				if (this.AxDimension==2) {
+				if (this.AxDimension===2) {
 					adjacent[j][i] = ((-1)**(i+1+j+1))*this.matrixA[i][j];
 				}
-				if (this.AxDimension==3) { 
+				if (this.AxDimension===3) { 
 					//Reconstructing 2 dimension sub matrix
 					var count1 = 0;
 					var count2 = 0;
 					for (var k=0; k<3; k++) {
 						for (var l=0; l<3; l++) {
-							if (l!=j && k!=i) {
+							if (l!==j && k!==i) {
 								aux[count1][count2]=this.matrixA[k][l];
 								count2++;
 							}
 						}
 						count2 = 0;
-						if (k!=i)
+						if (k!==i)
 							count1++;
 					}
 					adjacent[i][j] = ((-1)**(i+1+j+1))*(aux[0][0]*aux[1][1]-aux[0][1]*aux[1][0]);
@@ -105,14 +102,14 @@ export class MatrixCalculator {
 				result[i][j]=adjacent[j][i];
 			}
 		}
-		if (this.AxDimension==2) {
+		if (this.AxDimension===2) {
 			var temp = result[0][0];
 			result[0][0] = result[1][1];
 			result[1][1] = temp;
 		}
 		
 		//We divide by the determinant
-		if (this.AxDimension!=1) {
+		if (this.AxDimension!==1) {
 			for (var i =0; i<this.AxDimension; i++) {
 				for (var j=0; j<this.AyDimension; j++) {
 					result[i][j]=Math.round(result[i][j]/this.determinantA*100)/100;
@@ -145,7 +142,7 @@ export class MatrixCalculator {
 	
 	subtractMatrix() {
 		this.rebuildMatrix();
-		if (this.AxDimension!=this.AyDimension) {
+		if (this.AxDimension!==this.AyDimension) {
 			this.printOnConsole("Matrices have different dimmensions.");
 			return;
 		}
@@ -169,7 +166,7 @@ export class MatrixCalculator {
 	
 	addMatrix() {
 		this.rebuildMatrix();
-		if (this.AxDimension!=this.AyDimension) {
+		if (this.AxDimension!==this.AyDimension) {
 			this.printOnConsole("Matrices have different dimmensions.");
 			return;
 		}
@@ -194,7 +191,7 @@ export class MatrixCalculator {
 	
 	multiplyMatrix() {
 		this.rebuildMatrix();
-		if (this.AxDimension!=this.ByDimension) {
+		if (this.AxDimension!==this.ByDimension) {
 			this.printOnConsole("Number of columns on A is different from number of rows on B.");
 			return;
 		}
@@ -225,19 +222,19 @@ export class MatrixCalculator {
 	
 	calculateDeterminant() {
 		this.rebuildMatrix();
-		if (this.AxDimension!=this.AyDimension) {
+		if (this.AxDimension!==this.AyDimension) {
 			this.determinantA=null;
 			this.printOnConsole("Non-square matrix, determinant cannot be calculated.");
 			return;
 		}
 		var determinant;
-		if (this.AxDimension==1) {
+		if (this.AxDimension===1) {
 			determinant = this.matrixA[0][0];
 		}
-		if (this.AxDimension==2) {
+		if (this.AxDimension===2) {
 			determinant = (this.matrixA[0][0]*this.matrixA[1][1])-(this.matrixA[0][1]*this.matrixA[1][0]);
 		}
-		if (this.AxDimension==3) {
+		if (this.AxDimension===3) {
 			var op1, op2, op3, r1, r2, r3;
 			op1 = this.matrixA[0][0]*this.matrixA[1][1]*this.matrixA[2][2];
 			op2 = this.matrixA[0][1]*this.matrixA[1][2]*this.matrixA[2][0];
@@ -260,6 +257,7 @@ export class MatrixCalculator {
 		var row1 = document.getElementsByClassName("m1r1");
 		var row2 = document.getElementsByClassName("m1r2");
 		var row3 = document.getElementsByClassName("m1r3");
+		
 		for (var i=0; i<3; i++) {
 			this.matrixA[0][i] = row1[i].value;
 			this.matrixA[1][i] = row2[i].value;
@@ -283,13 +281,13 @@ export class MatrixCalculator {
 		
 		var count = 2;
 		//If there's a whole column of 0's, we'll decrease the dimension and look at the next one.
-		while (count>=0 && this.matrixA[0][count]==0 && this.matrixA[1][count]==0 && this.matrixA[2][count]==0) {
+		while (count>=0 && this.matrixA[0][count]===0 && this.matrixA[1][count]===0 && this.matrixA[2][count]===0) {
 			this.AxDimension--;
 			count--;
 		}
 		count = 2;
 		//If there's a whole row of 0's, we'll decrease the dimension and look at the next one.
-		while (count>=0 && this.matrixA[count][0]==0 && this.matrixA[count][1]==0 && this.matrixA[count][2]==0) {
+		while (count>=0 && this.matrixA[count][0]===0 && this.matrixA[count][1]===0 && this.matrixA[count][2]===0) {
 			this.AyDimension--;
 			count--;
 		}
@@ -299,16 +297,16 @@ export class MatrixCalculator {
 		this.BxDimension = 3;
 		
 		var count = 2;
-		while (count>=0 && this.matrixB[0][count]==0 && this.matrixB[1][count]==0 && this.matrixB[2][count]==0) {
+		while (count>=0 && this.matrixB[0][count]===0 && this.matrixB[1][count]===0 && this.matrixB[2][count]===0) {
 			this.BxDimension--;
 			count--;
 		}
 		count = 2;
-		while (count>=0 && this.matrixB[count][0]==0 && this.matrixB[count][1]==0 && this.matrixB[count][2]==0) {
+		while (count>=0 && this.matrixB[count][0]===0 && this.matrixB[count][1]===0 && this.matrixB[count][2]===0) {
 			this.ByDimension--;
 			count--;
 		}		
 	}
 }
 
-var mc = new MatrixCalculator();
+export default MatrixCalculator

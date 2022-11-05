@@ -4,12 +4,24 @@ import ListPlain from '../../components/lists/ListPlain';
 import ForumCard from '../../components/forumCard/ForumCard';
 import {useState} from 'react';
 import { useEffect } from 'react';
+import ForumThread from '../ForumThread/ForumThread';
+import { Button } from "@mui/material";
+import CreatePost from "../CreatePost/CreatePost"
+import { useNavigate } from "react-router-dom"
+
 function Forum(){
 
     const [data, setData] = useState([]);
+    const {clicked, setClicked} = false;
+    const [newPost, setNewPost] = useState(false);
+    const navigate = useNavigate();
 
-    const goToPost = () => {
-        console.log("clicked on post");
+
+    const goToPostThread = () => {
+        console.log("post thread button clicked");
+      //  return(
+        //<ForumThread/>
+       // )
     }
 
     useEffect(() => {
@@ -30,6 +42,13 @@ function Forum(){
 
         getForumPost();
     }, []);
+
+    const createNewPost = () => {
+        console.log("create a new post");
+        setNewPost(true);
+        navigate('/createPost');
+        return(<CreatePost/>)
+    }
    /* const getForumPost = async () => {
         await ApiCall.get('/forumPosts/get')
         .then(res => {
@@ -48,10 +67,17 @@ function Forum(){
     getForumPost()
     */
     return(
+        
+
         <Container maxWidth='md'>
             <h2>NoStruggle Browsing</h2>
-            
-            {data.map((item) => <ForumCard onClick={goToPost} title={item.title} content={item.content} tag={item.tags} date={item.created_At} nLikes={item.nLikes} />)}
+            <Button onClick={createNewPost}>Create a new Post</Button>
+            {data.map((item) => <ForumCard title={item.title} content={item.content} tag={item.tags}
+             date={item.created_At} nLikes={item.nLikes} postId={item._id} created_by={item.created_by}/>)}
+        
+            <Button onClick={goToPostThread}>Post Thread Page</Button>
+            <h1>{clicked}</h1>
+            <ForumThread/>
         </Container>
         
     )

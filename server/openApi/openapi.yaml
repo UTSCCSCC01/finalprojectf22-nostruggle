@@ -448,6 +448,37 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+  /answers:
+    post:
+      tags:
+        - answers
+      summary: Create an answer
+      description: Create an answer for a post
+      operationId: createAnswer
+      requestBody:
+        description: This can only be done by a logged in user on a page for viewing a forum thread
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Answer'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Answer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Answer'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Answer'
+        '409':
+          description: Content not filled
   /post:
     post:
       tags:
@@ -595,7 +626,7 @@ components:
           type: string
           example: Catherine
         tags:
-          type: String
+          type: string
           example: "Computer Science"
         created_At:
           type: string
@@ -603,6 +634,36 @@ components:
         nLikes:
           type: number
           example: 0
+    Answer:
+      type: object
+      required:
+        - title
+        - content
+        - created_by
+        - tags
+        - created_At
+        - nLikes
+      properties:
+        content:
+          type: string
+          example: You can try using recursion
+        created_by:
+          type: string
+          example: Catherine
+        child_of:
+          type: string
+          example: "634b447487873860a7fdff48"
+        created_At:
+          type: string
+          example: "07_10_2022"
+        nLikes:
+          type: number
+          example: 0
+        comments: 
+          type: array
+          items:
+            type: string
+          example: []
         
       xml:
         name: user

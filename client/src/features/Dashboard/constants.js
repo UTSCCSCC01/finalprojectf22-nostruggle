@@ -1,5 +1,5 @@
 import Forum from "../Forum/Forum"
-import Scheduler from "../Todo/Scheduler"
+import Deadline from "../Todo/Deadline"
 import DashboardStatistics from "./Content/DashboardStatistics"
 import StudyTimerSummary from "../Todo/StudyTimer/Summary/StudyTimerSummary"
 import DashboardTimeSummary from "./Content/DashboardTimeSummary"
@@ -59,28 +59,11 @@ export const dashboardItems = [
             md: 4
         },
         color: {
-            header: 'red',
-            headerOutline: '#009962'
+            header: '#DED6FF',
+            headerOutline: '#947BFA'
         },
         title: "Deadlines",
-        content: <Scheduler/>,
-        link: {
-            title: 'View your todolist',
-            path: '/todo'
-        }
-    },
-    {
-        dimensions: {
-            xs: 12,
-            sm: 6,
-            md: 4
-        },
-        color: {
-            header: '#C3FFC6',
-            headerOutline: '#009962'
-        },
-        title: "To-Do",
-        content: <Scheduler/>,
+        content: <Deadline/>,
         link: {
             title: 'View your todolist',
             path: '/todo'

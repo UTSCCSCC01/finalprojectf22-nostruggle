@@ -5,8 +5,8 @@ import { Drawer } from "@mui/material"
 import './ToolBar.css'
 import { IconButton } from "@mui/material"
 import { ReactComponent as FunctionIcon } from '../../assets/icons/functions.svg'
-import { ReactComponent as TableIcon } from '../../assets/icons/table.svg'
-
+import LinearAlgebraCalculator from "../LinearAlgebraCalculator/LinearAlgebraCalculator"
+import FactorMultiple from "../FactorMultiple/FactorMultiple"
 const ToolsBar = () => {
 
     return (
@@ -14,8 +14,8 @@ const ToolsBar = () => {
             <StudyTimer/>
             <Calculator/>
             <IconButton size='small' children={<FunctionIcon width='50px' height='50px' style={{fill: 'grey'}}/>}/>
-            <IconButton size='small' children={<TableIcon width='50px' height='50px' style={{fill: 'grey'}}/>}/>
-
+            <LinearAlgebraCalculator/>
+            <FactorMultiple/>
         </div>
     )
 }
