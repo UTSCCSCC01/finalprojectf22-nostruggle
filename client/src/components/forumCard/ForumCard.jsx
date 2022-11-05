@@ -3,6 +3,7 @@ import { Typography, CardContent, Card, Box, Chip, Item, Button} from '@mui/mate
 import { useState, useContext } from 'react';
 import { usePostState } from '../../features/Forum/PostContext';
 import { useNavigate } from 'react-router-dom';
+import { useUserState } from '../../features/SignUp/UserContext';
 
 const ForumCard = (props) => {
     const title = props.title;
@@ -11,11 +12,13 @@ const ForumCard = (props) => {
     const date = props.date;
     const nLikes = props.nLikes;
     const updatedDate = date.split("T")[0];
-    //const postIdselected = props.postId;
-    const postIdselected = "634b447487873860a7fdff48";
+    const postIdselected = props.postId;
+    //const postIdselected = "634b447487873860a7fdff48";
     const created_by = props.created_by;
 
     const navigate = useNavigate();
+
+    const {userState, setUserState} = useUserState();
 
     const { postState, setPostState } = usePostState();
 
@@ -31,9 +34,14 @@ const ForumCard = (props) => {
         })
         console.log(postState.postId);
         */
+        setUserState({
+            ...userState,
+            postId: postIdselected
+        })
 
         navigate('/postThread');
     }
+
 /*
 <Box sx = {{ display: 'grid', gridAutoColumns: '1fr', gap: 1}}
                     <Box sx ={{gridRow: '1', gridColumn: 'span 2'}}>1</Box>
