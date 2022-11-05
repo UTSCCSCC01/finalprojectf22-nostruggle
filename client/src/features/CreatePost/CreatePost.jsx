@@ -1,6 +1,7 @@
 import { TextField, Button, Chip } from "@mui/material";
 import { useState } from 'react'
 import ApiCall from "../../components/api/ApiCall";
+import { useUserState } from '../SignUp/UserContext';
 
 function CreatePost(){
     
@@ -14,14 +15,17 @@ function CreatePost(){
 
     const [tagError, setTagError] = useState(false);
 
+
+    const {userState} = useUserState();
+
     const [postData, setPostData] = useState({ title: '',
         content: '',
-        created_by: 'default-user',
+        created_by: userState.user.username,
         tags: "",
         created_At: Date.now,
         nLikes: 0
     });
-
+    console.log(userState.user.username);
     const handleClick = (props) => {
         console.log(props.tag);
         setTagSelected(props.tag);

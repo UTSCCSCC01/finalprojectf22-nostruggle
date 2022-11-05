@@ -4,12 +4,20 @@ import ListPlain from '../../components/lists/ListPlain';
 import ForumCard from '../../components/forumCard/ForumCard';
 import {useState} from 'react';
 import { useEffect } from 'react';
+import ForumThread from '../ForumThread/ForumThread';
+import { Button } from "@mui/material";
+
 function Forum(){
 
     const [data, setData] = useState([]);
+    const {clicked, setClicked} = false;
 
-    const goToPost = () => {
-        console.log("clicked on post");
+
+    const goToPostThread = () => {
+        console.log("post thread button clicked");
+      //  return(
+        //<ForumThread/>
+       // )
     }
 
     useEffect(() => {
@@ -51,7 +59,12 @@ function Forum(){
         <Container maxWidth='md'>
             <h2>NoStruggle Browsing</h2>
             
-            {data.map((item) => <ForumCard onClick={goToPost} title={item.title} content={item.content} tag={item.tags} date={item.created_At} nLikes={item.nLikes} />)}
+            {data.map((item) => <ForumCard title={item.title} content={item.content} tag={item.tags}
+             date={item.created_At} nLikes={item.nLikes} postId={item._id} created_by={item.created_by}/>)}
+        
+            <Button onClick={goToPostThread}>Post Thread Page</Button>
+            <h1>{clicked}</h1>
+            <ForumThread/>
         </Container>
         
     )
