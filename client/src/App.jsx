@@ -9,6 +9,8 @@ import Scheduler from './features/Todo/Scheduler';
 import Forum from './features/Forum/Forum';
 import StudyTimerSummary from './features/Todo/StudyTimer/Summary/StudyTimerSummary';
 import SignUp from './features/SignUp/SignUp';
+import { Create } from '@mui/icons-material';
+import CreatePost from './features/CreatePost/CreatePost';
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
             <Route path='profile' element={ <Profile /> }/>
             <Route path='logout' element={ <SignOut /> }/>
             <Route path='*' element={ <NoPage /> }/>
+            <Route path='createPost' element={ <CreatePost/> }/>
         </Route>
       </Routes>
     </BrowserRouter>
