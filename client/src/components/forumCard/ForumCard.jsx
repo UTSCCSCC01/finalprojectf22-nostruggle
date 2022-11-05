@@ -2,7 +2,7 @@
 import { Typography, CardContent, Card, Box, Chip, Item, Button} from '@mui/material';
 import { useState, useContext } from 'react';
 import { usePostState } from '../../features/Forum/PostContext';
-
+import { useNavigate } from 'react-router-dom';
 
 const ForumCard = (props) => {
     const title = props.title;
@@ -14,6 +14,8 @@ const ForumCard = (props) => {
     //const postIdselected = props.postId;
     const postIdselected = "634b447487873860a7fdff48";
     const created_by = props.created_by;
+
+    const navigate = useNavigate();
 
     const { postState, setPostState } = usePostState();
 
@@ -29,6 +31,8 @@ const ForumCard = (props) => {
         })
         console.log(postState.postId);
         */
+
+        navigate('/postThread');
     }
 /*
 <Box sx = {{ display: 'grid', gridAutoColumns: '1fr', gap: 1}}
