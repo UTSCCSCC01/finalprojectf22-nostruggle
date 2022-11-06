@@ -3,20 +3,24 @@ import ForumCard from '../../components/forumCard/ForumCard';
 import { useState } from 'react'
 import ApiCall from "../../components/api/ApiCall";
 import { useUserState } from '../SignUp/UserContext';
+import AnswerCard from '../../components/answerCard/AnswerCard'
 
 function ForumThread(){
 
     const [contentFilled, setContentFilled] = useState(true);
     const [answerField, setAnswerField] = useState("");
-    const [content, setContent] = useState("");
+    const [content, setContent] = useState("abc");
     //const [answerData, setAnswerDat]
     const {userState} = useUserState();
+    const [created_by, setCreatedBy] = useState(userState.user.username);
+    //etCreatedBy(userState.user.username);
     const [answerData, setAnswerData] = useState({content: "",
         created_by: userState.user.username,
         nLikes: "0",
         created_At: { type: Date, default: Date.now},
         child_of: userState.postId,
         comments: []})
+
 
     const enterContent = (event) => {
         setAnswerField(event.target.value)
@@ -42,21 +46,23 @@ function ForumThread(){
 
     return(
         <div>
-         <ForumCard title="Title" content="Content" tag="Computer Science" date="Monday" nLikes="5" />
-       
-        <TextField
-        id="content" 
-        label="Add a new answer" 
-        variant="outlined"
-        fullWidth={true}
-        multiline={true}
-        error={!contentFilled}
-        helperText={!contentFilled ? "Please enter your answer" : ""}
-        rows={8}
-        onChange={enterContent}
-        ></TextField>
 
-        <Button onClick={submitAnswer} >Post Answer</Button>
+            <AnswerCard title="Title" content="Content" tag="Computer Science" date="Monday" nLikes="5"
+                created_by={created_by}/>
+                
+            <TextField
+                id="content" 
+                label="Add a new answer" 
+                variant="outlined"
+                fullWidth={true}
+                multiline={true}
+                error={!contentFilled}
+                helperText={!contentFilled ? "Please enter your answer" : ""}
+                rows={8}
+                onChange={enterContent}
+            ></TextField>
+
+            <Button onClick={submitAnswer} >Post Answer</Button>
         </div>
     )
 
