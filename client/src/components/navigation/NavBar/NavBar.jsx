@@ -32,7 +32,7 @@ const NavBar = () => {
             <Tooltip title={ 'Open ' + page.title } key={ page.title }>
                 <span>
                     {
-                        page.path !== '/home' ?
+                        page.path !== '/' ?
                         <Button
                             {...buttonProps}
                         >{ page.title }
@@ -46,11 +46,6 @@ const NavBar = () => {
         )
     };
     
-    useEffect(() => {
-        if (!userState.signedIn && (!navBarSignedOutPages.map((page) => page.path).includes(location.pathname))){
-            navigate('/login')
-        }
-    }, [location.pathname])
     return (
         <>
             { openDrawer && userState.signedIn &&

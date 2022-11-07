@@ -1,6 +1,6 @@
 export const navBarSignedInPages = [
     {
-        path: '/home',
+        path: '/',
         title: "HOME"
     },
     {
