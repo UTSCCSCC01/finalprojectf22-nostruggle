@@ -12,7 +12,7 @@ import SignUp from './features/SignUp/SignUp';
 import { Create } from '@mui/icons-material';
 import CreatePost from './features/CreatePost/CreatePost';
 import ForumThread from './features/ForumThread/ForumThread';
-
+import PostsByUser from './features/PostsByUser';
 function App() {
   return (
     <BrowserRouter>
@@ -28,6 +28,7 @@ function App() {
             <Route path='*' element={ <NoPage /> }/>
             <Route path='createPost' element={ <CreatePost/> }/>
             <Route path='postThread' element={ <ForumThread/>}/>
+            <Route path='posts/:userId' element={ <PostsByUser/>}/>
         </Route>
       </Routes>
     </BrowserRouter>
