@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import { Button } from "@mui/material"
+import { Button, Typography, Container, Paper } from "@mui/material"
 import ApiCall from "../../components/api/ApiCall"
 import { useUserState } from "../SignUp/UserContext"
+import { formatMessage } from "./utils"
 const NotificationSideBar = ({ onViewAll }) => {
     const notifInput = useRef()
     const sendNotification = async () => {
@@ -30,7 +31,7 @@ const NotificationSideBar = ({ onViewAll }) => {
 
     const getNotifications = async () => {
         console.log("getting notifications")
-        await ApiCall.get(`/notification?userId=${userState.user._id}`)
+        await ApiCall.get(`/notification?userId=${userState.user._id}&read=${false}`)
         .then((res) => {
             console.log(res)
             if (res.status === 200){
@@ -51,19 +52,19 @@ const NotificationSideBar = ({ onViewAll }) => {
     }, [])
 
     return (
-        <div className='NotificationSideBar' style={{ width: 300, padding: 10, display: 'flex', flexDirection: 'column' }}>NotificationSideBar
+        <Container className='NotificationSideBar' style={{ width: 300, padding: 10, display: 'flex', flexDirection: 'column' }}>NotificationSideBar
             <Button onClick={markAsRead}>Mark all as read</Button>
             <Button onClick={sendNotification}>Click to send notification</Button>
-                <input type='text' ref={notifInput}/>
+            <input type='text' ref={notifInput}/>
             <div style={{ overflow: 'hidden'}}>
                 {
                     notifications.map(notification => (
-                        <div style={{ backgroundColor: notification.read ? 'cyan' : 'yellow'}}>Source: {notification.source}, read: {notification.read},  type {notification.type}, date: {notification.createdAt}</div>
+                        <div><Typography color='primary'>{formatMessage(notification)} date: {notification.createdAt}</Typography></div>
                     ))
                 }
             </div>
             <Button onClick={onViewAll} variant='contained'>View All</Button>
-        </div>
+        </Container>
     )
 }
 
