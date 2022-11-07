@@ -18,8 +18,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={ <UserOutlet /> }>
-            <Route path='/home' element={ <Dashboard /> }/>
-            <Route index path='login' element={ <SignUp /> }/>
+            <Route index path='/' element={ <Dashboard /> }/>
+            <Route path='login' element={ <SignUp /> }/>
             <Route path='forum' element={ <Forum /> }/>
             <Route path='todo' element={ <Scheduler /> }/>
             <Route path='daily' element={ <StudyTimerSummary /> }/>

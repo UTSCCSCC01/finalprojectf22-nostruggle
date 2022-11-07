@@ -65,7 +65,6 @@ const Scheduler = () => {
         return (
             <div className='Scheduler'>
                 <h1>Upcoming Deadlines</h1> 
-                <IconButton id='AddTaskButton' onClick={() => toggleAddTask(true)} sx={{ width: '60px', height: '60px' }} children={<AddBox sx={{fontSize: '60px'}}/>}></IconButton>
                 <TodoList 
                     scheduleRef={scheduleRef} 
                     schedule={schedule} tasks={schedule.userTasks}                     
