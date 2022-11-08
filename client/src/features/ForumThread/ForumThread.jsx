@@ -3,9 +3,12 @@ import ForumCard from '../../components/forumCard/ForumCard';
 import { useState } from 'react'
 import ApiCall from "../../components/api/ApiCall";
 import { useUserState } from '../SignUp/UserContext';
+import { useParams } from 'react-router-dom';
 
 function ForumThread(){
 
+    const {postId} = useParams();
+    console.log(postId);
     const [contentFilled, setContentFilled] = useState(true);
     const [answerField, setAnswerField] = useState("");
     const [content, setContent] = useState("");
@@ -15,7 +18,7 @@ function ForumThread(){
         created_by: userState.user.username,
         nLikes: "0",
         created_At: { type: Date, default: Date.now},
-        child_of: userState.postId,
+        child_of: postId,
         comments: []})
 
     const enterContent = (event) => {

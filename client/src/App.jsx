@@ -12,6 +12,7 @@ import SignUp from './features/SignUp/SignUp';
 import { Create } from '@mui/icons-material';
 import CreatePost from './features/CreatePost/CreatePost';
 import ForumThread from './features/ForumThread/ForumThread';
+import ForumThreadPage from './features/ForumThreadPage/ForumThreadPage';
 
 function App() {
   return (
@@ -27,7 +28,9 @@ function App() {
             <Route path='logout' element={ <SignOut /> }/>
             <Route path='*' element={ <NoPage /> }/>
             <Route path='createPost' element={ <CreatePost/> }/>
-            <Route path='postThread' element={ <ForumThread/>}/>
+            <Route path='postThread' element={ <ForumThreadPage/>}>
+              <Route path=":postId" element={<ForumThread/>}/>
+            </Route>
         </Route>
       </Routes>
     </BrowserRouter>
