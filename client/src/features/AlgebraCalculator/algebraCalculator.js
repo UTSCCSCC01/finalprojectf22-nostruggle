@@ -1,11 +1,10 @@
 function formatPrior(section) {
   //Replace all spaces
   section = section.replaceAll(" ", "");
-  //Convert minus to plus sign with negative term 
-  section = section.replace(/(?<!\^)-/g, '+-');
   return section;
 }
 
+/*
 function generateTerms(expression) {
 
     expression = formatPrior(expression);
@@ -13,11 +12,14 @@ function generateTerms(expression) {
     return terms;
 
 }
+*/
 
 function simplifyExpression(expression) {
 
-    var terms = generateTerms(expression);
+    expression = formatPrior(expression);
+    //var terms = generateTerms(expression);
 
+    /*
     var constant = 0;
     for (var i = 0; i < terms.length; i++) {
 
@@ -31,8 +33,45 @@ function simplifyExpression(expression) {
     }
 
     var simplified = constant;
+    */
 
-    return simplified;
+    for (var i = 0; i < expression.length; i++) {
+      //Grouped together due to order of operations
+      console.log(expression[i]);
+      if (expression[i] == '+' || (expression[i] == '-' && i > 0)) {
+        if (expression[i] == '+') {
+          var left;
+          //If number on left side is positive
+          if (expression[i-1] != '-')
+            left = parseInt(expression.substring(i - 1, i));
+          //If number on left side is negative 
+          else if (expression[i-1] == '-')
+            left = parseInt(expression.substring(i - 2, i));
+          var right = parseInt(expression.substring(i + 1, i + 2));
+          console.log(left);
+          console.log(right);
+          var sum = left + right;
+          expression = (expression.substring(0, i - 2)) + sum + (expression.substring(i + 2, ));
+        }
+        else if (expression[i] == '-' && i > 0) {
+          console.log('Second case');
+          var left;
+          //If number on left side is positive
+          if (expression.substring(i - 2, i - 1) != '-')
+            left = parseInt(expression.substring(i - 1, i));
+          //If number on left side is negative 
+          else if (expression.substring(i - 2, i - 1) == '-')
+            left = parseInt(expression.substring(i - 2, i));
+          var right = parseInt(expression.substring(i + 1, i + 2));
+          console.log(left);
+          console.log(right);
+          var difference = left - right;
+          expression = (expression.substring(0, i - 2)) + difference + (expression.substring(i + 2, ));
+        }
+      }
+  }
+
+    return expression;
 
 }
 
