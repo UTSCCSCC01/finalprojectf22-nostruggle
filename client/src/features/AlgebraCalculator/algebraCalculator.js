@@ -52,6 +52,7 @@ function simplifyExpression(expression) {
           console.log(right);
           var sum = left + right;
           expression = (expression.substring(0, i - 2)) + sum + (expression.substring(i + 2, ));
+          i = -1;
         }
         else if (expression[i] == '-' && i > 0) {
           console.log('Second case');
@@ -67,6 +68,7 @@ function simplifyExpression(expression) {
           console.log(right);
           var difference = left - right;
           expression = (expression.substring(0, i - 2)) + difference + (expression.substring(i + 2, ));
+          i = -1;
         }
       }
   }
