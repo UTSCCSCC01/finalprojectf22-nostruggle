@@ -20,7 +20,7 @@ export const navBarSignedInPages = [
         title: "DAILY SUMMARY"
     },
     {
-        path: '/posts/abc',
+        path: '/posts/test',
         title: "MY POSTS"
     }
 ]

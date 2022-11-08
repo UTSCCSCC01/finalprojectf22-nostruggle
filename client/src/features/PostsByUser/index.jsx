@@ -8,7 +8,7 @@ const PostsByUser = () => {
     const params = useParams()
     const [ posts, setPosts ] = useState([])
     const getPosts = async () => {
-        await ApiCall.get(`/forumPosts/get`)
+        await ApiCall.get(`/forumPosts/get?title=${params.userId}`)
         .then( res => {
             if (res.status === 201) {
                 console.log(res.data)
@@ -23,10 +23,10 @@ const PostsByUser = () => {
 
     return (
         <div>
-            <h1>{params.userId}</h1>
+            <h1>Posts by {params.userId}</h1>
             {
                 posts.map(item => (
-                    <ForumCard title={item.title} content={item.content} tag={item.tags}
+                    <ForumCard editor={true} title={item.title} content={item.content} tag={item.tags}
                     date={item.created_At} nLikes={item.nLikes} postId={item._id} created_by={item.created_by} />
                 ))
             }

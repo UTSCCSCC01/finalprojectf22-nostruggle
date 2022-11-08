@@ -2,7 +2,7 @@ import { TextField, Button, Chip } from "@mui/material";
 import { useState } from 'react'
 import ApiCall from "../../components/api/ApiCall";
 import { useUserState } from '../SignUp/UserContext';
-
+import { tags } from '../Forum/constants'
 function CreatePost(){
     
     const [title, setTitle] = useState('');
@@ -83,8 +83,6 @@ function CreatePost(){
         setPostData(previousState => { return {...previousState, content: event.target.value}});
     }
 
-
-    const tags = [ 'Advice', 'Homework Help', 'Computer Science', 'Linear Algebra', 'Calculus' ];
 
     return (
         <div>
