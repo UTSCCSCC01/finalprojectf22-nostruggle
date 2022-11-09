@@ -64,7 +64,7 @@ function simplifyExpression(expression) {
           }
           var right = parseInt(expression.substring(i + 1, digit_end2 + 1));
 
-          var difference = left + right;
+          var difference = left - right;
           expression = (expression.substring(0, digit_start1)) + difference + (expression.substring(digit_end2 + 1, ));
           i = -1;
         }
