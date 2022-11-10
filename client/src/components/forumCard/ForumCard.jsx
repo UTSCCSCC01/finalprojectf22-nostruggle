@@ -13,7 +13,6 @@ const ForumCard = (props) => {
     const nLikes = props.nLikes;
     const updatedDate = date.split("T")[0];
     const postIdselected = props.postId;
-    //const postIdselected = "634b447487873860a7fdff48";
     const created_by = props.created_by;
 
     const navigate = useNavigate();
