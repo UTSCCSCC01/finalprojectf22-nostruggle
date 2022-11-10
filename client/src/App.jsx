@@ -13,14 +13,15 @@ import Notifications from './features/Notifications';
 import { Create } from '@mui/icons-material';
 import CreatePost from './features/CreatePost/CreatePost';
 import ForumThread from './features/ForumThread/ForumThread';
+import ForumThreadPage from './features/ForumThreadPage/ForumThreadPage';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={ <UserOutlet /> }>
-            <Route path='/home' element={ <Dashboard /> }/>
-            <Route index path='login' element={ <SignUp /> }/>
+            <Route index path='/' element={ <Dashboard /> }/>
+            <Route path='login' element={ <SignUp /> }/>
             <Route path='forum' element={ <Forum /> }/>
             <Route path='todo' element={ <Scheduler /> }/>
             <Route path='daily' element={ <StudyTimerSummary /> }/>
@@ -29,7 +30,9 @@ function App() {
             <Route path='logout' element={ <SignOut /> }/>
             <Route path='*' element={ <NoPage /> }/>
             <Route path='createPost' element={ <CreatePost/> }/>
-            <Route path='postThread' element={ <ForumThread/>}/>
+            <Route path='postThread' element={ <ForumThreadPage/>}>
+              <Route path=":postId" element={<ForumThread/>}/>
+            </Route>
         </Route>
       </Routes>
     </BrowserRouter>

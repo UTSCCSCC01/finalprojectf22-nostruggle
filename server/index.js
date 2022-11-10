@@ -27,6 +27,7 @@ app.use('/tasks', taskRouter)
 app.use('/notification', notificationRouter)
 
 app.use('/answers', answerRouter);
+app.use('/postThread', answerRouter);
 
 const uri = process.env.URI;
 const port = process.env.PORT || 2800;

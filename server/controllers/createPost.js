@@ -32,3 +32,14 @@ export const getPost = async (req, res) => {
     }
 
 };
+
+export const getPostById = async (req, res) => {
+   console.log('abc');
+   try {
+      const post = await Post.findById({_id: req.params.postId})
+      console.log(post);
+      res.status(201).json(post);
+   } catch(e){
+      res.status(409).json({message: e.message});
+   }
+}

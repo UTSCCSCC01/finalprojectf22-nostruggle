@@ -35,7 +35,7 @@ const NavBar = () => {
             <Tooltip title={ 'Open ' + page.title } key={ page.title }>
                 <span>
                     {
-                        page.path !== '/home' ?
+                        page.path !== '/' ?
                         <Button
                             {...buttonProps}
                         >{ page.title }

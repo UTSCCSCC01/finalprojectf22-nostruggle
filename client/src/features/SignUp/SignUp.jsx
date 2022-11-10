@@ -25,7 +25,7 @@ const SignUp = () => {
         .then(res => {
             if (res.data.length > 0 ){
                 saveUser(res.data[0])
-                navigate('/home')
+                navigate('/')
              } else {
                 console.log("fail login user DNE")
              } 
