@@ -1,4 +1,4 @@
-import { Card, Typography } from '@mui/material';
+import { Card, Typography, CardContent, Chip } from '@mui/material';
 
 
 
@@ -12,8 +12,10 @@ const ForumPostCard = (props) =>{
     const postId = props.postId;
     const created_by = props.created_by;
 
+    console.log("date" + date);
+
     return(
-        <Card>
+        <Card sx={{mb: 3}}>
             <CardContent>
                 <Typography variant="h5" sx={{fontWeight: "bold"}}>
                     {title}
