@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import { Button, Typography, Container, Paper, TextField } from "@mui/material"
 import ApiCall from "../../components/api/ApiCall"
@@ -44,13 +44,18 @@ const NotificationSideBar = ({ onViewAll }) => {
                 let fetchedNotifications = res.data
                 fetchedNotifications.sort((n1, n2) =>  new Date(n2.createdAt) - new Date(n1.createdAt))
                 setNotifications(fetchedNotifications)
+                if (notificationsFormatted.length === 0) setNotificationsFormatted(fetchedNotifications.map(() => <div>...</div>))
             }
         }).catch( e => console.log(e))  
         console.log("sent")     
     }
 
+    const setFormatNotificationsCallback = useCallback((index, notif) => {
+        setNotificationsFormatted(notificationsFormatted.map((m, i) => i === index ? notif : m))
+    }, [notificationsFormatted])
+
     const formatNotifications = () => {
-        formatMessages(setNotificationsFormatted, notifications)
+        formatMessages(setNotificationsFormatted, notificationsFormatted, notifications)
     }
 
     useEffect(() => {

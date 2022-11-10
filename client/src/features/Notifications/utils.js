@@ -1,7 +1,18 @@
 import ApiCall from "../../components/api/ApiCall"
 import { Link } from "react-router-dom"
 
-export const formatComment = async (n) => {
+export const formatComment = async (n, yes, index, setList, refresh) => {
+
+    if (!yes) {
+        let msg
+        msg = (
+            <>  
+                <Link>lololol</Link> added a comment to your post <Link to={`/postThread/`}><b>fake post</b> </Link>
+            </>
+        )
+        //setList(index, msg)
+        return msg
+    }
     let answerParent = ''
     let answerAuthorId = ''
     let postTitle = ''
@@ -30,6 +41,7 @@ export const formatComment = async (n) => {
                             <Link>{answerAuthorId}</Link> added a comment to your post <Link to={`/postThread/${n.source}`}><b>{postTitle}</b> </Link>
                         </>
                     )
+                    //setList(index, msg)
                 }
             })
         }
@@ -40,16 +52,34 @@ export const formatComment = async (n) => {
 
 }
 
-export const formatMessages = async (setList, lst) => {
+export const organize = () => {
+
+}
+
+export const formatMessage = async (setMsg, n) => {
+    let msg
+    switch(n.type) {
+        case 'comment':
+            msg = await formatComment(n, false)
+            break
+        default:
+            msg = await formatComment(n, true) //() => `No way to format notif yet ${n.source}  ${n.type}`
+            break
+    }
+    setMsg(msg)
+}
+
+
+export const formatMessages = async (setList, newLst, lst) => {
     let newList = []
     let msg
     lst.map(async (n, index) => {
         switch(n.type) {
-            case 'answer':
-                msg = await formatComment(n)
+            case 'comment':
+                msg =  await formatComment(n, false, index, setList,newLst,lst)
                 break
             default:
-                msg = `No way to format notif yet ${n.source}  ${n.type}`
+                msg = await formatComment(n, true, index, setList,newLst,lst) //() => `No way to format notif yet ${n.source}  ${n.type}`
                 break
         }
         console.log("pushing")
@@ -57,8 +87,9 @@ export const formatMessages = async (setList, lst) => {
         newList.push(msg)
         if (index === lst.length - 1) {
             console.log(newList)
-            console.log("new list")
+            console.log(lst.length + " new list " + newList.length)
             setList(newList)
+            //setList(newList)
         }
     })
 }
