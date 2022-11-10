@@ -75,9 +75,6 @@ function Forum(){
             {data.map((item) => <ForumCard title={item.title} content={item.content} tag={item.tags}
              date={item.created_At} nLikes={item.nLikes} postId={item._id} created_by={item.created_by}/>)}
         
-            <Button onClick={goToPostThread}>Post Thread Page</Button>
-            <h1>{clicked}</h1>
-            <ForumThread/>
         </Container>
         
     )
