@@ -23,7 +23,8 @@ function ForumThread(){
 
     //const [answerData, setAnswerDat]
 
-    const [postData, setPostData] = useState([]);
+    //const [postData, setPostData] = useState([]);
+    let postData = {};
 
     const {userState} = useUserState();
     const [answerData, setAnswerData] = useState({content: "",
@@ -56,11 +57,12 @@ function ForumThread(){
         setTitle(postData.title);
         setContent(postData.content);
         setTag(postData.tags);
-        //setDate(postData.created_At);
+        setDate(postData.created_At);
         setCreatedBy(postData.created_by);
         setNLikes(postData.nLikes);
         setPostIdData(postData._id);
         console.log("date is " + postData.created_At);
+        console.log("title is" + postData.title);
     }
 
     useEffect(() => {
@@ -70,7 +72,9 @@ function ForumThread(){
             await ApiCall.get('/postThread/'+ postId + '/')
             .then(res => {
                 console.log(res.data);
-                setPostData(res.data);
+               // setPostData(res.data);
+                postData = res.data;
+                console.log(postData);
                 setPostInfo();
             })
             .catch(e => {
@@ -83,13 +87,16 @@ function ForumThread(){
     }, []);
 
   
-
+// <ForumPostCard title={title} content={content} tag={tag} date={postData.created_At} nLikes={nLikes} 
+//created_by={created_by} postIdData={postIdData}/>
     console.log('postid is' + postId);
 
     return(
         <div>
-         <ForumPostCard title={title} content={content} tag={tag} date={postData.created_At} nLikes={nLikes} 
-         created_by={created_by} postIdData={postIdData}/>
+         
+        <ForumPostCard title={title} content={content} tag={tag} date={date} nLikes={nLikes} 
+        created_by={created_by} postIdData={postIdData}/>
+         
        
         <TextField
         id="content" 
