@@ -72,7 +72,6 @@ function ForumThread(){
             await ApiCall.get('/postThread/'+ postId + '/')
             .then(res => {
                 console.log(res.data);
-               // setPostData(res.data);
                 postData = res.data;
                 console.log(postData);
                 setPostInfo();
@@ -86,9 +85,6 @@ function ForumThread(){
         
     }, []);
 
-  
-// <ForumPostCard title={title} content={content} tag={tag} date={postData.created_At} nLikes={nLikes} 
-//created_by={created_by} postIdData={postIdData}/>
     console.log('postid is' + postId);
 
     return(
