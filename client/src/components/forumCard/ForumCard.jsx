@@ -110,13 +110,6 @@ const ForumCard = (props) => {
                             </Paper>
                         </ClickAwayListener>
                     }
-                    <EditPost 
-                    open={openEditor} 
-                    title={title}
-                    tag={tag}
-                    content={content} 
-                    onCancel={() => toggleOpenEditor(false)}
-                    onClose={() => alert("close")}/>
                 </CardContent>
              
            }

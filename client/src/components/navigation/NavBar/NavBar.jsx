@@ -9,13 +9,15 @@ import ListPlain from '../../lists/ListPlain';
 
 import './NavBar.css'
 
-import { navBarSignedInPages, navBarSignedOutPages } from '../../../pages/constants';
+import { useNavBarSignedInPages, useNavBarSignedOutPages } from '../../../pages/constants';
 import { useUserState } from '../../../features/SignUp/UserContext';
 import ToolsBar from '../../../features/ToolsBar';
 import { useEffect } from 'react';
 const NavBar = () => {
 
     const { userState } = useUserState();
+    const navBarSignedInPages = useNavBarSignedInPages();
+    const navBarSignedOutPages = useNavBarSignedOutPages();
     const navigate = useNavigate();
     const location = useLocation();
     const [ openDrawer, setOpenDrawer ] = useState(false);

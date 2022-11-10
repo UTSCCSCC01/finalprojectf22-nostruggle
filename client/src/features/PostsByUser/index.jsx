@@ -8,7 +8,7 @@ const PostsByUser = () => {
     const params = useParams()
     const [ posts, setPosts ] = useState([])
     const getPosts = async () => {
-        await ApiCall.get(`/forumPosts/get?title=${params.userId}`)
+        await ApiCall.get(`/forumPosts/get?created_by=${params.userId}`)
         .then( res => {
             if (res.status === 201) {
                 console.log(res.data)
