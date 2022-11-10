@@ -10,17 +10,18 @@ div.CalculatorBox {
 
 }
 
-.CalculatorInputField > input {
+.CalculatorInput > input {
     outline: none !important;
 }
 
-div.CalculatorInputField {
+div.CalculatorInput {
     position: fixed;
     margin: 8px;
     height: 60px;
-    width: auto;
+    width: 390px;
     border: 2px solid lightskyblue;
     border-radius: 4px;
+    overflow-x: scroll;
 }
 
 div.CalculatorButtonPad {
