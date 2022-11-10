@@ -45,7 +45,7 @@ const ForumCard = (props) => {
             postId: postIdselected
         })
 
-        navigate('/postThread');
+        navigate('/postThread/' + postIdselected);
     }
 
     const editPost = () => {
