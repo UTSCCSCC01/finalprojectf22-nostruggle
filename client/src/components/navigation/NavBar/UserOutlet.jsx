@@ -43,12 +43,11 @@ const UserOutlet = () => {
     }
 
     useEffect(() => {
-      checkForNotifications()
       validateUserAndSignIn()
+      checkForNotifications()
     }, [location.pathname])
     
     useEffect(() => {
-      checkForNotifications()
       validateUserAndSignIn()
     }, [])
 
@@ -57,8 +56,9 @@ const UserOutlet = () => {
       await ApiCall.get(`/notification/new?userId=${userState.user._id}`)
       .then(res => {
           if (res.status === 200){
+            console.log(res.data)
             const hasNotif = res.data.hasNewNotifications
-            console.log(userState)
+            console.log("checked for notifications")
             setUserState({...userState, hasNewNotifications: hasNotif})
           }
       })

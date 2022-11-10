@@ -25,7 +25,6 @@ export const getPost = async (req, res) => {
 
     try {
        const posts = await Post.find();
-       console.log(posts);
        res.status(201).json(posts);
     } catch(e){
        res.status(409).json({message: e.message });

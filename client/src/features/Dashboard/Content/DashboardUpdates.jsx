@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useUserState } from '../../SignUp/UserContext'
-import { formatComment } from '../../Notifications/utils'
+import { formatMessages } from '../../Notifications/utils'
 import NotificationCard from '../../Notifications/NotificationCard'
 import ApiCall from '../../../components/api/ApiCall'
 const DashboardUpdates = () => {
@@ -13,7 +13,7 @@ const DashboardUpdates = () => {
         .then( res => {
             if (res.status === 200) {
                 const updates = res.data
-                setItems(updates.filter((n => n.type === 'comment')).slice(0,5))
+                formatMessages(setItems, updates.filter((n => n.type === 'comment')).slice(0,5))
             }
         })
     }

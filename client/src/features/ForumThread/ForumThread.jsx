@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import ApiCall from "../../components/api/ApiCall";
 import { useUserState } from '../SignUp/UserContext';
 import { useParams } from 'react-router-dom';
-
+import { sendNotification } from '../Notifications/utils'
 function ForumThread(){
 
     const {postId} = useParams();
@@ -33,10 +33,14 @@ function ForumThread(){
         }
 
         await ApiCall.post('answers/post', answerData)
-        .then(res => {console.log(res.data); console.log("add new answer to database")})
+        .then(res => {
+            console.log(res.data); 
+            console.log("add new answer to database")
+            sendNotification('answer', postId, '633efb4f2a80931f65551bdd')
+        })
         .catch(e => {console.log(e)
             setContentFilled(false);
-        
+            
         })
     }
     useEffect(() => {

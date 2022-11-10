@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import { Button, Typography, Container, Paper } from "@mui/material"
+import { Button, Typography, Container, Paper, TextField } from "@mui/material"
 import ApiCall from "../../components/api/ApiCall"
 import { useUserState } from "../SignUp/UserContext"
-import { formatMessage } from "./utils"
+import { formatMessages } from "./utils"
 const NotificationSideBar = ({ onViewAll }) => {
     const notifInput = useRef()
     const sendNotification = async () => {
@@ -18,15 +18,21 @@ const NotificationSideBar = ({ onViewAll }) => {
         console.log("sent notif")
     }
     const [ notifications, setNotifications ] = useState([])
+    const [ notificationsFormatted, setNotificationsFormatted ] = useState([])
+
     const { userState, setUserState } = useUserState()
 
     const markAsRead = async () => {
-        await notifications.forEach(async notification => {
+        notifications.forEach(async (notification, index) => {
             console.log("reading")
             console.log(notification)
             await ApiCall.post(`/notification/read?notificationId=${notification._id}`)
+            console.log("PPOSTED READ")
+            if (index === notifications.length - 1) {
+                setUserState({...userState, hasNewNotifications: false })
+                getNotifications()
+            }    
         })
-        getNotifications()
     }
 
     const getNotifications = async () => {
@@ -43,6 +49,14 @@ const NotificationSideBar = ({ onViewAll }) => {
         console.log("sent")     
     }
 
+    const formatNotifications = () => {
+        formatMessages(setNotificationsFormatted, notifications)
+    }
+
+    useEffect(() => {
+        formatNotifications()
+    },[notifications])
+
     useEffect(() => {
         getNotifications()
     }, [userState.hasNewNotifications])
@@ -55,12 +69,12 @@ const NotificationSideBar = ({ onViewAll }) => {
         <Container className='NotificationSideBar' style={{ width: 300, padding: 10, display: 'flex', flexDirection: 'column' }}>NotificationSideBar
             <Button onClick={markAsRead}>Mark all as read</Button>
             <Button onClick={sendNotification}>Click to send notification</Button>
-            <input type='text' ref={notifInput}/>
+            <h1>Updates {notifications.length}  {notificationsFormatted.length}</h1>
+
+            <TextField type='text' inputRef={notifInput}/>
             <div style={{ overflow: 'hidden'}}>
                 {
-                    notifications.map(notification => (
-                        <div><Typography color='primary'>{formatMessage(notification)} date: {notification.createdAt}</Typography></div>
-                    ))
+                    notificationsFormatted.map(item => <div>{item}</div>)
                 }
             </div>
             <Button onClick={onViewAll} variant='contained'>View All</Button>

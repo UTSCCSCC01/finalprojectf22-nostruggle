@@ -54,13 +54,6 @@ const NavBar = () => {
         navigate('/notifications')
     }
 
-    useEffect(() => {
-        if (!userState.signedIn && (!navBarSignedOutPages.map((page) => page.path).includes(location.pathname))){
-            navigate('/login')
-        }
-    }, [location.pathname])
-
-
     return (
         <>
             { openDrawer && userState.signedIn &&

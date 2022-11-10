@@ -3,10 +3,12 @@ import { Pagination } from "@mui/material"
 import { useUserState } from "../SignUp/UserContext"
 import ApiCall from "../../components/api/ApiCall"
 import NotificationCard from "./NotificationCard"
+import { formatMessages } from "./utils"
 const Notifications = () => {
     
     const { userState } = useUserState()
     const [ notifications, setNotifications ] = useState([])
+    const [ notificationsFormatted, setNotificationsFormatted ] = useState([])
     const [ pageCount, setPageCount ] = useState(1)
     const [ itemsPerPage, setItemsPerPage ] = useState(0)
     const [ currentPage, setCurrentPage ] = useState(1)
@@ -50,6 +52,15 @@ const Notifications = () => {
         getNotifications(pageNum)
     }
 
+    const formatNotifications = () => {
+        formatMessages(setNotificationsFormatted, notifications)
+    }
+
+    useEffect(() => {
+        if (notifications.length === 0) return
+        formatNotifications()
+    }, [notifications])
+
     useEffect(() => {
         computeItemsPerPage()
     },[])
@@ -62,9 +73,9 @@ const Notifications = () => {
 
     return (
         <div>
-            <h1>Updates {itemsPerPage}</h1>
+            <h1>Updates {itemsPerPage} {notifications.length}  {notificationsFormatted.length}</h1>
             {
-                notifications.map(notification => (<NotificationCard notif={notification} />))
+                notificationsFormatted.map(notification => <NotificationCard>{notification}</NotificationCard>)
             }
             <Pagination size='large' count={pageCount} page={currentPage} onChange={(e, pageNum) => hanglePageChange(pageNum)}></Pagination>
         </div>
