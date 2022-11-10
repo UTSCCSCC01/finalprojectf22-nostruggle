@@ -2,9 +2,12 @@ import { TextField, Button, Chip } from "@mui/material";
 import { useState } from 'react'
 import ApiCall from "../../components/api/ApiCall";
 import { useUserState } from '../SignUp/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 function CreatePost(){
     
+    const navigate = useNavigate();
+
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
@@ -41,7 +44,10 @@ function CreatePost(){
         event.preventDefault();
 
         await ApiCall.post('forumPosts/post', postData)
-        .then(res => console.log(res.data))
+        .then(res => {
+            console.log(res.data)
+            navigate('/forum');
+        })
         .catch(e => {
             console.log(e);
    
