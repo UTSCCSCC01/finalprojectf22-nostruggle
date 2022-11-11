@@ -9,9 +9,8 @@ router.route('/get').get(getPost);
 
 router.route('/:postId').get(getPostById);
 
-router.route('/').patch(patchPost);
+router.route('/:postId').patch(patchPost);
 
-router.route('/').delete(patchPost);
-
+router.route('/:postId').delete(deletePost);
 
 export default router;
