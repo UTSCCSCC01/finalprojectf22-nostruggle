@@ -13,22 +13,6 @@ const Notifications = () => {
     const [ itemsPerPage, setItemsPerPage ] = useState(0)
     const [ currentPage, setCurrentPage ] = useState(1)
 
-    const reducer = ( state, action) => {
-        const copy = state.map(o => 0)
-        console.log(copy)
-        switch(action.type) {
-            case "set":
-                return action.payload
-            case "edit":
-                copy[action.payload.index] = action.payload.item
-                return (copy)
-            default:
-                return state
-        }
-    }
-
-    const [formattedNotifications, dispatch ] = useReducer(reducer, [])
-
     const computeItemsPerPage = () => {
         const num = (document.documentElement.clientHeight - 350) / 60
         setItemsPerPage(num)
@@ -54,9 +38,7 @@ const Notifications = () => {
             console.log(res)
             if (res.status === 200){
                 let fetchedNotifications = res.data
-                setNotifications(fetchedNotifications)
-                if (notificationsFormatted.length === 0) dispatch({ type: 'set', payload: fetchedNotifications.map(() => <div>... {notificationsFormatted.length}</div>) })
-                
+                setNotifications(fetchedNotifications)                
                 setCurrentPage(pageNum)
             }
         }).catch( e => console.log(e))  
@@ -70,17 +52,9 @@ const Notifications = () => {
         getNotifications(pageNum, itemsPerPage)
     }
 
-    
-    const setFormatNotificationsCallback = (notif) => {
-        const formattedList = localStorage.getItem('notifications')
-        dispatch({
-            type: 'set',
-            payload: notif
-        })
-    }
-
     const formatNotifications = () => {
-        formatMessages(setFormatNotificationsCallback, notificationsFormatted, notifications)
+        console.log(notifications)
+        setNotificationsFormatted(formatMessages(notifications))
     }
 
     useEffect(() => {
@@ -92,13 +66,13 @@ const Notifications = () => {
     }, [notifications])
 
     useEffect(() => {
-        //computeItemsPerPage()
+        computeItemsPerPage()
         getNotifications()
     },[])
 
     useEffect(() => {
-        //if (itemsPerPage <= 0) return
-        //getPageCount(itemsPerPage)
+        getPageCount(itemsPerPage)
+        getNotifications()
     }, [itemsPerPage])
 
     useEffect(() => {
@@ -111,10 +85,9 @@ const Notifications = () => {
             {
                 notificationsFormatted.map(notification => <NotificationCard notif={notification}/>)
             }
-            {
-                formattedNotifications.map(notification => <NotificationCard  notif={notification}/>)
+            { pageCount > 1 &&
+                <Pagination size='large' count={pageCount} page={currentPage} onChange={(e, pageNum) => hanglePageChange(pageNum)}></Pagination>
             }
-            <Pagination size='large' count={pageCount} page={currentPage} onChange={(e, pageNum) => hanglePageChange(pageNum)}></Pagination>
         </div>
     )
 }

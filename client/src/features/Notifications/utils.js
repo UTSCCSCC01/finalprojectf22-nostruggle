@@ -1,7 +1,7 @@
 import ApiCall from "../../components/api/ApiCall"
 import { Link } from "react-router-dom"
 
-export const formatComment = async (n, yes, index, setList, refresh) => {
+export const formatCommentOld = async (n, yes, index, setList, refresh) => {
 
     if (!yes) {
         let msg
@@ -52,8 +52,19 @@ export const formatComment = async (n, yes, index, setList, refresh) => {
 
 }
 
-export const organize = () => {
-
+export const formatComment = (n, yes) => {
+    let msg
+    if (!yes) {
+        return  <>  
+                <Link>lololol</Link> added a comment to your post <Link to={`/postThread/`}><b>fake post</b> </Link>
+            </>
+    }
+    msg = (
+        <>  
+            <Link>{n.sourceAuthor}</Link> added a comment to your post <Link to={`/postThread/${n.source}`}><b>{n.sourceTitle}</b> </Link>
+        </>
+    )
+    return msg
 }
 
 export const formatMessage = async (setMsg, n) => {
@@ -70,34 +81,27 @@ export const formatMessage = async (setMsg, n) => {
 }
 
 
-export const formatMessages = async (setList, newLst, lst) => {
-    let newList = []
+export const formatMessages = (lst) => {
     let msg
-    lst.map(async (n, index) => {
+    return lst.map( (n) => {
         switch(n.type) {
             case 'comment':
-                msg =  await formatComment(n, false, index, setList,newLst,lst)
+                msg =   formatComment(n)
                 break
             default:
-                msg = await formatComment(n, true, index, setList,newLst,lst) //() => `No way to format notif yet ${n.source}  ${n.type}`
+                msg =  formatComment(n, true) //() => `No way to format notif yet ${n.source}  ${n.type}`
                 break
         }
-        console.log("pushing")
-        console.log(msg)
-        newList.push(msg)
-        if (index === lst.length - 1) {
-            console.log(newList)
-            console.log(lst.length + " new list " + newList.length)
-            setList(newList)
-            //setList(newList)
-        }
+
+        return msg
     })
 }
 
-
-export const sendNotification = async (type, source, toUserId) => {
+export const sendNotification = async (type, source, sourceTitle, sourceAuthor, toUserId) => {
     const data = {
         source: source,
+        sourceTitle: sourceTitle,
+        sourceAuthor: sourceAuthor,
         toUserId: toUserId,
         type: type
     }

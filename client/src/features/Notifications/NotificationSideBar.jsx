@@ -50,12 +50,10 @@ const NotificationSideBar = ({ onViewAll }) => {
         console.log("sent")     
     }
 
-    const setFormatNotificationsCallback = useCallback((index, notif) => {
-        setNotificationsFormatted(notificationsFormatted.map((m, i) => i === index ? notif : m))
-    }, [notificationsFormatted])
+
 
     const formatNotifications = () => {
-        formatMessages(setNotificationsFormatted, notificationsFormatted, notifications)
+        setNotificationsFormatted(formatMessages(notifications))
     }
 
     useEffect(() => {

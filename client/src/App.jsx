@@ -25,7 +25,7 @@ function App() {
             <Route path='forum' element={ <Forum /> }/>
             <Route path='todo' element={ <Scheduler /> }/>
             <Route path='daily' element={ <StudyTimerSummary /> }/>
-            <Route path='notifications' element={ <Notifications /> }/>
+            <Route path='inbox' element={ <Notifications /> }/>
             <Route path='profile' element={ <Profile /> }/>
             <Route path='logout' element={ <SignOut /> }/>
             <Route path='*' element={ <NoPage /> }/>

@@ -51,7 +51,7 @@ const NavBar = () => {
     
     const onViewAllNotifications = () => {
         setOpenNotifications(false)
-        navigate('/notifications')
+        navigate('/inbox')
     }
 
     return (
@@ -102,7 +102,7 @@ const NavBar = () => {
                 </span>
             </AppBar>
 
-            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Notifications', 'Sign Out' ]} path={{ 'Profile': '/profile', 'Notifications': '/notifications', 'Sign Out': '/logout' }}/> }
+            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Inbox', 'Sign Out' ]} path={{ 'Profile': '/profile', 'Inbox': '/inbox', 'Sign Out': '/logout' }}/> }
         </>
     )
 }
