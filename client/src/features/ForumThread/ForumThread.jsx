@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import ApiCall from "../../components/api/ApiCall";
 import { useUserState } from '../SignUp/UserContext';
 import { useParams } from 'react-router-dom';
+import ForumPostCard from '../../components/ForumPostCard/ForumPostCard';
 import { sendNotification } from '../Notifications/utils'
 function ForumThread(){
 
@@ -11,8 +12,20 @@ function ForumThread(){
     console.log(postId);
     const [contentFilled, setContentFilled] = useState(true);
     const [answerField, setAnswerField] = useState("");
+
+    const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [date, setDate] = useState("");
+    const [tag, setTag] = useState("");
+    const [nLikes, setNLikes] = useState(0);
+    const [postIdData, setPostIdData] = useState("");
+    const [created_by, setCreatedBy] = useState("");
+
     //const [answerData, setAnswerDat]
+
+    //const [postData, setPostData] = useState([]);
+    let postData = {};
+
     const {userState} = useUserState();
     const [answerData, setAnswerData] = useState({content: "",
         created_by: userState.user.username,
@@ -43,26 +56,47 @@ function ForumThread(){
             
         })
     }
+
+    const setPostInfo = () =>{
+        setTitle(postData.title);
+        setContent(postData.content);
+        setTag(postData.tags);
+        setDate(postData.created_At);
+        setCreatedBy(postData.created_by);
+        setNLikes(postData.nLikes);
+        setPostIdData(postData._id);
+        console.log("date is " + postData.created_At);
+        console.log("title is" + postData.title);
+    }
+
     useEffect(() => {
         const getPostById = async () => {
             console.log('postid is    ' + postId);
             console.log('/postThread/'+ postId + '/');
             await ApiCall.get('/postThread/'+ postId + '/')
-            .then(res => {console.log(res.data)})
+            .then(res => {
+                console.log(res.data);
+                postData = res.data;
+                console.log(postData);
+                setPostInfo();
+            })
             .catch(e => {
                 console.log(e);
             })
 
         }
         getPostById();
-    })
-
+        
+    }, []);
 
     console.log('postid is' + postId);
 
     return(
         <div>
-         <ForumCard title="Title" content="Content" tag="Computer Science" date="Monday" nLikes="5" />
+         
+        <ForumPostCard title={title} content={content} tag={tag} date={date} nLikes={nLikes} 
+        created_by={created_by} postIdData={postIdData}/>
+         
        
         <TextField
         id="content" 
