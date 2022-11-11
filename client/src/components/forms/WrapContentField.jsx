@@ -4,7 +4,7 @@ const WrapContentField = (props) => {
 
     return (
         <input
-        id={ props.uniqueId }
+        id={ props.Id }
         className={ props.type }
         style={{ width: resizeInput(props.value, props.type) }}
         value={ props.value }

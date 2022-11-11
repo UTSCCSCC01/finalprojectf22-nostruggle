@@ -3,7 +3,7 @@ import { Grid , IconButton } from '@mui/material';
 
 const ButtonPad = (props) => {
     
-    const buttonSx = 'CalculatorButtonIcon'
+    const buttonSx = 'calculator-button-icon'
 
     const buttons = [
         { action: 'cos',        icon: <Icon icon="mdi:math-cos" className={ buttonSx } /> },
@@ -14,7 +14,8 @@ const ButtonPad = (props) => {
         { action: 'brackets',   icon: <Icon icon="mdi:code-parentheses" className={ buttonSx } /> },
         { action: 'fraction',   icon: <Icon icon="mdi:fraction-one-half" className={ buttonSx } /> },
         { action: 'exponent',   icon: <Icon icon="mdi:exponent" className={ buttonSx } /> },
-        { action: '1',          icon: <Icon icon="mdi:numeric-0" className={ buttonSx } /> },
+        { action: '0',          icon: <Icon icon="mdi:numeric-0" className={ buttonSx } /> },
+        { action: '1',          icon: <Icon icon="mdi:numeric-1" className={ buttonSx } /> },
         { action: '2',          icon: <Icon icon="mdi:numeric-2" className={ buttonSx } /> },
         { action: '3',          icon: <Icon icon="mdi:numeric-3" className={ buttonSx } /> },
         { action: '4',          icon: <Icon icon="mdi:numeric-4" className={ buttonSx } /> },

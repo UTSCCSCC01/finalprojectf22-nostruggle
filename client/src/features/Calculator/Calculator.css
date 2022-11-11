@@ -29,7 +29,7 @@ div.CalculatorButtonPad {
     top: 100px;
 }
 
-input.DefaultField, span.DefaultField, input.FixedField, span.FixedField {
+input.DefaultField, span.DefaultField {
     width: 98%;
     height: 80%;
     font-size: 20px;
