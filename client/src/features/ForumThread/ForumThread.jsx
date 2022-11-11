@@ -20,6 +20,7 @@ function ForumThread(){
     const [nLikes, setNLikes] = useState(0);
     const [postIdData, setPostIdData] = useState("");
     const [created_by, setCreatedBy] = useState("");
+    const [updatedAt, setUpdatedAt] = useState("");
 
     //const [answerData, setAnswerDat]
 
@@ -61,28 +62,29 @@ function ForumThread(){
         setCreatedBy(postData.created_by);
         setNLikes(postData.nLikes);
         setPostIdData(postData._id);
+        setUpdatedAt(postData.updated);
         console.log("date is " + postData.created_At);
         console.log("title is" + postData.title);
     }
 
-    useEffect(() => {
-        const getPostById = async () => {
-            console.log('postid is    ' + postId);
-            console.log('/postThread/'+ postId + '/');
-            await ApiCall.get('/postThread/'+ postId + '/')
-            .then(res => {
-                console.log(res.data);
-                postData = res.data;
-                console.log(postData);
-                setPostInfo();
-            })
-            .catch(e => {
-                console.log(e);
-            })
+    const getPostById = async () => {
+        console.log('postid is    ' + postId);
+        console.log('/postThread/'+ postId + '/');
+        await ApiCall.get('/postThread/'+ postId + '/')
+        .then(res => {
+            console.log(res.data);
+            postData = res.data;
+            console.log(postData);
+            setPostInfo();
+        })
+        .catch(e => {
+            console.log(e);
+        })
 
-        }
-        getPostById();
-        
+    }
+
+    useEffect(() => {
+        getPostById()
     }, []);
 
     console.log('postid is' + postId);
@@ -90,8 +92,8 @@ function ForumThread(){
     return(
         <div>
          
-        <ForumPostCard title={title} content={content} tag={tag} date={date} nLikes={nLikes} 
-        created_by={created_by} postIdData={postIdData}/>
+        <ForumPostCard refresh={getPostById} editor={created_by === userState.user.username} title={title} content={content} tag={tag} date={date} nLikes={nLikes} 
+        created_by={created_by} updatedAt={updatedAt} postIdData={postIdData}/>
          
        
         <TextField

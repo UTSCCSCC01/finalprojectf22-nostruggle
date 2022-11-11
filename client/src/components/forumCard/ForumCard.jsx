@@ -1,10 +1,9 @@
 
-import { Typography, CardContent, Card, Box, Chip, Item, Button} from '@mui/material';
-import { useState, useContext } from 'react';
+import { Typography, CardContent, Card, Box, Paper, Chip, Item, Button} from '@mui/material';
+import { useState, useContext, useRef } from 'react';
 import { usePostState } from '../../features/Forum/PostContext';
 import { useNavigate } from 'react-router-dom';
 import { useUserState } from '../../features/SignUp/UserContext';
-
 const ForumCard = (props) => {
     const title = props.title;
     const content = props.content;
@@ -50,7 +49,7 @@ const ForumCard = (props) => {
 */
     return (
        // <PostContext.Provider value={postIdselected}>
-        <Card sx={{mb: 3}}>
+        <Card sx={{mb: 3 }}>
             <CardContent>
                 <Typography variant="h5" sx={{fontWeight: "bold"}}>
                     {title}
@@ -70,8 +69,6 @@ const ForumCard = (props) => {
                 <Chip label={tag}></Chip>
                 <Button variant="outlined" onClick={goToPost}>View Post</Button>
             </CardContent>
-           
-
         </Card>
       //  </PostContext.Provider>
     )
