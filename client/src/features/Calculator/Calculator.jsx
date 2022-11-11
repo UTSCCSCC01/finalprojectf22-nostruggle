@@ -1,6 +1,6 @@
 import './Calculator.css';
 import { Button } from '@mui/material';
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import ButtonPad from './ButtonPad';
 import { resizeInput } from './WrapContent';
 import ToolBarDraggableWrapper from '../ToolsBar/ToolBarDraggableWrapper';
@@ -18,15 +18,26 @@ const Calculator = () => {
     }]);
     const [ lastFocusIndex, setLastFocusIndex ] = useState(0);
 
+    const KaTeXComponent = (props) => {
+        const containerRef = useRef();
+    
+        useEffect(() => {
+            katex.render(props.tex, containerRef.current);
+        }, [props]);
+    
+        return <span className={ props.className } ref={ containerRef } />
+    }
+
     const addInput = (action) => {
         var inputFields;
 
         switch (action) {
             case 'integrate':
                 inputFields = [
-                    { type: 'default-field', value: '' },
+                    { type: 'math-symbol', value: '\\int' },
                     { type: 'superscript-field', value: '' },
-                    { type: 'subscript-field', value: '' }
+                    { type: 'subscript-field', value: '' },
+                    { type: 'default-field', value: '' }
                 ];
                 break;
             case 'exponent':
@@ -64,7 +75,7 @@ const Calculator = () => {
                 const copy = [ ...inputs ];
                 const value = copy[inputIndex].inputFields[fieldIndex].value;
                 const start = value.slice(0, inputSelectionIndex - 1);
-                const end = value.slice(inputSelectionIndex - 1);
+                const end = value.slice(inputSelectionIndex);
 
                 copy[inputIndex].inputFields[fieldIndex].value = start + event.data + end;
                 copy[inputIndex] = { ...copy[inputIndex], inputValue: copy[inputIndex].inputFields.map((field) => field.value)};
@@ -86,26 +97,31 @@ const Calculator = () => {
         }
     }
 
-    const checkBackspace = (event, inputIndex, fieldIndex) => {
-        if (inputIndex < 0 || inputIndex >= inputs.length || fieldIndex < 0 || fieldIndex >= inputs[inputIndex].inputFields.length)
+    const checkBackspace = (event, inputIndex) => {
+        if (inputIndex < 0 || inputIndex >= inputs.length)
             return;
         
         if (event.key === 'Backspace') {
-            if (inputs[inputIndex.isEmpty]) {
+            if (inputs[inputIndex].isEmpty) {
                 setInputs(inputs.filter((input, i) => i !== inputIndex));
             }
         } else {
-            checkForEmptyInput(inputIndex, fieldIndex);
+            checkForEmptyInput(inputIndex);
         }
     }
     
-    const checkForEmptyInput = (inputIndex, fieldIndex) => {
-        if (inputIndex < 0 || inputIndex >= inputs.length || fieldIndex < 0 || fieldIndex >= inputs[inputIndex].inputFields.length)
+    const checkForEmptyInput = (inputIndex) => {
+        if (inputIndex < 0 || inputIndex >= inputs.length)
             return;
 
         setInputs(() => {
             const copy = [ ...inputs ];
-            const isEmpty = copy[inputIndex].inputFields[fieldIndex].value.length === 0;
+            var isEmpty = true;
+            for (let i = 0; i < inputs[inputIndex].length; i++) {
+                const field = inputs[inputIndex][i];
+                if (field.value.length > 0)
+                    isEmpty = false;
+            }
             copy[inputIndex] = { ...copy[inputIndex], isEmpty: isEmpty };
             return copy;
         })
@@ -117,14 +133,18 @@ const Calculator = () => {
         for (let j = 0; j < fields.length; j++) {
             const field = fields[j];
 
-            if (field.type === 'default-field') {
+            if (field.type === 'math-symbol') {
+                inputJsx.push(
+                    <KaTeXComponent className='large-symbol' tex={ field.value } />
+                )
+            } else if (field.type === 'default-field') {
                 inputJsx.push(
                     <input
                     className={ field.type }
                     style={{ width: resizeInput(field.value, field.type)}}
                     value={ field.value }
                     onChange={(e) => onInput(e.nativeEvent, i, j)}
-                    onKeyUp={(e) => checkBackspace(e, i, j)}
+                    onKeyUp={(e) => checkBackspace(e, i)}
                     />
                 );
             } else {
@@ -138,21 +158,19 @@ const Calculator = () => {
                         style={{ width: resizeInput(fields[k].value, fields[k].type) }}
                         value={ fields[k].value }
                         onChange={(e) => onInput(e.nativeEvent, i, k)}
-                        onKeyUp={(e) => checkBackspace(e, i, k)}
+                        onKeyUp={(e) => checkBackspace(e, i)}
                         />
                     )
                     j++;
                 }
 
                 inputJsx.push(
-                    <div className='vertical-align'>
+                    <div className='vertical-align' style={{ width: resizeInput('tmp', 'default-field')}}>
                         { verticalInputsJsx }
                     </div>
                 )
             }
         }
-
-        console.log(inputJsx)
 
         return <>{ inputJsx }</>
     }
@@ -161,6 +179,7 @@ const Calculator = () => {
         const element = document.getElementById(id);
 
         if (element !== null) {
+            console.log("rendering..........")
             katex.render(tex, element, {
                 throwOnError: false
             });
@@ -174,11 +193,9 @@ const Calculator = () => {
 
         for (let a of ascii) {
             if (str.includes(a)) {
-                console.log(a + ' is included');
                 str = str.replace(a, latex[ascii.indexOf(a)]);
             }
         }
-        console.log(str);
         return str
     }
 

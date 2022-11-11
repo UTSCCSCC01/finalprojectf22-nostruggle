@@ -30,7 +30,9 @@ div.calculator-buttons {
 }
 
 div.vertical-align {
-    display: inline-block
+    display: inline-flex;
+    justify-content: left;
+    flex-direction: column;
 }
 
 input.default-field, span.default-field {
@@ -42,21 +44,25 @@ input.default-field, span.default-field {
 }
 
 input.superscript-field, span.superscript-field {
-    position: relative;
+    position: absolute;
     font-size: 12px;
     padding: 4px;
-    top: -20px;
+    top: 0px;
     text-align: center;
 }
 
 input.subscript-field, span.sub-script-field {
-    position: relative;
+    position: absolute;
     font-size: 12px;
     padding: 4px;
-    bottom: -14px;
+    bottom: 0px;
     text-align: center;
 }
 
 Icon.calculator-button-icon {
     font-size: 40px;
+}
+
+span.large-symbol {
+    font-size: 30px;
 }
