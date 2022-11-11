@@ -19,7 +19,6 @@ const ForumPostCard = (props) =>{
 
     const forumCardSettingsRef = useRef();
     const navigate = useNavigate();
-    const {userState, setUserState} = useUserState();
 
     const [ openEditor, toggleOpenEditor ] = useState(false)
     const [ openEditorMenu, toggleOpenEditorMenu ] = useState(false)
@@ -65,45 +64,45 @@ const ForumPostCard = (props) =>{
                 </Typography>
                 <Chip label={tag}></Chip>
             </CardContent>
-                <CardContent sx={{display: 'flex', flexFlow: 'column wrap', justifyContent: props.editor ? 'space-between' : 'flex-end', alignItems: 'flex-end'}}>
-                    {
-                        props.editor &&
-                        <div style={{display: 'flex', flexFlow: 'column wrap', alignItems: 'flex-end'}}>
-                            <IconButton ref={forumCardSettingsRef} onClick={() => toggleOpenEditorMenu(!openEditorMenu)}><Settings sx={{ color: 'black'}}/></IconButton>
-                            { openEditorMenu && 
-                                <ClickAwayListener onClickAway={() => toggleOpenEditorMenu(false)}>
-                                    <Paper>
-                                        <MenuList sx={{ width: 130 }} anchorEl={forumCardSettingsRef.current} 
-                                            anchorOrigin={{
-                                                horizontal: 'right',
-                                                vertical: 'top'
-                                                }}
-                                            open={openEditorMenu}>
-                                            <MenuItem sx={{display: 'flex', justifyContent: 'space-between'}} onClick={() => toggleOpenEditor(true)}>
-                                                <div>EDIT</div> 
-                                                <Edit/>
-                                            </MenuItem>
-                                            <MenuItem sx={{display: 'flex', justifyContent: 'space-between'}} onClick={deletePost}>
-                                                <div>DELETE</div> 
-                                                <Delete/>
-                                            </MenuItem>
-                                        </MenuList>
-                                    </Paper>
-                                </ClickAwayListener>
-                            }
-                            <EditPost 
-                            open={openEditor} 
-                            postId={postId}
-                            title={title}
-                            tag={tag}
-                            content={content} 
-                            onCancel={() => toggleOpenEditor(false)}
-                            onSubmit={onSubmit}
-                            />
-                        </div>
-                    }
-                    { updatedAt && <div>Edited: {updatedAt}</div>}
-                </CardContent>
+            <CardContent sx={{display: 'flex', flexFlow: 'column wrap', justifyContent: props.editor ? 'space-between' : 'flex-end', alignItems: 'flex-end'}}>
+                {
+                    props.editor &&
+                    <div style={{display: 'flex', flexFlow: 'column wrap', alignItems: 'flex-end'}}>
+                        <IconButton ref={forumCardSettingsRef} onClick={() => toggleOpenEditorMenu(!openEditorMenu)}><Settings sx={{ color: 'black'}}/></IconButton>
+                        { openEditorMenu && 
+                            <ClickAwayListener onClickAway={() => toggleOpenEditorMenu(false)}>
+                                <Paper>
+                                    <MenuList sx={{ width: 130 }} anchorEl={forumCardSettingsRef.current} 
+                                        anchorOrigin={{
+                                            horizontal: 'right',
+                                            vertical: 'top'
+                                            }}
+                                        open={openEditorMenu}>
+                                        <MenuItem sx={{display: 'flex', justifyContent: 'space-between'}} onClick={() => toggleOpenEditor(true)}>
+                                            <div>EDIT</div> 
+                                            <Edit/>
+                                        </MenuItem>
+                                        <MenuItem sx={{display: 'flex', justifyContent: 'space-between'}} onClick={deletePost}>
+                                            <div>DELETE</div> 
+                                            <Delete/>
+                                        </MenuItem>
+                                    </MenuList>
+                                </Paper>
+                            </ClickAwayListener>
+                        }
+                        <EditPost 
+                        open={openEditor} 
+                        postId={postId}
+                        title={title}
+                        tag={tag}
+                        content={content} 
+                        onCancel={() => toggleOpenEditor(false)}
+                        onSubmit={onSubmit}
+                        />
+                    </div>
+                }
+                { updatedAt && <div>Edited: {updatedAt}</div>}
+            </CardContent>
         </Card>
     )
     
