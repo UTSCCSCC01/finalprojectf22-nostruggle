@@ -15,6 +15,8 @@ div.calculator-box {
 }
 
 div.calculator-inputs {
+    display: flex;
+    justify-content: flex-start;
     position: fixed;
     margin: 8px;
     height: 60px;
@@ -31,34 +33,36 @@ div.calculator-buttons {
 
 div.vertical-align {
     display: inline-flex;
-    justify-content: left;
+    height: inherit;
+    justify-content: space-between;
     flex-direction: column;
+    margin-right: 7px;
 }
 
 input.default-field, span.default-field {
-    width: 98%;
-    height: 80%;
+    font-family: Arial;
     font-size: 20px;
     padding: 4px;
-    margin: auto;
 }
 
 input.superscript-field, span.superscript-field {
-    position: absolute;
+    font-family: Arial;
     font-size: 12px;
     top: 0px;
 }
 
 input.subscript-field, span.subscript-field {
-    position: absolute;
+    font-family: Arial;
     font-size: 12px;
     bottom: 0px;
 }
 
-Icon.calculator-button-icon {
+.calculator-button-icon {
     font-size: 40px;
 }
 
 span.large-symbol {
-    font-size: 30px;
+    font-size: 34px;
+    margin-top: auto;
+    margin-bottom: auto;
 }

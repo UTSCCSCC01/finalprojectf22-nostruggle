@@ -165,11 +165,12 @@ const Calculator = () => {
                 }
                 j--;
 
-                console.log(Math.max( ...fields.map((field) => parseInt(resizeInput(field.value, field.type))), 0));
                 inputJsx.push(
                     <div 
                     className='vertical-align' 
-                    style={{ width: Math.max( ...fields.map((field) => parseInt(resizeInput(field.value, field.type))))}}>
+                    style={{ width: Math.max( ...fields.map((field) => (
+                        field.type !== 'default-field' && field.type !== 'math-symbol' ? parseInt(resizeInput(field.value, field.type)) : 8.2
+                    )), 0)}}>
                         { verticalInputsJsx }
                     </div>
                 )
