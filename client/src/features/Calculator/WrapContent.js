@@ -14,5 +14,5 @@ function getStringWidth(str, className) {
 export function resizeInput(value, type) {
     const strlen = getStringWidth(value, type);
     console.log('got ' + value.length + ' characters, trying ' + strlen + 'px');
-    return strlen !== 0 ? strlen + 'px' : 8;
+    return strlen !== 0 ? strlen + 'px' : 9;
 }

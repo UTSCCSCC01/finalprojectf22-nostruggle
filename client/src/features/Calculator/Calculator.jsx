@@ -34,10 +34,11 @@ const Calculator = () => {
         switch (action) {
             case 'integrate':
                 inputFields = [
-                    { type: 'math-symbol', value: '\\int' },
+                    { type: 'large-math-symbol', value: '\\int' },
                     { type: 'superscript-field', value: '' },
                     { type: 'subscript-field', value: '' },
-                    { type: 'default-field', value: '' }
+                    { type: 'default-field', value: '' },
+                    { type: 'medium-math-symbol', value: 'dx' }
                 ];
                 break;
             case 'exponent':
@@ -133,9 +134,9 @@ const Calculator = () => {
         for (let j = 0; j < fields.length; j++) {
             const field = fields[j];
 
-            if (field.type === 'math-symbol') {
+            if (field.type.includes('math-symbol')) {
                 inputJsx.push(
-                    <KaTeXComponent className='large-symbol' tex={ field.value } />
+                    <KaTeXComponent className={ field.type } tex={ field.value } />
                 )
             } else if (field.type === 'default-field') {
                 inputJsx.push(
@@ -169,7 +170,7 @@ const Calculator = () => {
                     <div 
                     className='vertical-align' 
                     style={{ width: Math.max( ...fields.map((field) => (
-                        field.type !== 'default-field' && field.type !== 'math-symbol' ? parseInt(resizeInput(field.value, field.type)) : 8.2
+                        field.type !== 'default-field' && !field.type.includes('math-symbol') ? parseInt(resizeInput(field.value, field.type)) : 9
                     )), 0)}}>
                         { verticalInputsJsx }
                     </div>
@@ -184,7 +185,6 @@ const Calculator = () => {
         const element = document.getElementById(id);
 
         if (element !== null) {
-            console.log("rendering..........")
             katex.render(tex, element, {
                 throwOnError: false
             });
@@ -204,7 +204,6 @@ const Calculator = () => {
         return str
     }
 
-    console.log(inputs);
     return (
         <>
             {
