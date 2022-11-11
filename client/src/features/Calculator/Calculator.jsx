@@ -151,21 +151,25 @@ const Calculator = () => {
                 const verticalInputsJsx = [];
 
                 while (j < fields.length && fields[j].type !== 'default-field') {
-                    const k = j;
+                    const index = j;
                     verticalInputsJsx.push(
                         <input
-                        className={ fields[k].type }
-                        style={{ width: resizeInput(fields[k].value, fields[k].type) }}
-                        value={ fields[k].value }
-                        onChange={(e) => onInput(e.nativeEvent, i, k)}
+                        className={ fields[index].type }
+                        style={{ width: resizeInput(fields[index].value, fields[index].type)}}
+                        value={ fields[index].value }
+                        onChange={(e) => onInput(e.nativeEvent, i, index)}
                         onKeyUp={(e) => checkBackspace(e, i)}
                         />
                     )
                     j++;
                 }
+                j--;
 
+                console.log(Math.max( ...fields.map((field) => parseInt(resizeInput(field.value, field.type))), 0));
                 inputJsx.push(
-                    <div className='vertical-align' style={{ width: resizeInput('tmp', 'default-field')}}>
+                    <div 
+                    className='vertical-align' 
+                    style={{ width: Math.max( ...fields.map((field) => parseInt(resizeInput(field.value, field.type))))}}>
                         { verticalInputsJsx }
                     </div>
                 )

@@ -2,7 +2,6 @@ function getStringWidth(str, className) {
     var strElement = document.createElement('span');
 
     strElement.style.visibility = 'hidden';
-    strElement.style.padding = '4px';
     strElement.className = className;
     strElement.innerHTML = str;
 

@@ -46,17 +46,13 @@ input.default-field, span.default-field {
 input.superscript-field, span.superscript-field {
     position: absolute;
     font-size: 12px;
-    padding: 4px;
     top: 0px;
-    text-align: center;
 }
 
-input.subscript-field, span.sub-script-field {
+input.subscript-field, span.subscript-field {
     position: absolute;
     font-size: 12px;
-    padding: 4px;
     bottom: 0px;
-    text-align: center;
 }
 
 Icon.calculator-button-icon {
