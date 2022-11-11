@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 import ForumThread from '../ForumThread/ForumThread';
 import { Button } from "@mui/material";
 import CreatePost from "../CreatePost/CreatePost"
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 function Forum(){
 
