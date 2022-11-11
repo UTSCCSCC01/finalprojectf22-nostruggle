@@ -1,10 +1,11 @@
 
-import { Typography, CardContent, Card, Box, Chip, Item, Button} from '@mui/material';
-import { useState, useContext } from 'react';
+import { Typography, CardContent, Card, Box, Paper, Chip, Item, Button, IconButton, MenuList, MenuItem, ClickAwayListener} from '@mui/material';
+import { Delete, Edit, MoreVert, Settings } from '@mui/icons-material';
+import { useState, useContext, useRef } from 'react';
 import { usePostState } from '../../features/Forum/PostContext';
 import { useNavigate } from 'react-router-dom';
 import { useUserState } from '../../features/SignUp/UserContext';
-
+import EditPost from '../../features/CreatePost/EditPost';
 const ForumCard = (props) => {
     const title = props.title;
     const content = props.content;
@@ -13,14 +14,18 @@ const ForumCard = (props) => {
     const nLikes = props.nLikes;
     const updatedDate = date.split("T")[0];
     const postIdselected = props.postId;
-    //const postIdselected = "634b447487873860a7fdff48";
     const created_by = props.created_by;
 
     const navigate = useNavigate();
 
+    const forumCardSettingsRef = useRef();
+
     const {userState, setUserState} = useUserState();
 
     const { postState, setPostState } = usePostState();
+
+    const [ openEditor, toggleOpenEditor ] = useState(false)
+    const [ openEditorMenu, toggleOpenEditorMenu ] = useState(false)
 
     const goToPost = () => {
         console.log("clicked on post" + postIdselected);
@@ -39,7 +44,15 @@ const ForumCard = (props) => {
             postId: postIdselected
         })
 
-        navigate('/postThread');
+        navigate('/postThread/' + postIdselected);
+    }
+
+    const editPost = () => {
+        toggleOpenEditor(true)
+    }
+
+    const deletePost = () => {
+        
     }
 
 /*
@@ -51,7 +64,7 @@ const ForumCard = (props) => {
 */
     return (
        // <PostContext.Provider value={postIdselected}>
-        <Card sx={{mb: 3}}>
+        <Card sx={{mb: 3, display: 'flex', justifyContent: 'space-between'}}>
             <CardContent>
                 <Typography variant="h5" sx={{fontWeight: "bold"}}>
                     {title}
@@ -71,8 +84,41 @@ const ForumCard = (props) => {
                 <Chip label={tag}></Chip>
                 <Button variant="outlined" onClick={goToPost}>View Post</Button>
             </CardContent>
-           
-
+           {
+             props.editor &&
+                <CardContent sx={{display: 'flex', flexFlow: 'column wrap', alignItems: 'flex-end'}}>
+                    <IconButton ref={forumCardSettingsRef} onClick={() => toggleOpenEditorMenu(!openEditorMenu)}><Settings sx={{ color: 'black'}}/></IconButton>
+                    { openEditorMenu && 
+                        <ClickAwayListener onClickAway={() => toggleOpenEditorMenu(false)}>
+                            <Paper>
+                                <MenuList sx={{ width: 130 }} anchorEl={forumCardSettingsRef.current} 
+                                    anchorOrigin={{
+                                        horizontal: 'right',
+                                        vertical: 'top'
+                                        }}
+                                    open={openEditorMenu}>
+                                    <MenuItem sx={{display: 'flex', justifyContent: 'space-between'}} onClick={() => toggleOpenEditor(true)}>
+                                        <div>EDIT</div> 
+                                        <Edit/>
+                                    </MenuItem>
+                                    <MenuItem sx={{display: 'flex', justifyContent: 'space-between'}} >
+                                        <div>DELETE</div> 
+                                        <Delete/>
+                                    </MenuItem>
+                                </MenuList>
+                            </Paper>
+                        </ClickAwayListener>
+                    }
+                    <EditPost 
+                    open={openEditor} 
+                    title={title}
+                    tag={tag}
+                    content={content} 
+                    onCancel={() => toggleOpenEditor(false)}
+                    onClose={() => alert("close")}/>
+                </CardContent>
+             
+           }
         </Card>
       //  </PostContext.Provider>
     )

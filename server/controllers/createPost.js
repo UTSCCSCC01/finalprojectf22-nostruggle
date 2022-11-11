@@ -24,7 +24,7 @@ export const createPost = async (req, res) => {
 export const getPost = async (req, res) => {
 
     try {
-       const posts = await Post.find();
+       const posts = await Post.find({...req.query});
        console.log(posts);
        res.status(201).json(posts);
     } catch(e){
@@ -32,3 +32,32 @@ export const getPost = async (req, res) => {
     }
 
 };
+
+export const getPostById = async (req, res) => {
+   console.log('abc');
+   try {
+      const post = await Post.findById({_id: req.params.postId})
+      console.log(post);
+      res.status(201).json(post);
+   } catch(e){
+      res.status(409).json({message: e.message});
+   }
+}
+
+export const deletePost = async (req, res) => {
+   try {
+      await Post.deleteOne({...req.query});
+      res.status(200).json({});
+   } catch(e){
+      res.status(409).json({message: e.message });
+   }
+}
+
+export const patchPost = async (req, res) => {
+   try {
+      await Post.updateAll({_id: req.query.postId}, {...req.query.update});
+      res.status(200).json({});
+   } catch(e){
+      res.status(409).json({message: e.message });
+   }
+}
