@@ -13,7 +13,7 @@ const DashboardUpdates = () => {
         .then( res => {
             if (res.status === 200) {
                 const updates = res.data
-                formatMessages(setItems, updates.filter((n => n.type === 'comment')).slice(0,5))
+                setItems(formatMessages(updates.filter((n => n.type === 'answer')).slice(0,5)))
             }
         })
     }
@@ -25,7 +25,7 @@ const DashboardUpdates = () => {
         <div>
             {
                 items.map(item => (
-                    <NotificationCard notif={item} size='thin'/>
+                    <NotificationCard notif={item} size='thin' elevation={0}/>
                 ))
             }
         </div>

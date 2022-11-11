@@ -43,8 +43,12 @@ const UserOutlet = () => {
     }
 
     useEffect(() => {
+      if (userState.signedIn) checkForNotifications()
+    }, [userState.signedIn])
+
+    useEffect(() => {
       validateUserAndSignIn()
-      checkForNotifications()
+      if (userState.signedIn) checkForNotifications()
     }, [location.pathname])
     
     useEffect(() => {

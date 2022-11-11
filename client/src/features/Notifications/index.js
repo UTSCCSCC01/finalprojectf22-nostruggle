@@ -6,7 +6,7 @@ import NotificationCard from "./NotificationCard"
 import { formatMessages } from "./utils"
 const Notifications = () => {
     
-    const { userState } = useUserState()
+    const { userState, setUserState } = useUserState()
     const [ notifications, setNotifications ] = useState([])
     const [ notificationsFormatted, setNotificationsFormatted ] = useState([])
     const [ pageCount, setPageCount ] = useState(1)
@@ -38,7 +38,8 @@ const Notifications = () => {
             console.log(res)
             if (res.status === 200){
                 let fetchedNotifications = res.data
-                setNotifications(fetchedNotifications)                
+                setNotifications(fetchedNotifications)    
+                if (fetchedNotifications.length > 0) setUserState({...userState, hasNewNotifications: true })            
                 setCurrentPage(pageNum)
             }
         }).catch( e => console.log(e))  
