@@ -18,10 +18,6 @@ export const navBarSignedInPages = [
     {
         path: '/daily',
         title: "DAILY SUMMARY"
-    },
-    {
-        path: '/posts/test',
-        title: "MY POSTS"
     }
 ]
 
