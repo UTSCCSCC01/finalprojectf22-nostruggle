@@ -1,10 +1,11 @@
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, ListItem } from '@mui/material';
 import ForumCard from '../../components/forumCard/ForumCard';
 import { useEffect, useState } from 'react'
 import ApiCall from "../../components/api/ApiCall";
 import { useUserState } from '../SignUp/UserContext';
 import { useParams } from 'react-router-dom';
 import ForumPostCard from '../../components/ForumPostCard/ForumPostCard';
+import AnswerCard from '../../components/answerCard/AnswerCard';
 
 function ForumThread(){
 
@@ -20,6 +21,8 @@ function ForumThread(){
     const [nLikes, setNLikes] = useState(0);
     const [postIdData, setPostIdData] = useState("");
     const [created_by, setCreatedBy] = useState("");
+
+    const [answers, setAnswers] = useState([]);
 
     //const [answerData, setAnswerDat]
 
@@ -74,6 +77,7 @@ function ForumThread(){
                 console.log(res.data);
                 postData = res.data;
                 console.log(postData);
+                
                 setPostInfo();
             })
             .catch(e => {
@@ -81,8 +85,23 @@ function ForumThread(){
             })
 
         }
+
+        const getAnswers = async () => {
+            console.log("getting answers");
+            await ApiCall.get('/postThread/answers/' + postId + '/')
+            .then(res => {
+                console.log(res.data);
+                console.log("getting answers123");
+                setAnswers(res.data);
+            })
+            .catch(e => {
+                console.log(e);
+            })
+        }
+
         getPostById();
-        
+        getAnswers();
+        console.log("these are the answers" + answers);
     }, []);
 
     console.log('postid is' + postId);
@@ -107,7 +126,14 @@ function ForumThread(){
         ></TextField>
 
         <Button onClick={submitAnswer} >Post Answer</Button>
+
+
+        <p>{answers.map((item) => <AnswerCard content={item.content} created_by={item.created_by} nLikes={item.nLikes} 
+        created_At={item.created_At} />)}</p>
         </div>
+
+       
+
     )
 
 }
