@@ -26,9 +26,25 @@ const Calculator = () => {
         const containerRef = useRef();
     
         useEffect(() => {
-            katex.render(props.tex, containerRef.current, {
-                throwOnError: false
-            });
+            try {
+                katex.render(props.tex, containerRef.current, {
+                    throwOnError: true
+                });
+                document.getElementById('error-message').innerHTML = '';
+            } catch (e) {
+                if (e instanceof katex.ParseError) {
+                    console.log(e);
+                    // KaTeX can't parse the expression
+                    const msg = ("Error in LaTeX '" + props.tex + "': " + e.message)
+                        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    
+                    console.log(msg);
+                    document.getElementById('error-message').innerHTML = 'waiting for input...';
+
+                } else {
+                    throw e;  // other error
+                }
+            }
         }, [props]);
     
         return <span className={ props.className } ref={ containerRef } />

@@ -80,8 +80,16 @@ span.medium-math-symbol {
     margin-bottom: auto;
 }
 
-
 span.always-display-input {
     position: fixed;
     top: 300px;
+    font-size: 18px;
+}
+
+span#error-message {
+    font-family: 'MathFont';
+    font-size: 18px;
+    position: fixed;
+    top: 300px;
+    color: red;
 }
