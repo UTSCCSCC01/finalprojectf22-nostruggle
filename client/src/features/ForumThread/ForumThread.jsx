@@ -88,24 +88,24 @@ function ForumThread(){
         })
     }
 
+    const getPostById = async () => {
+        console.log('postid is    ' + postId);
+        console.log('/postThread/'+ postId + '/');
+        await ApiCall.get('/postThread/'+ postId + '/')
+        .then(res => {
+            console.log(res.data);
+            postData = res.data;
+            console.log(postData);
+            
+            setPostInfo();
+        })
+        .catch(e => {
+            console.log(e);
+        })
+
+    }
+
     useEffect(() => {
-        const getPostById = async () => {
-            console.log('postid is    ' + postId);
-            console.log('/postThread/'+ postId + '/');
-            await ApiCall.get('/postThread/'+ postId + '/')
-            .then(res => {
-                console.log(res.data);
-                postData = res.data;
-                console.log(postData);
-                
-                setPostInfo();
-            })
-            .catch(e => {
-                console.log(e);
-            })
-
-        }
-
         getPostById();
         getAnswers();
         console.log("these are the answers" + answers);
