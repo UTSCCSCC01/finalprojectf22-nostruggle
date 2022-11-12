@@ -16,9 +16,14 @@ const ForumCard = (props) => {
 
     const navigate = useNavigate();
 
+    const forumCardSettingsRef = useRef();
+
     const {userState, setUserState} = useUserState();
 
     const { postState, setPostState } = usePostState();
+
+    const [ openEditor, toggleOpenEditor ] = useState(false)
+    const [ openEditorMenu, toggleOpenEditorMenu ] = useState(false)
 
     const goToPost = () => {
         console.log("clicked on post" + postIdselected);
@@ -38,6 +43,14 @@ const ForumCard = (props) => {
         })
 
         navigate('/postThread/' + postIdselected);
+    }
+
+    const editPost = () => {
+        toggleOpenEditor(true)
+    }
+
+    const deletePost = () => {
+        
     }
 
 /*
@@ -69,6 +82,8 @@ const ForumCard = (props) => {
                 <Chip label={tag}></Chip>
                 <Button variant="outlined" onClick={goToPost}>View Post</Button>
             </CardContent>
+           
+
         </Card>
       //  </PostContext.Provider>
     )
