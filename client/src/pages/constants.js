@@ -22,10 +22,6 @@ export const useNavBarSignedInPages = () => {
         {
             path: '/daily',
             title: "DAILY SUMMARY"
-        },
-        {
-            path: `/posts/${userState.user.username}`,
-            title: "MY POSTS"
         }
     ]
 }
