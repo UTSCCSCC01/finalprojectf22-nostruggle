@@ -1,7 +1,4 @@
-import { useUserState } from "../features/SignUp/UserContext"
-
 export const useNavBarSignedInPages = () => {
-    const { userState } = useUserState()
     return [
         {
             path: '/',
