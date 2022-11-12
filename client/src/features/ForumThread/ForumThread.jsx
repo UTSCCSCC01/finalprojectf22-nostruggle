@@ -49,11 +49,16 @@ function ForumThread(){
         }
 
         await ApiCall.post('answers/post', answerData)
-        .then(res => {console.log(res.data); console.log("add new answer to database")})
+        .then(res => {
+            console.log(res.data); 
+            console.log("add new answer to database");
+            setAnswerField("");
+        })
         .catch(e => {console.log(e)
             setContentFilled(false);
         
         })
+        getAnswers();
     }
 
     const setPostInfo = () =>{
@@ -66,6 +71,19 @@ function ForumThread(){
         setPostIdData(postData._id);
         console.log("date is " + postData.created_At);
         console.log("title is" + postData.title);
+    }
+
+    const getAnswers = async () => {
+        console.log("getting answers");
+        await ApiCall.get('/postThread/answers/' + postId + '/')
+        .then(res => {
+            console.log(res.data);
+            console.log("getting answers123");
+            setAnswers(res.data);
+        })
+        .catch(e => {
+            console.log(e);
+        })
     }
 
     useEffect(() => {
@@ -84,19 +102,6 @@ function ForumThread(){
                 console.log(e);
             })
 
-        }
-
-        const getAnswers = async () => {
-            console.log("getting answers");
-            await ApiCall.get('/postThread/answers/' + postId + '/')
-            .then(res => {
-                console.log(res.data);
-                console.log("getting answers123");
-                setAnswers(res.data);
-            })
-            .catch(e => {
-                console.log(e);
-            })
         }
 
         getPostById();
@@ -123,6 +128,7 @@ function ForumThread(){
         helperText={!contentFilled ? "Please enter your answer" : ""}
         rows={8}
         onChange={enterContent}
+        value={answerField}
         ></TextField>
 
         <Button onClick={submitAnswer} >Post Answer</Button>
