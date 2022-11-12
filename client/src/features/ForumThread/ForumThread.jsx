@@ -21,6 +21,7 @@ function ForumThread(){
     const [nLikes, setNLikes] = useState(0);
     const [postIdData, setPostIdData] = useState("");
     const [created_by, setCreatedBy] = useState("");
+    const [updatedAt, setUpdatedAt] = useState("");
 
     const [answers, setAnswers] = useState([]);
 
@@ -69,6 +70,7 @@ function ForumThread(){
         setCreatedBy(postData.created_by);
         setNLikes(postData.nLikes);
         setPostIdData(postData._id);
+        setUpdatedAt(postData.updated);
         console.log("date is " + postData.created_At);
         console.log("title is" + postData.title);
     }
@@ -107,6 +109,7 @@ function ForumThread(){
         getPostById();
         getAnswers();
         console.log("these are the answers" + answers);
+
     }, []);
 
     console.log('postid is' + postId);
@@ -114,8 +117,8 @@ function ForumThread(){
     return(
         <div>
          
-        <ForumPostCard title={title} content={content} tag={tag} date={date} nLikes={nLikes} 
-        created_by={created_by} postIdData={postIdData}/>
+        <ForumPostCard refresh={getPostById} editor={created_by === userState.user.username} title={title} content={content} tag={tag} date={date} nLikes={nLikes} 
+        created_by={created_by} updatedAt={updatedAt} postIdData={postIdData}/>
          
        
         <TextField
