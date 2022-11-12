@@ -18,11 +18,17 @@ const Calculator = () => {
     }]);
     const [ lastFocusIndex, setLastFocusIndex ] = useState(0);
 
+    useEffect( () => {
+        console.log(inputs)
+    }, [inputs])
+
     const KaTeXComponent = (props) => {
         const containerRef = useRef();
     
         useEffect(() => {
-            katex.render(props.tex, containerRef.current);
+            katex.render(props.tex, containerRef.current, {
+                throwOnError: false
+            });
         }, [props]);
     
         return <span className={ props.className } ref={ containerRef } />
@@ -65,67 +71,82 @@ const Calculator = () => {
     }
 
     const onInput = (event, inputIndex, fieldIndex) => {
-        if (inputIndex < 0 || inputIndex >= inputs.length || fieldIndex < 0 || fieldIndex >= inputs[inputIndex].inputFields.length)
+        if (inputIndex < 0 || inputIndex >= inputs.length || fieldIndex < 0 || fieldIndex >= inputs[inputIndex].inputFields.length) {
             return;
+        }
 
         setLastFocusIndex(inputIndex);
         const inputSelectionIndex = event.target.selectionStart;
 
         if (event.inputType === 'insertText') {
-            setInputs(() => {
-                const copy = [ ...inputs ];
-                const value = copy[inputIndex].inputFields[fieldIndex].value;
-                const start = value.slice(0, inputSelectionIndex - 1);
-                const end = value.slice(inputSelectionIndex);
-
-                copy[inputIndex].inputFields[fieldIndex].value = start + event.data + end;
-                copy[inputIndex] = { ...copy[inputIndex], inputValue: copy[inputIndex].inputFields.map((field) => field.value)};
-                return copy;
-            })
+            const oldValue = inputs[inputIndex].inputFields[fieldIndex].value;
+            const newValue = oldValue.slice(0, inputSelectionIndex - 1) + event.data + oldValue.slice(inputSelectionIndex);
+            
+            setInputs(inputs.map((input, i) => (
+                i === inputIndex ?
+                { ...input,
+                    isEmpty: false,
+                    inputFields: input.inputFields.map((field, j) => (
+                        j === fieldIndex ?
+                        { ...field, value: newValue }
+                        : { ...field }
+                    ))}
+                : { ...input }
+            )));
         } else if (event.inputType === 'deleteContentBackward' || event.inputType === 'deleteContentForward') {
             if (inputs[inputIndex].inputFields[fieldIndex].value !== null && inputs[inputIndex].inputFields[fieldIndex].value.length > 0) {
-                setInputs(() => {
-                    const copy = [ ...inputs ];
-                    const value = copy[inputIndex].inputFields[fieldIndex].value;
-                    const start = value.slice(0, inputSelectionIndex);
-                    const end = value.slice(inputSelectionIndex + 1);
-    
-                    copy[inputIndex].inputFields[fieldIndex].value = start + end;
-                    copy[inputIndex] = { ...copy[inputIndex], inputValue: copy[inputIndex].inputFields.map((field) => field.value)};
-                    return copy;
-                })
+                const oldValue = inputs[inputIndex].inputFields[fieldIndex].value;
+                const newValue = oldValue.slice(0, inputSelectionIndex) + oldValue.slice(inputSelectionIndex + 1);
+                
+                setInputs(inputs.map((input, i) => (
+                    i === inputIndex ? 
+                    { ...input,
+                        inputFields: (input.inputFields.map((field, j) => (
+                            j === fieldIndex ? 
+                            { ...field, value: newValue }
+                            : { ...field }
+                        )))}
+                    : { ...input }
+                )));
             }
         }
     }
 
     const checkBackspace = (event, inputIndex) => {
-        if (inputIndex < 0 || inputIndex >= inputs.length)
+        if (inputIndex < 0 || inputIndex >= inputs.length) {
             return;
+        }
         
         if (event.key === 'Backspace') {
             if (inputs[inputIndex].isEmpty) {
                 setInputs(inputs.filter((input, i) => i !== inputIndex));
+                return;
             }
-        } else {
-            checkForEmptyInput(inputIndex);
-        }
+        } 
+
+        setInputs(inputs.map((input, i) => (
+            i === inputIndex ? 
+            { ...input, 
+                inputValue: inputToTex(inputIndex),
+                isEmpty: checkForEmptyInput(inputIndex)
+            }
+            : { ...input }
+        )));
     }
     
     const checkForEmptyInput = (inputIndex) => {
-        if (inputIndex < 0 || inputIndex >= inputs.length)
+        if (inputIndex < 0 || inputIndex >= inputs.length) {
             return;
+        }
+        
+        for (let i = 0; i < inputs[inputIndex].inputFields.length; i++) {
+            const field = inputs[inputIndex].inputFields[i];
 
-        setInputs(() => {
-            const copy = [ ...inputs ];
-            var isEmpty = true;
-            for (let i = 0; i < inputs[inputIndex].length; i++) {
-                const field = inputs[inputIndex][i];
-                if (field.value.length > 0)
-                    isEmpty = false;
+            if (!field.type.includes('math-symbol') && field.value.length > 0) {
+                return false
             }
-            copy[inputIndex] = { ...copy[inputIndex], isEmpty: isEmpty };
-            return copy;
-        })
+        }
+        return true
     }
 
     const displayInput = (fields, i) => {
@@ -180,6 +201,24 @@ const Calculator = () => {
 
         return <>{ inputJsx }</>
     }
+
+    const inputToTex = (inputIndex) => {
+        switch (inputs[inputIndex].inputType) {
+            case 'integrate':
+                const fields = inputs[inputIndex].inputFields.map((field) => field.value);
+                return `\\int^{${fields[1]}}_{${fields[2]}}{${fields[3]}}dx`;
+            default:
+                break;
+        }
+        const str = inputs[inputIndex].inputFields.map((field) => {
+            if (field.type.includes('math-symbol')) {
+                return field.value;
+            } else if (field.type) {
+
+            }
+        }).join();
+        
+    }
     
     const renderTex = (id, tex) => {
         const element = document.getElementById(id);
@@ -213,18 +252,24 @@ const Calculator = () => {
                     <div className='calculator-box'>
                         <div className='calculator-inputs' >
                             {
-                                inputs.map((input, i) => displayInput(input.inputFields, i))
+                                inputs.length > 0 ? inputs.map((input, i) => displayInput(input.inputFields, i))
+                                : setInputs([{
+                                        inputType: 'default',
+                                        inputValue: '',
+                                        isEmpty: true,
+                                        inputFields: [{ type: 'default-field', value: '' }]
+                                    }])
                             }
-                            {/* <input onKeyUp={(e) => renderTex('test', toTex(e.target.value))} ></input> */}
                         </div>
                         
                         <div className='calculator-buttons'>
                             <ButtonPad addInput={ addInput } />
-                            <span id='test'/>
                             {/* <h3>{inputs.map((input) => getFormattedInput(input)).join("")}</h3>
                             <p id='ReadThis'>{ inputs.map((input) => ' ' + input.affix[0] + input.inputValue + input.affix[1]).join("")}</p>
                         <p id='WriteToThis'></p> */}
                         </div>
+                        <KaTeXComponent className={ 'always-display-input' } tex={ inputs.map((input) => '{' + input.inputValue + '}').join().replaceAll(',', '') } />
+                        <span id='error-message' />
                     </div>
                  
                 </ToolBarDraggableWrapper>
