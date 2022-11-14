@@ -1,4 +1,5 @@
-import { Card, Typography, CardContent } from '@mui/material';
+import { Card, Typography, CardContent, Accordion, AccordionSummary, AccordionDetails, TextField } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const AnswerCard = (props) =>{
 
@@ -10,7 +11,9 @@ const AnswerCard = (props) =>{
 
 
     return(
-        <Card sx={{mb: 3}}>
+        <Accordion sx={{mb: 3}}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
+        <Card>
             <CardContent>
                 <Typography>
                     {content}
@@ -27,6 +30,18 @@ const AnswerCard = (props) =>{
             </CardContent>
 
         </Card>
+        </AccordionSummary>
+        <AccordionDetails>
+            <h5>Comment Section</h5>
+            <TextField
+            id="content" 
+            label="Add a new comment" 
+            variant="outlined"
+            fullWidth={true}
+            multiline={true}
+        ></TextField>
+        </AccordionDetails>
+        </Accordion>
     )
 }
 
