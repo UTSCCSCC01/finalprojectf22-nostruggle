@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
-import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar } from "@mui/material";
+import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { ChevronLeft, ChevronRight, Home, HomeRepairService } from '@mui/icons-material';
  
-import ListMenu from "../../lists/ListMenu";
-import ListPlain from '../../lists/ListPlain';
+import ListMenu from '../../lists/ListMenu';
 
 import './NavBar.css'
 
 import { navBarSignedInPages, navBarSignedOutPages } from '../../../pages/constants';
 import { useUserState } from '../../../features/SignUp/UserContext';
-import ToolsBar from '../../../features/ToolsBar';
-import { useEffect } from 'react';
+import ToolsBar from '../ToolsBar'
+
 const NavBar = () => {
 
     const { userState } = useUserState();
@@ -38,7 +37,7 @@ const NavBar = () => {
                         >{ page.title }
                         </Button>
                         : 
-                        <IconButton {...buttonProps} children={<Home sx={{fontSize: "2rem"}}/>}/>
+                        <IconButton {...buttonProps} children={<Home sx={{fontSize: '2rem'}}/>}/>
 
                     }
                 </span>

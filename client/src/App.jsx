@@ -13,6 +13,7 @@ import { Create } from '@mui/icons-material';
 import CreatePost from './features/CreatePost/CreatePost';
 import ForumThread from './features/ForumThread/ForumThread';
 import ForumThreadPage from './features/ForumThreadPage/ForumThreadPage';
+import './katex/katex.min.css'
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
             <Route path='*' element={ <NoPage /> }/>
             <Route path='createPost' element={ <CreatePost/> }/>
             <Route path='postThread' element={ <ForumThreadPage/>}>
-              <Route path=":postId" element={<ForumThread/>}/>
+              <Route path=':postId' element={<ForumThread/>}/>
             </Route>
         </Route>
       </Routes>

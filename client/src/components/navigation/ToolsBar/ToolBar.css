@@ -1,12 +1,14 @@
 .ToolBar {
     display: flex;
     flex-flow: column wrap;
-    align-items: center !important;
+    align-items: flex-start !important;
     justify-content: center !important;
     overflow: hidden;
-    width: 70px;
+    width: max-content;
+    max-width: 280px;
 }
 
 .ToolBar > * {
     margin: 0px 0;
+    padding: 6px;
 }

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import ToolBarDraggableWrapper from '../ToolsBar/ToolBarDraggableWrapper';
-import LinearAlgebraIcon from './LinearAlgebraIcon'
+import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
+import MatrixIcon from './MatrixIcon'
 import MatrixCalculatorUI from './MatrixCalculatorUI';
 import './MatrixCalculatorUI.css'
 
@@ -19,7 +19,7 @@ const LinearAlgebraCalculator = () => {
 
                 </ToolBarDraggableWrapper>
             }
-            <LinearAlgebraIcon open={open} onClick={() => toggleOpen(!open)}/>
+            <MatrixIcon open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 

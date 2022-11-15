@@ -3,7 +3,7 @@ import { Button } from '@mui/material';
 import { useState, useRef, useEffect } from 'react'
 import ButtonPad from './ButtonPad';
 import { resizeInput } from './WrapContent';
-import ToolBarDraggableWrapper from '../ToolsBar/ToolBarDraggableWrapper';
+import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
 import CalculatorIcon from './CalculatorIcon';
 import katex from 'katex';
 
