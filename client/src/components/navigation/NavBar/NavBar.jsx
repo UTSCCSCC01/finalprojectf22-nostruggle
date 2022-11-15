@@ -12,6 +12,7 @@ import { navBarSignedInPages, navBarSignedOutPages } from '../../../pages/consta
 import { useUserState } from '../../../features/SignUp/UserContext';
 import ToolsBar from '../ToolsBar'
 import { useEffect } from 'react';
+import NavBarButton from '../../buttons/NavBarButton';
 
 const NavBar = () => {
 
@@ -25,7 +26,6 @@ const NavBar = () => {
     const showPage = (page) => {
         const buttonProps = {
             disabled: page.path === location.pathname ,
-            sx : { color: 'white', fontSize: '1.2rem' },
             onClick: () => navigate(page.path),
             className: 'NavBarButton'
         }
@@ -34,10 +34,10 @@ const NavBar = () => {
                 <span>
                     {
                         page.path !== '/' ?
-                        <Button
+                        <NavBarButton
                             {...buttonProps}
                         >{ page.title }
-                        </Button>
+                        </NavBarButton>
                         : 
                         <IconButton {...buttonProps} children={<Home sx={{fontSize: '2rem'}}/>}/>
 
@@ -48,31 +48,41 @@ const NavBar = () => {
     };
 
     useEffect(() => {
-        const drawer = document.getElementById('SideBar'); 
-        const miniDrawer = document.getElementById('MiniBar');
-        setOffset(drawer === null ? (miniDrawer === null ? '0px' : miniDrawer.offsetWidth) : drawer.offsetWidth + 'px');
+        const sidebar = document.getElementById('sidebar'); 
+        const drawerToggle = document.getElementById('drawer-toggle');
+        if (sidebar === null && drawerToggle === null) {
+            setOffset(0);
+        }
+        setOffset(sidebar === null ? drawerToggle.offsetWidth : Math.max(drawerToggle.offsetWidth, drawerToggle === null ? sidebar.offsetWidth : 0));
     }, [openDrawer])
 
     
     return (
         <>
-            { userState.signedIn &&
             <Drawer 
-            className='ToolbarDrawer' 
             variant='persistent' 
             anchor='left' 
             open={ true } >
-                <div id='SideBar'>
+                <div id='drawer-toggle'>
+                    <IconButton onClick={ () => toggleOpenDrawer(!openDrawer) }>
+                        {
+                            openDrawer ? 
+                            <ChevronLeft sx={{ fontSize: '40px' }} />
+                            : <ChevronRight sx={{ fontSize: '40px' }} />
+                        }
+                    </IconButton>
+                </div>
+                <div id='sidebar'>
                     <ToolsBar variant={ openDrawer ? 'text' : 'no-text' }/>
                 </div>
             </Drawer>
-            }
 
 
-            <AppBar sx={{ 
+            <AppBar
+            sx={{ 
                 zIndex: 2000,
-                right: -offset, 
-                width: 'calc(100% - ' + offset + ')',
+                left: offset, 
+                width: `calc(100% - ${offset})`,
                 transition: theme => theme.transitions.create(['width', 'margin'], {
                     easing: theme.transitions.easing.sharp,
                     duration: theme.transitions.duration.leavingScreen,
@@ -86,16 +96,8 @@ const NavBar = () => {
             }}
             position='fixed'>
                 <span>
-                    <Toolbar className='Toolbar'>
-                        {
-                            userState.signedIn &&
-                            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                                <IconButton onClick={ () => toggleOpenDrawer(!openDrawer) }>
-                                    <HomeRepairService sx={{ fontSize: '40px', color: openDrawer === true ?  '#EFF3F6' : '' }} />
-                                </IconButton>
-                            </Box>
-                        }
-                        <Box sx={{ flexGrow: 1, paddingLeft: '20px', display: 'flex' }}>
+                    <Toolbar className='NavBar'>
+                        <Box sx={{ flexGrow: 1, display: 'flex' }}>
                         { userState.signedIn ? navBarSignedInPages.map((page) => showPage(page)) : navBarSignedOutPages.map((page) => showPage(page)) }
                         </Box>
 

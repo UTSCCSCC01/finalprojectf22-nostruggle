@@ -5,34 +5,40 @@
     top: 65px;
 }
 
+.icon {
+    position: fixed;
+    right: 5px;
+}
+
 .DrawerHeader {
     position: absolute;
     right: 0px;
-    padding: 12px 20px;
 }
 
-.Toolbar {
-    padding-left: 10px;
-}
-
-.ToolbarDrawer > div{
-    align-items: center;
-    justify-content: center;
-}
-
-.shift {
-    margin-left: 40px;
-}
-
-.SideBar {
-    margin-top: 40px;
-    visibility: inherit;
+.NavBar {
+    padding: 0px;
 }
 
 .NavBarButton{
-    text-shadow: black 2px 2px 3px !important;
+    margin: 12px;
 }
+
 .NavBarButton[disabled]{
-    color: white !important;
-    text-shadow: rgb(46, 44, 156) 2px 2px 3px !important;
+    color: #2C5B73 !important;
+    border-color: #7CC3C6 !important;
+    background-color: #7CC3C6 !important;
+}
+
+
+div#sidebar {
+    height: 100vh;
+    display:flex;
+    justify-content: center;
+}
+
+div#drawer-toggle {
+    width: 100%;
+    display:flex;
+    justify-content: flex-end;
+    margin-top: 6px;
 }
