@@ -2,7 +2,7 @@ import { useState } from 'react'
 import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
 import AlgebraIcon from "./AlgebraIcon"
 
-const AlgebraCalculator = () => {
+const AlgebraCalculator = ({ iconVariant }) => {
     const [ open, toggleOpen ] = useState(false);
 
     return (
@@ -10,10 +10,12 @@ const AlgebraCalculator = () => {
             {
                 open &&
                 <ToolBarDraggableWrapper>
-                 
+                    <div>
+                        <p> placeholder </p>
+                    </div>
                 </ToolBarDraggableWrapper>
             }
-            <AlgebraIcon open={open} onClick={() => toggleOpen(!open)}/>
+            <AlgebraIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 }

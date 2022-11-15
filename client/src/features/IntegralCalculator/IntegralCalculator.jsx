@@ -2,7 +2,7 @@ import { useState } from 'react'
 import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
 import IntegralIcon from "./IntegralIcon"
 
-const IntegralCalculator = () => {
+const IntegralCalculator = ({ iconVariant }) => {
     const [ open, toggleOpen ] = useState(false);
 
     return (
@@ -10,10 +10,12 @@ const IntegralCalculator = () => {
             {
                 open &&
                 <ToolBarDraggableWrapper>
-                 
+                    <div>
+                        <p> placeholder </p>
+                    </div>
                 </ToolBarDraggableWrapper>
             }
-            <IntegralIcon open={open} onClick={() => toggleOpen(!open)}/>
+            <IntegralIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 }

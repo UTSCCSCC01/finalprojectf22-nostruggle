@@ -6,15 +6,17 @@ import FactorMultiple from '../../../features/FactorMultiple/FactorMultiple'
 
 import './ToolBar.css'
 
-const ToolsBar = () => {
+const ToolsBar = ({ variant }) => {
+
+    console.log(variant);
 
     return (
         <div className='ToolBar'>
-            <StudyTimer/>
-            <AlgebraCalculator />
-            <IntegralCalculator />
-            <LinearAlgebraCalculator/>
-            <FactorMultiple />
+            <StudyTimer iconVariant={ variant } />
+            <AlgebraCalculator iconVariant={ variant } />
+            <IntegralCalculator iconVariant={ variant } />
+            <LinearAlgebraCalculator iconVariant={ variant } />
+            <FactorMultiple iconVariant={ variant } />
         </div>
     )
 }

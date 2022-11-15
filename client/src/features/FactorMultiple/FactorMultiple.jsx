@@ -4,7 +4,7 @@ import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBa
 import FactorMultipleIcon from "./FactorMultipleIcon"
 import { DragIndicator } from "@mui/icons-material"
 import './FactorMultiple.css'
-const FactorMultiple = () => {
+const FactorMultiple = ({ iconVariant }) => {
     const [ open, toggleOpen ] = useState(false)
     const [ numberToFactor, setNumberToFactor ] = useState(0)
     const [ factorMessage, setFactorMessage ] = useState({})
@@ -83,7 +83,7 @@ const FactorMultiple = () => {
                     </Card> 
                 </ToolBarDraggableWrapper>
             }
-            <FactorMultipleIcon open={open} onClick={() => toggleOpen(!open)}/>
+            <FactorMultipleIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 }

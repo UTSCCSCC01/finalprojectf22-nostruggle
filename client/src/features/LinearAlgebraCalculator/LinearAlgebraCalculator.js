@@ -4,7 +4,7 @@ import MatrixIcon from './MatrixIcon'
 import MatrixCalculatorUI from './MatrixCalculatorUI';
 import './MatrixCalculatorUI.css'
 
-const LinearAlgebraCalculator = () => {
+const LinearAlgebraCalculator = ({ iconVariant }) => {
 
     const [ open, toggleOpen ] = useState(false);
 
@@ -19,7 +19,7 @@ const LinearAlgebraCalculator = () => {
 
                 </ToolBarDraggableWrapper>
             }
-            <MatrixIcon open={open} onClick={() => toggleOpen(!open)}/>
+            <MatrixIcon iconVariant={ iconVariant }open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 

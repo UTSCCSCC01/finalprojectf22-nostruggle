@@ -394,7 +394,7 @@ const StudyTimer = (props) => {
                 </ToolBarDraggableWrapper>
             </>
             }
-            <StudyTimerIcon open={open} onClick={() => toggleOpen(!open)} time={studyTimer.time.seconds > 0 ? studyTimer.time.string : ''}/>
+            <StudyTimerIcon iconVariant={props.iconVariant} open={open} onClick={() => toggleOpen(!open)} time={studyTimer.time.seconds > 0 ? studyTimer.time.string : ''}/>
         </>    
     )
 }

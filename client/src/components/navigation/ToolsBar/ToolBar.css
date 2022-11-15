@@ -1,7 +1,7 @@
 .ToolBar {
     display: flex;
     flex-flow: column wrap;
-    align-items: flex-start !important;
+    align-items: center !important;
     justify-content: center !important;
     overflow: hidden;
     width: max-content;

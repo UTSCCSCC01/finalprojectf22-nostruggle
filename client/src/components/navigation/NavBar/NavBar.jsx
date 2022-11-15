@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar } from '@mui/material';
+import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar, Collapse } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { ChevronLeft, ChevronRight, Home, HomeRepairService } from '@mui/icons-material';
@@ -48,19 +48,43 @@ const NavBar = () => {
     };
 
     useEffect(() => {
-        const element = document.getElementById('SideBar'); 
-        setOffset(element === null ? '0px' : element.offsetWidth + 'px');
+        const drawer = document.getElementById('SideBar'); 
+        const miniDrawer = document.getElementById('MiniBar');
+        setOffset(drawer === null ? (miniDrawer === null ? '0px' : miniDrawer.offsetWidth) : drawer.offsetWidth + 'px');
     }, [openDrawer])
 
+    
     return (
         <>
-            { openDrawer && userState.signedIn &&
-            <Drawer className='ToolbarDrawer' variant='persistent' anchor='left' open={ openDrawer } sx={{ width: 70, flexShrink: 0 }} >
-                <div id='SideBar'><ToolsBar/></div>
+            { userState.signedIn &&
+            <Drawer 
+            className='ToolbarDrawer' 
+            variant='persistent' 
+            anchor='left' 
+            open={ true } >
+                <div id='SideBar'>
+                    <ToolsBar variant={ openDrawer ? 'text' : 'no-text' }/>
+                </div>
             </Drawer>
             }
 
-            <AppBar sx={{ zIndex: 2000, left: offset, width: 'calc(100% - ' + offset + ')' }} position='fixed'>
+
+            <AppBar sx={{ 
+                zIndex: 2000,
+                right: -offset, 
+                width: 'calc(100% - ' + offset + ')',
+                transition: theme => theme.transitions.create(['width', 'margin'], {
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.leavingScreen,
+                }),
+                ...( openDrawer && {
+                    transition: theme => theme.transitions.create(['width', 'margin'], {
+                        easing: theme.transitions.easing.sharp,
+                        duration: theme.transitions.duration.enteringScreen,
+                    }),
+                })
+            }}
+            position='fixed'>
                 <span>
                     <Toolbar className='Toolbar'>
                         {

@@ -1,8 +1,9 @@
 import ToolsBarButton from "../../components/buttons/ToolsBarButton"
 import  { CalculateOutlined } from "@mui/icons-material"
 import theme from "../../theme"
+import { IconButton } from "@mui/material"
 
-const AlgebraIcon = ({ onClick, open }) => {
+const AlgebraIcon = ({ onClick, open, iconVariant }) => {
 
     const handleClick = (e) => {
         e.currentTarget.blur();
@@ -11,13 +12,20 @@ const AlgebraIcon = ({ onClick, open }) => {
 
     return (
         <div className='AlgebraIcon'>
-            <ToolsBarButton style={{
-                position: 'relative',
-                color: open ? theme.button_active : theme.button_inactive
-            }}
-            onClick={ (e) => handleClick(e) }
-            startIcon={ <CalculateOutlined sx={{ width:'30px', height: '30px', color: open ? theme.button_active : theme.button_inactive }} /> }
-            >Algebra Calculator</ToolsBarButton>
+            {
+                iconVariant === 'text' ? 
+                <ToolsBarButton style={{
+                    position: 'relative',
+                    color: open ? theme.button_active : theme.button_inactive
+                }}
+                onClick={ (e) => handleClick(e) }
+                startIcon={ <CalculateOutlined sx={{ width:'30px', height: '30px', color: open ? theme.button_active : theme.button_inactive }} /> }
+                >Algebra Calculator</ToolsBarButton>
+                :
+                <IconButton
+                onClick={ (e) => handleClick(e) } 
+                children={ <CalculateOutlined sx={{ width:'30px', height: '30px', color: open ? theme.button_active : theme.button_inactive }} /> }/>
+            }
         </div>
     )
 }
