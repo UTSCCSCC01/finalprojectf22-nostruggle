@@ -183,10 +183,14 @@ function integrateTerms(terms) {
         }
         //Case when term is constant and a fraction
         else if (terms[i].includes("/")) {
+            //Case of bracketed fraction constant input 
+            if (terms[i][0] == '(' && terms[i][terms[i].length - 1] == ')') {
+                terms[i] = terms[i].substring(1, terms[i].length - 1);
+            }
             const fraction_parts = terms[i].split("/");
             //Ensuring terms around division are numbers
             if (!(isNaN(fraction_parts[0])) && !(isNaN(fraction_parts[1]))) {
-                integratedTerm = terms[i] + 'x';
+                integratedTerm = '(' + terms[i] + ')x';
                 integratedTerms.push(integratedTerm);
             }
         }
