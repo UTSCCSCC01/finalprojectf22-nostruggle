@@ -128,7 +128,7 @@ function integrateTerms(terms) {
                         newConstant = '-';
                 }
                 else {
-                    newConstant = reduceFraction(constant, newExponent);
+                    newConstant = '(' + reduceFraction(constant, newExponent) + ')';
                 }
 
                 if (newExponent > 1)
@@ -161,7 +161,7 @@ function integrateTerms(terms) {
                         newConstant = '-';
                 }
                 else {
-                    newConstant = reduceFraction(numerator, denominator * newExponent);
+                    newConstant = '(' + reduceFraction(numerator, denominator * newExponent) + ')';
                 }
 
                 if (newExponent > 1)
@@ -211,6 +211,12 @@ function concatenateTerms(integratedTerms, operators) {
     //Removes occurences of "+0", "-0", "0-", or "0+"
     completeIntegral = completeIntegral.replace(/(((\+|-)0)|(0\+))/g, '');
     completeIntegral = completeIntegral.replace(/0-/g, '-');
+
+    //Code cleanup for '+' at the front and end
+    if (completeIntegral[0] == '+')
+        completeIntegral = completeIntegral.substring(1,);
+    if (completeIntegral[completeIntegral.length - 1] == '+')
+        completeIntegral = completeIntegral.substring(0, completeIntegral.length - 1);
 
     //Adds + C for indefinite integral
     completeIntegral += '+C';
