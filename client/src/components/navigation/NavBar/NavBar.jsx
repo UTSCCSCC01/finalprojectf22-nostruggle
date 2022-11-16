@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar, Collapse } from '@mui/material';
+import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar, Collapse, Divider } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { ChevronLeft, ChevronRight, Home, HomeRepairService } from '@mui/icons-material';
@@ -16,12 +16,12 @@ import NavBarButton from '../../buttons/NavBarButton';
 
 const NavBar = () => {
 
-    const { userState } = useUserState();
+    const { userState, setUserState } = useUserState();
     const navigate = useNavigate();
     const location = useLocation();
     const [ openDrawer, toggleOpenDrawer ] = useState(false);
     const [ openMenu, toggleOpenMenu ] = useState(false);
-    const [ offset, setOffset ] = useState(0);
+    const [ offset, setOffset ] = useState(58);
     
     const showPage = (page) => {
         const buttonProps = {
@@ -48,71 +48,85 @@ const NavBar = () => {
     };
 
     useEffect(() => {
-        const sidebar = document.getElementById('sidebar'); 
-        const drawerToggle = document.getElementById('drawer-toggle');
-        if (sidebar === null && drawerToggle === null) {
-            setOffset(0);
-        }
-        setOffset(sidebar === null ? drawerToggle.offsetWidth : Math.max(drawerToggle.offsetWidth, drawerToggle === null ? sidebar.offsetWidth : 0));
-    }, [openDrawer])
+        const sidebar = document.getElementById('sidebar');
+        //setOffset(sidebar === null ? 58 : sidebar.offsetWidth );
+        setUserState({...userState, shift: sidebar === null ? 58 : sidebar.offsetWidth })
+        // const drawerToggle = document.getElementById('drawer-toggle');
+        // if (sidebar === null && drawerToggle === null) {
+        //     setOffset(0);
+        // } else {
+        //     setOffset(sidebar === null ? drawerToggle.offsetWidth : Math.max(drawerToggle.offsetWidth, drawerToggle === null ? sidebar.offsetWidth : 0));
+        // }
+    }, [openDrawer]);
 
     
     return (
         <>
-            <Drawer 
-            variant='persistent' 
-            anchor='left' 
-            open={ true } >
-                <div id='drawer-toggle'>
-                    <IconButton onClick={ () => toggleOpenDrawer(!openDrawer) }>
+        {
+            userState.signedIn &&
+            <>
+                <Drawer 
+                variant='persistent' 
+                anchor='left' 
+                open={ true } >
+                    <div id='drawer-toggle'>
+                        <IconButton onClick={ () => toggleOpenDrawer(!openDrawer) }>
+                            {
+                                openDrawer ? 
+                                <ChevronLeft sx={{ fontSize: '40px' }} />
+                                : <ChevronRight sx={{ fontSize: '40px' }} />
+                            }
+                        </IconButton>
+                    </div>
+                    <div id='sidebar'>
                         {
-                            openDrawer ? 
-                            <ChevronLeft sx={{ fontSize: '40px' }} />
-                            : <ChevronRight sx={{ fontSize: '40px' }} />
+                            openDrawer &&
+                            <>
+                                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                                { navBarSignedInPages.map((page) => showPage(page)) }
+                                </Box>
+                                <Divider sx={{ padding: '4px'}}/>
+                                <p> NoStruggle Toolkit</p>
+                            </>
                         }
-                    </IconButton>
-                </div>
-                <div id='sidebar'>
-                    <ToolsBar variant={ openDrawer ? 'text' : 'no-text' }/>
-                </div>
-            </Drawer>
+                        <ToolsBar variant={ openDrawer ? 'text' : 'no-text' }/>
+                    </div>
+                </Drawer>
 
 
-            <AppBar
-            sx={{ 
-                zIndex: 2000,
-                left: offset, 
-                width: `calc(100% - ${offset})`,
-                transition: theme => theme.transitions.create(['width', 'margin'], {
-                    easing: theme.transitions.easing.sharp,
-                    duration: theme.transitions.duration.leavingScreen,
-                }),
-                ...( openDrawer && {
+                <AppBar
+                sx={{ 
+                    zIndex: 2000,
+                    left: userState.shift, 
+                    width: `calc(100% - ${userState.shift})`,
                     transition: theme => theme.transitions.create(['width', 'margin'], {
                         easing: theme.transitions.easing.sharp,
-                        duration: theme.transitions.duration.enteringScreen,
+                        duration: theme.transitions.duration.leavingScreen,
                     }),
-                })
-            }}
-            position='fixed'>
-                <span>
-                    <Toolbar className='NavBar'>
-                        <Box sx={{ flexGrow: 1, display: 'flex' }}>
-                        { userState.signedIn ? navBarSignedInPages.map((page) => showPage(page)) : navBarSignedOutPages.map((page) => showPage(page)) }
-                        </Box>
+                    ...( openDrawer && {
+                        transition: theme => theme.transitions.create(['width', 'margin'], {
+                            easing: theme.transitions.easing.sharp,
+                            duration: theme.transitions.duration.enteringScreen,
+                        }),
+                    })
+                }}
+                position='fixed'>
+                    <span>
+                        <Toolbar className='NavBar'>
+                            <Box className='icon'>
+                                <Tooltip title='Click to Open Menu'>
+                                    <IconButton onClick={ () => toggleOpenMenu(!openMenu) }>
+                                        <Avatar /*alt='put alt text' src='../../assets/images/???'*//>
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                        </Toolbar>
+                    </span>
+                </AppBar>
 
-                        <Box className='icon'>
-                            <Tooltip title='Click to Open Menu'>
-                                <IconButton onClick={ () => toggleOpenMenu(!openMenu) }>
-                                    <Avatar /*alt='put alt text' src='../../assets/images/???'*//>
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                    </Toolbar>
-                </span>
-            </AppBar>
-
-            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Sign Out' ]} path={{ 'Profile': '/profile', 'Sign Out': '/logout' }}/> }
+                { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Sign Out' ]} path={{ 'Profile': '/profile', 'Sign Out': '/logout' }}/> }
+            </>
+        }
         </>
     )
 }

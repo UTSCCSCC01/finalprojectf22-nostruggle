@@ -33,7 +33,9 @@
 div#sidebar {
     height: 100vh;
     display:flex;
-    justify-content: center;
+    justify-content: flex-start;
+    align-content: center;
+    flex-direction: column;
 }
 
 div#drawer-toggle {

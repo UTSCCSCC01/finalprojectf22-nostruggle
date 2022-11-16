@@ -3,7 +3,8 @@ import { createContext, useContext } from 'react'
 export const contextState = {
     user: {},
     signedIn: false,
-    postId: ""
+    postId: "",
+    shift: 58
 }
 
 const UserContext = createContext(contextState)

@@ -56,7 +56,7 @@ const UserOutlet = () => {
             <NavBar /> 
             
             </>
-            <div style={{ padding: '100px 100px' }}>
+            <div style={{ padding: '100px 100px', marginLeft: userState.shift }}>
                 { load && <Outlet/>}
             </div>
         </UserProvider>
