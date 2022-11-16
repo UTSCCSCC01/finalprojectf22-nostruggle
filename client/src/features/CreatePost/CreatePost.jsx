@@ -3,7 +3,7 @@ import { useState } from 'react'
 import ApiCall from "../../components/api/ApiCall";
 import { useUserState } from '../SignUp/UserContext';
 import { useNavigate } from 'react-router-dom';
-
+import { tags } from '../Forum/constants'
 function CreatePost(){
     
     const navigate = useNavigate();
@@ -89,8 +89,6 @@ function CreatePost(){
         setPostData(previousState => { return {...previousState, content: event.target.value}});
     }
 
-
-    const tags = [ 'Advice', 'Homework Help', 'Computer Science', 'Linear Algebra', 'Calculus' ];
 
     return (
         <div>

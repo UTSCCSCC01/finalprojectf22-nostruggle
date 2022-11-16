@@ -1,10 +1,11 @@
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, ListItem } from '@mui/material';
 import ForumCard from '../../components/forumCard/ForumCard';
 import { useEffect, useState } from 'react'
 import ApiCall from "../../components/api/ApiCall";
 import { useUserState } from '../SignUp/UserContext';
 import { useParams } from 'react-router-dom';
 import ForumPostCard from '../../components/ForumPostCard/ForumPostCard';
+import AnswerCard from '../../components/answerCard/AnswerCard';
 import { sendNotification } from '../Notifications/utils'
 function ForumThread(){
 
@@ -20,6 +21,9 @@ function ForumThread(){
     const [nLikes, setNLikes] = useState(0);
     const [postIdData, setPostIdData] = useState("");
     const [created_by, setCreatedBy] = useState("");
+    const [updatedAt, setUpdatedAt] = useState("");
+
+    const [answers, setAnswers] = useState([]);
 
     //const [answerData, setAnswerDat]
 
@@ -47,14 +51,19 @@ function ForumThread(){
 
         await ApiCall.post('answers/post', answerData)
         .then(res => {
+            
             console.log(res.data); 
-            console.log("add new answer to database")
+            
+            console.log("add new answer to database");
+            setAnswerField("");
+        
             sendNotification('answer', postId, "Title", userState.user.username, '633efb4f2a80931f65551bdd')
         })
         .catch(e => {console.log(e)
             setContentFilled(false);
             
         })
+        getAnswers();
     }
 
     const setPostInfo = () =>{
@@ -65,28 +74,46 @@ function ForumThread(){
         setCreatedBy(postData.created_by);
         setNLikes(postData.nLikes);
         setPostIdData(postData._id);
+        setUpdatedAt(postData.updated);
         console.log("date is " + postData.created_At);
         console.log("title is" + postData.title);
     }
 
-    useEffect(() => {
-        const getPostById = async () => {
-            console.log('postid is    ' + postId);
-            console.log('/postThread/'+ postId + '/');
-            await ApiCall.get('/postThread/'+ postId + '/')
-            .then(res => {
-                console.log(res.data);
-                postData = res.data;
-                console.log(postData);
-                setPostInfo();
-            })
-            .catch(e => {
-                console.log(e);
-            })
+    const getAnswers = async () => {
+        console.log("getting answers");
+        await ApiCall.get('/postThread/answers/' + postId + '/')
+        .then(res => {
+            console.log(res.data);
+            console.log("getting answers123");
+            setAnswers(res.data);
+        })
+        .catch(e => {
+            console.log(e);
+        })
+    }
 
-        }
+    const getPostById = async () => {
+        console.log('postid is    ' + postId);
+        console.log('/postThread/'+ postId + '/');
+        await ApiCall.get('/postThread/'+ postId + '/')
+        .then(res => {
+            console.log(res.data);
+            postData = res.data;
+            console.log(postData);
+            
+            setPostInfo();
+        })
+        .catch(e => {
+            console.log(e);
+        })
+
+    }
+    useEffect(() => {
+
         getPostById();
-        
+        getAnswers();
+        console.log("these are the answers" + answers);
+
     }, []);
 
     console.log('postid is' + postId);
@@ -94,8 +121,8 @@ function ForumThread(){
     return(
         <div>
          
-        <ForumPostCard title={title} content={content} tag={tag} date={date} nLikes={nLikes} 
-        created_by={created_by} postIdData={postIdData}/>
+        <ForumPostCard refresh={getPostById} editor={created_by === userState.user.username} title={title} content={content} tag={tag} date={date} nLikes={nLikes} 
+        created_by={created_by} updatedAt={updatedAt} postIdData={postIdData}/>
          
        
         <TextField
@@ -108,10 +135,18 @@ function ForumThread(){
         helperText={!contentFilled ? "Please enter your answer" : ""}
         rows={8}
         onChange={enterContent}
+        value={answerField}
         ></TextField>
 
         <Button onClick={submitAnswer} >Post Answer</Button>
+
+
+        <p>{answers.map((item) => <AnswerCard content={item.content} created_by={item.created_by} nLikes={item.nLikes} 
+        created_At={item.created_At} />)}</p>
         </div>
+
+       
+
     )
 
 }

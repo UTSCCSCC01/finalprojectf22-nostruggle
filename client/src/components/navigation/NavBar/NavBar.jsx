@@ -9,7 +9,7 @@ import ListPlain from '../../lists/ListPlain';
 
 import './NavBar.css'
 
-import { navBarSignedInPages, navBarSignedOutPages } from '../../../pages/constants';
+import { useNavBarSignedInPages, useNavBarSignedOutPages } from '../../../pages/constants';
 import { useUserState } from '../../../features/SignUp/UserContext';
 import ToolsBar from '../../../features/ToolsBar';
 import NotificationSideBar from '../../../features/Notifications/NotificationSideBar';
@@ -18,6 +18,8 @@ import ApiCall from '../../api/ApiCall';
 const NavBar = () => {
 
     const { userState } = useUserState();
+    const navBarSignedInPages = useNavBarSignedInPages();
+    const navBarSignedOutPages = useNavBarSignedOutPages();
     const navigate = useNavigate();
     const location = useLocation();
     const [ openDrawer, setOpenDrawer ] = useState(false);
@@ -102,7 +104,7 @@ const NavBar = () => {
                 </span>
             </AppBar>
 
-            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Feed', 'Sign Out' ]} path={{ 'Profile': '/profile', 'Feed': '/inbox', 'Sign Out': '/logout' }}/> }
+            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Feed', 'My Posts', 'Sign Out' ]} path={{ 'Profile': '/profile', 'My Posts': `posts/${userState.user.username}`, 'Feed': '/inbox', 'Sign Out': '/logout' }}/> }
         </>
     )
 }

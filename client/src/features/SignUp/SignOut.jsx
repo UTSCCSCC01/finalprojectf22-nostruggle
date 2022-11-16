@@ -28,7 +28,7 @@ const SignOut = () => {
             { success ?
                 <div>
                     <h2>You have been successfully signed out</h2>
-                    <Link style={{ textDecoration: 'none'}} to='/'>
+                    <Link style={{ textDecoration: 'none'}} to='/login'>
                         <Button variant='contained'>
                             Login
                         </Button>

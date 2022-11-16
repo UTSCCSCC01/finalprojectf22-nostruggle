@@ -1,10 +1,9 @@
 
-import { Typography, CardContent, Card, Box, Chip, Item, Button} from '@mui/material';
-import { useState, useContext } from 'react';
+import { Typography, CardContent, Card, Box, Paper, Chip, Item, Button} from '@mui/material';
+import { useState, useContext, useRef } from 'react';
 import { usePostState } from '../../features/Forum/PostContext';
 import { useNavigate } from 'react-router-dom';
 import { useUserState } from '../../features/SignUp/UserContext';
-
 const ForumCard = (props) => {
     const title = props.title;
     const content = props.content;
@@ -17,9 +16,14 @@ const ForumCard = (props) => {
 
     const navigate = useNavigate();
 
+    const forumCardSettingsRef = useRef();
+
     const {userState, setUserState} = useUserState();
 
     const { postState, setPostState } = usePostState();
+
+    const [ openEditor, toggleOpenEditor ] = useState(false)
+    const [ openEditorMenu, toggleOpenEditorMenu ] = useState(false)
 
     const goToPost = () => {
         console.log("clicked on post" + postIdselected);
@@ -41,6 +45,14 @@ const ForumCard = (props) => {
         navigate('/postThread/' + postIdselected);
     }
 
+    const editPost = () => {
+        toggleOpenEditor(true)
+    }
+
+    const deletePost = () => {
+        
+    }
+
 /*
 <Box sx = {{ display: 'grid', gridAutoColumns: '1fr', gap: 1}}
                     <Box sx ={{gridRow: '1', gridColumn: 'span 2'}}>1</Box>
@@ -50,7 +62,7 @@ const ForumCard = (props) => {
 */
     return (
        // <PostContext.Provider value={postIdselected}>
-        <Card sx={{mb: 3}}>
+        <Card sx={{mb: 3 }}>
             <CardContent>
                 <Typography variant="h5" sx={{fontWeight: "bold"}}>
                     {title}
