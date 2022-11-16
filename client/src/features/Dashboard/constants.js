@@ -30,7 +30,7 @@ export const dashboardItems = [
             header: '',
             headerOutline: 'gray'
         },
-        title: "Recent Activity",
+        title: "My Feed",
         content: <DashboardUpdates/>,
         link: {
             title: 'View Forum',

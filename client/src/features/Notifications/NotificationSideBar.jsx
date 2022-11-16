@@ -44,7 +44,7 @@ const NotificationSideBar = ({ onViewAll }) => {
                 let fetchedNotifications = res.data
                 fetchedNotifications.sort((n1, n2) =>  new Date(n2.createdAt) - new Date(n1.createdAt))
                 setNotifications(fetchedNotifications)
-                if (notificationsFormatted.length === 0) setNotificationsFormatted(fetchedNotifications.map(() => <div>...</div>))
+                if (fetchedNotifications.length > 0) setUserState({...userState, hasNewNotifications: true })
             }
         }).catch( e => console.log(e))  
         console.log("sent")     
@@ -69,18 +69,17 @@ const NotificationSideBar = ({ onViewAll }) => {
     }, [])
 
     return (
-        <Container className='NotificationSideBar' style={{ width: 300, padding: 10, display: 'flex', flexDirection: 'column' }}>NotificationSideBar
-            <Button onClick={markAsRead}>Mark all as read</Button>
+        <Container className='NotificationSideBar' style={{ width: 300, padding: 10, display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="h4" margin="auto">Updates</Typography>
+            <Button onClick={markAsRead}>Mark as read</Button>
             <Button onClick={sendNotification}>Click to send notification</Button>
-            <h1>Updates {notifications.length}  {notificationsFormatted.length}</h1>
-
             <TextField type='text' inputRef={notifInput}/>
             <div style={{ overflow: 'hidden'}}>
                 {
                     notificationsFormatted.map(item => <div>{item}</div>)
                 }
             </div>
-            <Button onClick={onViewAll} variant='contained'>View All</Button>
+            <Button onClick={onViewAll} sx={{marginTop: 3}} variant='contained'>View Feed</Button>
         </Container>
     )
 }

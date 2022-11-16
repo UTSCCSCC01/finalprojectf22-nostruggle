@@ -39,7 +39,6 @@ const Notifications = () => {
             if (res.status === 200){
                 let fetchedNotifications = res.data
                 setNotifications(fetchedNotifications)    
-                if (fetchedNotifications.length > 0) setUserState({...userState, hasNewNotifications: true })            
                 setCurrentPage(pageNum)
             }
         }).catch( e => console.log(e))  
@@ -82,7 +81,7 @@ const Notifications = () => {
 
     return (
         <div>
-            <h1>Updates {itemsPerPage} {notifications.length}  {notificationsFormatted.length}</h1>
+            <h1>Feed</h1>
             {
                 notificationsFormatted.map(notification => <NotificationCard notif={notification}/>)
             }
