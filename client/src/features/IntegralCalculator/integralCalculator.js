@@ -90,6 +90,7 @@ function integrateTerms(terms) {
     const integratedTerms = [];
     for (var i = 0; i < terms.length; i++) {
         var integratedTerm;
+
         //Case when term has variable
         if (terms[i].includes('x')) {
 
@@ -104,6 +105,12 @@ function integrateTerms(terms) {
              var newExponent = exponent + 1;
 
             var constant;
+
+            //Case if there's only x on its own (ex. x^3 or x instead of 3x)
+            if (terms[i] == 'x' || terms[i].substring(0, terms[i].indexOf("^")) == 'x') {
+                terms[i] = '1' + terms[i];
+            }
+               
             //Whole number constant
             if (!(isNaN(terms[i].substring(0, terms[i].indexOf("x"))))) {
 
@@ -135,8 +142,12 @@ function integrateTerms(terms) {
             else if (terms[i].substring(0, terms[i].indexOf("x")).includes("/")) {
 
                 constant = terms[i].substring(0, terms[i].indexOf("x"));
-                numerator = parseInt(constant.substring(0, terms[i].indexOf("/")));
-                denominator = parseInt(constant.substring(terms[i].indexOf("/") + 1, terms[i].indexOf("x")));
+                //Case of bracketed fraction constant input 
+                if (constant[0] == '(' && constant[constant.length - 1] == ')') {
+                    constant = constant.substring(1, constant.length - 1);
+                }
+                denominator = parseInt(constant.substring(constant.indexOf("/") + 1, ));
+                numerator = parseInt(constant.substring(0, constant.indexOf("/")));
 
                 //Seeing if fraction can be simplified
                 var newConstant;

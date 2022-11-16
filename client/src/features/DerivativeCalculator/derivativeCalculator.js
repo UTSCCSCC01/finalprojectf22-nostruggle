@@ -1,3 +1,6 @@
+//import { getCalculatorInput } from '../Calculator/CalculatorHandler';
+//import { setCalculatorOutput } from '../Calculator/CalculatorHandler';
+
 function validate(equation) {
 	
 	//Removing spaces
@@ -77,8 +80,13 @@ function derivingTerms(terms) {
             derivedTerms.push(derivedTerm);
         }
         else {
-            var constant = terms[i].substring(0, terms[i].indexOf("x"));
-            derivedTerms.push(constant);
+            if (terms[i] == 'x') {
+                derivedTerms.push("1");
+            }
+            else {
+                var constant = terms[i].substring(0, terms[i].indexOf("x"));
+                derivedTerms.push(constant);
+            }
         }
     }
     return derivedTerms;
@@ -143,12 +151,21 @@ function derivativeType(equation) {
 		return "Equation is not in a valid format";
 	}
     var result;
+    /*
     if (equation.includes('(') || equation.includes(')'))
         result = chainRule(equation);
     else 
+    */
         result = findSectionDerivative(equation);
     return result;
 }
+
+/*
+var input = getCalculatorInput();
+var output = derivativeType(input);
+setCalculatorOutput(output);
+*/
+
 
 const readline = require('readline');
 const rl = readline.createInterface({
@@ -158,6 +175,5 @@ const rl = readline.createInterface({
 
 rl.question('Type in an equation to be derived: ', function (input) {
 	console.log(derivativeType(`${input}`));
-    //console.log(formatPrior(`${input}`));
 	rl.close();
 });
