@@ -1,5 +1,7 @@
 import Answer from "../models/answer.model.js";
 import Post from "../models/post.model.js";
+import Comment from "../models/comment.model.js";
+
 export const postAnswer = async (req, res) => {
     const ansContent = req.body.content;
     const ansCreated_by = req.body.created_by;
@@ -21,6 +23,7 @@ export const postAnswer = async (req, res) => {
 
 
 }
+
 
 export const getAnswers = async(req, res) => {
     console.log('this is the parameter ' + req.params.postId);
