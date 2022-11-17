@@ -7,6 +7,7 @@ const postSchema = mongoose.Schema({
     tags: { type: String, required: true },
     created_At: { type: Date, default: Date.now },
     nLikes: {type: Number},
+    updated: { type: Date }
 });
 
 const Post = mongoose.model('Post', postSchema);
