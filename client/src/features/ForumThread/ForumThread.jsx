@@ -57,7 +57,7 @@ function ForumThread(){
             console.log("add new answer to database");
             setAnswerField("");
         
-            sendNotification('answer', postId, "Title", userState.user.username, '633efb4f2a80931f65551bdd')
+            sendNotification('answer', postId, title, userState.user.username, '633efb4f2a80931f65551bdd')
         })
         .catch(e => {console.log(e)
             setContentFilled(false);

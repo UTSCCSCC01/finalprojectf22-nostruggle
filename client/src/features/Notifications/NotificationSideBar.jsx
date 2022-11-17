@@ -5,18 +5,6 @@ import ApiCall from "../../components/api/ApiCall"
 import { useUserState } from "../SignUp/UserContext"
 import { formatMessages } from "./utils"
 const NotificationSideBar = ({ onViewAll }) => {
-    const notifInput = useRef()
-    const sendNotification = async () => {
-        const data = {
-            source: notifInput.current.value,
-            toUserId: userState.user._id,
-            type: 'comment'
-        }
-        await ApiCall.post('/notification', data )
-        .then(() => getNotifications() )
-        getNotifications()
-        console.log("sent notif")
-    }
     const [ notifications, setNotifications ] = useState([])
     const [ notificationsFormatted, setNotificationsFormatted ] = useState([])
 
@@ -72,8 +60,6 @@ const NotificationSideBar = ({ onViewAll }) => {
         <Container className='NotificationSideBar' style={{ width: 300, padding: 10, display: 'flex', flexDirection: 'column' }}>
             <Typography variant="h4" margin="auto">Updates</Typography>
             <Button onClick={markAsRead}>Mark as read</Button>
-            <Button onClick={sendNotification}>Click to send notification</Button>
-            <TextField type='text' inputRef={notifInput}/>
             <div style={{ overflow: 'hidden'}}>
                 {
                     notificationsFormatted.map(item => <div>{item}</div>)
