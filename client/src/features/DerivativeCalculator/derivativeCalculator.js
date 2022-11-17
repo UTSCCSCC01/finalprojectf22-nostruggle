@@ -1,5 +1,5 @@
-//import { getCalculatorInput } from '../Calculator/CalculatorHandler';
-//import { setCalculatorOutput } from '../Calculator/CalculatorHandler';
+import { getCalculatorInput } from '../Calculator/CalculatorHandler';
+import { setCalculatorOutput } from '../Calculator/CalculatorHandler';
 
 function reduceFraction(numerator, denominator) {
 
@@ -233,13 +233,11 @@ function derivativeType(equation) {
     return result;
 }
 
-/*
 var input = getCalculatorInput();
 var output = derivativeType(input);
 setCalculatorOutput(output);
-*/
 
-
+/*
 const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
@@ -250,3 +248,4 @@ rl.question('Type in an equation to be derived: ', function (input) {
 	console.log(derivativeType(`${input}`));
 	rl.close();
 });
+*/

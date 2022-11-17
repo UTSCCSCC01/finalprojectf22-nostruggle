@@ -1,3 +1,6 @@
+import { getCalculatorInput } from '../Calculator/CalculatorHandler';
+import { setCalculatorOutput } from '../Calculator/CalculatorHandler';
+
 function reduceFraction(numerator, denominator) {
 
     originalNum = numerator;
@@ -243,6 +246,11 @@ function findIntegral(equation) {
     return integral;
 }
 
+var input = getCalculatorInput();
+var output = findIntegral(input);
+setCalculatorOutput(output);
+
+/*
 const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
@@ -254,3 +262,4 @@ rl.question('Type in an equation to be integrated: ', function (input) {
     //console.log(formatPrior(`${input}`));
 	rl.close();
 });
+*/
