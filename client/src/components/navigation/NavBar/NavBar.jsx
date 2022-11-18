@@ -82,7 +82,7 @@ const NavBar = () => {
                 </span>
             </AppBar>
 
-            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'My Posts', 'Sign Out' ]} path={{ 'Profile': `/profile/${userState.user.username}`, 'My Posts': `posts/${userState.user.username}`, 'Sign Out': '/logout' }}/> }
+            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Sign Out' ]} path={{ 'Profile': `/profile/${userState.user.username}`, 'Sign Out': '/logout' }}/> }
         </>
     )
 }

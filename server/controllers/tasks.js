@@ -3,7 +3,6 @@ import TaskTime from '../models/taskTime.model.js';
 
 export const getTasks = async (req, res) => {
     try {
-        console.log(req)
         const tasks = await Task.find({ ...req.query });
         res.status(200).json(tasks);
     } catch (e) {
@@ -14,8 +13,6 @@ export const getTasks = async (req, res) => {
 export const postTasks = async (req, res) => {
 
     const newTask = new Task(req.body);
-    console.log(req)
-    console.log(newTask)
     try {
         await newTask.save();
         res.status(201).json(newTask);

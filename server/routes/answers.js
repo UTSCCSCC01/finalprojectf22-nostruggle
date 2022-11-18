@@ -10,7 +10,7 @@ router.route('/:postId').get(getPostById);
 
 router.route('/answers/:postId').get(getAnswers);
 
-router.route('/query').get(getAnswersQuery);
+router.route('/').get(getAnswersQuery);
 
 
 export default router;

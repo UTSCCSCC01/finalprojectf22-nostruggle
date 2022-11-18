@@ -1,14 +1,17 @@
 import { useEffect, useState, useRef } from "react"
-import { useParams } from "react-router-dom"
-import { Typography, Grid, Card, TextField, Button } from "@mui/material"
+import { useParams, useNavigate } from "react-router-dom"
+import { Typography, Grid, Card, TextField, Button, Avatar } from "@mui/material"
 import { Edit } from "@mui/icons-material"
 import { convertSecondsToString } from "../Todo/StudyTimer/constants"
 import ApiCall from "../../components/api/ApiCall"
 import { useUserState } from '../SignUp/UserContext';
 import ForumCard from "../../components/forumCard/ForumCard"
+import AnswerCard from "../../components/answerCard/AnswerCard"
+import './style.css'
 const Profile = () => {
 
     const { username } = useParams()
+    const navigate = useNavigate()
     const [ user, setUser ] = useState()
     const { userState } = useUserState()
     const newAboutMeRef = useRef()
@@ -97,17 +100,18 @@ const Profile = () => {
         .then( res => {
             if (res.status === 201) {
                 console.log(res.data)
-                setPosts(res.data)
+                setPosts(res.data.slice(0, 10))
             }
         })
     }
 
     const getAnswers = async () => {
-        await ApiCall.get(`/answers/query?created_by=${username}`)
+        await ApiCall.get(`/postThread?created_by=${username}`)
         .then( res => {
+            console.log(res)
             if (res.status === 201) {
                 console.log(res.data)
-                setAnswers(res.data)
+                setAnswers(res.data.slice(0, 10))
             }
         })
     }
@@ -127,15 +131,20 @@ const Profile = () => {
         <div>
             { 
                 user &&
-                <div>
-                    <Typography variant='h3'>
-                        {username}'s profile
-                    </Typography>                    
+                <div>                 
                     <Grid container justifyContent={'space-between'} spacing={2}>
-                        <Grid item xs={6}>
-                            <Card sx={{ height: 200}}>
+                        <Grid item xs={4}>
+                            <Card className='ProfileCard'>
+                                <Typography variant='h3'>
+                                    {username}'s Profile'
+                                </Typography>
+                                <Avatar sx={{minHeight: 200, minWidth: 200, margin: 'auto'}}/>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Card sx={{minHeight: 200}} className='ProfileCard'>
                                 <Typography variant='h4'>
-                                    About me
+                                    About {username}
                                 </Typography>
                                 {
                                     aboutMe.edit ?
@@ -144,16 +153,17 @@ const Profile = () => {
                                             <Button onClick={() => setAboutMe({...aboutMe, edit: false})}>Cancel</Button>
                                             <Button onClick={saveAboutMe}>Save</Button>
                                         </div>
-                                    : <Typography variant='subtitle1'>
-                                        {aboutMe.content}
+                                    : <Typography variant='subtitle1' marginTop={3}>
+                                        {aboutMe.content ? aboutMe.content : <em>No 'About Me' for {username} has been set</em>}
                                         { userState.user.username === username && <Button onClick={() => setAboutMe({...aboutMe, edit: true})}><Edit size="small" /></Button> }
                                     </Typography>
                                 }
                                 
                             </Card>
                         </Grid>
-                        <Grid item xs={6}>
-                            <Card>
+                        <Grid item xs={4}>
+                            <Card className='ProfileCard'>
+                                <Typography variant="h4">{username}'s Stats</Typography>
                                 <Typography variant='subtitle1'>
                                     { statistics.map((stat) => (
                                         <li>{stat}</li>
@@ -162,8 +172,10 @@ const Profile = () => {
                             </Card>
                         </Grid>
                         <Grid item xs={6}>
-                            <Card>
-                                <Typography variant="h4">{username}'s Posts</Typography>
+                            <Card className='ProfileCard'>
+                                <div>
+                                    <Typography variant="h4">{username}'s Posts <Button onClick={() => navigate(`/posts/${username}`)}>View All</Button></Typography>
+                                </div>
                                 {
                                     posts.map(post => (
                                         <ForumCard {...post} tag={post.tags} date=""/>
@@ -173,11 +185,11 @@ const Profile = () => {
                                     
                         </Grid>
                         <Grid item xs={6}>
-                            <Card>
+                            <Card className='ProfileCard'>
                                 <Typography variant="h4">{username}'s Answers</Typography>
                                 {
                                     answers.map(answer => (
-                                        <ForumCard {...answer} tag={answer.tags} date=""/>
+                                        <AnswerCard goToPost={true} {...answer} date=""/>
                                     ))
                                 } 
                             </Card>     
