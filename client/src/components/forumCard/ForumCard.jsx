@@ -5,13 +5,14 @@ import { usePostState } from '../../features/Forum/PostContext';
 import { useNavigate } from 'react-router-dom';
 import { useUserState } from '../../features/SignUp/UserContext';
 import { FavoriteBorder, ThumbUp } from '@mui/icons-material';
+import ApiCall from '../api/ApiCall';
 
 const ForumCard = (props) => {
     const title = props.title;
     const content = props.content;
     const tag = props.tag;
     const date = props.date;
-    const nLikes = props.nLikes;
+    const [nLikes, setNLikes] = useState(props.nLikes);
     const updatedDate = date.split("T")[0];
     const postIdselected = props.postId;
     const created_by = props.created_by;
@@ -52,7 +53,29 @@ const ForumCard = (props) => {
         
     }
 
-    const likePost = () => {
+    const likePost = async () => {
+        if(!likedByUser){
+            console.log(likedBy.length)
+            likedBy.push(userState.user.username)
+        }
+        else{
+            let index = likedBy.indexOf(userState.user.username);
+            likedBy.splice(index, 1);
+        }
+            let length = likedBy.length - 1;
+            const changes = {
+                nLikes: length,
+                likedBy: likedBy
+            }
+        setNLikes(length);
+       // }
+        //const changes = {
+        //   nLikes: 10
+        //}
+        await ApiCall.patch('/forumPosts/' + postIdselected, changes)
+        .then(res => console.log(res.data))
+        .catch(e => (console.log(e)))
+
         setLikedByUser(!likedByUser);
 
 
