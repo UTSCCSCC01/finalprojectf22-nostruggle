@@ -10,9 +10,7 @@ const DerivativeCalculator = ({ iconVariant }) => {
             {
                 open &&
                 <ToolBarDraggableWrapper>
-                    <div>
-                        <p> placeholder </p>
-                    </div>
+                    <span></span>
                 </ToolBarDraggableWrapper>
             }
             <DerivativeIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>

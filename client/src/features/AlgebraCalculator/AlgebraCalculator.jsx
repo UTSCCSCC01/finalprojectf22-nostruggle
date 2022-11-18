@@ -10,9 +10,7 @@ const AlgebraCalculator = ({ iconVariant }) => {
             {
                 open &&
                 <ToolBarDraggableWrapper>
-                    <div>
-                        <p> placeholder </p>
-                    </div>
+                    <span></span>
                 </ToolBarDraggableWrapper>
             }
             <AlgebraIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>

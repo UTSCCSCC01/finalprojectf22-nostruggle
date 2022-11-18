@@ -6,7 +6,6 @@ import { ChevronLeft, ChevronRight, Home, HomeRepairService, Notifications } fro
 import { ReactComponent as HomeIcon } from '../../../assets/icons/home.svg'
  
 import ListMenu from "../../lists/ListMenu";
-import ListPlain from '../../lists/ListPlain';
 
 import './NavBar.css'
 

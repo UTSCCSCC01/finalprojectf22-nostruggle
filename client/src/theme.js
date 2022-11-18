@@ -1,11 +1,11 @@
 
 
 var theme = {
-    primary_fgcolor: '#4BA395',
+    primary_fgcolor: '#2E8890',
     primary_bgcolor: '#bfd9d8',
     primary_fontfamily: 'Bahnschrift',
 
-    button_active: '#4BA395',
+    button_active: '#2E8890',
     button_inactive: '#7796a1',
     button_hoverbg: '#7CC3C6',
     button_hoverfg: '#2C5B73',

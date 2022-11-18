@@ -10,9 +10,7 @@ const IntegralCalculator = ({ iconVariant }) => {
             {
                 open &&
                 <ToolBarDraggableWrapper>
-                    <div>
-                        <p> placeholder </p>
-                    </div>
+                    <span></span>
                 </ToolBarDraggableWrapper>
             }
             <IntegralIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
