@@ -3,8 +3,9 @@ import { createContext, useContext } from 'react'
 export const contextState = {
     user: {},
     signedIn: false,
+    postId: "",
     signedOut: false,
-    postId: ""
+    shift: true
 }
 
 const UserContext = createContext(contextState)

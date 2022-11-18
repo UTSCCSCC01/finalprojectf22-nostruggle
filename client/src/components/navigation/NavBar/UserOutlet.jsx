@@ -70,13 +70,7 @@ const UserOutlet = () => {
     
     return (
         <UserProvider value={ { userState, setUserState } }>
-            <>
-            <NavBar /> 
-            
-            </>
-            <div style={{ padding: '100px 100px' }}>
-                { load && <Outlet/>}
-            </div>
+            <NavBar load={ load } /> 
         </UserProvider>
     )
 }

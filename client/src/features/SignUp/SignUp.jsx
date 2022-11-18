@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ApiCall from '../../components/api/ApiCall.js';
 
-import UsernameField from '../../components/forms/UsernameField';
-import PasswordField from '../../components/forms/PasswordField';
+import UsernameField from '../../components/fields/UsernameField';
+import PasswordField from '../../components/fields/PasswordField';
 
 import { useUserState } from './UserContext';
 

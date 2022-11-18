@@ -2,31 +2,34 @@
     --appBarHeight: 65px;
 }
 
-.AppBar {
+.top-bar {
     height: var(--appBarHeight) !important;
 }
 
 .UserMenu {
     max-width: 400px;
     position: fixed;
-    right: 5px;
+    right: 20px;
     top: var(--appBarHeight);
 }
 
 .DrawerHeader {
     position: absolute;
     right: 0px;
-    padding: 12px 20px;
 }
 
-.Toolbar {
-    padding-left: 10px;
+.NavBar {
+    padding: 0px;
 }
 
-.ToolbarDrawer > div{
-    align-items: center;
-    justify-content: center;
+.NavBarButton{
+    margin: 12px;
 }
+
+.NavBarButton[disabled]{
+    color: #242327 !important;
+}
+
 
 .NotificationsDrawer {
     transition: width ease-in-out 0.5s;
@@ -41,18 +44,23 @@
     overflow: hidden;
 }
 
-.shift {
-    margin-left: 40px;
+div#sidebar {
+    height: 100vh;
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-align: center;
+    background-color: #bfd9d8;
 }
 
-.SideBar {
-    visibility: inherit;
+div#drawer-toggle {
+    width: 100%;
+    display:flex;
+    justify-content: flex-end;
+    margin-top: 6px;
 }
 
-.NavBarButton{
-    text-shadow: black 2px 2px 3px !important;
-}
-.NavBarButton[disabled]{
-    color: white !important;
-    text-shadow: rgb(46, 44, 156) 2px 2px 3px !important;
+div#main {
+    padding: 40px 100px;
 }

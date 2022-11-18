@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { Card, CardHeader, TextField, InputLabel, Typography, Button, IconButton } from "@mui/material"
-import ToolBarDraggableWrapper from "../ToolsBar/ToolBarDraggableWrapper"
+import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
 import FactorMultipleIcon from "./FactorMultipleIcon"
 import { DragIndicator } from "@mui/icons-material"
 import './FactorMultiple.css'
-const FactorMultiple = () => {
+const FactorMultiple = ({ iconVariant }) => {
     const [ open, toggleOpen ] = useState(false)
     const [ numberToFactor, setNumberToFactor ] = useState(0)
     const [ factorMessage, setFactorMessage ] = useState({})
@@ -83,7 +83,7 @@ const FactorMultiple = () => {
                     </Card> 
                 </ToolBarDraggableWrapper>
             }
-            <FactorMultipleIcon onClick={() => toggleOpen(!open)}/>
+            <FactorMultipleIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 }
