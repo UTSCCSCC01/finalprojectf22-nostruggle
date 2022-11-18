@@ -4,6 +4,23 @@ function formatPrior(section) {
   return section;
 }
 
+function validate(equation) {
+	
+	//Checking brackets
+    var count_ops = 0;
+    for (s in equation) {
+        if (equation[s].includes('('))
+            count_ops++;
+        else if (equation[s].includes(')') && count_ops == 0)
+            return false;
+        else if (equation[s].includes(')') && count_ops > 0)
+            count_ops--;
+    }
+	
+	//Ensuring bracket pairs remain matched
+	return count_ops == 0;
+}
+
 function brackets(expression) {
 
   //Determining left-innermost pair of brackets, and evaluating the contents
@@ -59,8 +76,6 @@ function performOperation(type, expression, i) {
 }
 
 function simplifyExpression(expression) {
-
-    expression = formatPrior(expression);
 
     //Evaulating all brackets until there is none left
     while (expression.includes('(')) {
@@ -120,6 +135,16 @@ function simplifyExpression(expression) {
 
 }
 
+function simplify(expression) {
+
+  expression = formatPrior(expression);
+  if (validate(expression) == false) {
+		return "Equation is not in a valid format";
+	}
+  var result = simplifyExpression(expresion);
+  return result;
+}
+
 const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
@@ -127,6 +152,6 @@ const rl = readline.createInterface({
 });
 
 rl.question('Type in an expression to be simplified: ', function (input) {
-	console.log(simplifyExpression(`${input}`));
+	console.log(simplify(`${input}`));
 	rl.close();
 });
