@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar, Collapse } from '@mui/material';
+import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar, Divider } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { ChevronLeft, ChevronRight, Home, HomeRepairService } from '@mui/icons-material';
- 
+import { ChevronLeft, ChevronRight, HomeRepairService } from '@mui/icons-material';
+import { ReactComponent as HomeIcon } from '../../../assets/icons/home.svg'
 import ListMenu from '../../lists/ListMenu';
 
 import './NavBar.css'
@@ -21,7 +21,7 @@ const NavBar = () => {
     const navBarSignedOutPages = useNavBarSignedOutPages();
     const navigate = useNavigate();
     const location = useLocation();
-    const [ openDrawer, toggleOpenDrawer ] = useState(false);
+    const [ openDrawer, toggleOpenDrawer ] = useState(true);
     const [ openMenu, toggleOpenMenu ] = useState(false);
     const [ offset, setOffset ] = useState(0);
     
@@ -36,13 +36,12 @@ const NavBar = () => {
                 <span>
                     {
                         page.path !== '/' ?
-                        <NavBarButton
+                        <Button
                             {...buttonProps}
                         >{ page.title }
-                        </NavBarButton>
+                        </Button>
                         : 
-                        <IconButton {...buttonProps} children={<Home sx={{fontSize: '2rem'}}/>}/>
-
+                        <Button {...buttonProps} startIcon={<HomeIcon width='150px' height='60px'/>}/>
                     }
                 </span>
             </Tooltip>
@@ -72,16 +71,25 @@ const NavBar = () => {
                     }}>
                         {
                             openDrawer ? 
-                            <ChevronLeft sx={{ fontSize: '40px' }} />
-                            : <ChevronRight sx={{ fontSize: '40px' }} />
+                            <ChevronLeft sx={{ fontSize: '40px', zIndex:1000 }} />
+                            : <ChevronRight sx={{ fontSize: '40px', zIndex:1000}} />
                         }
                     </IconButton>
                 </div>
                 <div id='sidebar'>
+                    {
+                        openDrawer &&
+                        <>
+                            <Box sx={{ display: 'inline-flex', flexDirection: 'column', height: 'max-content', top: '-10px', margin: '0px 10px'}}>
+                            { navBarSignedInPages.map((page) => showPage(page)) }
+                            <Divider sx={{ padding: '4px'}}/>
+                            <p> NoStruggle Toolkit</p>
+                            </Box>
+                        </>
+                    }
                     <ToolsBar variant={ openDrawer ? 'text' : 'no-text' }/>
                 </div>
             </Drawer>
-
 
             <AppBar
             sx={{ 

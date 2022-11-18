@@ -24,8 +24,6 @@
 }
 
 .NavBarButton[disabled]{
-    color: #2C5B73 !important;
-    border-color: #7CC3C6 !important;
     background-color: #7CC3C6 !important;
 }
 
@@ -33,7 +31,8 @@
 div#sidebar {
     height: 100vh;
     display:flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 div#drawer-toggle {

@@ -2,7 +2,7 @@
 
 var theme = {
     primary_fgcolor: '#4BA395',
-    primary_bgcolor: '#DEE5E2',
+    primary_bgcolor: '#ffffff',
     primary_fontfamily: 'Bahnschrift',
 
     button_active: '#4BA395',

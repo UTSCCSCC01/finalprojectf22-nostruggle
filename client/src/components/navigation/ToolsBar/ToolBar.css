@@ -1,11 +1,12 @@
 .ToolBar {
-    display: flex;
+    display: inline-flex;
     flex-flow: column wrap;
     align-items: center !important;
     justify-content: center !important;
     overflow: hidden;
     width: max-content;
     max-width: 280px;
+    height: max-content;
 }
 
 .ToolBar > * {
