@@ -138,7 +138,7 @@ function ForumThread(){
         <Button onClick={submitAnswer} >Post Answer</Button>
 
 
-        <p>{answers.map((item) => <AnswerCard content={item.content} created_by={item.created_by} nLikes={item.nLikes} 
+        <p>{answers.map((item) => <AnswerCard child_of={postIdData} content={item.content} created_by={item.created_by} nLikes={item.nLikes} 
         created_At={item.created_At} ansId={item._id}/>)}</p>
         </div>
 

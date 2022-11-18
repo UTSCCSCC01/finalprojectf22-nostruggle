@@ -1,11 +1,13 @@
 import { Card, Typography, CardContent, Accordion, AccordionSummary, AccordionDetails, TextField, Button } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useNavigate } from 'react-router-dom';
 import ApiCall from '../api/ApiCall';
 import { useUserState } from '../../features/SignUp/UserContext';
 import { useState } from 'react';
 
 const AnswerCard = (props) =>{
-
+    const navigate = useNavigate()
+    const child_of = props.child_of;
     const [commentError, setCommentError] = useState(false);
     const [commentContent, setCommentContent] = useState("");
     const ansId = props.ansId;
@@ -60,7 +62,13 @@ const AnswerCard = (props) =>{
                     {date}
                 </Typography>
             </CardContent>
+            {
+                props.goToPost &&
+                <CardContent>
+                    <Button variant="outlined" onClick={() => navigate(`/postThread/${child_of}`)}>VIEW POST</Button>
+                </CardContent>
 
+            }
         </Card>
         </AccordionSummary>
         <AccordionDetails>
