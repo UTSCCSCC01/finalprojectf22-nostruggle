@@ -52,13 +52,7 @@ const UserOutlet = () => {
     
     return (
         <UserProvider value={ { userState, setUserState } }>
-            <>
             <NavBar load={ load } /> 
-            
-            </>
-            {/* <div style={{ padding: '100px 100px', transform: userState.shift ?' translateX(214px)' : '', width: userState.shift ? '100%' : '80%'}}>
-                { load && <Outlet/>}
-            </div> */}
         </UserProvider>
     )
 }

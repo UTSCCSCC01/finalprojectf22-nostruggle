@@ -1,8 +1,8 @@
 .UserMenu {
     max-width: 400px;
     position: fixed;
-    right: 5px;
-    top: 65px;
+    right: 15px;
+    top: 85px;
 }
 
 .DrawerHeader {
@@ -28,6 +28,7 @@ div#sidebar {
     display:flex;
     flex-direction: column;
     justify-content: flex-start;
+    background-color: #D3E3FC;
 }
 
 div#drawer-toggle {
@@ -35,4 +36,8 @@ div#drawer-toggle {
     display:flex;
     justify-content: flex-end;
     margin-top: 6px;
+}
+
+div#main {
+    padding: 100px;
 }

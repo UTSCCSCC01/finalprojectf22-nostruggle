@@ -41,7 +41,7 @@ const NavBar = ({ load }) => {
                         >{ page.title }
                         </Button>
                         : 
-                        <Button {...buttonProps} startIcon={<HomeIcon width='150px' height='60px'/>}/>
+                        <Button {...buttonProps} startIcon={<HomeIcon width='200px' height='80px'/>}/>
                     }
                 </span>
             </Tooltip>
@@ -66,19 +66,19 @@ const NavBar = ({ load }) => {
             variant='persistent' 
             anchor='left' 
             open={ true } >
-                <div id='drawer-toggle'>
-                    <IconButton onClick={ () => {
-                        toggleOpenDrawer(!openDrawer);
-                        setUserState({ ...userState, shift: !openDrawer });
-                    }}>
-                        {
-                            openDrawer ? 
-                            <ChevronLeft sx={{ fontSize: '40px', zIndex:1000 }} />
-                            : <ChevronRight sx={{ fontSize: '40px', zIndex:1000}} />
-                        }
-                    </IconButton>
-                </div>
                 <div id='sidebar'>
+                    <div id='drawer-toggle'>
+                        <IconButton onClick={ () => {
+                            toggleOpenDrawer(!openDrawer);
+                            setUserState({ ...userState, shift: !openDrawer });
+                        }}>
+                            {
+                                openDrawer ? 
+                                <ChevronLeft sx={{ fontSize: '40px', zIndex:1000 }} />
+                                : <ChevronRight sx={{ fontSize: '40px', zIndex:1000}} />
+                            }
+                        </IconButton>
+                    </div>
                     {
                         openDrawer &&
                         <>
@@ -99,16 +99,15 @@ const NavBar = ({ load }) => {
             sx={{ 
                 left: offset, 
                 width: 'calc(100% - ' + offset + 'px)',
-                height: 'max-content'
                 }}
                 position='relative'>
                 <Tooltip title='Click to Open Menu'>
                     <IconButton onClick={ () => toggleOpenMenu(!openMenu) } sx={{ position: 'absolute', top: '20px', right: '20px'}}>
-                        <Avatar /*alt='put alt text' src='../../assets/images/???'*//>
+                        <Avatar sx={{ width: '50px', height: '50px'}} /*alt='put alt text' src='../../assets/images/???'*//>
                     </IconButton>
                 </Tooltip>
 
-                <div style={{ padding: '100px 100px'}}>
+                <div id='main' >
                     { load && <Outlet/>}
                 </div>
             </Box>
