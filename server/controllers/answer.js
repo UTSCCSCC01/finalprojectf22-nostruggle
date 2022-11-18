@@ -35,6 +35,19 @@ export const getAnswers = async(req, res) => {
     
 }
 
+export const getAnswersQuery = async(req, res) => {
+    console.log('this is the parameter ' + req.params.postId);
+    try {
+        const answers = await Answer.find({...req.query});
+        console.log(answers);
+        console.log("fetch answers");
+        res.status(201).json(answers);
+    } catch(e) {
+        res.status(409).json({message: e.message});
+    }
+    
+}
+
 export const getPostById = async (req, res) => {
 
     try {
