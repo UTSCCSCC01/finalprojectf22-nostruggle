@@ -65,7 +65,7 @@ const ForumCard = (props) => {
         let length = likedBy.length;
         const changes = {
             nLikes: length,
-            likedBy: []
+            likedBy: likedBy
         }
         setNLikes(length);
 
