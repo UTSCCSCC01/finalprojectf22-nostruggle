@@ -24,10 +24,6 @@ function brackets(expression) {
   return newExpression;
 }
 
-function findFirstDigitOnLeft(index) {
-
-}
-
 function performOperation(type, expression, i) {
     //Finding the number on left of operand
     var left;
@@ -48,6 +44,10 @@ function performOperation(type, expression, i) {
     var result;
     if (type == '^')
       result = Math.pow(left, right);
+    else if (type == '*')
+      result = left * right;
+    else if (type == '/')
+      result = left / type;
     else if (type == '+')
       result = left + right;
     else if (type == '-')
@@ -56,7 +56,6 @@ function performOperation(type, expression, i) {
     //String updated with result
     expression = (expression.substring(0, digit_start1)) + result + (expression.substring(digit_end2 + 1, ));
     return expression;
-    //i = -1;
 }
 
 function simplifyExpression(expression) {
@@ -66,6 +65,39 @@ function simplifyExpression(expression) {
     //Evaulating all brackets until there is none left
     while (expression.includes('(')) {
       expression = brackets(expression);
+    }
+
+    //Evaluating all exponents until there is none left
+    while (expression.includes('^')) {
+      for (var i = 0; i < expression.length; i++) {
+        if (expression[i] == '^') {
+          expression = performOperation('^', expression, i);
+        }
+      }
+    }
+
+    //Evaulating all multiplication and division until none left
+    while (expression.includes('*') || expression.includes('/')) {
+      for (var i = 0; i < expression.length; i++) {
+        if (expression[i] == '*') {
+          expression = performOperation('*', expression, i);
+        }
+        else if (expression[i] == '/') {
+          expression = performOperation('/', expression, i);
+        }
+      }
+    }
+
+    //Evaluating all addition and subtraction until none left
+    while (expression.includes('+') || (expression.substring(1,).includes('-'))) {
+      for (var i = 0; i < expression.length; i++) {
+        if (expression[i] == '+') {
+          expression = performOperation('+', expression, i);
+        }
+        else if (expression[i] == '-') {
+          expression = performOperation('-', expression, i);
+        }
+      }
     }
 
     for (var i = 0; i < expression.length; i++) {
