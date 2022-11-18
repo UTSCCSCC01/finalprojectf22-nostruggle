@@ -5,11 +5,6 @@
     top: 65px;
 }
 
-.icon {
-    position: fixed;
-    right: 5px;
-}
-
 .DrawerHeader {
     position: absolute;
     right: 0px;

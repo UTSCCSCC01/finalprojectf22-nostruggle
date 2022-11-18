@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar, Divider } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 
-import { ChevronLeft, ChevronRight, HomeRepairService } from '@mui/icons-material';
+import { ChevronLeft, ChevronRight, HomeRepairService, StickyNote2 } from '@mui/icons-material';
 import { ReactComponent as HomeIcon } from '../../../assets/icons/home.svg'
 import ListMenu from '../../lists/ListMenu';
 
@@ -14,7 +14,7 @@ import ToolsBar from '../ToolsBar'
 import { useEffect } from 'react';
 import NavBarButton from '../../buttons/NavBarButton';
 
-const NavBar = () => {
+const NavBar = ({ load }) => {
 
     const { userState, setUserState } = useUserState();
     const navBarSignedInPages = useNavBarSignedInPages();
@@ -23,7 +23,7 @@ const NavBar = () => {
     const location = useLocation();
     const [ openDrawer, toggleOpenDrawer ] = useState(true);
     const [ openMenu, toggleOpenMenu ] = useState(false);
-    const [ offset, setOffset ] = useState(0);
+    const [ offset, setOffset ] = useState(58);
     
     const showPage = (page) => {
         const buttonProps = {
@@ -49,13 +49,15 @@ const NavBar = () => {
     };
 
     useEffect(() => {
-        const sidebar = document.getElementById('sidebar'); 
+        const sidebar = document.getElementById('sidebar');
+        setOffset(sidebar === null ? 58 : sidebar.offsetWidth );
         const drawerToggle = document.getElementById('drawer-toggle');
         if (sidebar === null && drawerToggle === null) {
             setOffset(0);
+        } else {
+            setOffset(sidebar === null ? drawerToggle.offsetWidth : Math.max(drawerToggle.offsetWidth, drawerToggle === null ? sidebar.offsetWidth : 0));
         }
-        setOffset(sidebar === null ? drawerToggle.offsetWidth : Math.max(drawerToggle.offsetWidth, drawerToggle === null ? sidebar.offsetWidth : 0));
-    }, [openDrawer])
+    }, [openDrawer]);
 
     
     return (
@@ -91,39 +93,25 @@ const NavBar = () => {
                 </div>
             </Drawer>
 
-            <AppBar
-            sx={{ 
-                zIndex: 2000,
-                left: offset, 
-                width: `calc(100% - ${offset})`,
-                transition: theme => theme.transitions.create(['width', 'margin'], {
-                    easing: theme.transitions.easing.sharp,
-                    duration: theme.transitions.duration.leavingScreen,
-                }),
-                ...( openDrawer && {
-                    transition: theme => theme.transitions.create(['width', 'margin'], {
-                        easing: theme.transitions.easing.sharp,
-                        duration: theme.transitions.duration.enteringScreen,
-                    }),
-                })
-            }}
-            position='fixed'>
-                <span>
-                    <Toolbar className='NavBar'>
-                        <Box sx={{ flexGrow: 1, display: 'flex' }}>
-                        { userState.signedIn ? navBarSignedInPages.map((page) => showPage(page)) : navBarSignedOutPages.map((page) => showPage(page)) }
-                        </Box>
 
-                        <Box className='icon'>
-                            <Tooltip title='Click to Open Menu'>
-                                <IconButton onClick={ () => toggleOpenMenu(!openMenu) }>
-                                    <Avatar /*alt='put alt text' src='../../assets/images/???'*//>
-                                </IconButton>
-                            </Tooltip>
-                        </Box>
-                    </Toolbar>
-                </span>
-            </AppBar>
+
+            <Box
+            sx={{ 
+                left: offset, 
+                width: 'calc(100% - ' + offset + 'px)',
+                height: 'max-content'
+                }}
+                position='relative'>
+                <Tooltip title='Click to Open Menu'>
+                    <IconButton onClick={ () => toggleOpenMenu(!openMenu) } sx={{ position: 'absolute', top: '20px', right: '20px'}}>
+                        <Avatar /*alt='put alt text' src='../../assets/images/???'*//>
+                    </IconButton>
+                </Tooltip>
+
+                <div style={{ padding: '100px 100px'}}>
+                    { load && <Outlet/>}
+                </div>
+            </Box>
 
             { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'My Posts', 'Sign Out' ]} path={{ 'Profile': '/profile', 'My Posts': `posts/${userState.user.username}`, 'Sign Out': '/logout' }}/> }
         </>

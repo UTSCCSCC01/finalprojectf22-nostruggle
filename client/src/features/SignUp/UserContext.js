@@ -4,7 +4,7 @@ export const contextState = {
     user: {},
     signedIn: false,
     postId: "",
-    shift: false
+    shift: true
 }
 
 const UserContext = createContext(contextState)
