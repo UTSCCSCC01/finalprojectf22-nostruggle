@@ -6,7 +6,7 @@ const ToolsBarButton = styled(Button)({
     position: 'relative',
     boxShadow: 'none',
     textTransform: 'none',
-    fontSize: 16,
+    fontSize: 18,
     padding: '6px 12px',
     border: '1px solid',
     lineHeight: 1.5,

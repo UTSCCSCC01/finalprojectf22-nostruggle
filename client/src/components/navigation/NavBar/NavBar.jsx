@@ -36,10 +36,10 @@ const NavBar = ({ load }) => {
                 <span>
                     {
                         page.path !== '/' ?
-                        <Button
+                        <NavBarButton
                             {...buttonProps}
                         >{ page.title }
-                        </Button>
+                        </NavBarButton>
                         : 
                         <Button {...buttonProps} startIcon={<HomeIcon width='200px' height='80px'/>}/>
                     }
@@ -112,7 +112,7 @@ const NavBar = ({ load }) => {
                 </div>
             </Box>
 
-            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'My Posts', 'Sign Out' ]} path={{ 'Profile': '/profile', 'My Posts': `posts/${userState.user.username}`, 'Sign Out': '/logout' }}/> }
+            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Sign Out' ]} path={{ 'Profile': `/profile/${userState.user.username}`, 'Sign Out': '/logout' }}/> }
         </>
     )
 }

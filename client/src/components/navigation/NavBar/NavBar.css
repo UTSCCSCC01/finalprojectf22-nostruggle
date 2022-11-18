@@ -19,7 +19,7 @@
 }
 
 .NavBarButton[disabled]{
-    background-color: #7CC3C6 !important;
+    color: #242327 !important;
 }
 
 
@@ -28,7 +28,7 @@ div#sidebar {
     display:flex;
     flex-direction: column;
     justify-content: flex-start;
-    background-color: #D3E3FC;
+    background-color: #bfd9d8;
 }
 
 div#drawer-toggle {
