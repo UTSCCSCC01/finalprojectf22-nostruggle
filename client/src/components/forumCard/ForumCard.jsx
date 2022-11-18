@@ -1,9 +1,11 @@
 
-import { Typography, CardContent, Card, Box, Paper, Chip, Item, Button} from '@mui/material';
+import { Typography, CardContent, Card, Box, Paper, Chip, Item, Button, IconButton} from '@mui/material';
 import { useState, useContext, useRef } from 'react';
 import { usePostState } from '../../features/Forum/PostContext';
 import { useNavigate } from 'react-router-dom';
 import { useUserState } from '../../features/SignUp/UserContext';
+import { FavoriteBorder, ThumbUp } from '@mui/icons-material';
+
 const ForumCard = (props) => {
     const title = props.title;
     const content = props.content;
@@ -13,12 +15,19 @@ const ForumCard = (props) => {
     const updatedDate = date.split("T")[0];
     const postIdselected = props.postId;
     const created_by = props.created_by;
+    let likedBy = props.likedBy
+    console.log("props.likedbylength" + props.likedBy.length);
+    console.log("liked by" + likedBy);
+
+    const {userState, setUserState} = useUserState();
+
+    const [likedByUser, setLikedByUser] = useState(likedBy.includes(userState.user.username));
+   // const [likedByUser, setLikedByUser] = useState(likedBy.length == 0);
+   // console.log(likedByUser);
 
     const navigate = useNavigate();
 
     const forumCardSettingsRef = useRef();
-
-    const {userState, setUserState} = useUserState();
 
     const { postState, setPostState } = usePostState();
 
@@ -27,16 +36,6 @@ const ForumCard = (props) => {
 
     const goToPost = () => {
         console.log("clicked on post" + postIdselected);
-        /*
-        console.log(postState);
-        console.log(postState.postId);
-       
-        setPostState({
-            ...postState,
-            postId: postIdselected,
-        })
-        console.log(postState.postId);
-        */
         setUserState({
             ...userState,
             postId: postIdselected
@@ -53,15 +52,13 @@ const ForumCard = (props) => {
         
     }
 
-/*
-<Box sx = {{ display: 'grid', gridAutoColumns: '1fr', gap: 1}}
-                    <Box sx ={{gridRow: '1', gridColumn: 'span 2'}}>1</Box>
-                    <Box sx ={{gridRow: '1', gridColumn: '4 / 5'}}>2</Box>
-                    <Box sx ={{gridRow: '1', gridColumn: '4 / 5'}}>3</Box>
-                    </Box>
-*/
+    const likePost = () => {
+        setLikedByUser(!likedByUser);
+
+
+    }
+
     return (
-       // <PostContext.Provider value={postIdselected}>
         <Card sx={{mb: 3 }}>
             <CardContent>
                 <Typography variant="h5" sx={{fontWeight: "bold"}}>
@@ -80,12 +77,14 @@ const ForumCard = (props) => {
                 </Typography>
             
                 <Chip label={tag}></Chip>
+                <IconButton>
+                    <ThumbUp color={likedByUser ? "primary" : "default"} onClick={likePost}/>
+                </IconButton>
                 <Button variant="outlined" onClick={goToPost}>View Post</Button>
             </CardContent>
            
 
         </Card>
-      //  </PostContext.Provider>
     )
 
 }
