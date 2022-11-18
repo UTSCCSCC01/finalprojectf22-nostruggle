@@ -8,8 +8,6 @@ import './ToolBar.css'
 
 const ToolsBar = ({ variant }) => {
 
-    console.log(variant);
-
     return (
         <div className='ToolBar'>
             <StudyTimer iconVariant={ variant } />

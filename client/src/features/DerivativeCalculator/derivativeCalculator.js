@@ -1,3 +1,58 @@
+import { getCalculatorInput } from '../Calculator/CalculatorHandler';
+import { setCalculatorOutput } from '../Calculator/CalculatorHandler';
+
+function reduceFraction(numerator, denominator) {
+
+    originalNum = numerator;
+
+    if (numerator < 0)
+        numerator = numerator * -1;
+
+    var lowest;
+    if (numerator < denominator)
+        lowest = numerator;
+    else if (denominator < numerator)
+        lowest = denominator;
+
+    var i = 2;
+    while (i <= lowest) {
+
+        if (numerator % i == 0 && denominator % i == 0) {
+            numerator = numerator / i;
+            denominator = denominator / i;
+            i = 1;
+        }
+
+        i++;
+
+    }
+
+    if (originalNum > 0) {
+
+        //Case of 2/2
+        if (numerator == denominator)
+            return '';
+
+        if (denominator == 1) {
+            return numerator;
+        }
+        return numerator + "/" + denominator;
+    }
+
+    else if (originalNum < 0) {
+
+        //Case of -2/2
+        if (numerator == denominator)
+            return '-';
+
+        if (denominator == 1) {
+            return numerator * -1;
+        }
+        return (numerator * -1) + "/" + denominator;
+    }
+
+}
+
 function validate(equation) {
 	
 	//Removing spaces
@@ -56,14 +111,35 @@ function storeOperators(section) {
 function derivingTerms(terms) {
     const derivedTerms = [];
     for (var i = 0; i < terms.length; i++) {
-        if (!(isNaN(terms[i]))) {
+        //Constant case
+        if (!(terms[i].includes('x'))) {
             derivedTerms.push("0");
         }
+        //Has exponenet
         else if (terms[i].includes('^')) {
-            var constant = parseInt(terms[i].substring(0, terms[i].indexOf("x")));
+            var constant = terms[i].substring(0, terms[i].indexOf("x"));
+            //Case when constant is bracketed
+            if (constant[0] == '(' && constant[constant.length - 1] == ')') {
+                constant = constant.substring(1, constant.length - 1);
+            }
             var exponent = parseInt(terms[i].substring(terms[i].indexOf("^") + 1,));
-            var newConstant = constant*exponent;
             var newExponent = exponent - 1;
+            var newConstant;
+            //Case when the constant is a fraction
+            if (constant.includes('/')) {
+                var denominator = parseInt(constant.substring(constant.indexOf("/") + 1, ));
+                var numerator = parseInt(constant.substring(0, constant.indexOf("/")));
+                var newNumerator = numerator * exponent;
+                newConstant = reduceFraction(newNumerator, denominator);
+                //Adding brackets around fractional constant (if applicable)
+                if (newConstant.includes('/'))
+                    newConstant = '(' + newConstant + ')';
+            }
+            //Case when constant is a whole number
+            else {
+                constant = parseInt(constant);
+                newConstant = constant*exponent;
+            }
 
             //Handling when new exponent becomes "^1" (removing it)
             var derivedTerm; 
@@ -77,8 +153,13 @@ function derivingTerms(terms) {
             derivedTerms.push(derivedTerm);
         }
         else {
-            var constant = terms[i].substring(0, terms[i].indexOf("x"));
-            derivedTerms.push(constant);
+            if (terms[i] == 'x') {
+                derivedTerms.push("1");
+            }
+            else {
+                var constant = terms[i].substring(0, terms[i].indexOf("x"));
+                derivedTerms.push(constant);
+            }
         }
     }
     return derivedTerms;
@@ -143,13 +224,20 @@ function derivativeType(equation) {
 		return "Equation is not in a valid format";
 	}
     var result;
+    /*
     if (equation.includes('(') || equation.includes(')'))
         result = chainRule(equation);
     else 
+    */
         result = findSectionDerivative(equation);
     return result;
 }
 
+var input = getCalculatorInput();
+var output = derivativeType(input);
+setCalculatorOutput(output);
+
+/*
 const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
@@ -158,6 +246,6 @@ const rl = readline.createInterface({
 
 rl.question('Type in an equation to be derived: ', function (input) {
 	console.log(derivativeType(`${input}`));
-    //console.log(formatPrior(`${input}`));
 	rl.close();
 });
+*/

@@ -1,3 +1,6 @@
+import { getCalculatorInput } from '../Calculator/CalculatorHandler';
+import { setCalculatorOutput } from '../Calculator/CalculatorHandler';
+
 function reduceFraction(numerator, denominator) {
 
     originalNum = numerator;
@@ -90,6 +93,7 @@ function integrateTerms(terms) {
     const integratedTerms = [];
     for (var i = 0; i < terms.length; i++) {
         var integratedTerm;
+
         //Case when term has variable
         if (terms[i].includes('x')) {
 
@@ -104,6 +108,12 @@ function integrateTerms(terms) {
              var newExponent = exponent + 1;
 
             var constant;
+
+            //Case if there's only x on its own (ex. x^3 or x instead of 3x)
+            if (terms[i] == 'x' || terms[i].substring(0, terms[i].indexOf("^")) == 'x') {
+                terms[i] = '1' + terms[i];
+            }
+               
             //Whole number constant
             if (!(isNaN(terms[i].substring(0, terms[i].indexOf("x"))))) {
 
@@ -121,7 +131,7 @@ function integrateTerms(terms) {
                         newConstant = '-';
                 }
                 else {
-                    newConstant = reduceFraction(constant, newExponent);
+                    newConstant = '(' + reduceFraction(constant, newExponent) + ')';
                 }
 
                 if (newExponent > 1)
@@ -135,8 +145,12 @@ function integrateTerms(terms) {
             else if (terms[i].substring(0, terms[i].indexOf("x")).includes("/")) {
 
                 constant = terms[i].substring(0, terms[i].indexOf("x"));
-                numerator = parseInt(constant.substring(0, terms[i].indexOf("/")));
-                denominator = parseInt(constant.substring(terms[i].indexOf("/") + 1, terms[i].indexOf("x")));
+                //Case of bracketed fraction constant input 
+                if (constant[0] == '(' && constant[constant.length - 1] == ')') {
+                    constant = constant.substring(1, constant.length - 1);
+                }
+                denominator = parseInt(constant.substring(constant.indexOf("/") + 1, ));
+                numerator = parseInt(constant.substring(0, constant.indexOf("/")));
 
                 //Seeing if fraction can be simplified
                 var newConstant;
@@ -150,7 +164,7 @@ function integrateTerms(terms) {
                         newConstant = '-';
                 }
                 else {
-                    newConstant = reduceFraction(numerator, denominator * newExponent);
+                    newConstant = '(' + reduceFraction(numerator, denominator * newExponent) + ')';
                 }
 
                 if (newExponent > 1)
@@ -172,10 +186,14 @@ function integrateTerms(terms) {
         }
         //Case when term is constant and a fraction
         else if (terms[i].includes("/")) {
+            //Case of bracketed fraction constant input 
+            if (terms[i][0] == '(' && terms[i][terms[i].length - 1] == ')') {
+                terms[i] = terms[i].substring(1, terms[i].length - 1);
+            }
             const fraction_parts = terms[i].split("/");
             //Ensuring terms around division are numbers
             if (!(isNaN(fraction_parts[0])) && !(isNaN(fraction_parts[1]))) {
-                integratedTerm = terms[i] + 'x';
+                integratedTerm = '(' + terms[i] + ')x';
                 integratedTerms.push(integratedTerm);
             }
         }
@@ -201,6 +219,12 @@ function concatenateTerms(integratedTerms, operators) {
     completeIntegral = completeIntegral.replace(/(((\+|-)0)|(0\+))/g, '');
     completeIntegral = completeIntegral.replace(/0-/g, '-');
 
+    //Code cleanup for '+' at the front and end
+    if (completeIntegral[0] == '+')
+        completeIntegral = completeIntegral.substring(1,);
+    if (completeIntegral[completeIntegral.length - 1] == '+')
+        completeIntegral = completeIntegral.substring(0, completeIntegral.length - 1);
+
     //Adds + C for indefinite integral
     completeIntegral += '+C';
 
@@ -222,6 +246,11 @@ function findIntegral(equation) {
     return integral;
 }
 
+var input = getCalculatorInput();
+var output = findIntegral(input);
+setCalculatorOutput(output);
+
+/*
 const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
@@ -233,3 +262,4 @@ rl.question('Type in an equation to be integrated: ', function (input) {
     //console.log(formatPrior(`${input}`));
 	rl.close();
 });
+*/

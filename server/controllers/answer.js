@@ -22,6 +22,19 @@ export const postAnswer = async (req, res) => {
 
 }
 
+export const getAnswers = async(req, res) => {
+    console.log('this is the parameter ' + req.params.postId);
+    try {
+        const answers = await Answer.find({child_of: req.params.postId});
+        console.log(answers);
+        console.log("fetch answers");
+        res.status(201).json(answers);
+    } catch(e) {
+        res.status(409).json({message: e.message});
+    }
+    
+}
+
 export const getPostById = async (req, res) => {
 
     try {

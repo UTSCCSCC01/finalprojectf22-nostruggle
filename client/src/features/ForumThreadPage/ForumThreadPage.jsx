@@ -5,7 +5,6 @@ function ForumThreadPage(){
     return(
         <div>
             <Outlet/>
-            <h3>Post thread</h3>
         </div>
     )
 

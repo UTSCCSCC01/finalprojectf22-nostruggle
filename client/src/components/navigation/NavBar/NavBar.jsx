@@ -8,7 +8,7 @@ import ListMenu from '../../lists/ListMenu';
 
 import './NavBar.css'
 
-import { navBarSignedInPages, navBarSignedOutPages } from '../../../pages/constants';
+import { useNavBarSignedInPages, useNavBarSignedOutPages } from '../../../pages/constants';
 import { useUserState } from '../../../features/SignUp/UserContext';
 import ToolsBar from '../ToolsBar'
 import { useEffect } from 'react';
@@ -16,7 +16,9 @@ import NavBarButton from '../../buttons/NavBarButton';
 
 const NavBar = () => {
 
-    const { userState } = useUserState();
+    const { userState, setUserState } = useUserState();
+    const navBarSignedInPages = useNavBarSignedInPages();
+    const navBarSignedOutPages = useNavBarSignedOutPages();
     const navigate = useNavigate();
     const location = useLocation();
     const [ openDrawer, toggleOpenDrawer ] = useState(false);
@@ -64,7 +66,10 @@ const NavBar = () => {
             anchor='left' 
             open={ true } >
                 <div id='drawer-toggle'>
-                    <IconButton onClick={ () => toggleOpenDrawer(!openDrawer) }>
+                    <IconButton onClick={ () => {
+                        toggleOpenDrawer(!openDrawer);
+                        setUserState({ ...userState, shift: !openDrawer });
+                    }}>
                         {
                             openDrawer ? 
                             <ChevronLeft sx={{ fontSize: '40px' }} />
@@ -112,7 +117,7 @@ const NavBar = () => {
                 </span>
             </AppBar>
 
-            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Sign Out' ]} path={{ 'Profile': '/profile', 'Sign Out': '/logout' }}/> }
+            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'My Posts', 'Sign Out' ]} path={{ 'Profile': '/profile', 'My Posts': `posts/${userState.user.username}`, 'Sign Out': '/logout' }}/> }
         </>
     )
 }
