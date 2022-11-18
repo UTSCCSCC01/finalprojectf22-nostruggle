@@ -1,10 +1,11 @@
-import StudyTimer from '../../../features/Todo/StudyTimer/StudyTimer'
-import AlgebraCalculator from '../../../features/AlgebraCalculator/AlgebraCalculator'
-import LinearAlgebraCalculator from '../../../features/LinearAlgebraCalculator/LinearAlgebraCalculator'
-import IntegralCalculator from '../../../features/IntegralCalculator/IntegralCalculator'
-import FactorMultiple from '../../../features/FactorMultiple/FactorMultiple'
+import StudyTimer from '../../../features/Todo/StudyTimer/StudyTimer';
+import AlgebraCalculator from '../../../features/AlgebraCalculator/AlgebraCalculator';
+import DerivativeCalculator from '../../../features/DerivativeCalculator/DerivativeCalculator';
+import LinearAlgebraCalculator from '../../../features/LinearAlgebraCalculator/LinearAlgebraCalculator';
+import IntegralCalculator from '../../../features/IntegralCalculator/IntegralCalculator';
+import FactorMultiple from '../../../features/FactorMultiple/FactorMultiple';
 
-import './ToolBar.css'
+import './ToolBar.css';
 
 const ToolsBar = ({ variant }) => {
 
@@ -12,6 +13,7 @@ const ToolsBar = ({ variant }) => {
         <div className='ToolBar'>
             <StudyTimer iconVariant={ variant } />
             <AlgebraCalculator iconVariant={ variant } />
+            <DerivativeCalculator iconVariant={ variant } />
             <IntegralCalculator iconVariant={ variant } />
             <LinearAlgebraCalculator iconVariant={ variant } />
             <FactorMultiple iconVariant={ variant } />

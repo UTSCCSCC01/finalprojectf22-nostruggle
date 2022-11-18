@@ -3,6 +3,7 @@ import Deadline from "../Todo/Deadline"
 import DashboardStatistics from "./Content/DashboardStatistics"
 import StudyTimerSummary from "../Todo/StudyTimer/Summary/StudyTimerSummary"
 import DashboardTimeSummary from "./Content/DashboardTimeSummary"
+import DashboardUpdates from "./Content/DashboardUpdates"
 export const dashboardItems = [
     {
         dimensions: {
@@ -29,8 +30,8 @@ export const dashboardItems = [
             header: '',
             headerOutline: 'gray'
         },
-        title: "Recent Activity",
-        content: "Hi",
+        title: "My Feed",
+        content: <DashboardUpdates/>,
         link: {
             title: 'View Forum',
             path: '/forum'

@@ -4,6 +4,7 @@ export const contextState = {
     user: {},
     signedIn: false,
     postId: "",
+    signedOut: false,
     shift: true
 }
 

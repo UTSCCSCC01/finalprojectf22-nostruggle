@@ -12,14 +12,12 @@ const DashboardTimeSummary = () => {
         ApiCall.get(`/tasks/daily?userId=${userState.user._id}`)
         .then(res => {
             if (res.status === 200){
-                console.log(res)
                 const tasks = res.data
                 const totalTimeSpent = tasks.reduce((prev, current) => {
                     return prev + current.timespent
                 }, 0)                
                 setTotalTime(totalTimeSpent)
             }    
-            console.log(res)            
         })
 
 

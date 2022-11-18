@@ -2,17 +2,21 @@ import React, { useState } from 'react';
 import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar, Divider } from '@mui/material';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 
-import { ChevronLeft, ChevronRight, HomeRepairService, StickyNote2 } from '@mui/icons-material';
+import { ChevronLeft, ChevronRight, Home, HomeRepairService, Notifications } from '@mui/icons-material';
 import { ReactComponent as HomeIcon } from '../../../assets/icons/home.svg'
-import ListMenu from '../../lists/ListMenu';
+ 
+import ListMenu from "../../lists/ListMenu";
+import ListPlain from '../../lists/ListPlain';
 
 import './NavBar.css'
 
 import { useNavBarSignedInPages, useNavBarSignedOutPages } from '../../../pages/constants';
 import { useUserState } from '../../../features/SignUp/UserContext';
 import ToolsBar from '../ToolsBar'
-import { useEffect } from 'react';
 import NavBarButton from '../../buttons/NavBarButton';
+import NotificationSideBar from '../../../features/Notifications/NotificationSideBar';
+import { useEffect } from 'react';
+import ApiCall from '../../api/ApiCall';
 
 const NavBar = ({ load }) => {
 
@@ -24,6 +28,7 @@ const NavBar = ({ load }) => {
     const [ openDrawer, toggleOpenDrawer ] = useState(true);
     const [ openMenu, toggleOpenMenu ] = useState(false);
     const [ offset, setOffset ] = useState(58);
+    const [ openNotifications, setOpenNotifications ] = useState(false)
     
     const showPage = (page) => {
         const buttonProps = {
@@ -41,7 +46,7 @@ const NavBar = ({ load }) => {
                         >{ page.title }
                         </NavBarButton>
                         : 
-                        <Button {...buttonProps} startIcon={<HomeIcon width='200px' height='80px'/>}/>
+                        <Button {...buttonProps} startIcon={<HomeIcon width='180px' height='80px'/>}/>
                     }
                 </span>
             </Tooltip>
@@ -60,6 +65,11 @@ const NavBar = ({ load }) => {
     }, [openDrawer]);
 
     
+    const onViewAllNotifications = () => {
+        setOpenNotifications(false)
+        navigate('/inbox')
+    }
+
     return (
         <>
             <Drawer 
@@ -82,10 +92,9 @@ const NavBar = ({ load }) => {
                     {
                         openDrawer &&
                         <>
-                            <Box sx={{ display: 'inline-flex', flexDirection: 'column', height: 'max-content', top: '-10px', margin: '0px 10px'}}>
+                            <Box sx={{ display: 'inline-flex', flexDirection: 'column', height: 'max-content', top: '-10px'}}>
                             { navBarSignedInPages.map((page) => showPage(page)) }
-                            <Divider sx={{ padding: '4px'}}/>
-                            <p> NoStruggle Toolkit</p>
+                            <Divider sx={{ margin: '4px'}}/>
                             </Box>
                         </>
                     }
@@ -93,26 +102,40 @@ const NavBar = ({ load }) => {
                 </div>
             </Drawer>
 
-
-
             <Box
             sx={{ 
                 left: offset, 
                 width: 'calc(100% - ' + offset + 'px)',
                 }}
                 position='relative'>
-                <Tooltip title='Click to Open Menu'>
-                    <IconButton onClick={ () => toggleOpenMenu(!openMenu) } sx={{ position: 'absolute', top: '20px', right: '20px'}}>
-                        <Avatar sx={{ width: '50px', height: '50px'}} /*alt='put alt text' src='../../assets/images/???'*//>
-                    </IconButton>
-                </Tooltip>
+
+                <Toolbar className='top-bar' sx={{ backgroundColor: '#82A8B5', display: 'flex', flexDirection: 'row', justifyContent:'flex-end'}}>
+                    <Tooltip title='Notifications'>
+                        <IconButton onClick={ () => setOpenNotifications(!openNotifications)} sx={{ margin: '4px'}}>
+                            <Notifications sx={{color: userState.hasNewNotifications ? 'yellow' : '', fontSize: 35 }}/>
+                        </IconButton>
+                    </Tooltip>
+
+                    <Tooltip title='Click to Open Menu'>
+                        <IconButton onClick={ () => toggleOpenMenu(!openMenu) } sx={{ margin: '4px'}}>
+                            <Avatar sx={{ width: '50px', height: '50px'}} /*alt='put alt text' src='../../assets/images/???'*//>
+                        </IconButton>
+                    </Tooltip>
+                    
+                </Toolbar>
+
 
                 <div id='main' >
                     { load && <Outlet/>}
                 </div>
             </Box>
+            { userState.signedIn &&
+                <Drawer sx={{ width: openNotifications ? 200 : 0 }} className='NotificationsDrawer' variant='persistent' anchor='right' open={ openNotifications } >
+                    <NotificationSideBar onViewAll={onViewAllNotifications}/>
+                </Drawer>
+            }
 
-            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Sign Out' ]} path={{ 'Profile': `/profile/${userState.user.username}`, 'Sign Out': '/logout' }}/> }
+            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Feed', 'Sign Out' ]} path={{ 'Profile': `/profile/${userState.user.username}`, 'Feed': '/inbox', 'Sign Out': '/logout' }}/> }
         </>
     )
 }

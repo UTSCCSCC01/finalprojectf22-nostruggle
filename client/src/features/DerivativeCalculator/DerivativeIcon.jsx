@@ -1,9 +1,9 @@
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import LogoDevIcon from '@mui/icons-material/LogoDev';
 import { IconButton } from "@mui/material"
 import ToolsBarButton from "../../components/buttons/ToolsBarButton"
 import theme from '../../theme'
 
-const FactorMultipleIcon = ({ onClick, open, iconVariant }) => {
+const DerivativeIcon = ({ onClick, open, iconVariant }) => {
 
   const handleClick = (e) => {
       e.currentTarget.blur();
@@ -11,7 +11,7 @@ const FactorMultipleIcon = ({ onClick, open, iconVariant }) => {
   }
 
   return (
-    <div className='FactorMultipleIcon'>
+    <div className='DerivativeIcon'>
       {
         iconVariant === 'text' ?
         <ToolsBarButton style={{
@@ -19,15 +19,15 @@ const FactorMultipleIcon = ({ onClick, open, iconVariant }) => {
             color: open ? theme.button_active : theme.button_inactive
         }}
         onClick={ (e) => handleClick(e) }
-        startIcon={ <AccountTreeIcon sx={{ width:'30px', height: '30px', color: open ? theme.button_active : theme.button_inactive }} /> }
-        >Factor Multiple</ToolsBarButton>
+        startIcon={ <LogoDevIcon sx={{ width:'30px', height: '30px', color: open ? theme.button_active : theme.button_inactive }} /> }
+        >Derivative Calculator</ToolsBarButton>
         :
         <IconButton
         onClick={ (e) => handleClick(e) }
-        children={ <AccountTreeIcon sx={{ width:'30px', height: '30px', color: open ? theme.button_active : theme.button_inactive }} /> } />
+        children={ <LogoDevIcon sx={{ width:'30px', height: '30px', color: open ? theme.button_active : theme.button_inactive }} /> } />
       }
     </div>
   )
 }
 
-export default FactorMultipleIcon
+export default DerivativeIcon

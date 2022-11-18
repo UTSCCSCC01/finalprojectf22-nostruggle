@@ -1,8 +1,16 @@
+:root {
+    --appBarHeight: 65px;
+}
+
+.top-bar {
+    height: var(--appBarHeight) !important;
+}
+
 .UserMenu {
     max-width: 400px;
     position: fixed;
-    right: 15px;
-    top: 85px;
+    right: 20px;
+    top: var(--appBarHeight);
 }
 
 .DrawerHeader {
@@ -23,6 +31,19 @@
 }
 
 
+.NotificationsDrawer {
+    transition: width ease-in-out 0.5s;
+}
+
+.NotificationsDrawer > div {
+    top: var(--appBarHeight);
+    height: calc(100vh - var(--appBarHeight));
+}
+
+.NotificationSideBar {
+    overflow: hidden;
+}
+
 div#sidebar {
     height: 100vh;
     display:flex;
@@ -39,5 +60,5 @@ div#drawer-toggle {
 }
 
 div#main {
-    padding: 100px;
+    padding: 40px 100px;
 }

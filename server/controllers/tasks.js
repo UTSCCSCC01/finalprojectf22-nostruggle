@@ -25,9 +25,7 @@ export const postTasks = async (req, res) => {
 
 export const patchTasks = async (req, res) => {
     try {
-        console.log('updating task')
         await Task.updateMany(req.body.filters, req.body.update)
-        console.log("Finished updating")
         res.status(200).json({});
     } catch (e) {
         console.log(e)
@@ -45,7 +43,6 @@ export const getDaily = async (req, res) => {
     try {
         const now = new Date(Date.now()).toLocaleDateString('en-us', dateFormat)
         const tasks = await TaskTime.find({ userId: req.query.userId, date: now })
-        console.log("Finished updating")
         res.status(200).json(tasks);
     } catch (e) {
         console.log(e)
@@ -78,9 +75,7 @@ export const postDaily = async (req, res) => {
 export const getDailySpecificDate = async (req, res) => {
     try {
         const now = new Date(Date.now()).toLocaleDateString('en-us', dateFormat)
-        console.log(req.query)
         const tasks = await TaskTime.find({ userId: req.query.userId, date: new Date(parseInt(req.query.date)) })
-        console.log("Finished updating")
         res.status(200).json(tasks);
     } catch (e) {
         console.log(e)

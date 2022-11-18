@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import ApiCall from '../api/ApiCall';
 import { useUserState } from '../../features/SignUp/UserContext';
 import { useState } from 'react';
-
+import { sendNotification } from '../../features/Notifications/utils';
 const AnswerCard = (props) =>{
     const navigate = useNavigate()
+    const hideReply = props.hideReply;
     const child_of = props.child_of;
     const [commentError, setCommentError] = useState(false);
     const [commentContent, setCommentContent] = useState("");
@@ -35,6 +36,23 @@ const AnswerCard = (props) =>{
         })
         setCommentContent('');
         setCommentData(previousState => {return {...previousState, content: ''}});
+        if (created_by !== userState.user.username) {
+            ApiCall.get(`users/username/${created_by}`)
+            .then( res => {
+                if (res.status === 200){
+                    const answerAuthor = res.data[0]
+                    ApiCall.get(`/forumPosts/${child_of}`)
+                    .then (r => {
+                        if (r.status === 201){
+                            const forumPost = r.data;
+                            console.log(forumPost)
+                            sendNotification('comment', forumPost._id, forumPost.title, userState.user.username, answerAuthor._id)
+                        }
+                    })
+                }
+            })
+        }
+
     }
 
     const editCommentField = (event) => {
@@ -44,10 +62,10 @@ const AnswerCard = (props) =>{
         setCommentData(previousState => {return {...previousState, content: event.target.value}})
     }
 
-    return(
-        <Accordion sx={{mb: 3}}>
-            <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
-        <Card>
+    return( 
+        
+            hideReply ? 
+            <Card>
             <CardContent>
                 <Typography>
                     {content}
@@ -69,25 +87,52 @@ const AnswerCard = (props) =>{
                 </CardContent>
 
             }
-        </Card>
-        </AccordionSummary>
-        <AccordionDetails>
-            <h5>Comment Section</h5>
-            <TextField
-            id="content" 
-            label="Add a new comment" 
-            variant="outlined"
-            fullWidth={true}
-            multiline={true}
-            maxRows={5}
-            error={commentError}
-            onChange={editCommentField}
-            helperText={commentError ? "Comment is missing" : ""}
-            value={commentContent}
-            ></TextField>
+            </Card>
+        :
+        <Accordion sx={{mb: 3}}>
+            <AccordionSummary expandIcon={ <ExpandMoreIcon/>}>
+            <Card>
+                <CardContent>
+                    <Typography>
+                        {content}
+                    </Typography>
+                    <Typography>
+                        {created_by}
+                    </Typography>
+                    <Typography>
+                        Num Likes:{nLikes}
+                    </Typography>
+                    <Typography>
+                        {date}
+                    </Typography>
+                </CardContent>
+                {
+                    props.goToPost &&
+                    <CardContent>
+                        <Button variant="outlined" onClick={() => navigate(`/postThread/${child_of}`)}>VIEW POST</Button>
+                    </CardContent>
 
-            <Button onClick={onCommentSubmit}>Add comment</Button>
-        </AccordionDetails>
+                }
+            </Card>
+            </AccordionSummary>
+            
+            <AccordionDetails>
+                <h5>Comment Section</h5>
+                <TextField
+                id="content" 
+                label="Add a new comment" 
+                variant="outlined"
+                fullWidth={true}
+                multiline={true}
+                maxRows={5}
+                error={commentError}
+                onChange={editCommentField}
+                helperText={commentError ? "Comment is missing" : ""}
+                value={commentContent}
+                ></TextField>
+
+                <Button onClick={onCommentSubmit}>Add comment</Button>
+            </AccordionDetails>
         </Accordion>
     )
 }
