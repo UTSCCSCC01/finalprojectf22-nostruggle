@@ -1,3 +1,6 @@
+import { getCalculatorInput } from '../Calculator/CalculatorHandler';
+import { setCalculatorOutput } from '../Calculator/CalculatorHandler';
+
 function formatPrior(section) {
   //Replace all spaces
   section = section.replaceAll(" ", "");
@@ -143,8 +146,14 @@ function simplify(expression) {
 	}
   var result = simplifyExpression(expresion);
   return result;
+
 }
 
+var input = getCalculatorInput();
+var output = simplify(input);
+setCalculatorOutput(output);
+
+/*
 const readline = require('readline');
 const rl = readline.createInterface({
   input: process.stdin,
@@ -155,3 +164,4 @@ rl.question('Type in an expression to be simplified: ', function (input) {
 	console.log(simplify(`${input}`));
 	rl.close();
 });
+*/
