@@ -6,7 +6,7 @@ import { useUserState } from '../SignUp/UserContext';
 import { useParams } from 'react-router-dom';
 import ForumPostCard from '../../components/ForumPostCard/ForumPostCard';
 import AnswerCard from '../../components/answerCard/AnswerCard';
-
+import { sendNotification } from '../Notifications/utils'
 function ForumThread(){
 
     const {postId} = useParams();
@@ -51,13 +51,24 @@ function ForumThread(){
 
         await ApiCall.post('answers/post', answerData)
         .then(res => {
+            
             console.log(res.data); 
+            
             console.log("add new answer to database");
             setAnswerField("");
+            ApiCall.get(`users/username/${created_by}`)
+            .then( res => {
+                if (res.status === 200){
+                    const author = res.data[0]
+                    if (author._id !== userState.user._id) {
+                        sendNotification('answer', postId, title, userState.user.username, author._id)
+                    }
+                }
+            })
         })
         .catch(e => {console.log(e)
             setContentFilled(false);
-        
+            
         })
         getAnswers();
         setAnswerData(previousState => { return {...previousState, content: ''}})

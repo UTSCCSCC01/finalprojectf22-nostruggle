@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Drawer, AppBar, Toolbar, Box, Tooltip, Button, IconButton, Avatar } from "@mui/material";
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { ChevronLeft, ChevronRight, Home, HomeRepairService } from '@mui/icons-material';
+import { ChevronLeft, ChevronRight, Home, HomeRepairService, Notifications } from '@mui/icons-material';
  
 import ListMenu from "../../lists/ListMenu";
 import ListPlain from '../../lists/ListPlain';
@@ -12,7 +12,9 @@ import './NavBar.css'
 import { useNavBarSignedInPages, useNavBarSignedOutPages } from '../../../pages/constants';
 import { useUserState } from '../../../features/SignUp/UserContext';
 import ToolsBar from '../../../features/ToolsBar';
+import NotificationSideBar from '../../../features/Notifications/NotificationSideBar';
 import { useEffect } from 'react';
+import ApiCall from '../../api/ApiCall';
 const NavBar = () => {
 
     const { userState } = useUserState();
@@ -21,6 +23,7 @@ const NavBar = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [ openDrawer, setOpenDrawer ] = useState(false);
+    const [ openNotifications, setOpenNotifications ] = useState(false)
     const [ openMenu, setOpenMenu ] = useState(false);
     
     const showPage = (page) => {
@@ -48,6 +51,11 @@ const NavBar = () => {
         )
     };
     
+    const onViewAllNotifications = () => {
+        setOpenNotifications(false)
+        navigate('/inbox')
+    }
+
     return (
         <>
             { openDrawer && userState.signedIn &&
@@ -56,7 +64,7 @@ const NavBar = () => {
             </Drawer>
             }
 
-            <AppBar sx={{ zIndex: 2000}} position='fixed'>
+            <AppBar className='AppBar'sx={{ zIndex: 2000 }} position='fixed'>
                 <span>
                     <Toolbar className='Toolbar'>
                         {
@@ -70,7 +78,16 @@ const NavBar = () => {
                         <Box sx={{ flexGrow: 1, paddingLeft: '20px', display: 'flex' }}>
                         { userState.signedIn ? navBarSignedInPages.map((page) => showPage(page)) : navBarSignedOutPages.map((page) => showPage(page)) }
                         </Box>
-
+                        {
+                            userState.signedIn &&
+                            <Box className='icon'>
+                                <Tooltip title='Notifications'>
+                                    <IconButton onClick={ () => setOpenNotifications(!openNotifications)}>
+                                        <Notifications sx={{color: userState.hasNewNotifications ? 'yellow' : '', fontSize: 35 }}/>
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                        }
                         <Box className='icon'>
                             <Tooltip title='Click to Open Menu'>
                                 <IconButton onClick={ () => setOpenMenu(!openMenu) }>
@@ -79,10 +96,15 @@ const NavBar = () => {
                             </Tooltip>
                         </Box>
                     </Toolbar>
+                    { userState.signedIn &&
+                        <Drawer sx={{ width: openNotifications ? 200 : 0 }} className='NotificationsDrawer' variant='persistent' anchor='right' open={ openNotifications } >
+                            <NotificationSideBar onViewAll={onViewAllNotifications}/>
+                        </Drawer>
+                    }
                 </span>
             </AppBar>
 
-            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Sign Out' ]} path={{ 'Profile': `/profile/${userState.user.username}`, 'Sign Out': '/logout' }}/> }
+            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Feed', 'Sign Out' ]} path={{ 'Profile': `/profile/${userState.user.username}`, 'Feed': '/inbox', 'Sign Out': '/logout' }}/> }
         </>
     )
 }

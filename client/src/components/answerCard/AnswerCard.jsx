@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import ApiCall from '../api/ApiCall';
 import { useUserState } from '../../features/SignUp/UserContext';
 import { useState } from 'react';
-
+import { sendNotification } from '../../features/Notifications/utils';
 const AnswerCard = (props) =>{
     const navigate = useNavigate()
     const hideReply = props.hideReply;
@@ -36,6 +36,23 @@ const AnswerCard = (props) =>{
         })
         setCommentContent('');
         setCommentData(previousState => {return {...previousState, content: ''}});
+        if (created_by !== userState.user.username) {
+            ApiCall.get(`users/username/${created_by}`)
+            .then( res => {
+                if (res.status === 200){
+                    const answerAuthor = res.data[0]
+                    ApiCall.get(`/forumPosts/${child_of}`)
+                    .then (r => {
+                        if (r.status === 201){
+                            const forumPost = r.data;
+                            console.log(forumPost)
+                            sendNotification('comment', forumPost._id, forumPost.title, userState.user.username, answerAuthor._id)
+                        }
+                    })
+                }
+            })
+        }
+
     }
 
     const editCommentField = (event) => {

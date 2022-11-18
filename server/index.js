@@ -16,6 +16,8 @@ import openApiRouter from './routes/openApi.js';
 
 import postRouter from './routes/post.js';
 
+import notificationRouter from './routes/notifications.js';
+
 import answerRouter from './routes/answers.js';
 
 import commentRouter from './routes/comment.js';
@@ -23,6 +25,8 @@ app.use('/users', userRouter);
 app.use('/forumPosts', postRouter);
 app.use('/openapi', openApiRouter);
 app.use('/tasks', taskRouter)
+app.use('/notification', notificationRouter)
+
 app.use('/answers', answerRouter);
 app.use('/postThread', answerRouter);
 app.use('/comment', commentRouter);

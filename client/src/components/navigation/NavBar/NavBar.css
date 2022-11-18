@@ -1,8 +1,16 @@
+:root {
+    --appBarHeight: 65px;
+}
+
+.AppBar {
+    height: var(--appBarHeight) !important;
+}
+
 .UserMenu {
     max-width: 400px;
     position: fixed;
     right: 5px;
-    top: 65px;
+    top: var(--appBarHeight);
 }
 
 .DrawerHeader {
@@ -20,12 +28,24 @@
     justify-content: center;
 }
 
+.NotificationsDrawer {
+    transition: width ease-in-out 0.5s;
+}
+
+.NotificationsDrawer > div {
+    top: var(--appBarHeight);
+    height: calc(100vh - var(--appBarHeight));
+}
+
+.NotificationSideBar {
+    overflow: hidden;
+}
+
 .shift {
     margin-left: 40px;
 }
 
 .SideBar {
-    margin-top: 40px;
     visibility: inherit;
 }
 
