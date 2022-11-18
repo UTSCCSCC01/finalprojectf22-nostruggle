@@ -13,7 +13,6 @@ export const getTasks = async (req, res) => {
 export const postTasks = async (req, res) => {
 
     const newTask = new Task(req.body);
-
     try {
         await newTask.save();
         res.status(201).json(newTask);

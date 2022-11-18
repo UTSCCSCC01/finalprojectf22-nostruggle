@@ -1,7 +1,6 @@
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
 import UserOutlet from './components/navigation/NavBar/UserOutlet';
-import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
 import NoPage from './pages/NoPage';
 import SignOut from './features/SignUp/SignOut';
@@ -16,6 +15,7 @@ import ForumThread from './features/ForumThread/ForumThread';
 import ForumThreadPage from './features/ForumThreadPage/ForumThreadPage';
 import ForumThreadDeleted from './features/ForumThreadPage/ForumThreadDeleted';
 import PostsByUser from './features/PostsByUser';
+import Profile from './features/Profile';
 function App() {
   return (
     <BrowserRouter>
@@ -27,7 +27,7 @@ function App() {
             <Route path='todo' element={ <Scheduler /> }/>
             <Route path='daily' element={ <StudyTimerSummary /> }/>
             <Route path='inbox' element={ <Notifications /> }/>
-            <Route path='profile' element={ <Profile /> }/>
+            <Route path='profile/:username' element={ <Profile /> }/>
             <Route path='logout' element={ <SignOut /> }/>
             <Route path='*' element={ <NoPage /> }/>
             <Route path='createPost' element={ <CreatePost/> }/>
