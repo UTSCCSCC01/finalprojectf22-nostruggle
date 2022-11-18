@@ -60,6 +60,7 @@ function ForumThread(){
         
         })
         getAnswers();
+        setAnswerData(previousState => { return {...previousState, content: ''}})
     }
 
     const setPostInfo = () =>{
@@ -138,7 +139,7 @@ function ForumThread(){
 
 
         <p>{answers.map((item) => <AnswerCard content={item.content} created_by={item.created_by} nLikes={item.nLikes} 
-        created_At={item.created_At} />)}</p>
+        created_At={item.created_At} ansId={item._id}/>)}</p>
         </div>
 
        

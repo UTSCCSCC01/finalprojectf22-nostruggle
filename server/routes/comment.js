@@ -1,8 +1,8 @@
 import express from 'express';
-import { postComment } from '../controllers/comment';
+import { postComment } from '../controllers/comment.js';
 
 
-const router = express.router();
+const router = express.Router();
 
 router.route('/post').post(postComment);
 
