@@ -135,7 +135,7 @@ const Profile = () => {
                     <Grid container justifyContent={'space-between'} spacing={2}>
                         <Grid item xs={4}>
                             <Card className='ProfileCard'>
-                                <Typography variant='h3'>
+                                <Typography variant='h3' sx={{ wordBreak: "break-all" }}>
                                     {username}'s Profile'
                                 </Typography>
                                 <Avatar sx={{minHeight: 200, minWidth: 200, margin: 'auto'}}/>
@@ -143,7 +143,7 @@ const Profile = () => {
                         </Grid>
                         <Grid item xs={4}>
                             <Card sx={{minHeight: 200}} className='ProfileCard'>
-                                <Typography variant='h4'>
+                                <Typography variant='h4' sx={{ wordBreak: "break-all" }}>
                                     About {username}
                                 </Typography>
                                 {
@@ -178,7 +178,7 @@ const Profile = () => {
                                 </div>
                                 {
                                     posts.map(post => (
-                                        <ForumCard {...post} tag={post.tags} date=""/>
+                                        <ForumCard postId={post._id} {...post} tag={post.tags} date=""/>
                                     ))
                                 }        
                             </Card>
@@ -189,7 +189,7 @@ const Profile = () => {
                                 <Typography variant="h4">{username}'s Answers</Typography>
                                 {
                                     answers.map(answer => (
-                                        <AnswerCard goToPost={true} {...answer} date=""/>
+                                        <AnswerCard hideReply={true} goToPost={true} {...answer} date=""/>
                                     ))
                                 } 
                             </Card>     
