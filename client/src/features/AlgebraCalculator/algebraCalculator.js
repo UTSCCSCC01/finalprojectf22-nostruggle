@@ -4,72 +4,85 @@ function formatPrior(section) {
   return section;
 }
 
+function brackets(expression) {
+
+  //Determining left-innermost pair of brackets, and evaluating the contents
+  var inner_left;
+  var inner_right;
+  for (var i = 0; i < expression.length; i++) {
+    if (expression[i] == '(') {
+      inner_left = i;
+    }
+    if (expression[i] == ')') {
+      inner_right = i;
+      break;
+    }
+  }
+  var inner = expression.substring(inner_left + 1, inner_right);
+  var result = simplifyExpression(inner);
+  var newExpression = expression.substring(0, inner_left) + result + expression.substring(inner_right + 1,);
+  return newExpression;
+}
+
+function findFirstDigitOnLeft(index) {
+
+}
+
+function performOperation(type, expression, i) {
+    //Finding the number on left of operand
+    var left;
+    var digit_start1 = i - 1;
+    while ((!isNaN(expression[digit_start1 - 1]) || expression.substring(digit_start1 - 1, digit_start1) == '-') && ((digit_start1) > 0)) {
+      digit_start1--;
+    }
+    left = parseInt(expression.substring(digit_start1, i));
+
+    //Finding the number on right of operand 
+    var digit_end2 = i + 1;
+    while (((digit_end2 + 1) < expression.length) && !isNaN(expression[digit_end2 + 1])) {
+      digit_end2++;
+    }
+    var right = parseInt(expression.substring(i + 1, digit_end2 + 1));
+
+    //Performing operation based upon input
+    var result;
+    if (type == '^')
+      result = Math.pow(left, right);
+    else if (type == '+')
+      result = left + right;
+    else if (type == '-')
+      result = left - right;
+
+    //String updated with result
+    expression = (expression.substring(0, digit_start1)) + result + (expression.substring(digit_end2 + 1, ));
+    return expression;
+    //i = -1;
+}
+
 function simplifyExpression(expression) {
 
     expression = formatPrior(expression);
 
+    //Evaulating all brackets until there is none left
+    while (expression.includes('(')) {
+      expression = brackets(expression);
+    }
+
     for (var i = 0; i < expression.length; i++) {
       //Grouped together due to order of operations
       if (expression[i] == '^') {
-        
-        var left;
-        var digit_start1 = i - 1;
-        while ((!isNaN(expression[digit_start1 - 1]) || expression.substring(digit_start1 - 1, digit_start1) == '-') && ((digit_start1) > 0)) {
-          digit_start1--;
-        }
-        left = parseInt(expression.substring(digit_start1, i));
-
-        var digit_end2 = i + 1;
-        while (((digit_end2 + 1) < expression.length) && !isNaN(expression[digit_end2 + 1])) {
-          digit_end2++;
-        }
-        var right = parseInt(expression.substring(i + 1, digit_end2 + 1));
-
-        var exponentiation = Math.pow(left, right);
-        expression = (expression.substring(0, digit_start1)) + exponentiation + (expression.substring(digit_end2 + 1, ));
+        expression = performOperation('^', expression, i);
         i = -1;
       }
-
       else if (expression[i] == '+' || (expression[i] == '-' && i > 0)) {
-        if (expression[i] == '+') {
-          var left;
-          var digit_start1 = i - 1;
-          while ((!isNaN(expression[digit_start1 - 1]) || expression.substring(digit_start1 - 1, digit_start1) == '-') && ((digit_start1) > 0)) {
-            digit_start1--;
-          }
-          left = parseInt(expression.substring(digit_start1, i));
-
-          var digit_end2 = i + 1;
-          while (((digit_end2 + 1) < expression.length) && !isNaN(expression[digit_end2 + 1])) {
-            digit_end2++;
-          }
-          var right = parseInt(expression.substring(i + 1, digit_end2 + 1));
-
-          var sum = left + right;
-          console.log(sum);
-          expression = (expression.substring(0, digit_start1)) + sum + (expression.substring(digit_end2 + 1, ));
+          expression = performOperation('+', expression, i);
           i = -1;
         }
-        else if (expression[i] == '-' && i > 0) {
-          var left;
-          var digit_start1 = i - 1;
-          while ((!isNaN(expression[digit_start1 - 1]) || expression.substring(digit_start1 - 1, digit_start1) == '-') && ((digit_start1) > 0)) {
-            digit_start1--;
-          }
-          left = parseInt(expression.substring(digit_start1, i));
-
-          var digit_end2 = i + 1;
-          while (((digit_end2 + 1) < expression.length) && !isNaN(expression[digit_end2 + 1])) {
-            digit_end2++;
-          }
-          var right = parseInt(expression.substring(i + 1, digit_end2 + 1));
-
-          var difference = left - right;
-          expression = (expression.substring(0, digit_start1)) + difference + (expression.substring(digit_end2 + 1, ));
+      else if (expression[i] == '-' && i > 0) {
+          expression = performOperation('-', expression, i);
           i = -1;
         }
       }
-  }
 
     return expression;
 
