@@ -62,16 +62,13 @@ const ForumCard = (props) => {
             let index = likedBy.indexOf(userState.user.username);
             likedBy.splice(index, 1);
         }
-            let length = likedBy.length - 1;
-            const changes = {
-                nLikes: length,
-                likedBy: likedBy
-            }
+        let length = likedBy.length;
+        const changes = {
+            nLikes: length,
+            likedBy: []
+        }
         setNLikes(length);
-       // }
-        //const changes = {
-        //   nLikes: 10
-        //}
+
         await ApiCall.patch('/forumPosts/' + postIdselected, changes)
         .then(res => console.log(res.data))
         .catch(e => (console.log(e)))
