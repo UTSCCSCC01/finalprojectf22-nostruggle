@@ -9,11 +9,11 @@ const DashboardUpdates = () => {
     const [ items, setItems ] = useState([])
 
     const getItems = () => {
-        ApiCall.get(`/notification?userId=${userState.user._id}`)
+        ApiCall.get(`/notification?all=true&userId=${userState.user._id}`)
         .then( res => {
             if (res.status === 200) {
                 const updates = res.data
-                setItems(formatMessages(updates.filter((n => n.type === 'answer')).slice(0,5)))
+                setItems(formatMessages(updates.slice(0,5)))
             }
         })
     }

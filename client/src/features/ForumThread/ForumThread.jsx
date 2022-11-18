@@ -56,8 +56,15 @@ function ForumThread(){
             
             console.log("add new answer to database");
             setAnswerField("");
-        
-            sendNotification('answer', postId, title, userState.user.username, '633efb4f2a80931f65551bdd')
+            ApiCall.get(`users/username/${created_by}`)
+            .then( res => {
+                if (res.status === 200){
+                    const author = res.data[0]
+                    if (author._id !== userState.user._id) {
+                        sendNotification('answer', postId, title, userState.user.username, author._id)
+                    }
+                }
+            })
         })
         .catch(e => {console.log(e)
             setContentFilled(false);

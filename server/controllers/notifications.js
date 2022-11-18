@@ -14,7 +14,7 @@ export const newNotification = async (req, res) => {
     try {
         const userId = req.query.userId
         let notifications
-        if (req.query.read) {
+        if (req.query.read && !req.query.all) {
             notifications = await Notification.find({ toUserId: userId, read: req.query.read })
         } else {
             notifications = await Notification.find({ toUserId: userId })
