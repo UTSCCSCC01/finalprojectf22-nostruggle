@@ -7,10 +7,11 @@ export const createPost = async (req, res) => {
     const postTags = req.body.tags;
     const postCreatedAt = req.body.createdAt;
     const postNLikes = req.body.nLikes;
+    const postLikedBy = req.body.likedBy;
 
     const newPost = new Post(({title: postTitle, content:postContent, 
     created_by: postCreated_by, tags:postTags, createdAt: postCreatedAt,
-     nLikes:postNLikes}));
+     nLikes:postNLikes, likedBy: postLikedBy}));
 
      try {
         await newPost.save();

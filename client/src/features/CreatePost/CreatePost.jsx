@@ -26,7 +26,8 @@ function CreatePost(){
         created_by: userState.user.username,
         tags: "",
         created_At: Date.now,
-        nLikes: 0
+        nLikes: 0,
+        likedBy: []
     });
     console.log(userState.user.username);
     const handleClick = (props) => {
