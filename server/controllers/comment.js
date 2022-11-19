@@ -18,3 +18,13 @@ export const postComment = async(req, res) => {
     }
 
 }
+
+export const getComments = async(req, res) => {
+    
+    try{
+        const comments = await Comment.find({comment_of: req.params.answerId});
+        res.status(201).json(comments);
+    } catch(e){
+        res.status(409).json({message: e.message});
+    }
+}

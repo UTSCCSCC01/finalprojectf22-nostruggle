@@ -17,8 +17,8 @@ const ForumCard = (props) => {
     const postIdselected = props.postId;
     const created_by = props.created_by;
     let likedBy = props.likedBy
-    console.log("props.likedbylength" + props.likedBy.length);
-    console.log("liked by" + likedBy);
+   // console.log("props.likedbylength" + props.likedBy.length);
+    //console.log("liked by" + likedBy);
 
     const {userState, setUserState} = useUserState();
 

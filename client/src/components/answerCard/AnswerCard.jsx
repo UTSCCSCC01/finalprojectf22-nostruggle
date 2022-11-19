@@ -5,6 +5,9 @@ import ApiCall from '../api/ApiCall';
 import { useUserState } from '../../features/SignUp/UserContext';
 import { useState } from 'react';
 import { sendNotification } from '../../features/Notifications/utils';
+import CommentCard from '../CommentCard/CommentCard';
+import { useEffect } from 'react';
+
 const AnswerCard = (props) =>{
     const navigate = useNavigate()
     const hideReply = props.hideReply;
@@ -19,17 +22,21 @@ const AnswerCard = (props) =>{
     const created_At = props.created_At;
     const date = created_At.split("T")[0];
     const [commentData, setCommentData] = useState({
-        content: "default",
+        content: "",
         created_by:  userState.user.username,
         nLikes: 0,
         created_At: Date.now,
         comment_of: ansId
     })
+    const [comments, setComments] = useState([]);
 
     const onCommentSubmit = async() => {
         console.log(commentData);
         await ApiCall.post('/comment/post', commentData)
-        .then(res => console.log(res.data))
+        .then(res => {
+            console.log(res.data);
+            getComments()
+        })
         .catch(e => {
             console.log(e)
             setCommentError(true);   
@@ -61,6 +68,21 @@ const AnswerCard = (props) =>{
         setCommentContent(event.target.value);
         setCommentData(previousState => {return {...previousState, content: event.target.value}})
     }
+
+    const getComments = async() => {
+        await ApiCall.get('/comment/get/' + ansId)
+        .then(res => {
+            console.log(res.data)
+            setComments(res.data)
+        })
+        .catch(e => {
+            console.log(e)
+        })
+    }
+
+    useEffect(() => {
+        getComments();
+    }, []);
 
     return( 
         
@@ -118,6 +140,10 @@ const AnswerCard = (props) =>{
             
             <AccordionDetails>
                 <h5>Comment Section</h5>
+
+                {comments.map((item) => <CommentCard content={item.content}
+                created_by={item.created_by} created_At={item.created_At}/>)}
+
                 <TextField
                 id="content" 
                 label="Add a new comment" 
