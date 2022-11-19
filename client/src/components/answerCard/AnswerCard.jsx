@@ -22,7 +22,7 @@ const AnswerCard = (props) =>{
     const created_At = props.created_At;
     const date = created_At.split("T")[0];
     const [commentData, setCommentData] = useState({
-        content: "default",
+        content: "",
         created_by:  userState.user.username,
         nLikes: 0,
         created_At: Date.now,
@@ -33,7 +33,10 @@ const AnswerCard = (props) =>{
     const onCommentSubmit = async() => {
         console.log(commentData);
         await ApiCall.post('/comment/post', commentData)
-        .then(res => console.log(res.data))
+        .then(res => {
+            console.log(res.data);
+            getComments()
+        })
         .catch(e => {
             console.log(e)
             setCommentError(true);   
