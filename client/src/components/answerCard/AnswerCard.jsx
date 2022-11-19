@@ -25,6 +25,7 @@ const AnswerCard = (props) =>{
         created_At: Date.now,
         comment_of: ansId
     })
+    const [comments, setComments] = useState({});
 
     const onCommentSubmit = async() => {
         console.log(commentData);
@@ -60,6 +61,17 @@ const AnswerCard = (props) =>{
         console.log(event.target.value);
         setCommentContent(event.target.value);
         setCommentData(previousState => {return {...previousState, content: event.target.value}})
+    }
+
+    const getComments = async() => {
+        await ApiCall.get('/get/' + ansId)
+        .then(res => {
+            console.log(res.data)
+            setComments(res.data)
+        })
+        .catch(e => {
+            console.log(e)
+        })
     }
 
     return( 
@@ -118,6 +130,9 @@ const AnswerCard = (props) =>{
             
             <AccordionDetails>
                 <h5>Comment Section</h5>
+
+                {}
+
                 <TextField
                 id="content" 
                 label="Add a new comment" 
