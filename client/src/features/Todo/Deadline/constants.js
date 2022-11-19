@@ -33,14 +33,6 @@ export const taskSorting = [
 export const taskFilter = [
 
     {
-        title: 'Has deadline',
-        fn: (tasks) => {
-            const filtered = tasks.filter(task => task.deadline)
-            console.log(filtered)
-            return filtered;
-        }
-    },
-    {
         title: 'Sort by deadline',
         fn: (tasks) => {
             tasks.sort((task1, task2) =>  new Date(task1.deadline) - new Date(task2.deadline))
