@@ -1,19 +1,16 @@
 import Container from '@mui/material/Container';
-import ApiCall from '../../components/api/ApiCall';
-import ListPlain from '../../components/lists/ListPlain';
-import ForumCard from '../../components/forumCard/ForumCard';
+import ApiCall from '../../../components/api/ApiCall';
+import ListPlain from '../../../components/lists/ListPlain';
+import ForumCard from '../../../components/forumCard/ForumCard';
 import {useState} from 'react';
 import { useEffect } from 'react';
-import ForumThread from '../ForumThread/ForumThread';
+import ForumThread from '../../ForumThread/ForumThread';
 import { Button } from "@mui/material";
-import CreatePost from "../CreatePost/CreatePost"
 import { useNavigate } from "react-router-dom";
 
-function Forum(){
+function DashboardForum(){
 
     const [data, setData] = useState([]);
-    const {clicked, setClicked} = false;
-    const [newPost, setNewPost] = useState(false);
     const navigate = useNavigate();
 
 
@@ -43,12 +40,6 @@ function Forum(){
         getForumPost();
     }, []);
 
-    const createNewPost = () => {
-        console.log("create a new post");
-        setNewPost(true);
-        navigate('/createPost');
-        return(<CreatePost/>)
-    }
    /* const getForumPost = async () => {
         await ApiCall.get('/forumPosts/get')
         .then(res => {
@@ -69,13 +60,11 @@ function Forum(){
     return(
         
 
-        <Container >
-            <h2>NoStruggle Browsing</h2>
-            <Button onClick={createNewPost}>Create a new Post</Button>
-            {data.map((item) => <ForumCard title={item.title} content={item.content} tag={item.tags}
-             date={item.created_At} nLikes={item.nLikes} postId={item._id} created_by={item.created_by}
+        <>
+            {data.slice(0,5).map((item) => <ForumCard title={item.title} tag={item.tags}
+             date={""} nLikes={item.nLikes} postId={item._id} created_by={item.created_by}
              likedBy={item.likedBy}/>)}
-        </Container>
+        </>
         
     )
 
@@ -84,4 +73,4 @@ function Forum(){
 
 }
 
-export default Forum;
+export default DashboardForum;
