@@ -133,42 +133,12 @@ const Profile = () => {
                 user &&
                 <div>                 
                     <Grid container justifyContent={'space-between'} spacing={2}>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <Card className='ProfileCard'>
                                 <Typography variant='h3' sx={{ wordBreak: "break-all" }}>
                                     {username}'s Profile'
                                 </Typography>
                                 <Avatar sx={{minHeight: 200, minWidth: 200, margin: 'auto'}}/>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Card sx={{minHeight: 200}} className='ProfileCard'>
-                                <Typography variant='h4' sx={{ wordBreak: "break-all" }}>
-                                    About {username}
-                                </Typography>
-                                {
-                                    aboutMe.edit ?
-                                        <div>
-                                            <TextField sx={{ width: '100%'}} inputRef={newAboutMeRef} defaultValue={aboutMe.content} />
-                                            <Button onClick={() => setAboutMe({...aboutMe, edit: false})}>Cancel</Button>
-                                            <Button onClick={saveAboutMe}>Save</Button>
-                                        </div>
-                                    : <Typography variant='subtitle1' marginTop={3}>
-                                        {aboutMe.content ? aboutMe.content : <em>No 'About Me' for {username} has been set</em>}
-                                        { userState.user.username === username && <Button onClick={() => setAboutMe({...aboutMe, edit: true})}><Edit size="small" /></Button> }
-                                    </Typography>
-                                }
-                                
-                            </Card>
-                        </Grid>
-                        <Grid item xs={4}>
-                            <Card className='ProfileCard'>
-                                <Typography variant="h4">{username}'s Stats</Typography>
-                                <Typography variant='subtitle1'>
-                                    { statistics.map((stat) => (
-                                        <li>{stat}</li>
-                                    ))}
-                                </Typography>
                             </Card>
                         </Grid>
                         <Grid item xs={6}>
@@ -183,6 +153,41 @@ const Profile = () => {
                                 }        
                             </Card>
                                     
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} >
+                                    <Card sx={{minHeight: 200}} className='ProfileCard'>
+                                        <Typography variant='h4' sx={{ wordBreak: "break-all" }}>
+                                            About {username}
+                                        </Typography>
+                                        {
+                                            aboutMe.edit ?
+                                                <div>
+                                                    <TextField sx={{ width: '100%'}} inputRef={newAboutMeRef} defaultValue={aboutMe.content} />
+                                                    <Button onClick={() => setAboutMe({...aboutMe, edit: false})}>Cancel</Button>
+                                                    <Button onClick={saveAboutMe}>Save</Button>
+                                                </div>
+                                            : <Typography variant='subtitle1' marginTop={3}>
+                                                {aboutMe.content ? aboutMe.content : <em>No 'About Me' for {username} has been set</em>}
+                                                { userState.user.username === username && <Button onClick={() => setAboutMe({...aboutMe, edit: true})}><Edit size="small" /></Button> }
+                                            </Typography>
+                                        }
+                                        
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={12} >
+
+                                    <Card className='ProfileCard'>
+                                        <Typography variant="h4">{username}'s Stats</Typography>
+                                        <Typography variant='subtitle1'>
+                                            { statistics.map((stat) => (
+                                                <li>{stat}</li>
+                                            ))}
+                                        </Typography>
+                                    </Card>
+                                </Grid>
+                            </Grid>
                         </Grid>
                         <Grid item xs={6}>
                             <Card className='ProfileCard'>
