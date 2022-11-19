@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Card, CardHeader, TextField, InputLabel, Typography, Button, IconButton } from "@mui/material"
 import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
 import FactorMultipleIcon from "./FactorMultipleIcon"
-import { DragIndicator } from "@mui/icons-material"
+import { DragIndicator, Remove } from "@mui/icons-material"
 import './FactorMultiple.css'
 const FactorMultiple = ({ iconVariant }) => {
     const [ open, toggleOpen ] = useState(false)
@@ -62,7 +62,10 @@ const FactorMultiple = ({ iconVariant }) => {
             { open &&
                 <ToolBarDraggableWrapper handle='#factorMultipleHandle'>
                     <Card className='FactorMultiple'>
-                        <Button id='factorMultipleHandle'><DragIndicator color=''/></Button>
+                        <Button id='factorMultipleHandle'>
+                            <DragIndicator color=''/>
+                        </Button>
+                        <IconButton sx={{position: 'absolute', right: 10, top: 0}} onClick={() => toggleOpen(false)}><Remove/></IconButton>
                         <CardHeader sx={{margin: 'auto', paddingTop: 0 }} title="Factor / Multiples"/>
                         <InputLabel>Find factors of: </InputLabel>
                         <TextField type='number' value={numberToFactor} onChange={(e) => setNumberToFactor(e.target.value)} /> 

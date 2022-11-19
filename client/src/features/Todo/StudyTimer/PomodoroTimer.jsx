@@ -10,12 +10,12 @@ const PomodoroTimer = ({ setIntervalTime, currentTime, currentTimeString, interv
 
     return (
         <div>
-            <div>               
-
-            </div>
-
                 <div style={{ textAlign: 'center', width: '100%' }}>
+                        <div>               
+                            <b>{intervalMode.toUpperCase()} TIME</b>
+                        </div>
                     <div style={{position: 'relative', padding: '0.5rem', border: '1px solid black'}}>
+
                         <span>Countdown until { intervalMode === 'study' ? 'break' : 'study'}</span>
                         <IconButton sx={{position: 'absolute', bottom: hasSetIntervalInputTime ? '60%' : '0', top: '0', right: '0'}} onClick={() => toggleSetIntervalInputTime(!hasSetIntervalInputTime)}
                             children={ !hasSetIntervalInputTime ? <ArrowDropDown/> : <ArrowDropUp/> }
