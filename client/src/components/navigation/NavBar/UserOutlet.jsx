@@ -36,19 +36,21 @@ const UserOutlet = () => {
           user: {},
           signedIn: false
         })
-        navigate('/login')
+        if (location.pathname !== '/logout') {
+          console.log(location.pathname)
+          navigate('/login')
+        } else {
+          console.log("LOGGED OUT")
+        }
+      } else {
+        checkForNotifications()
       }
       setLoad(true)
       
     }
 
     useEffect(() => {
-      if (userState.signedIn) checkForNotifications()
-    }, [userState.signedIn])
-
-    useEffect(() => {
       validateUserAndSignIn()
-      if (userState.signedIn) checkForNotifications()
     }, [location.pathname])
     
     useEffect(() => {

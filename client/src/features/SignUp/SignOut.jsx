@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 import NavBar from "../../components/navigation/NavBar/NavBar"
 import { Button } from "@mui/material"
 import { Link } from "react-router-dom"
+import { ReactComponent as HomeIcon } from '../../assets/icons/home.svg'
+
 const SignOut = () => {
 
     const { userState, setUserState } = useUserState()
@@ -24,7 +26,8 @@ const SignOut = () => {
     }, [userState])
     return (
         <div>
-            SignOut
+            <HomeIcon style={{ margin:"auto"}} width="250px" height="100px"/>
+            <h1>Sign Out</h1>
             { success ?
                 <div>
                     <h2>You have been successfully signed out</h2>
