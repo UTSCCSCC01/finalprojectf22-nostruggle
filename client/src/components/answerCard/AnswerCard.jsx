@@ -19,7 +19,7 @@ const AnswerCard = (props) =>{
     const { userState, setUserState } = useUserState();
     const content = props.content;
     const created_by = props.created_by;
-    const nLikes = props.nLikes;
+    const [nLikes, setNLikes] = useState(props.nLikes);
     const created_At = props.created_At;
     const date = created_At.split("T")[0];
     const likedBy = props.likedBy;
@@ -82,7 +82,33 @@ const AnswerCard = (props) =>{
         })
     }
 
-    const likeAnswer  = () => {
+
+    const likeAnswer = async () => {
+        if(!(likedBy.includes(userState.user.username))){
+            console.log(likedBy.length)
+            likedBy.push(userState.user.username)
+        }
+        else{
+            let index = likedBy.indexOf(userState.user.username);
+            likedBy.splice(index, 1);
+        }
+        let length = likedBy.length;
+        const changes = {
+            nLikes: length,
+            likedBy: likedBy
+        }
+        setNLikes(length);
+
+        await ApiCall.patch('/postThread/' + ansId, changes)
+        .then(res => {
+            getComments();
+            console.log(res.data)
+        })
+        .catch(e => (console.log(e)))
+
+        //setLikedByUser(!likedByUser);
+
+        
 
     }
 

@@ -37,7 +37,9 @@ function ForumThread(){
         nLikes: "0",
         created_At: { type: Date, default: Date.now},
         child_of: postId,
-        comments: []})
+        comments: [],
+        likedBy: []
+    })
 
     const enterContent = (event) => {
         setAnswerField(event.target.value)
