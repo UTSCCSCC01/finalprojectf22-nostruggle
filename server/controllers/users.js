@@ -69,7 +69,7 @@ export const putAboutMe = async (req, res) => {
         const aboutMe = new AboutMe(req.body);
         const prev = await AboutMe.find({username: req.params.username})
         if (prev.length > 0) {
-            await AboutMe.replaceOne({username: req.params.username}, aboutMe)
+            await AboutMe.updateOne({username: req.params.username}, { content: aboutMe.content })
         } else {
             await aboutMe.save()
         }
