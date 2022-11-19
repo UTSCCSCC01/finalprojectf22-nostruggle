@@ -36,7 +36,7 @@ const NavBar = ({ load }) => {
             className: 'NavBarButton'
         }
         return (
-            <Tooltip title={ 'Open ' + page.title } key={ page.title }>
+            <Tooltip title={ 'Open ' + page.title } key={ page.title } placement='left'>
                 <span>
                     {
                         page.path !== '/' ?
