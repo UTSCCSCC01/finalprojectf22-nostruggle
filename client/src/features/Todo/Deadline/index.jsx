@@ -47,24 +47,11 @@ const Scheduler = () => {
             .catch(e => pageDispatch({type: pageActions.ERROR, payload: "There was a problem updating the database"}))
         }
     }
-
-    const closeAddTask = (reload) => {
-        toggleAddTask(false)
-
-        if (reload){
-            fetchTasks()
-        }
-    }
-
-    const isTaskTitleTaken = (title) => {
-        return schedule.userTasks.filter((task) => task.title === title).length !== 0
-    }
     
     const getPage = () =>{
         console.log(schedule)
         return (
             <div className='Scheduler'>
-                <h1>Upcoming Deadlines</h1> 
                 <TodoList 
                     scheduleRef={scheduleRef} 
                     schedule={schedule} tasks={schedule.userTasks}                     
@@ -80,7 +67,7 @@ const Scheduler = () => {
     const fetchTasks = async () => {
         pageDispatch({ type: pageActions.LOADING })
         console.log("fetching tasks")
-        await ApiCall.get(`/tasks?userId=${userState.user._id}`)
+        await ApiCall.get(`/tasks?userId=${userState.user._id}&done=false`)
         .then( res => {
             console.log(res.data)
             const tasks = res.data.filter(task => !task.archived)

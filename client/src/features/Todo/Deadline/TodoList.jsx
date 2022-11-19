@@ -51,9 +51,6 @@ const TodoList = ({ tasks, scheduleRef, schedule, toggleCompletion, deleteTask }
                                     { task.timespent > 0 && <div>{formatTimeSpent(task.timespent)} </div>}
                                 </div>
                             </div>
-                            <div>
-                                <IconButton children={<Delete/>} onClick={() => deleteTask(task)}/>
-                            </div>
                         </Paper>
                         //: null )
                 ))

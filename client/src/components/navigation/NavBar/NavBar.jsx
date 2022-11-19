@@ -97,7 +97,7 @@ const NavBar = ({ load }) => {
                             </Box>
                         </>
                     }
-                    <ToolsBar variant={ openDrawer ? 'text' : 'no-text' }/>
+                    <ToolsBar offset={offset} variant={ openDrawer ? 'text' : 'no-text' }/>
                 </div>
             </Drawer>
             
@@ -107,7 +107,7 @@ const NavBar = ({ load }) => {
             <Box
                 sx={{ 
                 left: offset, 
-                width: 'calc(100vw - ' + offset + 'px)',
+                width: 'calc(100% - ' + offset + 'px)',
                 }}
                 position='relative'>
 
@@ -133,7 +133,7 @@ const NavBar = ({ load }) => {
 
             </Box>
           
-            <div style={{position: 'relative', left: offset, width: 'calc(90vw - ' + offset + 'px)'}} id='main' >
+            <div style={{ paddingLeft: offset  + 100}} id='main' >
                 { load && <Outlet/>}
             </div>
             { userState.signedIn &&
