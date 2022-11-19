@@ -14,7 +14,7 @@ const LinearAlgebraCalculator = ({ iconVariant }) => {
                 open &&
                 <ToolBarDraggableWrapper>
                     <div className='LinearAlgebraBox'>
-                        <MatrixCalculatorUI />
+                        <MatrixCalculatorUI toggleOpen={toggleOpen} />
                     </div>
 
                 </ToolBarDraggableWrapper>

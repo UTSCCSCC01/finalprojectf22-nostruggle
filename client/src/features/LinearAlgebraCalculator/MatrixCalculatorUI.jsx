@@ -1,14 +1,16 @@
 import MatrixCalculator from './MatrixCalculator';
 import './MatrixCalculatorUI.css'
-
-
-const MatrixCalculatorUI = () => {
-
+import { IconButton } from '@mui/material';
+import { Remove } from '@mui/icons-material';
+const MatrixCalculatorUI = ({toggleOpen}) => {
     var mc = new MatrixCalculator();
 
     return ( 
     <>
+        <IconButton sx={{position: "absolute", right: 10 }} children={<Remove/>}  onClick={() => toggleOpen(false)}/>
+
         <div id="upper">
+
             <div id="matrix1" class="parent">
                 <h1 className="title">Matrix A</h1>
                 <input className="m1r1" type="text" defaultValue ="0"/>
@@ -47,7 +49,7 @@ const MatrixCalculatorUI = () => {
         </div>
         <br/>
         <div id="lower">
-            <textarea wrap="soft" rows="10" cols="20" id="console" disabled></textarea>
+            <textarea wrap="soft" rows="10" cols="30" id="console" disabled></textarea>
         </div>
     </>
     )
