@@ -104,7 +104,6 @@ const Scheduler = () => {
             {
                 getPage()
             }
-            { schedule.page }
         </div>
     )
 }
