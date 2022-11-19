@@ -1,4 +1,4 @@
-import { Card, Typography, CardContent, Accordion, AccordionSummary, AccordionDetails, TextField, Button } from '@mui/material';
+import { Card, Typography, CardContent, Accordion, AccordionSummary, AccordionDetails, TextField, Button, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 import ApiCall from '../api/ApiCall';
@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { sendNotification } from '../../features/Notifications/utils';
 import CommentCard from '../CommentCard/CommentCard';
 import { useEffect } from 'react';
+import { ThumbUp } from '@mui/icons-material';
 
 const AnswerCard = (props) =>{
     const navigate = useNavigate()
@@ -21,6 +22,7 @@ const AnswerCard = (props) =>{
     const nLikes = props.nLikes;
     const created_At = props.created_At;
     const date = created_At.split("T")[0];
+    const likedBy = props.likedBy;
     const [commentData, setCommentData] = useState({
         content: "",
         created_by:  userState.user.username,
@@ -80,6 +82,10 @@ const AnswerCard = (props) =>{
         })
     }
 
+    const likeAnswer  = () => {
+
+    }
+
     useEffect(() => {
         getComments();
     }, []);
@@ -96,7 +102,7 @@ const AnswerCard = (props) =>{
                     {created_by}
                 </Typography>
                 <Typography>
-                    Num Likes:{nLikes}
+                    Num Likes:{likedBy.length}
                 </Typography>
                 <Typography>
                     {date}
@@ -127,6 +133,9 @@ const AnswerCard = (props) =>{
                     <Typography>
                         {date}
                     </Typography>
+                    <IconButton>
+                        <ThumbUp color={likedBy.includes(userState.user.username) ? "primary" : "default"} onClick={likeAnswer}/>
+                    </IconButton>
                 </CardContent>
                 {
                     props.goToPost &&
