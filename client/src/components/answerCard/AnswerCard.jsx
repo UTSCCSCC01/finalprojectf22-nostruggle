@@ -1,4 +1,4 @@
-import { Card, Typography, CardContent, Accordion, AccordionSummary, AccordionDetails, TextField, Button } from '@mui/material';
+import { Card, Typography, CardContent, Accordion, AccordionSummary, AccordionDetails, TextField, Button, IconButton } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from 'react-router-dom';
 import ApiCall from '../api/ApiCall';
@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { sendNotification } from '../../features/Notifications/utils';
 import CommentCard from '../CommentCard/CommentCard';
 import { useEffect } from 'react';
+import { ThumbUp } from '@mui/icons-material';
 
 const AnswerCard = (props) =>{
     const navigate = useNavigate()
@@ -18,9 +19,10 @@ const AnswerCard = (props) =>{
     const { userState, setUserState } = useUserState();
     const content = props.content;
     const created_by = props.created_by;
-    const nLikes = props.nLikes;
+    const [nLikes, setNLikes] = useState(props.nLikes);
     const created_At = props.created_At;
     const date = created_At.split("T")[0];
+    const likedBy = props.likedBy;
     const [commentData, setCommentData] = useState({
         content: "",
         created_by:  userState.user.username,
@@ -80,6 +82,36 @@ const AnswerCard = (props) =>{
         })
     }
 
+
+    const likeAnswer = async () => {
+        if(!(likedBy.includes(userState.user.username))){
+            console.log(likedBy.length)
+            likedBy.push(userState.user.username)
+        }
+        else{
+            let index = likedBy.indexOf(userState.user.username);
+            likedBy.splice(index, 1);
+        }
+        let length = likedBy.length;
+        const changes = {
+            nLikes: length,
+            likedBy: likedBy
+        }
+        setNLikes(length);
+
+        await ApiCall.patch('/postThread/patch/' + ansId, changes)
+        .then(res => {
+            getComments();
+            console.log(res.data)
+        })
+        .catch(e => (console.log(e)))
+
+        //setLikedByUser(!likedByUser);
+
+        
+
+    }
+
     useEffect(() => {
         getComments();
     }, []);
@@ -96,7 +128,7 @@ const AnswerCard = (props) =>{
                     {created_by}
                 </Typography>
                 <Typography>
-                    Num Likes:{nLikes}
+                    Num Likes:{likedBy.length}
                 </Typography>
                 <Typography>
                     {date}
@@ -127,6 +159,9 @@ const AnswerCard = (props) =>{
                     <Typography>
                         {date}
                     </Typography>
+                    <IconButton>
+                        <ThumbUp color={likedBy.includes(userState.user.username) ? "primary" : "default"} onClick={likeAnswer}/>
+                    </IconButton>
                 </CardContent>
                 {
                     props.goToPost &&

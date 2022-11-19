@@ -6,7 +6,8 @@ const answerSchema = mongoose.Schema({
     nLikes: {type: Number},
     created_At: { type: Date, default: Date.now},
     child_of: {type: String, required: true},
-    comments: {type: [String]}
+    comments: {type: [String]},
+    likedBy: {type: [String], required: true}
 });
 
 const Answer = mongoose.model('Answer', answerSchema);

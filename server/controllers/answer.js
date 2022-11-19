@@ -86,3 +86,13 @@ export const postComment = async(req, res) => {
     }
 
 }
+
+export const patchAnswer = async (req, res) => {
+    try{
+        await Answer.updateMany({_id: req.params.answerId}, {...req.body});
+        res.status(200).json({});
+    }
+    catch(e){
+        res.status(409).json({message: e.message})
+    }
+}

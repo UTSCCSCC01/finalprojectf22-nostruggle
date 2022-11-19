@@ -37,7 +37,9 @@ function ForumThread(){
         nLikes: "0",
         created_At: { type: Date, default: Date.now},
         child_of: postId,
-        comments: []})
+        comments: [],
+        likedBy: []
+    })
 
     const enterContent = (event) => {
         setAnswerField(event.target.value)
@@ -154,7 +156,7 @@ function ForumThread(){
 
 
         <p>{answers.map((item) => <AnswerCard child_of={postIdData} content={item.content} created_by={item.created_by} nLikes={item.nLikes} 
-        created_At={item.created_At} ansId={item._id}/>)}</p>
+        created_At={item.created_At} ansId={item._id} likedBy={item.likedBy}/>)}</p>
         </div>
 
        

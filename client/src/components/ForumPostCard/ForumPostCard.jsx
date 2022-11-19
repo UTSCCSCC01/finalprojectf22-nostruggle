@@ -19,6 +19,7 @@ const ForumPostCard = (props) =>{
     const created_by = props.created_by;
     const updatedAt = props.updatedAt ? props.updatedAt.slice(0, 10) : undefined
     const postIdselected = props.postId;
+    
 
     const forumCardSettingsRef = useRef();
     const navigate = useNavigate();
