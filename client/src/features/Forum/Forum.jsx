@@ -73,7 +73,8 @@ function Forum(){
             <h2>NoStruggle Browsing</h2>
             <Button onClick={createNewPost}>Create a new Post</Button>
             {data.map((item) => <ForumCard title={item.title} content={item.content} tag={item.tags}
-             date={item.created_At} nLikes={item.nLikes} postId={item._id} created_by={item.created_by}/>)}
+             date={item.created_At} nLikes={item.nLikes} postId={item._id} created_by={item.created_by}
+             likedBy={item.likedBy}/>)}
         </Container>
         
     )
