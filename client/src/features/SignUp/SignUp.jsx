@@ -7,6 +7,7 @@ import UsernameField from '../../components/fields/UsernameField';
 import PasswordField from '../../components/fields/PasswordField';
 
 import { useUserState } from './UserContext';
+import { ReactComponent as HomeIcon } from '../../assets/icons/home.svg'
 
 const SignUp = () => {
     const navigate = useNavigate()
@@ -96,9 +97,10 @@ const SignUp = () => {
     }, [])
 
     return (
-        <>
-            <p>Your username is { user.username } and password is { user.password }</p>
+        <div style={{ maxWidth: 400, margin: 'auto', display: 'flex', flexDirection: 'column'}}>
+            <HomeIcon style={{ margin:"auto"}} width="250px" height="100px"/>
 
+            <h2>Sign In</h2>
             <Autocomplete
             freeSolo
             options={[]}
@@ -108,16 +110,19 @@ const SignUp = () => {
             />
             
             <Autocomplete
+            sx={{ marginTop: '10px'}}
             freeSolo
             options={[]}
             renderInput={ (params) => <PasswordField innerRef={ params } errMsg={ errMsg } /> }
             value={ user.password || '' }
             onInput={ enterPassword }
             />
+            <div>
+                <Button onClick={ signIn }>Sign In</Button>
+                <Button onClick={ signUp }>Sign Up</Button>
+            </div>
             
-            <Button onClick={ signIn }>Sign In</Button>
-            <Button onClick={ signUp }>Sign Up</Button>
-        </>
+        </div>
     )
 }
 

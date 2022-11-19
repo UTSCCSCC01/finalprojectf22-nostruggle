@@ -11,7 +11,7 @@ const StudyTimerIcon = ({ onClick, time, open, iconVariant }) => {
     }
 
     return (
-        <div className='StudyTimerIcon'>
+        <div className='StudyTimerIcon' sx={{ display: 'flex', flexDirection: 'column'}}>
             {
                 iconVariant === 'text' ?
                 <ToolsBarButton style={{
