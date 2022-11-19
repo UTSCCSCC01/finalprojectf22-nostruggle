@@ -1,8 +1,8 @@
 import StudyTimer from '../../../features/Todo/StudyTimer/StudyTimer';
-import AlgebraCalculator from '../../../features/AlgebraCalculator/AlgebraCalculator';
-import DerivativeCalculator from '../../../features/DerivativeCalculator/DerivativeCalculator';
+import AlgebraCalculator from '../../../features/AlgebraCalculator/AlgebraCalculator.jsx';
+import DerivativeCalculator from '../../../features/DerivativeCalculator/DerivativeCalculator.jsx';
 import LinearAlgebraCalculator from '../../../features/LinearAlgebraCalculator/LinearAlgebraCalculator';
-import IntegralCalculator from '../../../features/IntegralCalculator/IntegralCalculator';
+import IntegralCalculator from '../../../features/IntegralCalculator/IntegralCalculator.jsx';
 import FactorMultiple from '../../../features/FactorMultiple/FactorMultiple';
 
 import './ToolBar.css';

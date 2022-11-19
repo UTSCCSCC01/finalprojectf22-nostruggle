@@ -9,10 +9,6 @@ export const useNavBarSignedInPages = () => {
             title: "FORUM"
         },
         {
-            path: '/discover',
-            title: "DISCOVER"
-        },
-        {
             path: '/todo',
             title: "TODOLIST"
         },

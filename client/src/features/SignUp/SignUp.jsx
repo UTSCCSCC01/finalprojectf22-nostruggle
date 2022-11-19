@@ -19,7 +19,7 @@ const SignUp = () => {
         if (!user.username || !user.password) return 
         clearErrMsg();
         if (event) event.preventDefault();
-        console.log('trying: ' + process.env.REACT_APP_SERVER_URL + '/users/get/' + user.username + '/' + user.password)
+        console.log('trying: '+ '/users/get/' + user.username + '/' + user.password)
 
         await ApiCall.get(`/users/get/${user.username}/${user.password}`)
         .then(res => {
