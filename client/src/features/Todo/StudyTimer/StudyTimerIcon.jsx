@@ -27,7 +27,7 @@ const StudyTimerIcon = ({ onClick, time, open, iconVariant }) => {
                 onClick={ (e) => handleClick(e) }
                 children={ <Timer sx={{ width: '20px', height: '20px' , color: open ? theme.button_active : theme.button_inactive }}/> } />
             }
-            <span style={{ fontWeight: 700, position: 'relative'}}>{time}</span>
+            <span style={{ fontWeight: 700, position: 'relative', marginBottom: '-10px'}}>{time}</span>
         </div>
     )
 }
