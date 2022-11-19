@@ -23,6 +23,7 @@ function ForumThread(){
     const [created_by, setCreatedBy] = useState("");
     const [updatedAt, setUpdatedAt] = useState("");
 
+    const [likedBy, setLikedBy] = useState([]);
     const [answers, setAnswers] = useState([]);
 
     //const [answerData, setAnswerDat]
@@ -85,6 +86,8 @@ function ForumThread(){
         setUpdatedAt(postData.updated);
         console.log("date is " + postData.created_At);
         console.log("title is" + postData.title);
+        setLikedBy(postData.likedBy);
+        console.log("likedby value is" + likedBy);
     }
 
     const getAnswers = async () => {
@@ -130,7 +133,8 @@ function ForumThread(){
         <div>
          
         <ForumPostCard refresh={getPostById} editor={created_by === userState.user.username} title={title} content={content} tag={tag} date={date} nLikes={nLikes} 
-        created_by={created_by} updatedAt={updatedAt} postIdData={postIdData}/>
+        created_by={created_by} updatedAt={updatedAt} postId={postIdData} likedBy={likedBy} getPostById={getPostById}
+        getAnswers={getAnswers} setLikedBy={setLikedBy}/>
          
        
         <TextField
