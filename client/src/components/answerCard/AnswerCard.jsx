@@ -99,7 +99,7 @@ const AnswerCard = (props) =>{
         }
         setNLikes(length);
 
-        await ApiCall.patch('/postThread/' + ansId, changes)
+        await ApiCall.patch('/postThread/patch/' + ansId, changes)
         .then(res => {
             getComments();
             console.log(res.data)
