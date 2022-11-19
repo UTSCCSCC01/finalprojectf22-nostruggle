@@ -5,6 +5,9 @@ import ApiCall from '../api/ApiCall';
 import { useUserState } from '../../features/SignUp/UserContext';
 import { useState } from 'react';
 import { sendNotification } from '../../features/Notifications/utils';
+import CommentCard from '../CommentCard/CommentCard';
+import { useEffect } from 'react';
+
 const AnswerCard = (props) =>{
     const navigate = useNavigate()
     const hideReply = props.hideReply;
@@ -25,7 +28,7 @@ const AnswerCard = (props) =>{
         created_At: Date.now,
         comment_of: ansId
     })
-    const [comments, setComments] = useState({});
+    const [comments, setComments] = useState([]);
 
     const onCommentSubmit = async() => {
         console.log(commentData);
@@ -64,7 +67,7 @@ const AnswerCard = (props) =>{
     }
 
     const getComments = async() => {
-        await ApiCall.get('/get/' + ansId)
+        await ApiCall.get('/comment/get/' + ansId)
         .then(res => {
             console.log(res.data)
             setComments(res.data)
@@ -73,6 +76,10 @@ const AnswerCard = (props) =>{
             console.log(e)
         })
     }
+
+    useEffect(() => {
+        getComments();
+    }, []);
 
     return( 
         
@@ -131,7 +138,8 @@ const AnswerCard = (props) =>{
             <AccordionDetails>
                 <h5>Comment Section</h5>
 
-                {}
+                {comments.map((item) => <CommentCard content={item.content}
+                created_by={item.created_by} created_At={item.created_At}/>)}
 
                 <TextField
                 id="content" 
