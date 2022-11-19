@@ -21,7 +21,7 @@ const StudyTimerSummary = () => {
 
     const getDailySummaryToday = () => {
         toggleWaiting(true)
-        ApiCall.get(`${process.env.REACT_APP_SERVER_URL}/tasks/daily?userId=${userState.user._id}`)
+        ApiCall.get(`/tasks/daily?userId=${userState.user._id}`)
         .then( async res => {
             if (res.status === 200){
                 const userTasks = await ApiCall.get(`${process.env.REACT_APP_SERVER_URL}/tasks?userId=${userState.user._id}`)
@@ -55,7 +55,7 @@ const StudyTimerSummary = () => {
         toggleWaiting(true)
         setSummaryDate(date)
         const specifiedDate = new Date(date)
-        ApiCall.get(`${process.env.REACT_APP_SERVER_URL}/tasks/daily/date?userId=${userState.user._id}&date=${specifiedDate.getTime()}`)
+        ApiCall.get(`/tasks/daily/date?userId=${userState.user._id}&date=${specifiedDate.getTime()}`)
         .then( async res => {
             if (res.status === 200){
                 const userTasks = await ApiCall.get(`${process.env.REACT_APP_SERVER_URL}/tasks?userId=${userState.user._id}`)
