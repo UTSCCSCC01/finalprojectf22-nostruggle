@@ -56,12 +56,12 @@ const NavBar = ({ load }) => {
         const sidebar = document.getElementById('sidebar');
         setOffset(sidebar === null ? 58 : sidebar.offsetWidth );
         const drawerToggle = document.getElementById('drawer-toggle');
-        if (sidebar === null && drawerToggle === null) {
+        if ((sidebar === null && drawerToggle === null) || !userState.signedIn) {
             setOffset(0);
         } else {
             setOffset(sidebar === null ? drawerToggle.offsetWidth : Math.max(drawerToggle.offsetWidth, drawerToggle === null ? sidebar.offsetWidth : 0));
         }
-    }, [openDrawer]);
+    }, [openDrawer, userState.signedIn]);
 
     
     const onViewAllNotifications = () => {
@@ -74,7 +74,7 @@ const NavBar = ({ load }) => {
             <Drawer 
             variant='persistent' 
             anchor='left' 
-            open={ true } >
+            open={ userState.signedIn } >
                 <div id='sidebar'>
                     <div id='drawer-toggle'>
                         <IconButton onClick={ () => {
@@ -92,7 +92,7 @@ const NavBar = ({ load }) => {
                         openDrawer &&
                         <>
                             <Box sx={{ display: 'inline-flex', flexDirection: 'column', height: 'max-content', top: '-10px'}}>
-                            { navBarSignedInPages.map((page) => showPage(page)) }
+                            {  navBarSignedInPages.map((page) => showPage(page)) }
                             <Divider sx={{ margin: '4px'}}/>
                             </Box>
                         </>
@@ -100,41 +100,49 @@ const NavBar = ({ load }) => {
                     <ToolsBar variant={ openDrawer ? 'text' : 'no-text' }/>
                 </div>
             </Drawer>
+            
+        
 
+            
             <Box
-            sx={{ 
+                sx={{ 
                 left: offset, 
-                width: 'calc(100% - ' + offset + 'px)',
+                width: 'calc(100vw - ' + offset + 'px)',
                 }}
                 position='relative'>
 
-                <Toolbar className='top-bar' sx={{ backgroundColor: '#82A8B5', display: 'flex', flexDirection: 'row', justifyContent:'flex-end'}}>
-                    <Tooltip title='Notifications'>
-                        <IconButton onClick={ () => setOpenNotifications(!openNotifications)} sx={{ margin: '4px'}}>
-                            <Notifications sx={{color: userState.hasNewNotifications ? 'yellow' : '', fontSize: 35 }}/>
-                        </IconButton>
-                    </Tooltip>
+                <Toolbar className='top-bar' sx={{ backgroundColor: '#82A8B5', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+                {
+                    userState.signedIn &&
+                    <>
+                        <Tooltip title='Notifications'>
+                            <IconButton onClick={ () => setOpenNotifications(!openNotifications)} sx={{ margin: '4px'}}>
+                                <Notifications sx={{color: userState.hasNewNotifications ? 'yellow' : '', fontSize: 35 }}/>
+                            </IconButton>
+                        </Tooltip>
 
-                    <Tooltip title='Click to Open Menu'>
-                        <IconButton onClick={ () => toggleOpenMenu(!openMenu) } sx={{ margin: '4px'}}>
-                            <Avatar sx={{ width: '50px', height: '50px'}} /*alt='put alt text' src='../../assets/images/???'*//>
-                        </IconButton>
-                    </Tooltip>
-                    
+                        <Tooltip title='Click to Open Menu'>
+                            <IconButton onClick={ () => toggleOpenMenu(!openMenu) } sx={{ margin: '4px'}}>
+                                <Avatar sx={{ width: '50px', height: '50px'}} /*alt='put alt text' src='../../assets/images/???'*//>
+                            </IconButton>
+                        </Tooltip>
+                    </>
+                    }
                 </Toolbar>
 
 
-                <div id='main' >
-                    { load && <Outlet/>}
-                </div>
             </Box>
+          
+            <div style={{position: 'relative', left: offset, width: 'calc(90vw - ' + offset + 'px)'}} id='main' >
+                { load && <Outlet/>}
+            </div>
             { userState.signedIn &&
                 <Drawer sx={{ width: openNotifications ? 200 : 0 }} className='NotificationsDrawer' variant='persistent' anchor='right' open={ openNotifications } >
                     <NotificationSideBar onViewAll={onViewAllNotifications}/>
                 </Drawer>
             }
 
-            { openMenu && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Feed', 'Sign Out' ]} path={{ 'Profile': `/profile/${userState.user.username}`, 'Feed': '/inbox', 'Sign Out': '/logout' }}/> }
+            { openMenu && userState.signedIn && <ListMenu className='UserMenu' type='link' items={[ 'Profile', 'Feed', 'Sign Out' ]} path={{ 'Profile': `/profile/${userState.user.username}`, 'Feed': '/inbox', 'Sign Out': '/logout' }}/> }
         </>
     )
 }
