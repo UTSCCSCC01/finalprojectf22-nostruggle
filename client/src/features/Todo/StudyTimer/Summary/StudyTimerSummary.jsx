@@ -24,7 +24,7 @@ const StudyTimerSummary = () => {
         ApiCall.get(`/tasks/daily?userId=${userState.user._id}`)
         .then( async res => {
             if (res.status === 200){
-                const userTasks = await ApiCall.get(`${process.env.REACT_APP_SERVER_URL}/tasks?userId=${userState.user._id}`)
+                const userTasks = await ApiCall.get(`/tasks?userId=${userState.user._id}`)
                 const summaryTasksInfo = res.data.map((task) => {
                     const matchingUserTask = userTasks.data.find((userTask) => userTask._id === task.taskId)
                     return {
@@ -58,7 +58,7 @@ const StudyTimerSummary = () => {
         ApiCall.get(`/tasks/daily/date?userId=${userState.user._id}&date=${specifiedDate.getTime()}`)
         .then( async res => {
             if (res.status === 200){
-                const userTasks = await ApiCall.get(`${process.env.REACT_APP_SERVER_URL}/tasks?userId=${userState.user._id}`)
+                const userTasks = await ApiCall.get(`/tasks?userId=${userState.user._id}`)
                 const summaryTasksInfo = res.data.map((task) => {
                     const matchingUserTask = userTasks.data.find((userTask) => userTask._id === task.taskId)
                     return {

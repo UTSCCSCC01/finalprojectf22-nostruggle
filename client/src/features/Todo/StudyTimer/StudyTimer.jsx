@@ -262,7 +262,7 @@ const StudyTimer = (props) => {
         }
         console.log(studyTimer.time)
         const secondsSinceLastSave = studyTimer.time.newSavedSeconds
-        ApiCall.patch(process.env.REACT_APP_SERVER_URL + '/tasks', data)
+        ApiCall.patch('/tasks', data)
         .then(() => {
             console.log("success saving time")
             setIsSavingTime(false)
@@ -273,7 +273,7 @@ const StudyTimer = (props) => {
         })
 
         dispatch({ type: 'save' }) 
-        ApiCall.post(`${process.env.REACT_APP_SERVER_URL}/tasks/daily?userId=${userState.user._id}&taskId=${studyTimer.todo._id}&timespent=${secondsSinceLastSave}`)
+        ApiCall.post(`/tasks/daily?userId=${userState.user._id}&taskId=${studyTimer.todo._id}&timespent=${secondsSinceLastSave}`)
         .then(() => {
             console.log("success saving daily time")
             setIsSavingTime(false)
