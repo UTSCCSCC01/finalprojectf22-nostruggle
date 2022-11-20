@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
+import Calculator from '../../components/calculator/Calculator';
+import { AlgebraButtons } from './AlgebraButtons';
 import AlgebraIcon from "./AlgebraIcon"
 
 const AlgebraCalculator = ({ iconVariant }) => {
@@ -9,9 +10,7 @@ const AlgebraCalculator = ({ iconVariant }) => {
         <>
             {
                 open &&
-                <ToolBarDraggableWrapper>
-                    <span></span>
-                </ToolBarDraggableWrapper>
+                <Calculator buttons={ AlgebraButtons } />
             }
             <AlgebraIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>

@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
+import Calculator from '../../components/calculator/Calculator';
+import { IntegralButtons } from './IntegralButtons';
 import IntegralIcon from "./IntegralIcon"
 
 const IntegralCalculator = ({ iconVariant }) => {
@@ -9,9 +10,7 @@ const IntegralCalculator = ({ iconVariant }) => {
         <>
             {
                 open &&
-                <ToolBarDraggableWrapper>
-                    <span></span>
-                </ToolBarDraggableWrapper>
+                <Calculator calculatorType='integrate' buttons={ IntegralButtons } />
             }
             <IntegralIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>

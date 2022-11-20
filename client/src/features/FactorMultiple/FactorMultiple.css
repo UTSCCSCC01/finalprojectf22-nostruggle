@@ -7,6 +7,7 @@
     display: flex;
     flex-flow: column wrap;
     align-items: stretch;
+    z-index: 1800;
 }
 
 .multipleTitle > * {
