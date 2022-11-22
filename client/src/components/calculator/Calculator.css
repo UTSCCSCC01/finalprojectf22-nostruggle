@@ -3,70 +3,131 @@
     src: url('../../katex/fonts/KaTeX_Main-Regular.ttf');
 }
 
+@font-face {
+    font-family: 'MathFont2';
+    src: url('../../katex/fonts/KaTeX_Caligraphic-Regular.ttf');
+}
+
 div.calculator-box {
     position: fixed;
+    left: 70px;
+    height: 600px;
+    width: 440px;
+    min-width: 410px;
     margin: 20px;
     padding: 8px;
-    border: 2px solid black;
+    border: 2px solid #90b0c2;
     border-radius: 10px;
-    left: 70px;
-    background-color: white;
-    height: 500px;
-    width: 410px;
+    background-color: #eeeff9;
+    box-shadow: 0 10px 16px 0 rgba(4, 76, 107, 0.2),0 6px 20px 0 rgba(4, 76, 107, 0.19) !important;
     z-index: 1800;
 }
 
-div.calculator-inputs input {
-    outline: none !important;
-    border: 1px solid lightgray !important;
-    border-radius: 2px !important;
-}
-
 div.calculator-inputs {
-    display: flex;
-    justify-content: flex-start;
-    position: fixed;
-    margin: 8px;
-    height: 60px;
-    width: 390px;
-    border: 2px solid lightskyblue;
-    border-radius: 4px;
-    overflow-x: scroll;
+    position: relative;
+    height: 190px;
+    width: calc(100% - 40px);
+    margin: 20px;
+    background-color: white;
+    border: 1px solid #90b0c2;
+    border-radius: 8px;
 }
 
 div.calculator-buttons {
     position: relative;
-    top: 100px;
+    height: 100px;
+    width: calc(100% - 40px);
+    margin: 20px;
 }
 
-div.vertical-align {
-    display: inline-flex;
-    height: inherit;
-    justify-content: space-between;
+div.calculator-inputs  span {
+    cursor: text;
+}
+
+div.problem {
+    display: flex;
+    justify-content: flex-start;
+    margin: 8px 8px;
+    height: 90px;
+    width: 390px;
+    overflow-x: scroll;
+    align-items: center;
+}
+
+div.problem * {
+    font-family: MathFont !important;
+    
+}
+
+div.problem button {
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+
+div.problem button:hover {
+    color: turquoise;
+}
+
+div.problem button.active {
+    color: red;
+}
+
+div.problem .medium-math-symbol *{
+    font-size: 28px;
+    font-family: 'MathFont2' !important;
+    margin: 0px 1px;
+}
+
+.user-input {
+    display: flex;
+    position: fixed;
+    height: 60px;
+    width: max-content;
+    right: 30px;
+    bottom: 400px;
+    margin: 8px;
+    border-radius: 4px;
+    justify-content: flex-start;
+}
+
+.user-input > button {
+    top: 25px;
+}
+
+div.user-buttons {
+    display: flex;
     flex-direction: column;
-    margin-right: 6px;
 }
 
-input.default-field, span.default-field {
+.user-input-container {
+    height: 125px;
+    width: max-content;
+    max-width: 280px;
+    padding: 2px 10px;
+    overflow-x: scroll;
+}
+
+.user-input-container input {
+    border-radius: 4px;
+}
+
+.default-field {
     font-family: 'MathFont';
-    font-size: 20px;
+    font-size: 22px;
     padding: 4px;
 }
 
-input.superscript-field, span.superscript-field {
+.superscript-field {
     font-family: 'MathFont';
-    font-size: 12px;
+    font-size: 16px;
     top: 0px;
 }
 
-input.subscript-field, span.subscript-field {
+.subscript-field {
     font-family: 'MathFont';
-    font-size: 12px;
+    font-size: 16px;
     bottom: 0px;
-}
-
-.calculator-button-icon {
-    font-size: 40px;
 }
 
 span.large-math-symbol {
@@ -79,18 +140,4 @@ span.medium-math-symbol {
     font-size: 18px;
     margin-top: auto;
     margin-bottom: auto;
-}
-
-span.always-display-input {
-    position: fixed;
-    top: 300px;
-    font-size: 18px;
-}
-
-span#error-message {
-    font-family: 'MathFont';
-    font-size: 18px;
-    position: fixed;
-    top: 300px;
-    color: red;
 }

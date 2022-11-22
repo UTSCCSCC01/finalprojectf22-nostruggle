@@ -1,0 +1,96 @@
+@font-face {
+    font-family: 'MathFont';
+    src: url('../../katex/fonts/KaTeX_Main-Regular.ttf');
+}
+
+div.calculator-box {
+    position: fixed;
+    margin: 20px;
+    padding: 8px;
+    border: 2px solid black;
+    border-radius: 10px;
+    left: 70px;
+    background-color: white;
+    height: 500px;
+    width: 410px;
+    z-index: 1800;
+}
+
+div.calculator-inputs input {
+    outline: none !important;
+    border: 1px solid lightgray !important;
+    border-radius: 2px !important;
+}
+
+div.calculator-inputs {
+    display: flex;
+    justify-content: flex-start;
+    position: fixed;
+    margin: 8px;
+    height: 60px;
+    width: 390px;
+    border: 2px solid lightskyblue;
+    border-radius: 4px;
+    overflow-x: scroll;
+}
+
+div.calculator-buttons {
+    position: relative;
+    top: 100px;
+}
+
+div.vertical-align {
+    display: inline-flex;
+    height: inherit;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-right: 6px;
+}
+
+input.default-field, span.default-field {
+    font-family: 'MathFont';
+    font-size: 20px;
+    padding: 4px;
+}
+
+input.superscript-field, span.superscript-field {
+    font-family: 'MathFont';
+    font-size: 12px;
+    top: 0px;
+}
+
+input.subscript-field, span.subscript-field {
+    font-family: 'MathFont';
+    font-size: 12px;
+    bottom: 0px;
+}
+
+.calculator-button-icon {
+    font-size: 40px;
+}
+
+span.large-math-symbol {
+    font-size: 34px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+span.medium-math-symbol {
+    font-size: 18px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+span.always-display-input {
+    position: fixed;
+    top: 300px;
+    font-size: 18px;
+}
+
+span#error-message {
+    font-family: 'MathFont';
+    font-size: 18px;
+    position: fixed;
+    top: 300px;
+    color: red;
+}

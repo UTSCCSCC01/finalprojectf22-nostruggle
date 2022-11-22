@@ -1,23 +1,38 @@
 import { Grid , IconButton } from '@mui/material';
+import GreenButton from '../buttons/GreenButton';
+import KaTeXButton from '../buttons/KaTeXButton';
+import RedButton from '../buttons/RedButton';
 
-const ButtonPad = ({ addInput, buttons }) => {
+const ButtonPad = ({ handleClick, buttons }) => {
     
     const buttonsJsx = [];
 
-    const numCol = buttons.length <= 7 ? buttons.length : buttons.length % 2 === 0 ? buttons.length/2 : (buttons.length + 1)/2;
+    buttonsJsx.push(<RedButton onClick={ (e) => {
+        e.currentTarget.blur();
+        handleClick('CLEAR');
+    }}> CLEAR</RedButton>)
+
+    buttonsJsx.push(<GreenButton onClick={ (e) => {
+        e.currentTarget.blur();
+        handleClick('GO');
+    }}>GO</GreenButton>)
+
+    const numCol = 5;
         
     for (let i = 0; i < buttons.length; i += numCol) {
         buttonsJsx.push(
             <Grid container
-            justifyContent="center"
+            justifyContent='center'
             key={ i }>
-                { buttons.filter((value, index) => index > i && index <= i + numCol).map((button, index) => (
-                    <IconButton 
+                { buttons.filter((value, index) => index >= i && index < i + numCol).map((button, index) => (
+                    <KaTeXButton 
                     key={ index }
-                    sx={{ boxShadow: 1, borderRadius: 2 }}
-                    onClick={ () => addInput(button.action) }>
-                        { button.icon }
-                    </IconButton>
+                    handleClick={ (e) => {
+                        e.currentTarget.blur();
+                        handleClick(button.action)
+                    }}
+                    tex={`${ button.tex }`}
+                    />
                 ))}
             </Grid>
         )

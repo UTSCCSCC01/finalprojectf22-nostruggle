@@ -8,7 +8,7 @@ const ToolBarDraggableWrapper = ({children, handle}) => {
   return (
     <Draggable 
     handle={handle} 
-    bounds={{ left: userState.shift ? 200 : 10}} 
+    bounds={{ left: userState.shift ? 200 : 10 }} 
     defaultPosition={{x: userState.shift ? 300 : 100, y: 0}} >
         {children}
     </Draggable>

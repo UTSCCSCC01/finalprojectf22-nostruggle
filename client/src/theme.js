@@ -4,6 +4,9 @@ var theme = {
     primary_fgcolor: '#2E8890',
     primary_bgcolor: '#bfd9d8',
     primary_fontfamily: 'Bahnschrift',
+    
+    border_color: '#90b0c2',
+    shadow_color: 'rgba(4, 76, 107, 0.2)',
 
     button_active: '#2E8890',
     button_inactive: '#7796a1',
