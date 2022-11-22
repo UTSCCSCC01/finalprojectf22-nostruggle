@@ -1,4 +1,5 @@
 import User from '../models/user.model.js';
+import AboutMe from '../models/aboutme.model.js';
 
 export const getUser = async (req, res) => {
     try {
@@ -43,3 +44,37 @@ export const postUser = async (req, res) => {
         res.status(409).json({ message: e.message });
     };
 };
+
+export const getUserByUsername = async (req, res) => {
+    try {
+        const user = await User.find({ username: req.params.username });
+        res.status(200).json(user);
+    
+    } catch (e) {
+        res.status(404).json({ message: e.message });
+    }
+}
+
+export const getAboutMe = async (req, res) => {
+    try {
+        const aboutMe = await AboutMe.find({ username: req.params.username });
+        res.status(200).json(aboutMe);
+    } catch (e) {
+        res.status(404).json({ message: e.message });
+    }
+}
+
+export const putAboutMe = async (req, res) => {
+    try {
+        const aboutMe = new AboutMe(req.body);
+        const prev = await AboutMe.find({username: req.params.username})
+        if (prev.length > 0) {
+            await AboutMe.updateOne({username: req.params.username}, { content: aboutMe.content })
+        } else {
+            await aboutMe.save()
+        }
+        res.status(200).json(aboutMe);
+    } catch (e) {
+        res.status(404).json({ message: e.message });
+    }
+}

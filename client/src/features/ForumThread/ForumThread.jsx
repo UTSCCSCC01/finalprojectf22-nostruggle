@@ -6,7 +6,7 @@ import { useUserState } from '../SignUp/UserContext';
 import { useParams } from 'react-router-dom';
 import ForumPostCard from '../../components/ForumPostCard/ForumPostCard';
 import AnswerCard from '../../components/answerCard/AnswerCard';
-
+import { sendNotification } from '../Notifications/utils'
 function ForumThread(){
 
     const {postId} = useParams();
@@ -23,6 +23,7 @@ function ForumThread(){
     const [created_by, setCreatedBy] = useState("");
     const [updatedAt, setUpdatedAt] = useState("");
 
+    const [likedBy, setLikedBy] = useState([]);
     const [answers, setAnswers] = useState([]);
 
     //const [answerData, setAnswerDat]
@@ -36,7 +37,9 @@ function ForumThread(){
         nLikes: "0",
         created_At: { type: Date, default: Date.now},
         child_of: postId,
-        comments: []})
+        comments: [],
+        likedBy: []
+    })
 
     const enterContent = (event) => {
         setAnswerField(event.target.value)
@@ -51,15 +54,27 @@ function ForumThread(){
 
         await ApiCall.post('answers/post', answerData)
         .then(res => {
+            
             console.log(res.data); 
+            
             console.log("add new answer to database");
             setAnswerField("");
+            ApiCall.get(`users/username/${created_by}`)
+            .then( res => {
+                if (res.status === 200){
+                    const author = res.data[0]
+                    if (author._id !== userState.user._id) {
+                        sendNotification('answer', postId, title, userState.user.username, author._id)
+                    }
+                }
+            })
         })
         .catch(e => {console.log(e)
             setContentFilled(false);
-        
+            
         })
         getAnswers();
+        setAnswerData(previousState => { return {...previousState, content: ''}})
     }
 
     const setPostInfo = () =>{
@@ -73,6 +88,8 @@ function ForumThread(){
         setUpdatedAt(postData.updated);
         console.log("date is " + postData.created_At);
         console.log("title is" + postData.title);
+        setLikedBy(postData.likedBy);
+        console.log("likedby value is" + likedBy);
     }
 
     const getAnswers = async () => {
@@ -118,7 +135,8 @@ function ForumThread(){
         <div>
          
         <ForumPostCard refresh={getPostById} editor={created_by === userState.user.username} title={title} content={content} tag={tag} date={date} nLikes={nLikes} 
-        created_by={created_by} updatedAt={updatedAt} postIdData={postIdData}/>
+        created_by={created_by} updatedAt={updatedAt} postId={postIdData} likedBy={likedBy} getPostById={getPostById}
+        getAnswers={getAnswers} setLikedBy={setLikedBy}/>
          
        
         <TextField
@@ -137,8 +155,8 @@ function ForumThread(){
         <Button onClick={submitAnswer} >Post Answer</Button>
 
 
-        <p>{answers.map((item) => <AnswerCard content={item.content} created_by={item.created_by} nLikes={item.nLikes} 
-        created_At={item.created_At} />)}</p>
+        <p>{answers.map((item) => <AnswerCard child_of={postIdData} content={item.content} created_by={item.created_by} nLikes={item.nLikes} 
+        created_At={item.created_At} ansId={item._id} likedBy={item.likedBy}/>)}</p>
         </div>
 
        

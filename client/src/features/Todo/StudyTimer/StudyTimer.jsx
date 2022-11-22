@@ -2,7 +2,7 @@ import { Button, Card, Box, Autocomplete, TextField, IconButton, breadcrumbsClas
 import { PlayCircleOutline, PauseCircleOutline, Remove } from '@mui/icons-material'
 import { useState, useReducer, useEffect, useCallback, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-import ToolBarDraggableWrapper from '../../ToolsBar/ToolBarDraggableWrapper';
+import ToolBarDraggableWrapper from '../../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
 import Timer from './Timer'
 import Stopwatch from './Stopwatch'
 import PomodoroTimer from './PomodoroTimer'
@@ -262,7 +262,7 @@ const StudyTimer = (props) => {
         }
         console.log(studyTimer.time)
         const secondsSinceLastSave = studyTimer.time.newSavedSeconds
-        ApiCall.patch(process.env.REACT_APP_SERVER_URL + '/tasks', data)
+        ApiCall.patch('/tasks', data)
         .then(() => {
             console.log("success saving time")
             setIsSavingTime(false)
@@ -273,7 +273,7 @@ const StudyTimer = (props) => {
         })
 
         dispatch({ type: 'save' }) 
-        ApiCall.post(`${process.env.REACT_APP_SERVER_URL}/tasks/daily?userId=${userState.user._id}&taskId=${studyTimer.todo._id}&timespent=${secondsSinceLastSave}`)
+        ApiCall.post(`/tasks/daily?userId=${userState.user._id}&taskId=${studyTimer.todo._id}&timespent=${secondsSinceLastSave}`)
         .then(() => {
             console.log("success saving daily time")
             setIsSavingTime(false)
@@ -394,7 +394,7 @@ const StudyTimer = (props) => {
                 </ToolBarDraggableWrapper>
             </>
             }
-            <StudyTimerIcon open={open} onClick={() => toggleOpen(!open)} time={studyTimer.time.seconds > 0 ? studyTimer.time.string : ''}/>
+            <StudyTimerIcon iconVariant={props.iconVariant} open={open} onClick={() => toggleOpen(!open)} time={studyTimer.time.seconds > 0 ? studyTimer.time.string : ''}/>
         </>    
     )
 }

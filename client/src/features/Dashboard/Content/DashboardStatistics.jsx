@@ -10,7 +10,7 @@ const DashboardStatistics = () => {
 
     const getForumStats = async () => {
         let forumStats = []
-        await ApiCall.get('/forumPosts/get')
+        await ApiCall.get(`/forumPosts/get?created_by=${userState.user.username}`)
         .then( res => {
             console.log(res)
             if (res.data){

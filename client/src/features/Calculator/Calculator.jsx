@@ -1,123 +1,262 @@
 import './Calculator.css';
-import { Grid , IconButton, Button } from '@mui/material';
-import { useEffect, useState } from 'react'
-import { ButtonPad } from './ButtonPad';
-import WrapContentField from '../../components/forms/WrapContentField';
+import { Button } from '@mui/material';
+import { useState, useRef, useEffect } from 'react'
+import ButtonPad from './ButtonPad';
 import { resizeInput } from './WrapContent';
-import ToolBarDraggableWrapper from '../ToolsBar/ToolBarDraggableWrapper';
+import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
 import CalculatorIcon from './CalculatorIcon';
+import katex from 'katex';
 
 const Calculator = () => {
-    
-    const MIN_SIZE = 18;
-    
-    const [ open, toggleOpen ] = useState(false)
-    const [ inputs, setInputs ] = useState([]);
-    const [ remainingSize, setRemainingSize ] = useState(384);
-    
-    const checkBackspace = (e, i) => {
-        if (e.key === 'Backspace'){
-            console.log(inputs[i])
-            if (inputs[i].isEmpty) { // if input has no text, remove the input from the inputs array
-                console.log("Removing " + i)
-                setInputs(inputs.filter((input, j) => i !== j ))
-                return
-            } 
-        }
-        checkForEmptyInput(i)
-    }
 
-    useEffect(() => {
-        let remaining = 376;
-        const collection = document.querySelectorAll('div.CalculatorInputField > input:not(.FixedField)');
-        for (let index = 0; index < collection.length; index++) {
-            console.log("FOUND AN INPUT WITH WIDTH " + collection[index].offsetWidth);
-            remaining -= collection[index].offsetWidth;
-        }
-        const element = document.querySelector('div.CalculatorInputField > input.FixedField');
-        const min = element == null || remainingSize <= MIN_SIZE ? remainingSize : resizeInput(element.value, 'FixedField');
-        setRemainingSize(remaining < min ? min : remaining );
-        console.log("new remaining size is " + remainingSize);
-    }, [inputs, remainingSize]);
+    const [ open, toggleOpen ] = useState(true);
+    const [ inputs, setInputs ] = useState([{
+        inputType: 'default',
+        inputValue: '',
+        isEmpty: true,
+        inputFields: [{ type: 'default-field', value: '' }]
+    }]);
+    const [ lastFocusIndex, setLastFocusIndex ] = useState(0);
 
+    useEffect( () => {
+        console.log(inputs)
+    }, [inputs])
 
-    const onInput = (event, i) => {
-        const inputSelectionIndex = event.target.selectionStart // checks where in the input the user typed at
-        console.log(inputSelectionIndex)
-        // check if the event is typing text
-        if ( remainingSize > MIN_SIZE && event.inputType === 'insertText'){
-            setInputs(inputs.map((input, index) => index !== i ? input : {...input, inputValue: input.inputValue.slice(0, inputSelectionIndex - 1) + event.data + input.inputValue.slice(inputSelectionIndex - 1)})) // append event.data (the char inputted) to inputValue
-        } else if (event.inputType === 'deleteContentBackward' || event.inputType === 'deleteContentForward'){
-            if (inputs[i].inputValue.length > 0){ // if the input has text, remove the char at the selected index
-                let newValue = inputs[i].inputValue.slice(0, inputSelectionIndex) + inputs[i].inputValue.slice(inputSelectionIndex + 1)
-                setInputs(inputs.map((input, index) => index !== i ? input : {...input, inputValue: newValue}))
+    const KaTeXComponent = (props) => {
+        const containerRef = useRef();
+    
+        useEffect(() => {
+            try {
+                katex.render(props.tex, containerRef.current, {
+                    throwOnError: true
+                });
+                document.getElementById('error-message').innerHTML = '';
+            } catch (e) {
+                if (e instanceof katex.ParseError) {
+                    console.log(e);
+                    // KaTeX can't parse the expression
+                    const msg = ("Error in LaTeX '" + props.tex + "': " + e.message)
+                        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    
+                    console.log(msg);
+                    document.getElementById('error-message').innerHTML = 'waiting for input...';
+
+                } else {
+                    throw e;  // other error
+                }
             }
-        }
+        }, [props]);
+    
+        return <span className={ props.className } ref={ containerRef } />
     }
 
-    const checkForEmptyInput = (i) => {
-        console.log(`Checking empty at ${i}`)
-        setInputs(inputs.map((input, index) => ({...input, isEmpty: input.inputValue.length === 0}))) 
-    }
-    
-    const addInputField = (type, index) => {
-        let inputFields = [];
-        switch (type) {
-            case 'cos': case 'log': case 'sin': case 'tan':
-                inputFields = [{ type: 'DefaultField', inputValue: '', affix: [type + '(', ')'], isEmpty: true }];
-                break;
+    const addInput = (action) => {
+        var inputFields;
+
+        switch (action) {
             case 'integrate':
-                inputFields = [{ type: 'DefaultField', inputValue: '', affix: ['integrate(', ''], isEmpty: true }, { type: 'SubScript', inputValue: '', affix: [',', ''], isEmpty: true }, { type: 'SuperScript', affix: [',', ')'], inputValue: '' }];
+                inputFields = [
+                    { type: 'large-math-symbol', value: '\\int' },
+                    { type: 'superscript-field', value: '' },
+                    { type: 'subscript-field', value: '' },
+                    { type: 'default-field', value: '' },
+                    { type: 'medium-math-symbol', value: 'dx' }
+                ];
                 break;
             case 'exponent':
-                inputFields = [{ type: 'DefaultField', inputValue: '', affix: ['exponent(', ''], isEmpty: true }, { type: 'SuperScript', inputValue: '', affix: [',', ')'], isEmpty: true }];
+                inputFields = [
+                    { type: 'default-field', value: '' },
+                    { type: 'superscript-field', value: '' }
+                ];
                 break;
             default:
-                inputFields = [{ type: 'DefaultField', inputValue: '', affix: ['', ''], isEmpty: true }];
+                inputFields = [
+                    { type: 'default-field', value: '' }
+                ];
                 break;
         }
-        setInputs(inputs.slice(0,index).concat(inputFields).concat(inputs.slice(index)));
+
+        const newInput = [{
+            inputType: action,
+            inputValue: '',
+            isEmpty: true,
+            inputFields: inputFields
+        }];
+        const index = lastFocusIndex > 0 && lastFocusIndex < inputs.length ? lastFocusIndex : 0;
+        setInputs(inputs.slice(0,index).concat(newInput).concat(inputs.slice(index)));
     }
 
-    const getEndOfInput = () => {
-        for (let index = 0; index < inputs.length; index++) {
-            const element = inputs[index].inputValue;
-            if (element === '') {
-                return index;
+    const onInput = (event, inputIndex, fieldIndex) => {
+        if (inputIndex < 0 || inputIndex >= inputs.length || fieldIndex < 0 || fieldIndex >= inputs[inputIndex].inputFields.length) {
+            return;
+        }
+
+        setLastFocusIndex(inputIndex);
+        const inputSelectionIndex = event.target.selectionStart;
+
+        if (event.inputType === 'insertText') {
+            const oldValue = inputs[inputIndex].inputFields[fieldIndex].value;
+            const newValue = oldValue.slice(0, inputSelectionIndex - 1) + event.data + oldValue.slice(inputSelectionIndex);
+            
+            setInputs(inputs.map((input, i) => (
+                i === inputIndex ?
+                { ...input,
+                    isEmpty: false,
+                    inputFields: input.inputFields.map((field, j) => (
+                        j === fieldIndex ?
+                        { ...field, value: newValue }
+                        : { ...field }
+                    ))}
+                : { ...input }
+            )));
+        } else if (event.inputType === 'deleteContentBackward' || event.inputType === 'deleteContentForward') {
+            if (inputs[inputIndex].inputFields[fieldIndex].value !== null && inputs[inputIndex].inputFields[fieldIndex].value.length > 0) {
+                const oldValue = inputs[inputIndex].inputFields[fieldIndex].value;
+                const newValue = oldValue.slice(0, inputSelectionIndex) + oldValue.slice(inputSelectionIndex + 1);
+                
+                setInputs(inputs.map((input, i) => (
+                    i === inputIndex ? 
+                    { ...input,
+                        inputFields: (input.inputFields.map((field, j) => (
+                            j === fieldIndex ? 
+                            { ...field, value: newValue }
+                            : { ...field }
+                        )))}
+                    : { ...input }
+                )));
             }
         }
-        return inputs.length;
     }
 
-    const getFormattedInput = (item) => {
-        switch (item.type) {
-            case 'SuperScript':
-                return item.inputValue.length === 0 ? item.inputValue : '^' + item.inputValue;
-            case 'SubScript':
-                return item.inputValue.length === 0 ? item.inputValue : '_' + item.inputValue;
+    const checkBackspace = (event, inputIndex) => {
+        if (inputIndex < 0 || inputIndex >= inputs.length) {
+            return;
+        }
+        
+        if (event.key === 'Backspace') {
+            if (inputs[inputIndex].isEmpty) {
+                setInputs(inputs.filter((input, i) => i !== inputIndex));
+                return;
+            }
+        } 
+
+        setInputs(inputs.map((input, i) => (
+            i === inputIndex ? 
+            { ...input, 
+                inputValue: inputToTex(inputIndex),
+                isEmpty: checkForEmptyInput(inputIndex)
+            }
+            : { ...input }
+        )));
+    }
+    
+    const checkForEmptyInput = (inputIndex) => {
+        if (inputIndex < 0 || inputIndex >= inputs.length) {
+            return;
+        }
+        
+        for (let i = 0; i < inputs[inputIndex].inputFields.length; i++) {
+            const field = inputs[inputIndex].inputFields[i];
+
+            if (!field.type.includes('math-symbol') && field.value.length > 0) {
+                return false
+            }
+        }
+        return true
+    }
+
+    const displayInput = (fields, i) => {
+        const inputJsx = [];
+
+        for (let j = 0; j < fields.length; j++) {
+            const field = fields[j];
+
+            if (field.type.includes('math-symbol')) {
+                inputJsx.push(
+                    <KaTeXComponent className={ field.type } tex={ field.value } />
+                )
+            } else if (field.type === 'default-field') {
+                inputJsx.push(
+                    <input
+                    className={ field.type }
+                    style={{ width: resizeInput(field.value, field.type)}}
+                    value={ field.value }
+                    onChange={(e) => onInput(e.nativeEvent, i, j)}
+                    onKeyUp={(e) => checkBackspace(e, i)}
+                    />
+                );
+            } else {
+                const verticalInputsJsx = [];
+
+                while (j < fields.length && fields[j].type !== 'default-field') {
+                    const index = j;
+                    verticalInputsJsx.push(
+                        <input
+                        className={ fields[index].type }
+                        style={{ width: resizeInput(fields[index].value, fields[index].type)}}
+                        value={ fields[index].value }
+                        onChange={(e) => onInput(e.nativeEvent, i, index)}
+                        onKeyUp={(e) => checkBackspace(e, i)}
+                        />
+                    )
+                    j++;
+                }
+                j--;
+
+                inputJsx.push(
+                    <div 
+                    className='vertical-align' 
+                    style={{ width: Math.max( ...fields.map((field) => (
+                        field.type !== 'default-field' && !field.type.includes('math-symbol') ? parseInt(resizeInput(field.value, field.type)) : 9
+                    )), 0)}}>
+                        { verticalInputsJsx }
+                    </div>
+                )
+            }
+        }
+
+        return <>{ inputJsx }</>
+    }
+
+    const inputToTex = (inputIndex) => {
+        switch (inputs[inputIndex].inputType) {
+            case 'integrate':
+                const fields = inputs[inputIndex].inputFields.map((field) => field.value);
+                return `\\int^{${fields[1]}}_{${fields[2]}}{${fields[3]}}dx`;
             default:
-                return item.inputValue;
+                break;
+        }
+        const str = inputs[inputIndex].inputFields.map((field) => {
+            if (field.type.includes('math-symbol')) {
+                return field.value;
+            } else if (field.type) {
+
+            }
+        }).join();
+        
+    }
+    
+    const renderTex = (id, tex) => {
+        const element = document.getElementById(id);
+
+        if (element !== null) {
+            katex.render(tex, element, {
+                throwOnError: false
+            });
         }
     }
 
-    const ButtonPadJsx = [];
-    
-    for (let i = 0; i < ButtonPad.length; i += 7) {
-        ButtonPadJsx.push(
-            <Grid container
-            justifyContent="center">
-                {ButtonPad.filter((value, index) => index > i && index <= i + 7).map((button) => (
-                    <IconButton 
-                    sx={{ boxShadow: 1, borderRadius: 2 }}
-                    onClick={ () => {
-                        if (remainingSize > MIN_SIZE)
-                            addInputField( button.type, getEndOfInput() );
-                    }}>
-                        { button.icon }
-                    </IconButton>
-                ))}
-            </Grid>
-        )
+    const toTex = (str) => {
+        //"\\", "^", "~", '&', '%', '$', '#', '_', '{', '}'
+        const ascii = [ '*' ]
+        const latex = [ 'cdot' ]
+
+        for (let a of ascii) {
+            if (str.includes(a)) {
+                str = str.replace(a, latex[ascii.indexOf(a)]);
+            }
+        }
+        return str
     }
 
     return (
@@ -126,30 +265,27 @@ const Calculator = () => {
                 open &&
                 <ToolBarDraggableWrapper>
 
-                    <div className='CalculatorBox'>
-
-                        <div className='CalculatorInputField' >
+                    <div className='calculator-box'>
+                        <div className='calculator-inputs' >
                             {
-                                inputs.map((input, i) => ( <WrapContentField
-                                type={ input.type }
-                                value={ input.inputValue }
-                                onChangedInput={ (e) => onInput(e.nativeEvent, i) }
-                                onBackspace={ (e) => checkBackspace(e, i) }
-                                />
-                            ))}
-                            {
-                                remainingSize > MIN_SIZE && <input className='FixedField' style={{ width: remainingSize }}/> 
+                                inputs.length > 0 ? inputs.map((input, i) => displayInput(input.inputFields, i))
+                                : setInputs([{
+                                        inputType: 'default',
+                                        inputValue: '',
+                                        isEmpty: true,
+                                        inputFields: [{ type: 'default-field', value: '' }]
+                                    }])
                             }
-                            </div>
-                            
-                            <div className='CalculatorButtonPad'>
-                            <Grid container>
-                                { ButtonPadJsx }
-                            </Grid>
-                            <h3>{inputs.map((input) => getFormattedInput(input)).join("")}</h3>
-                            <p id='ReadThis'>{ inputs.map((input) => ' ' + input.affix[0] + input.inputValue + input.affix[1]).join("")}</p>
-                            <p id='WriteToThis'></p>
                         </div>
+                        
+                        <div className='calculator-buttons'>
+                            <ButtonPad addInput={ addInput } />
+                            {/* <h3>{inputs.map((input) => getFormattedInput(input)).join("")}</h3>
+                            <p id='ReadThis'>{ inputs.map((input) => ' ' + input.affix[0] + input.inputValue + input.affix[1]).join("")}</p>
+                        <p id='WriteToThis'></p> */}
+                        </div>
+                        <KaTeXComponent className={ 'always-display-input' } tex={ inputs.map((input) => '{' + input.inputValue + '}').join().replaceAll(',', '') } />
+                        <span id='error-message' />
                     </div>
                  
                 </ToolBarDraggableWrapper>

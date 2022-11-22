@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import ApiCall from '../../components/api/ApiCall.js';
 
-import UsernameField from '../../components/forms/UsernameField';
-import PasswordField from '../../components/forms/PasswordField';
+import UsernameField from '../../components/fields/UsernameField';
+import PasswordField from '../../components/fields/PasswordField';
 
 import { useUserState } from './UserContext';
+import { ReactComponent as HomeIcon } from '../../assets/icons/home.svg'
 
 const SignUp = () => {
     const navigate = useNavigate()
@@ -19,7 +20,7 @@ const SignUp = () => {
         if (!user.username || !user.password) return 
         clearErrMsg();
         if (event) event.preventDefault();
-        console.log('trying: ' + process.env.REACT_APP_SERVER_URL + '/users/get/' + user.username + '/' + user.password)
+        console.log('trying: '+ '/users/get/' + user.username + '/' + user.password)
 
         await ApiCall.get(`/users/get/${user.username}/${user.password}`)
         .then(res => {
@@ -63,31 +64,43 @@ const SignUp = () => {
     }
 
     const saveUser = (userInfo) => {
+        console.log("saving user")
         localStorage.setItem('nostruggle:username', userInfo.username)
         localStorage.setItem('nostruggle:password', userInfo.password)
         setUserState({
             ...userState,
             user: userInfo,
-            signedIn: true
+            signedIn: true,
+            signedOut: false
         })
     }
 
-    useEffect(() => {
-        console.log(userState.user)
-        if (userState.user.username && userState.user.password){
-            console.log("Saved session")
-            const storedUser = {
-                username: userState.user.username,
-                password: userState.user.password                
-            }
-            setUser(storedUser)
+    const signInFromSession = async () => {
+        const storedUser = {
+            username: localStorage.getItem('nostruggle:username'),
+            password: localStorage.getItem('nostruggle:password')               
         }
-    }, [userState])
+        await ApiCall.get(`/users/get/${storedUser.username}/${storedUser.password}`)
+        .then(res => {
+            if (res.data.length > 0 ){
+                saveUser(res.data[0])
+                navigate('/home')
+             } else {
+                console.log("fail login user DNE")
+             } 
+        })
+        .catch(e => console.log("fail" + e.message))    
+    }
+
+    useEffect(() => {
+        signInFromSession()    
+    }, [])
 
     return (
-        <>
-            <p>Your username is { user.username } and password is { user.password }</p>
+        <div style={{ maxWidth: 400, margin: 'auto', display: 'flex', flexDirection: 'column'}}>
+            <HomeIcon style={{ margin:"auto"}} width="250px" height="100px"/>
 
+            <h2>Sign In</h2>
             <Autocomplete
             freeSolo
             options={[]}
@@ -97,16 +110,19 @@ const SignUp = () => {
             />
             
             <Autocomplete
+            sx={{ marginTop: '10px'}}
             freeSolo
             options={[]}
             renderInput={ (params) => <PasswordField innerRef={ params } errMsg={ errMsg } /> }
             value={ user.password || '' }
             onInput={ enterPassword }
             />
+            <div>
+                <Button onClick={ signIn }>Sign In</Button>
+                <Button onClick={ signUp }>Sign Up</Button>
+            </div>
             
-            <Button onClick={ signIn }>Sign In</Button>
-            <Button onClick={ signUp }>Sign Up</Button>
-        </>
+        </div>
     )
 }
 

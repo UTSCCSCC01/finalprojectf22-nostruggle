@@ -43,22 +43,34 @@ const UserOutlet = () => {
     }
 
     useEffect(() => {
+      if (userState.signedIn) checkForNotifications()
+    }, [userState.signedIn])
+
+    useEffect(() => {
       validateUserAndSignIn()
+      if (userState.signedIn) checkForNotifications()
     }, [location.pathname])
     
     useEffect(() => {
       validateUserAndSignIn()
     }, [])
+
+    const checkForNotifications = async () => {
+      console.log("Checking for notifs")
+      await ApiCall.get(`/notification/new?userId=${userState.user._id}`)
+      .then(res => {
+          if (res.status === 200){
+            console.log(res.data)
+            const hasNotif = res.data.hasNewNotifications
+            console.log("checked for notifications")
+            setUserState({...userState, hasNewNotifications: hasNotif})
+          }
+      })
+    }  
     
     return (
         <UserProvider value={ { userState, setUserState } }>
-            <>
-            <NavBar /> 
-            
-            </>
-            <div style={{ padding: '100px 100px' }}>
-                { load && <Outlet/>}
-            </div>
+            <NavBar load={ load } /> 
         </UserProvider>
     )
 }

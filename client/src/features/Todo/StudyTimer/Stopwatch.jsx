@@ -1,6 +1,6 @@
 const Stopwatch = () => {
   return (
-      <div>Stopwatch</div>
+      <div></div>
   )
 }
 

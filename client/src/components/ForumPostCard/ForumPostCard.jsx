@@ -6,16 +6,20 @@ import EditPost from '../../features/CreatePost/EditPost';
 import { useUserState } from '../../features/SignUp/UserContext';
 import { useNavigate } from 'react-router-dom';
 import ApiCall from '../api/ApiCall';
+import { ThumbUp } from '@mui/icons-material';
+
 const ForumPostCard = (props) =>{
     const title = props.title;
     const content = props.content;
     const tag = props.tag;
     const date = props.date;
-    const nLikes = props.nLikes;
+    const [nLikes, setNLikes] = useState(props.nLikes);
     const updatedDate = date.split("T")[0];
     const postId = props.postIdData;
     const created_by = props.created_by;
     const updatedAt = props.updatedAt ? props.updatedAt.slice(0, 10) : undefined
+    const postIdselected = props.postId;
+    
 
     const forumCardSettingsRef = useRef();
     const navigate = useNavigate();
@@ -23,9 +27,16 @@ const ForumPostCard = (props) =>{
     const [ openEditor, toggleOpenEditor ] = useState(false)
     const [ openEditorMenu, toggleOpenEditorMenu ] = useState(false)
 
-    console.log("date" + date);
+    const {userState, setUserState} = useUserState();
 
-    
+    const getPostById = props.getPostById;
+    const getAnswers = props.getAnswers;
+
+    console.log("date" + date);
+    const likedBy = props.likedBy;
+    console.log('this is the liked by' + likedBy);
+    const [likedByUser, setLikedByUser] = useState(likedBy.includes(userState.user.username));
+
     const onSubmit = () => {
         toggleOpenEditor(false)
         props.refresh()
@@ -44,6 +55,36 @@ const ForumPostCard = (props) =>{
         }
     }
 
+    const likePost = async () => {
+        if(!(likedBy.includes(userState.user.username))){
+            console.log(likedBy.length)
+            likedBy.push(userState.user.username)
+        }
+        else{
+            let index = likedBy.indexOf(userState.user.username);
+            likedBy.splice(index, 1);
+        }
+        let length = likedBy.length;
+        const changes = {
+            nLikes: length,
+            likedBy: likedBy
+        }
+        setNLikes(length);
+
+        await ApiCall.patch('/forumPosts/' + postIdselected, changes)
+        .then(res => {
+            getPostById();
+            getAnswers();
+            console.log(res.data)
+        })
+        .catch(e => (console.log(e)))
+
+        setLikedByUser(!likedByUser);
+
+        
+
+    }
+
     return(
         <Card sx={{mb: 3, display: 'flex', justifyContent: 'space-between'}}>
             <CardContent>
@@ -60,9 +101,13 @@ const ForumPostCard = (props) =>{
                     created by: {created_by}
                 </Typography>
                 <Typography>
-                    nLikes: {nLikes}
+                    nLikes: {likedBy.length}
                 </Typography>
                 <Chip label={tag}></Chip>
+                <IconButton>
+                    <ThumbUp color={likedBy.includes(userState.user.username) ? "primary" : "default"} onClick={likePost}/>
+                </IconButton>
+
             </CardContent>
             <CardContent sx={{display: 'flex', flexFlow: 'column wrap', justifyContent: props.editor ? 'space-between' : 'flex-end', alignItems: 'flex-end'}}>
                 {

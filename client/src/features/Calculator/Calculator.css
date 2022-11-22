@@ -1,4 +1,9 @@
-div.CalculatorBox {
+@font-face {
+    font-family: 'MathFont';
+    src: url('../../katex/fonts/KaTeX_Main-Regular.ttf');
+}
+
+div.calculator-box {
     position: fixed;
     margin: 20px;
     padding: 8px;
@@ -10,48 +15,81 @@ div.CalculatorBox {
 
 }
 
-.CalculatorInputField > input {
+div.calculator-inputs input {
     outline: none !important;
+    border: 1px solid lightgray !important;
+    border-radius: 2px !important;
 }
 
-div.CalculatorInputField {
+div.calculator-inputs {
+    display: flex;
+    justify-content: flex-start;
     position: fixed;
     margin: 8px;
     height: 60px;
-    width: auto;
+    width: 390px;
     border: 2px solid lightskyblue;
     border-radius: 4px;
+    overflow-x: scroll;
 }
 
-div.CalculatorButtonPad {
+div.calculator-buttons {
     position: relative;
     top: 100px;
 }
 
-input.DefaultField, span.DefaultField, input.FixedField, span.FixedField {
-    width: 98%;
-    height: 80%;
+div.vertical-align {
+    display: inline-flex;
+    height: inherit;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-right: 6px;
+}
+
+input.default-field, span.default-field {
+    font-family: 'MathFont';
     font-size: 20px;
     padding: 4px;
-    margin: auto;
 }
 
-input.SuperScript, span.SuperScript {
-    position: relative;
+input.superscript-field, span.superscript-field {
+    font-family: 'MathFont';
     font-size: 12px;
-    padding: 4px;
-    top: -20px;
-    text-align: center;
+    top: 0px;
 }
 
-input.SubScript, span.SubScript {
-    position: relative;
+input.subscript-field, span.subscript-field {
+    font-family: 'MathFont';
     font-size: 12px;
-    padding: 4px;
-    bottom: -14px;
-    text-align: center;
+    bottom: 0px;
 }
 
-.CalculatorButtonIcon {
+.calculator-button-icon {
     font-size: 40px;
+}
+
+span.large-math-symbol {
+    font-size: 34px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+span.medium-math-symbol {
+    font-size: 18px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+span.always-display-input {
+    position: fixed;
+    top: 300px;
+    font-size: 18px;
+}
+
+span#error-message {
+    font-family: 'MathFont';
+    font-size: 18px;
+    position: fixed;
+    top: 300px;
+    color: red;
 }

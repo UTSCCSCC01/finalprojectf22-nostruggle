@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import ToolBarDraggableWrapper from '../ToolsBar/ToolBarDraggableWrapper';
-import LinearAlgebraIcon from './LinearAlgebraIcon'
+import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
+import MatrixIcon from './MatrixIcon'
 import MatrixCalculatorUI from './MatrixCalculatorUI';
 import './MatrixCalculatorUI.css'
 
-const LinearAlgebraCalculator = () => {
+const LinearAlgebraCalculator = ({ iconVariant }) => {
 
     const [ open, toggleOpen ] = useState(false);
 
@@ -14,12 +14,12 @@ const LinearAlgebraCalculator = () => {
                 open &&
                 <ToolBarDraggableWrapper>
                     <div className='LinearAlgebraBox'>
-                        <MatrixCalculatorUI />
+                        <MatrixCalculatorUI toggleOpen={toggleOpen} />
                     </div>
 
                 </ToolBarDraggableWrapper>
             }
-            <LinearAlgebraIcon open={open} onClick={() => toggleOpen(!open)}/>
+            <MatrixIcon iconVariant={ iconVariant }open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 

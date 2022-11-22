@@ -1,5 +1,7 @@
 import Answer from "../models/answer.model.js";
 import Post from "../models/post.model.js";
+import Comment from "../models/comment.model.js";
+
 export const postAnswer = async (req, res) => {
     const ansContent = req.body.content;
     const ansCreated_by = req.body.created_by;
@@ -22,10 +24,25 @@ export const postAnswer = async (req, res) => {
 
 }
 
+
 export const getAnswers = async(req, res) => {
     console.log('this is the parameter ' + req.params.postId);
     try {
         const answers = await Answer.find({child_of: req.params.postId});
+        console.log(answers);
+        console.log("fetch answers");
+        res.status(201).json(answers);
+    } catch(e) {
+        res.status(409).json({message: e.message});
+    }
+    
+}
+
+export const getAnswersQuery = async(req, res) => {
+    console.log('this is the parameter ' + req.params.postId);
+    try {
+        const answers = await Answer.find({...req.query});
+        console.log(answers)
         console.log(answers);
         console.log("fetch answers");
         res.status(201).json(answers);
@@ -48,5 +65,34 @@ export const getPostById = async (req, res) => {
        res.status(201).json(post);
     } catch(e){
        res.status(409).json({message: e.message});
+    }
+}
+
+export const postComment = async(req, res) => {
+    const comContent = req.body.content;
+    const comCreated_by = req.body.created_by;
+    const comNLikes = req.body.nLikes;
+    const comCreated_At = req.body.createdAt;
+    const comComment_of = req.body.comment_of;
+
+    const comment = new Comment(({content: comContent, created_by: comCreated_by,
+    nLikes: comNLikes, createdAt: comCreated_At, comment_of: comComment_of}))
+
+    try{
+        await comment.save();
+        res.status(201).json(comment);
+    } catch(e){
+        res.status(409).json({message: e.message});
+    }
+
+}
+
+export const patchAnswer = async (req, res) => {
+    try{
+        await Answer.updateMany({_id: req.params.answerId}, {...req.body});
+        res.status(200).json({});
+    }
+    catch(e){
+        res.status(409).json({message: e.message})
     }
 }
