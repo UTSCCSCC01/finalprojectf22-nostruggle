@@ -8,6 +8,7 @@ import ForumThread from '../ForumThread/ForumThread';
 import { Button } from "@mui/material";
 import CreatePost from "../CreatePost/CreatePost"
 import { useNavigate } from "react-router-dom";
+import Paginate from "../../components/pagination/Peginate"
 
 function Forum(){
 
@@ -69,13 +70,15 @@ function Forum(){
     return(
         
 
-        <Container >
+        <Container>
             <h2>NoStruggle Browsing</h2>
+            <Pagination count={10} color="primary" />
             <Button onClick={createNewPost}>Create a new Post</Button>
             {data.map((item) => <ForumCard title={item.title} content={item.content} tag={item.tags}
-             date={item.created_At} nLikes={item.nLikes} postId={item._id} created_by={item.created_by}
-             likedBy={item.likedBy}/>)}
+                date={item.created_At} nLikes={item.nLikes} postId={item._id} created_by={item.created_by}
+                likedBy={item.likedBy} />)}
         </Container>
+
         
     )
 
