@@ -6,6 +6,7 @@ import ApiCall from '../../api/ApiCall';
 const UserOutlet = () => {
 
     const [ userState, setUserState ] = useState(contextState)
+    const [ hasNewNotifications, setHasNewNotifications ] = useState(false)
     const [ load, setLoad ] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
@@ -14,7 +15,6 @@ const UserOutlet = () => {
       console.log("validating user")
       const username = localStorage.getItem('nostruggle:username')
       const password = localStorage.getItem('nostruggle:password')
-      let isSuccess = false
       if (username && password){
           console.log("signing in initial " + username + password)
           await ApiCall.get(`/users/get/${username}/${password}`)
@@ -26,11 +26,24 @@ const UserOutlet = () => {
                 user: res.data[0],
                 signedIn: true
               })
-              isSuccess = true
+              console.log("USER SUCCESS")
+            } else {
+              setUserState({
+                ...userState, 
+                user: {},
+                signedIn: false
+              })
+              if (location.pathname !== '/logout') {
+                console.log(location.pathname)
+                navigate('/login')
+              } else {
+                console.log("LOGGED OUT")
+              }
+              console.log("USER FAIL")
             }
+            setLoad(true)
           })
-      } 
-      if (!isSuccess) {
+      } else {
         setUserState({
           ...userState, 
           user: {},
@@ -42,15 +55,14 @@ const UserOutlet = () => {
         } else {
           console.log("LOGGED OUT")
         }
-      } else {
-        checkForNotifications()
-      }
-      setLoad(true)
-      
+        setLoad(true)
+        console.log("no user")
+      }       
     }
 
     useEffect(() => {
       validateUserAndSignIn()
+      if (userState.signedIn && !['/logout', '/login'].includes(location.pathname)) checkForNotifications()
     }, [location.pathname])
     
     useEffect(() => {
@@ -65,14 +77,14 @@ const UserOutlet = () => {
             console.log(res.data)
             const hasNotif = res.data.hasNewNotifications
             console.log("checked for notifications")
-            setUserState({...userState, hasNewNotifications: hasNotif})
+            setHasNewNotifications(hasNotif)
           }
       })
     }  
     
     return (
         <UserProvider value={ { userState, setUserState } }>
-            <NavBar load={ load } /> 
+            <NavBar hasNewNotifications={hasNewNotifications} setHasNewNotifications={setHasNewNotifications} load={ load } /> 
         </UserProvider>
     )
 }
