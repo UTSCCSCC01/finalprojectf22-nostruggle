@@ -17,7 +17,7 @@ import NotificationSideBar from '../../../features/Notifications/NotificationSid
 import { useEffect } from 'react';
 import ApiCall from '../../api/ApiCall';
 
-const NavBar = ({ load }) => {
+const NavBar = ({ load, hasNewNotifications, setHasNewNotifications }) => {
 
     const { userState, setUserState } = useUserState();
     const navBarSignedInPages = useNavBarSignedInPages();
@@ -97,7 +97,7 @@ const NavBar = ({ load }) => {
                             </Box>
                         </>
                     }
-                    <ToolsBar variant={ openDrawer ? 'text' : 'no-text' }/>
+                    <ToolsBar offset={offset} variant={ openDrawer ? 'text' : 'no-text' }/>
                 </div>
             </Drawer>
             
@@ -107,7 +107,7 @@ const NavBar = ({ load }) => {
             <Box
                 sx={{ 
                 left: offset, 
-                width: 'calc(100vw - ' + offset + 'px)',
+                width: 'calc(100% - ' + offset + 'px)',
                 }}
                 position='relative'>
 
@@ -117,7 +117,7 @@ const NavBar = ({ load }) => {
                     <>
                         <Tooltip title='Notifications'>
                             <IconButton onClick={ () => setOpenNotifications(!openNotifications)} sx={{ margin: '4px'}}>
-                                <Notifications sx={{color: userState.hasNewNotifications ? 'yellow' : '', fontSize: 35 }}/>
+                                <Notifications sx={{color: hasNewNotifications ? 'yellow' : '', fontSize: 35 }}/>
                             </IconButton>
                         </Tooltip>
 
@@ -133,12 +133,12 @@ const NavBar = ({ load }) => {
 
             </Box>
           
-            <div style={{position: 'relative', left: offset, width: 'calc(90vw - ' + offset + 'px)'}} id='main' >
+            <div style={{ paddingLeft: offset  + 100}} id='main' >
                 { load && <Outlet/>}
             </div>
             { userState.signedIn &&
                 <Drawer sx={{ width: openNotifications ? 200 : 0 }} className='NotificationsDrawer' variant='persistent' anchor='right' open={ openNotifications } >
-                    <NotificationSideBar onViewAll={onViewAllNotifications}/>
+                    <NotificationSideBar hasNewNotifications={hasNewNotifications} setHasNewNotifications={setHasNewNotifications} onViewAll={onViewAllNotifications}/>
                 </Drawer>
             }
 

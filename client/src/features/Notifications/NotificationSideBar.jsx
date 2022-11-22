@@ -4,7 +4,7 @@ import { Button, Typography, Container, Paper, TextField } from "@mui/material"
 import ApiCall from "../../components/api/ApiCall"
 import { useUserState } from "../SignUp/UserContext"
 import { formatMessages } from "./utils"
-const NotificationSideBar = ({ onViewAll }) => {
+const NotificationSideBar = ({ onViewAll, hasNewNotifications, setHasNewNotifications }) => {
     const [ notifications, setNotifications ] = useState([])
     const [ notificationsFormatted, setNotificationsFormatted ] = useState([])
 
@@ -17,7 +17,7 @@ const NotificationSideBar = ({ onViewAll }) => {
             await ApiCall.post(`/notification/read?notificationId=${notification._id}`)
             console.log("PPOSTED READ")
             if (index === notifications.length - 1) {
-                setUserState({...userState, hasNewNotifications: false })
+                setHasNewNotifications(false)
                 getNotifications()
             }    
         })
@@ -50,7 +50,7 @@ const NotificationSideBar = ({ onViewAll }) => {
 
     useEffect(() => {
         getNotifications()
-    }, [userState.hasNewNotifications])
+    }, [hasNewNotifications])
 
     useEffect(() => {
         getNotifications()

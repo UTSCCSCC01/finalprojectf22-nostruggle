@@ -11,7 +11,7 @@ const StudyTimerIcon = ({ onClick, time, open, iconVariant }) => {
     }
 
     return (
-        <div className='StudyTimerIcon' sx={{ display: 'flex', flexDirection: 'column'}}>
+        <div className='StudyTimerIcon' style={{ display: 'flex', flexDirection: 'column'}}>
             {
                 iconVariant === 'text' ?
                 <ToolsBarButton style={{
@@ -27,7 +27,7 @@ const StudyTimerIcon = ({ onClick, time, open, iconVariant }) => {
                 onClick={ (e) => handleClick(e) }
                 children={ <Timer sx={{ width: '20px', height: '20px' , color: open ? theme.button_active : theme.button_inactive }}/> } />
             }
-            <span style={{ fontWeight: 700, position: 'relative', top: '-10px'}}>{time}</span>
+            <span style={{ fontWeight: 700, position: 'relative', marginBottom: '-10px'}}>{time}</span>
         </div>
     )
 }
