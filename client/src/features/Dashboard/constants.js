@@ -39,22 +39,6 @@ export const dashboardItems = [
     },
     {
         dimensions: {
-            xs: 12
-           
-        },
-        color: {
-            header: '',
-            headerOutline: 'grey'
-        },
-        title: "Forum Posts",
-        content: <DashboardForum/>,
-        link: {
-            title: 'View Forum',
-            path: '/forum'
-        }
-    },
-    {
-        dimensions: {
             xs: 12,
             sm: 6,
             md: 4
@@ -85,6 +69,22 @@ export const dashboardItems = [
         link: {
             title: 'Full Summary',
             path: '/daily'
+        }
+    },
+    {
+        dimensions: {
+            xs: 12
+           
+        },
+        color: {
+            header: '',
+            headerOutline: 'grey'
+        },
+        title: "Forum Posts",
+        content: <DashboardForum/>,
+        link: {
+            title: 'View Forum',
+            path: '/forum'
         }
     }
 ]
