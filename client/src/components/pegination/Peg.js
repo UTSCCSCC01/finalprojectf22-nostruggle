@@ -1,6 +1,6 @@
 import { Pagination } from '@mui/material';
 
-function Pegination() {
+function Peg() {
     return(
         <div>
             <Pagination count={10} color="primary" />
@@ -8,4 +8,4 @@ function Pegination() {
     )
 }
 
-export default Pegination;
+export default Peg;
