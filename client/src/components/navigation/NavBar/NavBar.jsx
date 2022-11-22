@@ -108,8 +108,9 @@ const NavBar = ({ load, hasNewNotifications, setHasNewNotifications }) => {
                 sx={{ 
                 left: offset, 
                 width: 'calc(100% - ' + offset + 'px)',
+                zIndex: 3000
                 }}
-                position='relative'>
+                position='fixed'>
 
                 <Toolbar className='top-bar' sx={{ backgroundColor: '#82A8B5', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
                 {
@@ -133,7 +134,7 @@ const NavBar = ({ load, hasNewNotifications, setHasNewNotifications }) => {
 
             </Box>
           
-            <div style={{ paddingLeft: offset  + 100}} id='main' >
+            <div style={{ paddingLeft: offset  + 100, paddingTop: 100}} id='main' >
                 { load && <Outlet/>}
             </div>
             { userState.signedIn &&

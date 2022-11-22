@@ -11,6 +11,7 @@
     position: fixed;
     right: 20px;
     top: var(--appBarHeight);
+    z-index: 2800;
 }
 
 .DrawerHeader {
@@ -29,7 +30,6 @@
 .NavBarButton[disabled]{
     color: #242327 !important;
 }
-
 
 .NotificationsDrawer {
     transition: width ease-in-out 0.5s;
