@@ -1,0 +1,143 @@
+@font-face {
+    font-family: 'MathFont';
+    src: url('../../katex/fonts/KaTeX_Main-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'MathFont2';
+    src: url('../../katex/fonts/KaTeX_Caligraphic-Regular.ttf');
+}
+
+div.calculator-box {
+    position: fixed;
+    left: 70px;
+    height: 600px;
+    width: 440px;
+    min-width: 410px;
+    margin: 20px;
+    padding: 8px;
+    border: 2px solid #90b0c2;
+    border-radius: 10px;
+    background-color: #eeeff9;
+    box-shadow: 0 10px 16px 0 rgba(4, 76, 107, 0.2),0 6px 20px 0 rgba(4, 76, 107, 0.19) !important;
+    z-index: 1800;
+}
+
+div.calculator-inputs {
+    position: relative;
+    height: 190px;
+    width: calc(100% - 40px);
+    margin: 20px;
+    background-color: white;
+    border: 1px solid #90b0c2;
+    border-radius: 8px;
+}
+
+div.calculator-buttons {
+    position: relative;
+    height: 100px;
+    width: calc(100% - 40px);
+    margin: 20px;
+}
+
+div.calculator-inputs  span {
+    cursor: text;
+}
+
+div.problem {
+    display: flex;
+    justify-content: flex-start;
+    margin: 8px 8px;
+    height: 90px;
+    width: 390px;
+    overflow-x: scroll;
+    align-items: center;
+}
+
+div.problem * {
+    font-family: MathFont !important;
+    
+}
+
+div.problem button {
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+}
+
+div.problem button:hover {
+    color: turquoise;
+}
+
+div.problem button.active {
+    color: red;
+}
+
+div.problem .medium-math-symbol *{
+    font-size: 28px;
+    font-family: 'MathFont2' !important;
+    margin: 0px 1px;
+}
+
+.user-input {
+    display: flex;
+    position: fixed;
+    height: 60px;
+    width: max-content;
+    right: 30px;
+    bottom: 400px;
+    margin: 8px;
+    border-radius: 4px;
+    justify-content: flex-start;
+}
+
+.user-input > button {
+    top: 25px;
+}
+
+div.user-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-input-container {
+    height: 125px;
+    width: max-content;
+    max-width: 280px;
+    padding: 2px 10px;
+    overflow-x: scroll;
+}
+
+.user-input-container input {
+    border-radius: 4px;
+}
+
+.default-field {
+    font-family: 'MathFont';
+    font-size: 22px;
+    padding: 4px;
+}
+
+.superscript-field {
+    font-family: 'MathFont';
+    font-size: 16px;
+    top: 0px;
+}
+
+.subscript-field {
+    font-family: 'MathFont';
+    font-size: 16px;
+    bottom: 0px;
+}
+
+span.large-math-symbol {
+    font-size: 34px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+span.medium-math-symbol {
+    font-size: 18px;
+    margin-top: auto;
+    margin-bottom: auto;
+}

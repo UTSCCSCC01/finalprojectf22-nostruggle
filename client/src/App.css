@@ -37,6 +37,6 @@
   }
 }
 
-* {
-  font-family: 'Bahnschrift' !important;
+*:not(.calculator-box *){
+  font-family: 'Bahnschrift';
 }

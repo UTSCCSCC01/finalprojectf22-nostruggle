@@ -1,17 +1,32 @@
 import { useState } from 'react'
-import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
+import Calculator from '../../components/calculator/Calculator';
 import DerivativeIcon from "./DerivativeIcon"
 
 const DerivativeCalculator = ({ iconVariant }) => {
     const [ open, toggleOpen ] = useState(false);
 
+    const derivativeButtons = [
+        { action: 'ln',         tex: '\\ln' },
+        { action: 'log',        tex: '\\log' },
+        { action: 'cos',        tex: '\\cos' },
+        { action: 'sin',        tex: '\\sin' },
+        { action: 'tan',        tex: '\\tan' },
+        { action: 'brackets',   tex: '(\\square)' },
+        { action: 'abs',        tex: '\\lvert\\square\\rvert' },
+        { action: 'fraction',   tex: '\\frac{\\square}{\\square}' },
+        { action: 'exponent',   tex: '\\square^{\\square}' },
+        { action: 'root',       tex: '\\sqrt[\\square]{\\square}' },
+        { action: 'plus',        tex: '+' },
+        { action: 'minus',      tex: '-' },
+        { action: 'multiply',   tex: '\\times' },
+        { action: 'divide',     tex: '\\div' }
+    ];
+
     return (
         <>
             {
                 open &&
-                <ToolBarDraggableWrapper>
-                    <span></span>
-                </ToolBarDraggableWrapper>
+                <Calculator calculatorType='derive' buttons={ derivativeButtons } closeCalculator={() => toggleOpen(false)} />
             }
             <DerivativeIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
