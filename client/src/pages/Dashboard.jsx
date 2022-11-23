@@ -11,7 +11,7 @@ const Dashboard = () => {
             <Grid container justifyContent='center' alignItems='center' direction='row'>
                     <Grid container spacing={2}>
                     {
-                        dashboardItems.map((item) => (
+                        items.map((item) => (
                             <Grid item {...item.dimensions}>
                                 <DashboardCard {...item} />
                             </Grid>
