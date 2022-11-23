@@ -45,7 +45,7 @@ const ForumPostCard = (props) =>{
     const deletePost = () => {
         const confirm = window.confirm("Are you sure you would like to delete this post?")
         if (confirm) {
-            ApiCall.delete(`/forumPosts/${postId}`)
+            ApiCall.delete(`/forumPosts/${postIdselected}`)
             .then( (res) => {
                 if (res.status === 200) {
                     navigate('/postThread/deleted')
@@ -137,7 +137,7 @@ const ForumPostCard = (props) =>{
                         }
                         <EditPost 
                         open={openEditor} 
-                        postId={postId}
+                        postId={postIdselected}
                         title={title}
                         tag={tag}
                         content={content} 
