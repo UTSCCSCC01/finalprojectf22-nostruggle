@@ -2,7 +2,10 @@ import { Grid } from "@mui/material"
 
 import DashboardCard from "../components/dashboard/DashboardCard"
 import { dashboardItems } from "../features/Dashboard/constants"
+import { useUserState } from "../features/SignUp/UserContext"
 const Dashboard = () => {
+    const { userState } = useUserState()
+    const items = dashboardItems(userState.user.username)
     return (
         <div>
             <Grid container justifyContent='center' alignItems='center' direction='row'>

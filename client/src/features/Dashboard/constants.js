@@ -4,7 +4,7 @@ import DashboardStatistics from "./Content/DashboardStatistics"
 import StudyTimerSummary from "../Todo/StudyTimer/Summary/StudyTimerSummary"
 import DashboardTimeSummary from "./Content/DashboardTimeSummary"
 import DashboardUpdates from "./Content/DashboardUpdates"
-export const dashboardItems = [
+export const dashboardItems = (username) => [
     {
         dimensions: {
             xs: 12
@@ -18,7 +18,7 @@ export const dashboardItems = [
         content: <><h1>Welcome back!</h1><DashboardStatistics/></>,
         link: {
             title: 'View your profile',
-            path: '/profile'
+            path: `/profile/${username}`
         }
     },
     {
@@ -33,8 +33,8 @@ export const dashboardItems = [
         title: "My Feed",
         content: <DashboardUpdates/>,
         link: {
-            title: 'View Forum',
-            path: '/forum'
+            title: 'View Feed',
+            path: '/inbox'
         }
     },
     {
