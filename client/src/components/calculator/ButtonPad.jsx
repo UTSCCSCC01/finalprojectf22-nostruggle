@@ -32,6 +32,7 @@ const ButtonPad = ({ handleClick, buttons }) => {
                         handleClick(button.action)
                     }}
                     tex={`${ button.tex }`}
+                    buttonColour='blue'
                     />
                 ))}
             </Grid>

@@ -8,9 +8,9 @@ import KaTeXComponent from './KaTeXComponent'
 import BlueButton from '../buttons/BlueButton'
 import { Divider, IconButton, Button } from '@mui/material'
 import { DragIndicator, Remove } from '@mui/icons-material';
-import { simplify } from '../../features/AlgebraCalculator/algebraCalculator';
-import { derivativeType } from '../../features/DerivativeCalculator/derivativeCalculator';
-import { findIntegral } from '../../features/IntegralCalculator/integralCalculator'
+import { simplify } from '../../features/StandardCalculator/standardCalculatorLogic';
+import { derivativeType } from '../../features/DerivativeCalculator/derivativeCalculatorLogic';
+import { findIntegral } from '../../features/IntegralCalculator/integralCalculatorLogic'
 
 
 const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
@@ -175,7 +175,7 @@ const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
                 const prefix = calculatorType === 'integrate' ? '\\displaystyle\\int' : calculatorType === 'derive' ? '\\frac{d}{dx}' : '';
                 const affix = calculatorType === 'integrate' ? 'dx' : '';
                 solution.current = <>
-                <KaTeXComponent className='problem' tex={ prefix + inputs.map((input) => inputToTex(input)).join('') + affix} />       
+                <KaTeXComponent className='solution' tex={ prefix + inputs.map((input) => inputToTex(input)).join('') + affix} />       
                 { calculateSolution() }
                 </>
                 setShowSolution(true);
@@ -489,12 +489,12 @@ const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
         }).join('');
 
         switch (calculatorType) {
-            case 'algebra':
-                return <KaTeXComponent className='problem' tex={ '=' + convertStringToLatex(simplify(str)) } />    
+            case 'standard':
+                return <KaTeXComponent className='solution' tex={ '=' + convertStringToLatex(simplify(str)) } />    
             case 'derive':
-                return <KaTeXComponent className='problem' tex={ '=' + convertStringToLatex(derivativeType(str)) } />
+                return <KaTeXComponent className='solution' tex={ '=' + convertStringToLatex(derivativeType(str)) } />
             case 'integrate':
-                return <KaTeXComponent className='problem' tex={ '=' + convertStringToLatex(findIntegral(str)) } />  
+                return <KaTeXComponent className='solution' tex={ '=' + convertStringToLatex(findIntegral(str)) } />  
             case 'default':
                 console.log('nothing yet');
                 return <span></span>;

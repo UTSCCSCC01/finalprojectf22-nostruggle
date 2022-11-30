@@ -166,6 +166,10 @@ span.medium-math-symbol {
     margin-bottom: auto;
 }
 
+.solution {
+    font-size: 22px;
+}
+
 #calculator-handle{
     width: 100%;
     height: 2rem;

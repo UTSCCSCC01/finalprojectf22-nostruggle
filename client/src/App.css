@@ -37,6 +37,6 @@
   }
 }
 
-*:not(.calculator-box *){
+*:not(.calculator-box *) {
   font-family: 'Bahnschrift';
 }

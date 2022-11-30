@@ -1,0 +1,119 @@
+@font-face {
+    font-family: 'MathFont';
+    src: url('../../katex/fonts/KaTeX_Main-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'MathFont2';
+    src: url('../../katex/fonts/KaTeX_Caligraphic-Regular.ttf');
+}
+
+div.matrix-calculator-box {
+    position: fixed;
+    left: 70px;
+    height: 530px;
+    width: 500px;
+    min-width: 410px;
+    margin: 20px;
+    padding: 8px;
+    border: 2px solid #90b0c2;
+    border-radius: 10px;
+    background-color: #eeeff9;
+    box-shadow: 0 10px 16px 0 rgba(4, 76, 107, 0.2),0 6px 20px 0 rgba(4, 76, 107, 0.19) !important;
+    z-index: 1800;
+}
+
+#matrix-calculator-handle{
+    width: 100%;
+    height: 2rem;
+    align-self: center;
+}
+
+div.matrix-parent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 30px 0px;
+}
+
+div.matrix {
+	display: flex;
+	flex-flow: row wrap;
+	width: 150px;
+	align-items: center;
+	justify-content: center;
+    margin-left: -10px;
+}
+
+input.error-matrix {
+    border: 1px solid #EA5932;
+}
+
+.m1r0, .m2r0 {
+	order: 2;
+}
+
+.m1r1, .m2r1 {
+	order: 3;
+}
+
+.m1r2, .m2r2 {
+	order: 4;
+}
+
+.m1r0, .m2r0, .m1r1, .m2r1, .m1r2, .m2r2 {
+	width: 40px;
+	height: 40px;
+	text-align: center;
+    font-family: 'MathFont';
+    font-size: 22px;
+    border-radius: 6px;
+    margin: 1px;
+}
+
+div.matrix-options {
+    /* position: absolute;
+    top: 320px;
+    left: 20px; */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 40px;
+}
+
+div.matrix-options *:not(.go-button) {
+    font-family: 'MathFont' ;
+}
+
+.go-button {
+    height: 56px !important;
+}
+
+.matrix-tex {
+    font-size: 26px;
+    margin-right: -10px;
+}
+
+div.matrix-solution {
+    width: 100%;
+    margin: auto;
+}
+
+#console {
+    font-size: 24px;
+}
+
+#solution * {
+    font-family: 'MathFont' !important;
+}
+
+.matrix-errmsg {
+    color: red;
+    font-size: 18px;
+    position: absolute;
+    bottom: 16px;
+    left: 0px;
+    width: 100%;
+    text-align: center;
+}

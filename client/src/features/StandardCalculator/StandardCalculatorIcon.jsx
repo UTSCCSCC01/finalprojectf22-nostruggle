@@ -3,7 +3,7 @@ import  { CalculateOutlined } from "@mui/icons-material"
 import theme from "../../theme"
 import { IconButton } from "@mui/material"
 
-const AlgebraIcon = ({ onClick, open, iconVariant }) => {
+const StandardCalculatorIcon = ({ onClick, open, iconVariant }) => {
 
     const handleClick = (e) => {
         e.currentTarget.blur();
@@ -20,7 +20,7 @@ const AlgebraIcon = ({ onClick, open, iconVariant }) => {
                 }}
                 onClick={ (e) => handleClick(e) }
                 startIcon={ <CalculateOutlined sx={{ width:'30px', height: '30px', color: open ? theme.button_active : theme.button_inactive }} /> }
-                >Algebra Calculator</ToolsBarButton>
+                >Standard Calculator</ToolsBarButton>
                 :
                 <IconButton
                 onClick={ (e) => handleClick(e) } 
@@ -30,4 +30,4 @@ const AlgebraIcon = ({ onClick, open, iconVariant }) => {
     )
 }
 
-export default AlgebraIcon
+export default StandardCalculatorIcon

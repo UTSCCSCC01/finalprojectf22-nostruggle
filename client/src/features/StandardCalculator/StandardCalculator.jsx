@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import Calculator from '../../components/calculator/Calculator';
-import AlgebraIcon from "./AlgebraIcon"
+import StandardCalculatorIcon from "./StandardCalculatorIcon"
 
-const AlgebraCalculator = ({ iconVariant }) => {
+const StandardCalculator = ({ iconVariant }) => {
 
     const [ open, toggleOpen ] = useState(false);
 
-    const algebraButtons = [
+    const standardButtons = [
         { action: 'log',        tex: '\\log' },
         { action: 'cos',        tex: '\\cos' },
         { action: 'sin',        tex: '\\sin' },
@@ -25,11 +25,11 @@ const AlgebraCalculator = ({ iconVariant }) => {
         <>
             {
                 open &&
-                <Calculator calculatorType='algebra' buttons={ algebraButtons }  closeCalculator={() => toggleOpen(false)} />
+                <Calculator calculatorType='standard' buttons={ standardButtons }  closeCalculator={() => toggleOpen(false)} />
             }
-            <AlgebraIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
+            <StandardCalculatorIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 }
 
-export default AlgebraCalculator
+export default StandardCalculator
