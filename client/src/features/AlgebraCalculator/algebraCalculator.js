@@ -1,9 +1,11 @@
-import { getCalculatorInput } from '../Calculator/CalculatorHandler';
-import { setCalculatorOutput } from '../Calculator/CalculatorHandler';
 
 function formatPrior(section) {
   //Replace all spaces
-  section = section.replaceAll(" ", "");
+  section = section.replaceAll(" ", "")
+  
+  while (section.match('.*[+-]{2}.*')) {
+    section = section.replaceAll('+-','-').replaceAll('-+', '-').replaceAll('--', '+').replaceAll('++', '+');
+  }
   return section;
 }
 
@@ -11,17 +13,17 @@ function validate(equation) {
 	
 	//Checking brackets
     var count_ops = 0;
-    for (s in equation) {
+    for (var s in equation) {
         if (equation[s].includes('('))
             count_ops++;
-        else if (equation[s].includes(')') && count_ops == 0)
+        else if (equation[s].includes(')') && count_ops === 0)
             return false;
         else if (equation[s].includes(')') && count_ops > 0)
             count_ops--;
     }
 	
 	//Ensuring bracket pairs remain matched
-	return count_ops == 0;
+	return count_ops === 0;
 }
 
 function brackets(expression) {
@@ -30,10 +32,10 @@ function brackets(expression) {
   var inner_left;
   var inner_right;
   for (var i = 0; i < expression.length; i++) {
-    if (expression[i] == '(') {
+    if (expression[i] === '(') {
       inner_left = i;
     }
-    if (expression[i] == ')') {
+    if (expression[i] === ')') {
       inner_right = i;
       break;
     }
@@ -48,33 +50,48 @@ function performOperation(type, expression, i) {
     //Finding the number on left of operand
     var left;
     var digit_start1 = i - 1;
-    while ((!isNaN(expression[digit_start1 - 1]) || expression.substring(digit_start1 - 1, digit_start1) == '-') && ((digit_start1) > 0)) {
+    while ((!isNaN(expression.substring(digit_start1 - 1, i)) || expression.substring(digit_start1 - 1, digit_start1) === '-') && ((digit_start1) > 0)) {
+      if (['+', '-'].includes(expression[digit_start1 - 1])) {
+        break;
+      }
       digit_start1--;
     }
-    left = parseInt(expression.substring(digit_start1, i));
+    left = parseFloat(expression.substring(digit_start1, i));
+    console.log('left is: ' + left);
+    console.log(!isNaN('.1'));
 
     //Finding the number on right of operand 
     var digit_end2 = i + 1;
-    while (((digit_end2 + 1) < expression.length) && !isNaN(expression[digit_end2 + 1])) {
+    while (((digit_end2) < expression.length) && !isNaN(expression.substring(i + 1, digit_end2 + 1))) {
+      if (['+', '-'].includes(expression[digit_end2])) {
+        break;
+      }
       digit_end2++;
     }
-    var right = parseInt(expression.substring(i + 1, digit_end2 + 1));
+    var right = parseFloat(expression.substring(i + 1, digit_end2 + 1));
+    console.log('right is '  + right);
 
     //Performing operation based upon input
     var result;
-    if (type == '^')
+    if (type === '^')
       result = Math.pow(left, right);
-    else if (type == '*')
+    else if (type === '*')
       result = left * right;
-    else if (type == '/')
-      result = left / type;
-    else if (type == '+')
+    else if (type === '/')
+      result = left / right;
+    else if (type === '+')
       result = left + right;
-    else if (type == '-')
+    else if (type === '-')
       result = left - right;
 
     //String updated with result
-    expression = (expression.substring(0, digit_start1)) + result + (expression.substring(digit_end2 + 1, ));
+    console.log('gives result of ' + result);
+    console.log('before the result is ' + expression.substring(0, digit_start1));
+    console.log('after the result is ' + expression.substring(digit_end2));
+    console.log('the expression is ' + expression);
+    expression = (expression.substring(0, digit_start1)) + (Math.round(result*100000)/100000).toString() + (expression.substring(digit_end2));
+    console.log('new expression becomes ' + expression);
+
     return expression;
 }
 
@@ -88,7 +105,7 @@ function simplifyExpression(expression) {
     //Evaluating all exponents until there is none left
     while (expression.includes('^')) {
       for (var i = 0; i < expression.length; i++) {
-        if (expression[i] == '^') {
+        if (expression[i] === '^') {
           expression = performOperation('^', expression, i);
         }
       }
@@ -97,10 +114,10 @@ function simplifyExpression(expression) {
     //Evaulating all multiplication and division until none left
     while (expression.includes('*') || expression.includes('/')) {
       for (var i = 0; i < expression.length; i++) {
-        if (expression[i] == '*') {
+        if (expression[i] === '*') {
           expression = performOperation('*', expression, i);
         }
-        else if (expression[i] == '/') {
+        else if (expression[i] === '/') {
           expression = performOperation('/', expression, i);
         }
       }
@@ -109,10 +126,10 @@ function simplifyExpression(expression) {
     //Evaluating all addition and subtraction until none left
     while (expression.includes('+') || (expression.substring(1,).includes('-'))) {
       for (var i = 0; i < expression.length; i++) {
-        if (expression[i] == '+') {
+        if (expression[i] === '+') {
           expression = performOperation('+', expression, i);
         }
-        else if (expression[i] == '-') {
+        else if (expression[i] === '-') {
           expression = performOperation('-', expression, i);
         }
       }
@@ -120,15 +137,15 @@ function simplifyExpression(expression) {
 
     for (var i = 0; i < expression.length; i++) {
       //Grouped together due to order of operations
-      if (expression[i] == '^') {
+      if (expression[i] === '^') {
         expression = performOperation('^', expression, i);
         i = -1;
       }
-      else if (expression[i] == '+' || (expression[i] == '-' && i > 0)) {
+      else if (expression[i] === '+' || (expression[i] === '-' && i > 0)) {
           expression = performOperation('+', expression, i);
           i = -1;
         }
-      else if (expression[i] == '-' && i > 0) {
+      else if (expression[i] === '-' && i > 0) {
           expression = performOperation('-', expression, i);
           i = -1;
         }
@@ -138,20 +155,15 @@ function simplifyExpression(expression) {
 
 }
 
-function simplify(expression) {
+export function simplify(expression) {
 
   expression = formatPrior(expression);
-  if (validate(expression) == false) {
+  if (validate(expression) === false) {
 		return "Equation is not in a valid format";
 	}
-  var result = simplifyExpression(expresion);
+  var result = simplifyExpression(expression);
   return result;
-
 }
-
-var input = getCalculatorInput();
-var output = simplify(input);
-setCalculatorOutput(output);
 
 /*
 const readline = require('readline');

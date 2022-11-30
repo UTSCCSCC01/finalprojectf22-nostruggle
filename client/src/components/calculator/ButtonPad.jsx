@@ -17,7 +17,7 @@ const ButtonPad = ({ handleClick, buttons }) => {
         handleClick('GO');
     }}>GO</GreenButton>)
 
-    const numCol = 5;
+    const numCol = 4;
         
     for (let i = 0; i < buttons.length; i += numCol) {
         buttonsJsx.push(

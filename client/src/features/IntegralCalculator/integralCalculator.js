@@ -1,9 +1,7 @@
-import { getCalculatorInput } from '../Calculator/CalculatorHandler';
-import { setCalculatorOutput } from '../Calculator/CalculatorHandler';
 
 function reduceFraction(numerator, denominator) {
 
-    originalNum = numerator;
+    var originalNum = numerator;
 
     if (numerator < 0)
         numerator = numerator * -1;
@@ -45,7 +43,7 @@ function validate(equation) {
 	
 	//Checking brackets
     var count_ops = 0;
-    for (s in equation) {
+    for (var s in equation) {
         if (equation[s].includes('('))
             count_ops++;
         else if (equation[s].includes(')') && count_ops == 0)
@@ -149,8 +147,8 @@ function integrateTerms(terms) {
                 if (constant[0] == '(' && constant[constant.length - 1] == ')') {
                     constant = constant.substring(1, constant.length - 1);
                 }
-                denominator = parseInt(constant.substring(constant.indexOf("/") + 1, ));
-                numerator = parseInt(constant.substring(0, constant.indexOf("/")));
+                var denominator = parseInt(constant.substring(constant.indexOf("/") + 1, ));
+                var numerator = parseInt(constant.substring(0, constant.indexOf("/")));
 
                 //Seeing if fraction can be simplified
                 var newConstant;
@@ -231,7 +229,7 @@ function concatenateTerms(integratedTerms, operators) {
     return completeIntegral;
 }
 
-function findIntegral(equation) {
+export function findIntegral(equation) {
 
     if (validate(equation) == false) {
 		return "Equation is not in a valid format";
@@ -245,10 +243,6 @@ function findIntegral(equation) {
 
     return integral;
 }
-
-var input = getCalculatorInput();
-var output = findIntegral(input);
-setCalculatorOutput(output);
 
 /*
 const readline = require('readline');

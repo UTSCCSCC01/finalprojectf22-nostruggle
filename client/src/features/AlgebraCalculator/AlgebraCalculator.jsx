@@ -7,13 +7,11 @@ const AlgebraCalculator = ({ iconVariant }) => {
     const [ open, toggleOpen ] = useState(false);
 
     const algebraButtons = [
-        { action: 'ln',         tex: '\\ln' },
         { action: 'log',        tex: '\\log' },
         { action: 'cos',        tex: '\\cos' },
         { action: 'sin',        tex: '\\sin' },
         { action: 'tan',        tex: '\\tan' },
         { action: 'brackets',   tex: '(\\square)' },
-        { action: 'abs',        tex: '\\lvert\\square\\rvert' },
         { action: 'fraction',   tex: '\\frac{\\square}{\\square}' },
         { action: 'exponent',   tex: '\\square^{\\square}' },
         { action: 'root',       tex: '\\sqrt[\\square]{\\square}' },

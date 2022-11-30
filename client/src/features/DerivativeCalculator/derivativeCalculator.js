@@ -1,9 +1,7 @@
-import { getCalculatorInput } from '../Calculator/CalculatorHandler';
-import { setCalculatorOutput } from '../Calculator/CalculatorHandler';
 
 function reduceFraction(numerator, denominator) {
 
-    originalNum = numerator;
+    var originalNum = numerator;
 
     if (numerator < 0)
         numerator = numerator * -1;
@@ -64,7 +62,7 @@ function validate(equation) {
 	
 	//Checking brackets
     var count_ops = 0;
-    for (s in equation) {
+    for (var s in equation) {
         if (equation[s].includes('('))
             count_ops++;
         else if (equation[s].includes(')') && count_ops == 0)
@@ -208,18 +206,16 @@ function chainRule(section) {
 
     var newConstant = exponent*constant;
     var newExponent = exponent - 1;
-    derivedSection = findSectionDerivative(innerSection);
+    var derivedSection = findSectionDerivative(innerSection);
     
     //Concatenating terms
 	if (newExponent != 1) 
-		derivative = newConstant + '(' + innerSection + ")^" + newExponent + "(" + derivedSection + ")";
+		return newConstant + '(' + innerSection + ")^" + newExponent + "(" + derivedSection + ")";
 	else if (newExponent == 1)
-		derivative = newConstant + '(' + innerSection + ")(" + derivedSection + ")"
-	
-    return derivative;
+		return newConstant + '(' + innerSection + ")(" + derivedSection + ")"
 }
 
-function derivativeType(equation) {
+export function derivativeType(equation) {
 	if (validate(equation) == false) {
 		return "Equation is not in a valid format";
 	}
@@ -232,10 +228,6 @@ function derivativeType(equation) {
         result = findSectionDerivative(equation);
     return result;
 }
-
-var input = getCalculatorInput();
-var output = derivativeType(input);
-setCalculatorOutput(output);
 
 /*
 const readline = require('readline');

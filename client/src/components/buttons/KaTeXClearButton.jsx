@@ -26,7 +26,7 @@ const KaTeXClearButton = ({ setId, className, tex, handleClick }) => {
         }
     });
 
-    return <button id={ setId } className={ className } onClick={() => handleClick()} ref={ containerRef } />
+    return <button id={ setId } className={ className } onClick={() => handleClick()} ref={ containerRef } style={{ display: 'flex', flexDirection: 'row', flexFlow: 'nowrap', whiteSpace: 'nowrap'}}/>
 }
 
 export default KaTeXClearButton
