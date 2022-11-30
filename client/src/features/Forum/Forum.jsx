@@ -8,6 +8,10 @@ import ForumThread from '../ForumThread/ForumThread';
 import { Button } from "@mui/material";
 import CreatePost from "../CreatePost/CreatePost"
 import { useNavigate } from "react-router-dom";
+import Posts from '../../components/pagination/Pagination.js'
+//import Pagination from '../../components/forumCard/ForumCard.jsx'
+import { Pagination} from '@mui/material';
+import * as React from "react";
 
 function Forum(){
 
@@ -66,16 +70,27 @@ function Forum(){
 
     getForumPost()
     */
+   
+   const [page, setPage] = React.useState(1);
+   const handleChange = (event, value) => {
+       setPage(value);
+   };
+
+
     return(
         
 
-        <Container >
+        <Container>
             <h2>NoStruggle Browsing</h2>
             <Button onClick={createNewPost}>Create a new Post</Button>
-            {data.map((item) => <ForumCard title={item.title} content={item.content} tag={item.tags}
-             date={item.created_At} nLikes={item.nLikes} postId={item._id} created_by={item.created_by}
-             likedBy={item.likedBy}/>)}
+            {data.slice((page-1)*10,page*10).map((item) => <ForumCard title={item.title} content={item.content} tag={item.tags}
+                date={item.created_At} nLikes={item.nLikes} postId={item._id} created_by={item.created_by}
+                likedBy={item.likedBy} />
+            )}
+            <Pagination count={Math.ceil(data.length/10)} color="primary"  page={page} 
+                    onChange={handleChange}/>
         </Container>
+
         
     )
 
