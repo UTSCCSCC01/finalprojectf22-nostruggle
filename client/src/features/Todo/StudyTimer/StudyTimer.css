@@ -1,8 +1,18 @@
 .StudyTimer {
-    max-width: 300px;
-    width: 100vw;
+    height: 460px;
+    width: 420px;
     position: fixed;
     left: 70px;
-    background-color: rgb(255, 255, 255);
     z-index: 1800;
+}
+
+#studytimer-handle{
+    width: 100%;
+    height: 2rem;
+    align-self: center;
+}
+
+div.choose-mode * {
+    font-family: 'Bahnschrift' !important;
+    font-size: 18px;
 }

@@ -4,10 +4,13 @@ import DerivativeCalculator from '../../../features/DerivativeCalculator/Derivat
 import MatrixCalculator from '../../../features/MatrixCalculator/MatrixCalculator';
 import IntegralCalculator from '../../../features/IntegralCalculator/IntegralCalculator';
 import FactorMultiple from '../../../features/FactorMultiple/FactorMultiple';
+import { useUserState } from '../../../features/SignUp/UserContext';
 
 import './ToolBar.css';
 
 const ToolsBar = ({ variant }) => {
+
+    const { userState, setUserState } = useUserState();
 
     return (
         <div className='ToolBar'>

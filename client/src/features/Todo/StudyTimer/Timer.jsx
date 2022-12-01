@@ -2,6 +2,7 @@ import { Button, Container, Input, Card, Box, Autocomplete, TextField, FormContr
 import { useState, useEffect } from 'react'
 import { timeFormat } from './constants'
 import { convertTimeStringToSeconds } from '../../utils/timeUtils';
+import GreenButton from '../../../components/buttons/GreenButton';
 
 const Timer = ({ setTime }) => {
 
@@ -26,10 +27,10 @@ const Timer = ({ setTime }) => {
     }
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'start' }}>
-            <Button onClick={onSetTime}>Set Time</Button>
+        <div style={{ display: 'flex', justifyContent: 'start', flexDirection: 'row', alignItems: 'center' }}>
+            <span style={{ fontSize: '18px', marginRight: '6px'}} >Study Time: </span>
             <FormControl sx={{ width: 150 }}>
-                <TextField {...timeInputProps} size='small' label="Time"
+                <TextField {...timeInputProps} size='small' label="Enter Time"
                     onChange={(e) => timeValidation(e)}
                     onKeyUp={(e) =>  {
                         if (e.key === 'Enter') onSetTime() 
@@ -37,6 +38,7 @@ const Timer = ({ setTime }) => {
                     
                 />
             </FormControl>            
+            <GreenButton onClick={onSetTime} sx={{ fontSize: '18px', marginRight: '6px'}} >Set Time</GreenButton>
         </div>
     )
 }

@@ -256,7 +256,7 @@ class MatrixCalculatorLogic {
 			}
 		}
 		var string = "";
-		var tex = 'A \\times B = \\begin{bmatrix}';
+		var tex = 'AB = \\begin{bmatrix}';
 		for (i =0; i<rowsRes; i++) {
 			for (var j=0; j<columnsRes; j++) {
 				string=string+"\t"+result[i][j];
@@ -313,19 +313,20 @@ class MatrixCalculatorLogic {
 		var row3 = document.getElementsByClassName("m1r2");
 		
 		for (var i=0; i<3; i++) {
-			this.matrixA[0][i] = parseFloat(row1[i].value);
-			this.matrixA[1][i] = parseFloat(row2[i].value);
-			this.matrixA[2][i] = parseFloat(row3[i].value);
+			this.matrixA[0][i] = row1[i].value;
+			this.matrixA[1][i] = row2[i].value;
+			this.matrixA[2][i] = row3[i].value;
 		}
 		row1 = document.getElementsByClassName("m2r0");
 		row2 = document.getElementsByClassName("m2r1");
 		row3 = document.getElementsByClassName("m2r2");
 		for (var i=0; i<3; i++) {
-			this.matrixB[0][i] = parseFloat(row1[i].value);
-			this.matrixB[1][i] = parseFloat(row2[i].value);
-			this.matrixB[2][i] = parseFloat(row3[i].value);
+			this.matrixB[0][i] = row1[i].value;
+			this.matrixB[1][i] = row2[i].value;
+			this.matrixB[2][i] = row3[i].value;
 		}
 		this.calculateDimensions();
+		console.log(this.matrixA);
 	}
 	
 	calculateDimensions() {
@@ -335,13 +336,13 @@ class MatrixCalculatorLogic {
 		
 		var count = 2;
 		//If there's a whole column of 0's, we'll decrease the dimension and look at the next one.
-		while (count>=0 && isNaN(this.matrixA[0][count]) && isNaN(this.matrixA[1][count]) && isNaN(this.matrixA[2][count])) {
+		while (count>=0 && this.matrixA[0][count] === '' && this.matrixA[1][count] === '' && this.matrixA[2][count] === '') {
 			this.AxDimension--;
 			count--;
 		}
 		count = 2;
 		//If there's a whole row of 0's, we'll decrease the dimension and look at the next one.
-		while (count>=0 && isNaN(this.matrixA[count][0]) && isNaN(this.matrixA[count][1]) && isNaN(this.matrixA[count][2])) {
+		while (count>=0 && this.matrixA[count][0] === '' && this.matrixA[count][1] === '' && this.matrixA[count][2] === '') {
 			this.AyDimension--;
 			count--;
 		}
@@ -351,19 +352,19 @@ class MatrixCalculatorLogic {
 		this.BxDimension = 3;
 		
 		var count = 2;
-		while (count>=0 && isNaN(this.matrixB[0][count]) && isNaN(this.matrixB[1][count]) && isNaN(this.matrixB[2][count])) {
+		while (count>=0 && this.matrixB[0][count] === '' && this.matrixB[1][count] === '' && this.matrixB[2][count] === '') {
 			this.BxDimension--;
 			count--;
 		}
 		count = 2;
-		while (count>=0 && isNaN(this.matrixB[count][0]) && isNaN(this.matrixB[count][1]) && isNaN(this.matrixB[count][2])) {
+		while (count>=0 && this.matrixB[count][0] === '' && this.matrixB[count][1] === '' && this.matrixB[count][2] === '') {
 			this.ByDimension--;
 			count--;
 		}
 
 		for (let i = 0; i < this.AxDimension; i++) {
 			for (let j = 0; j < this.AyDimension; j++) {
-				if (isNaN(this.matrixA[j][i])) {
+				if (this.matrixA[j][i] === '') {
 					this.matrixA[j][i] = 0;
 					document.getElementsByClassName("m1r" + j)[i].value = 0;
 				}
@@ -372,7 +373,7 @@ class MatrixCalculatorLogic {
 
 		for (let i = 0; i < this.BxDimension; i++) {
 			for (let j = 0; j < this.ByDimension; j++) {
-				if (isNaN(this.matrixB[j][i])) {
+				if (this.matrixB[j][i] === '') {
 					this.matrixB[j][i] = 0;
 					document.getElementsByClassName("m2r" + j)[i].value = 0;
 				}

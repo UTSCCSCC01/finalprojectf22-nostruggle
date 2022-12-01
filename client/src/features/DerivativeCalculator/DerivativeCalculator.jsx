@@ -6,10 +6,6 @@ const DerivativeCalculator = ({ iconVariant }) => {
     const [ open, toggleOpen ] = useState(false);
 
     const derivativeButtons = [
-        { action: 'log',        tex: '\\log' },
-        { action: 'cos',        tex: '\\cos' },
-        { action: 'sin',        tex: '\\sin' },
-        { action: 'tan',        tex: '\\tan' },
         { action: 'brackets',   tex: '(\\square)' },
         { action: 'fraction',   tex: '\\frac{\\square}{\\square}' },
         { action: 'exponent',   tex: '\\square^{\\square}' },

@@ -11,8 +11,8 @@
 div.calculator-box {
     position: fixed;
     left: 70px;
-    height: 600px;
-    width: 440px;
+    height: 540px;
+    width: 420px;
     min-width: 410px;
     margin: 20px;
     padding: 8px;
@@ -25,7 +25,7 @@ div.calculator-box {
 
 div.calculator-inputs {
     position: relative;
-    height: 190px;
+    height: 180px;
     width: calc(100% - 40px);
     margin: 20px;
     background-color: white;
@@ -37,7 +37,7 @@ div.calculator-buttons {
     position: relative;
     height: 100px;
     width: calc(100% - 40px);
-    margin: 20px;
+    margin: 16px;
 }
 
 div.calculator-inputs  span {
@@ -49,9 +49,11 @@ div.problem {
     justify-content: flex-start;
     margin: 8px 8px;
     height: 90px;
-    width: 390px;
+    width: inherit;
     overflow-x: scroll;
     align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 div.problem * {
@@ -85,7 +87,7 @@ div.problem .medium-math-symbol *{
     height: 60px;
     width: max-content;
     right: 30px;
-    bottom: 380px;
+    top: 160px;
     margin: 8px;
     border-radius: 4px;
     flex-direction: column;
@@ -168,6 +170,10 @@ span.medium-math-symbol {
 
 .solution {
     font-size: 22px;
+    display: inline-block;
+}
+.solution *{
+    display: inline-block;
 }
 
 #calculator-handle{

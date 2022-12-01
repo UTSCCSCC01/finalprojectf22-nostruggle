@@ -5,7 +5,7 @@ import RedButton from './RedButton';
 import GreenButton from './GreenButton';
 import BlueButton from './BlueButton';
 
-const KatexButton = ({ handleClick, tex, buttonColour }) => {
+const KaTeXButton = ({ handleClick, tex, buttonColour }) => {
     
     const containerRef = useRef();
 
@@ -26,4 +26,4 @@ const KatexButton = ({ handleClick, tex, buttonColour }) => {
     }
 }
 
-export default KatexButton
+export default KaTeXButton
