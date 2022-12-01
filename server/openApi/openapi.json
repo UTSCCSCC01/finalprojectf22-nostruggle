@@ -19,7 +19,7 @@
   },
   "servers": [
     {
-      "url": "https://localhost:2800/api/v1"
+      "url": "https://nostruggle-server-b8cj6.ondigitalocean.app/openapi"
     }
   ],
   "tags": [
@@ -321,8 +321,9 @@
             "description": "Amount of time in seconds logged",
             "required": true,
             "explode": true,
-            "schema": null,
-            "type": "number"
+            "schema": {
+              "type": "number"
+            }
           }
         ],
         "responses": {
@@ -362,7 +363,7 @@
         ],
         "summary": "Get user's daily task summary for a specified date",
         "description": "pending desc.",
-        "operationId": "findTasksByUserId",
+        "operationId": "findTasksByUserIdDailyDate",
         "parameters": [
           {
             "name": "userId",
@@ -468,26 +469,33 @@
         }
       }
     },
-    "/user/createWithList": {
-      "post": {
+    "/user/{username}/{password}": {
+      "get": {
         "tags": [
           "user"
         ],
-        "summary": "Creates list of users with given input array",
-        "description": "Creates list of users with given input array",
-        "operationId": "createUsersWithListInput",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
+        "summary": "Returns the users with the matching username and password",
+        "operationId": "usernamepassword",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "description": "The user name for login",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "path",
+            "description": "The password for login",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -510,29 +518,19 @@
         }
       }
     },
-    "/user/login": {
+    "/user/{username}": {
       "get": {
         "tags": [
           "user"
         ],
-        "summary": "Logs user into the system",
-        "description": "",
-        "operationId": "loginUser",
+        "summary": "Returns the users with the matching username",
+        "operationId": "username",
         "parameters": [
           {
             "name": "username",
-            "in": "query",
+            "in": "path",
             "description": "The user name for login",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "description": "The password for login in clear text",
-            "required": false,
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -540,71 +538,42 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "headers": {
-              "X-Rate-Limit": {
-                "description": "calls per hour allowed by the user",
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              },
-              "X-Expires-After": {
-                "description": "date in UTC when token expires",
-                "schema": {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              }
-            },
+            "description": "Successful operation",
             "content": {
-              "application/xml": {
-                "schema": {
-                  "type": "string"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
           },
-          "400": {
-            "description": "Invalid username/password supplied"
-          }
-        }
-      }
-    },
-    "/user/logout": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Logs out current logged in user session",
-        "description": "",
-        "operationId": "logoutUser",
-        "parameters": [],
-        "responses": {
           "default": {
             "description": "successful operation"
           }
         }
       }
     },
-    "/user/{username}": {
+    "/aboutme/{username}": {
       "get": {
         "tags": [
           "user"
         ],
-        "summary": "Get user by user name",
+        "summary": "Get a user's about me",
         "description": "",
-        "operationId": "getUserByName",
+        "operationId": "aboutmeusername",
         "parameters": [
           {
             "name": "username",
             "in": "path",
-            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "description": "The user name for login",
             "required": true,
             "schema": {
               "type": "string"
@@ -615,23 +584,20 @@
           "200": {
             "description": "successful operation",
             "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
           },
           "400": {
             "description": "Invalid username supplied"
-          },
-          "404": {
-            "description": "User not found"
           }
         }
       },
@@ -639,75 +605,28 @@
         "tags": [
           "user"
         ],
-        "summary": "Update user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "updateUser",
+        "summary": "Creates a user's about me content",
+        "description": "",
         "parameters": [
           {
             "name": "username",
             "in": "path",
-            "description": "name that need to be deleted",
+            "description": "The user name for login",
             "required": true,
             "schema": {
               "type": "string"
             }
           }
         ],
-        "requestBody": {
-          "description": "Update an existent user",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
+        "operationId": "aboutmeusernameput",
         "responses": {
           "default": {
             "description": "successful operation"
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Delete user",
-        "description": "This can only be done by the logged in user.",
-        "operationId": "deleteUser",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "description": "The name that needs to be deleted",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "400": {
-            "description": "Invalid username supplied"
-          },
-          "404": {
-            "description": "User not found"
-          }
-        }
       }
     },
-    "/answers": {
+    "/answers/{postId}": {
       "post": {
         "tags": [
           "answers"
@@ -715,6 +634,17 @@
         "summary": "Create an answer",
         "description": "Create an answer for a post",
         "operationId": "createAnswer",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "The parent post's mongoDB _id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "description": "This can only be done by a logged in user on a page for viewing a forum thread",
           "content": {
@@ -755,12 +685,137 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "answers"
+        ],
+        "summary": "Get the answers to a post",
+        "description": "",
+        "operationId": "postId",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "The post's mongoDB _id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Answer"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Answer"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid username supplied"
+          }
+        }
       }
     },
-    "/post": {
+    "/forumPosts/{postId}": {
+      "get": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Get a post by its db id",
+        "description": "",
+        "operationId": "postIdgetpost",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "The post's mongoDB _id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "posts"
+        ],
+        "summary": "Delete a post",
+        "description": "Delete a post from database",
+        "operationId": "getPost",
+        "parameters": [
+          {
+            "name": "postId",
+            "in": "path",
+            "description": "The post's mongoDB _id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "Error getting data from database"
+          },
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/forumPosts/post": {
       "post": {
         "tags": [
-          "post"
+          "posts"
         ],
         "summary": "Create a post",
         "description": "This can only be done",
@@ -808,7 +863,7 @@
       },
       "get": {
         "tags": [
-          "post"
+          "posts"
         ],
         "summary": "Get posts",
         "description": "Get posts from database",
@@ -832,6 +887,216 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/answers": {
+      "get": {
+        "tags": [
+          "answers"
+        ],
+        "summary": "Get post answers by a specific query",
+        "description": "Get posts from database",
+        "operationId": "getAnswersFromQuery",
+        "responses": {
+          "409": {
+            "description": "Error getting data from database"
+          },
+          "default": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/comment": {
+      "post": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Create a comment",
+        "description": "This can only be done",
+        "operationId": "createCommentPost",
+        "requestBody": {
+          "description": "The new comment to post",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Error getting data from database"
+          },
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/comment/{answerId}": {
+      "get": {
+        "tags": [
+          "comments"
+        ],
+        "summary": "Get comments",
+        "description": "Get comments of a specfic answer post",
+        "operationId": "getComment",
+        "parameters": [
+          {
+            "name": "answerId",
+            "in": "path",
+            "description": "The answer's mongoDB id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "Error getting data from database"
+          },
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/notifications": {
+      "get": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Get notifications based on queries",
+        "description": "",
+        "operationId": "notifget",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Queries to filter notifications by",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notification"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Create a new notifications",
+        "operationId": "notifpost",
+        "requestBody": {
+          "description": "The new notifications to post",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Notification"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Notification"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Notification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Error getting data from database"
+          },
+          "default": {
+            "description": "successful operation"
+          }
+        }
+      }
+    },
+    "/notifications/read": {
+      "post": {
+        "tags": [
+          "notifications"
+        ],
+        "summary": "Mark a notification as read",
+        "operationId": "notifpostread",
+        "parameters": [
+          {
+            "name": "notificationId",
+            "in": "query",
+            "description": "The notif's mongoDB _id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "409": {
+            "description": "Error getting data from database"
+          },
+          "default": {
+            "description": "successful operation"
           }
         }
       }
@@ -1013,6 +1278,78 @@
               "type": "string"
             },
             "example": []
+          }
+        },
+        "xml": {
+          "name": "user"
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "required": [
+          "content",
+          "created_by",
+          "comment_of",
+          "created_At",
+          "nLikes"
+        ],
+        "properties": {
+          "content": {
+            "type": "string",
+            "example": "You can try using recursion"
+          },
+          "created_by": {
+            "type": "string",
+            "example": "Catherine"
+          },
+          "created_At": {
+            "type": "string",
+            "example": "07_10_2022"
+          },
+          "nLikes": {
+            "type": "number",
+            "example": 0
+          },
+          "comment_of": {
+            "type": "string",
+            "example": "634b447487873860a7fdff48"
+          }
+        }
+      },
+      "Notification": {
+        "type": "object",
+        "required": [
+          "source",
+          "sourceTitle",
+          "sourceAuthor",
+          "type",
+          "toUserId",
+          "read"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "example": "634b447487873860a7fdff48"
+          },
+          "sourceTitle": {
+            "type": "string",
+            "example": "How many days in a week?"
+          },
+          "sourceAuthor": {
+            "type": "string",
+            "example": "Catherine"
+          },
+          "type": {
+            "type": "string",
+            "example": "comment"
+          },
+          "toUserId": {
+            "type": "string",
+            "example": "634b447487873860a7fdff48"
+          },
+          "read": {
+            "type": "boolean",
+            "example": true
           }
         },
         "xml": {
