@@ -13,7 +13,7 @@ menu:
 #### Features
 
 - Forum
-- Study Timer
+- Study Timer and TodoList
 - Calculator
 
 ##### Tools
