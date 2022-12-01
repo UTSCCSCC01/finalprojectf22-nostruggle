@@ -7,15 +7,16 @@ const ButtonPad = ({ handleClick, buttons }) => {
     
     const buttonsJsx = [];
 
-    buttonsJsx.push(<RedButton onClick={ (e) => {
-        e.currentTarget.blur();
-        handleClick('CLEAR');
-    }}> CLEAR</RedButton>)
-
-    buttonsJsx.push(<GreenButton onClick={ (e) => {
-        e.currentTarget.blur();
-        handleClick('GO');
-    }}>GO</GreenButton>)
+    buttonsJsx.push(<div style={{ display: 'flex', justifyContent: 'center'}}>
+        <RedButton onClick={ (e) => {
+            e.currentTarget.blur();
+            handleClick('CLEAR');
+        }}> CLEAR</RedButton>
+        <GreenButton onClick={ (e) => {
+            e.currentTarget.blur();
+            handleClick('GO');
+        }}>GO</GreenButton>
+    </div>)
 
     const numCol = 4;
         
