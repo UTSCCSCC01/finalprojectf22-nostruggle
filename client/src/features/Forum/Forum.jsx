@@ -83,11 +83,11 @@ function Forum(){
         <Container>
             <h2>NoStruggle Browsing</h2>
             <Button onClick={createNewPost}>Create a new Post</Button>
-            {data.slice((page-1)*3,page*3).map((item) => <ForumCard title={item.title} content={item.content} tag={item.tags}
+            {data.slice((page-1)*10,page*10).map((item) => <ForumCard title={item.title} content={item.content} tag={item.tags}
                 date={item.created_At} nLikes={item.nLikes} postId={item._id} created_by={item.created_by}
                 likedBy={item.likedBy} />
             )}
-            <Pagination count={Math.ceil(data.length/3)} color="primary"  page={page} 
+            <Pagination count={Math.ceil(data.length/10)} color="primary"  page={page} 
                     onChange={handleChange}/>
         </Container>
 
