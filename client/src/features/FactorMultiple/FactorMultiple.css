@@ -1,13 +1,13 @@
 .FactorMultiple {
     position: fixed;
     left: 70px;
+    top: 300px;
     padding: 0.7rem;
     width: 510px;
     height: 410px;
     display: flex;
     flex-flow: column wrap;
     align-items: stretch;
-    z-index: 1800;
 }
 
 .multipleTitle > * {

@@ -11,10 +11,10 @@ import { DragIndicator, Remove } from '@mui/icons-material';
 import { simplify } from '../../features/StandardCalculator/standardCalculatorLogic';
 import { derivativeType } from '../../features/DerivativeCalculator/derivativeCalculatorLogic';
 import { findIntegral } from '../../features/IntegralCalculator/integralCalculatorLogic'
-
+import { useUserState } from '../../features/SignUp/UserContext'
 
 const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
-
+    const { userState, setUserState } = useUserState()
     const defaultField = {
         id: -1,
         inputType: 'default',
@@ -609,7 +609,7 @@ const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
                 <Button id='calculator-handle'>
                     <DragIndicator color=''/>
                 </Button>
-                <IconButton sx={{position: "absolute", right: 10, top: 1 }} children={<Remove/>}  onClick={ closeCalculator }/>
+                <IconButton sx={{position: "absolute", right: 10, top: 1 }} children={<Remove/>}  onClick={() => setUserState({...userState, [calculatorType]: false}) }/>
                 <span id='error-message' />
                 <div className='calculator-inputs' >
                     <div className='problem'>

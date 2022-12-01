@@ -11,8 +11,9 @@
 div.calculator-box {
     position: fixed;
     left: 70px;
-    height: 540px;
-    width: 420px;
+    top: 200px;
+    height: 600px;
+    width: 440px;
     min-width: 410px;
     margin: 20px;
     padding: 8px;
@@ -20,7 +21,6 @@ div.calculator-box {
     border-radius: 10px;
     background-color: #eeeff9;
     box-shadow: 0 10px 16px 0 rgba(4, 76, 107, 0.2),0 6px 20px 0 rgba(4, 76, 107, 0.19) !important;
-    z-index: 1800;
 }
 
 div.calculator-inputs {

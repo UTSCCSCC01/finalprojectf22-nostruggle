@@ -27,8 +27,8 @@ const StudyTimer = (props) => {
     const [ sound, setSound ] = useState(null)
     const [ isSavingTime, setIsSavingTime ] = useState(false)
     const [ selectTask, toggleSelectTask ] = useState(false)
-    const { userState } = useUserState()
     const [ studyMode, setStudyMode ] = useState('timer');
+    const { userState, setUserState } = useUserState()
 
     const convertSecondsToString = (seconds) => {
         let date = new Date(seconds * 1000)
@@ -304,6 +304,7 @@ const StudyTimer = (props) => {
     const resetTime = () => {
         dispatch({type: 'time', payload: 0 })
         dispatch({type: 'pomodoroTime', payload: studyTimer.pomodoro.studySeconds })
+        setUserState({...userState, time: ''})
     }
 
     useEffect(() => {
@@ -330,6 +331,7 @@ const StudyTimer = (props) => {
                 saveTime()
                 
             }
+            setUserState({...userState, time: studyTimer.time.seconds > 0 ? studyTimer.time.string : ''})
         }
     }, [studyTimer.time])
 
@@ -358,7 +360,7 @@ const StudyTimer = (props) => {
 
     return (
         <>
-            { open &&
+            { userState.timer &&
             <>
                 <TimerSelectTask 
                     open={selectTask} 
@@ -382,7 +384,7 @@ const StudyTimer = (props) => {
                     <Button id='studytimer-handle'>
                         <DragIndicator color=''/>
                     </Button>
-                    <IconButton sx={{position: 'absolute', right: 10, top: 0}} onClick={() => toggleOpen(false)}><Remove/></IconButton>
+                    <IconButton sx={{position: "absolute", right: 10, top: 1 }} children={<Remove/>}  onClick={() => setUserState({...userState, timer: false}) }/>
                         <div>
                             <div >
                                 {/* <header>Mode: {studyTimer.mode}</header> */}
@@ -404,7 +406,7 @@ const StudyTimer = (props) => {
                                             : 
                                             <BlueButton size='small' sx={{ fontSize: '16px', borderRadius: '10px'}} onClick={stopTime} startIcon={<PauseCircleOutline sx={{ width: '34px', height: '34px', fontSize: open ?  '2.5rem' : '1.3rem'}}/>}>PAUSE</BlueButton>
                                         }
-                                        { !open  ? ( studyTimer.time.seconds && <div><b>{studyTimer.time.string}</b></div>)
+                                        { !userState.timer  ? ( studyTimer.time.seconds && <div><b>{studyTimer.time.string}</b></div>)
                                             : (  !studyTimer.running && <RedButton sx={{ fontSize: '16px'}} startIcon={<Replay sx={{ fontSize: open ? '2.5rem' : '1.3rem'}}/>} onClick={resetTime}>RESET</RedButton>)
                                         }
                                         {
@@ -446,7 +448,6 @@ const StudyTimer = (props) => {
                 </ToolBarDraggableWrapper>
             </>
             }
-            <StudyTimerIcon iconVariant={props.iconVariant} open={open} onClick={() => toggleOpen(!open)} time={studyTimer.time.seconds > 0 ? studyTimer.time.string : ''}/>
         </>    
     )
 }

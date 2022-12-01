@@ -4,12 +4,13 @@ import { DragIndicator, Remove } from '@mui/icons-material';
 import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
 import MatrixIcon from './MatrixIcon'
 import MatrixCalculatorLogic from './MatrixCalculatorLogic';
-
+import { useUserState } from '../SignUp/UserContext';
 import './MatrixCalculator.css'
 import KaTeXComponent from '../../components/calculator/KaTeXComponent';
 import GreenButton from '../../components/buttons/GreenButton';
 
 const MatrixCalculator = ({ iconVariant }) => {
+    const { userState, setUserState } = useUserState()
     var mc = new MatrixCalculatorLogic();
 
     const [ open, toggleOpen ] = useState(false);
@@ -136,13 +137,13 @@ const MatrixCalculator = ({ iconVariant }) => {
     return (
         <>
             {
-                open &&
+                userState.matrix &&
                 <ToolBarDraggableWrapper handle='#matrix-calculator-handle'>
                     <div className='matrix-calculator-box'>
                         <Button id='matrix-calculator-handle'>
                             <DragIndicator color=''/>
                         </Button>
-                        <IconButton sx={{position: "absolute", right: 10, top: 1 }} children={<Remove/>}  onClick={() => toggleOpen(false)}/>
+                        <IconButton sx={{position: "absolute", right: 10, top: 1 }} children={<Remove/>}  onClick={() => setUserState({...userState, matrix: false})}/>
                         <div className='matrix-options'>
                             <span style={{ fontSize: '22px', marginRight: '6px'}} >Solve for </span>
                             <FormControl error={ missingOperationError }>
@@ -177,7 +178,6 @@ const MatrixCalculator = ({ iconVariant }) => {
                     </div>
                 </ToolBarDraggableWrapper>
             }
-            <MatrixIcon iconVariant={ iconVariant }open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 

@@ -3,6 +3,12 @@ import { useState, useEffect } from 'react';
 import { Provider as UserProvider, contextState } from '../../../features/SignUp/UserContext';
 import NavBar from './NavBar';
 import ApiCall from '../../api/ApiCall';
+import DerivativeCalculator from '../../../features/DerivativeCalculator/DerivativeCalculator';
+import IntegralCalculator from '../../../features/IntegralCalculator/IntegralCalculator';
+import StandardCalculator from '../../../features/StandardCalculator/StandardCalculator';
+import StudyTimer from '../../../features/Todo/StudyTimer/StudyTimer';
+import FactorMultiple from '../../../features/FactorMultiple/FactorMultiple';
+import MatrixCalculator from '../../../features/MatrixCalculator/MatrixCalculator';
 const UserOutlet = () => {
 
     const [ userState, setUserState ] = useState(contextState)
@@ -85,6 +91,12 @@ const UserOutlet = () => {
     return (
         <UserProvider value={ { userState, setUserState } }>
             <NavBar hasNewNotifications={hasNewNotifications} setHasNewNotifications={setHasNewNotifications} load={ load } /> 
+            <DerivativeCalculator />
+            <IntegralCalculator />
+            <StandardCalculator />
+            <StudyTimer />
+            <FactorMultiple />
+            <MatrixCalculator />
         </UserProvider>
     )
 }

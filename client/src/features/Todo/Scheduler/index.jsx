@@ -61,7 +61,6 @@ const Scheduler = () => {
     }
     
     const getPage = () =>{
-        console.log(schedule)
         return (
             <div className='Scheduler'>
                 <h1>NoStruggle Focusing</h1> 

@@ -11,6 +11,7 @@
 div.matrix-calculator-box {
     position: fixed;
     left: 70px;
+    top: 350px;
     height: 530px;
     width: 500px;
     min-width: 410px;
@@ -20,7 +21,6 @@ div.matrix-calculator-box {
     border-radius: 10px;
     background-color: #eeeff9;
     box-shadow: 0 10px 16px 0 rgba(4, 76, 107, 0.2),0 6px 20px 0 rgba(4, 76, 107, 0.19) !important;
-    z-index: 1800;
 }
 
 #matrix-calculator-handle{
@@ -97,7 +97,8 @@ div.matrix-options *:not(.go-button) {
 
 div.matrix-solution {
     width: 100%;
-    margin: auto;
+    display: flex;
+    justify-content: center;
 }
 
 #console {

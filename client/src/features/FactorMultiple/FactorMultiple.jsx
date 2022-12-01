@@ -6,7 +6,10 @@ import { DragIndicator, Remove } from "@mui/icons-material"
 import GreenButton from '../../components/buttons/GreenButton'
 import './FactorMultiple.css'
 import { useEffect } from "react"
+import { useUserState } from "../SignUp/UserContext"
+
 const FactorMultiple = ({ iconVariant }) => {
+    const { userState, setUserState } = useUserState()
     const [ open, toggleOpen ] = useState(false)
     const [ numberToFactor, setNumberToFactor ] = useState(0)
     const [ factorMessage, setFactorMessage ] = useState({})
@@ -65,7 +68,7 @@ const FactorMultiple = ({ iconVariant }) => {
 
     return (
         <>
-            { open &&
+            { userState.factor &&
                 <ToolBarDraggableWrapper handle='#factorMultipleHandle'>
                     <Card className='FactorMultiple'
                     sx={{
@@ -79,7 +82,7 @@ const FactorMultiple = ({ iconVariant }) => {
                         <Button id='factorMultipleHandle'>
                             <DragIndicator color=''/>
                         </Button>
-                        <IconButton sx={{position: 'absolute', right: 10, top: 0}} onClick={() => toggleOpen(false)}><Remove/></IconButton>
+                        <IconButton sx={{position: "absolute", right: 10, top: 1 }} children={<Remove/>}  onClick={() => setUserState({...userState, factor: false}) }/>
                         {/* <CardHeader sx={{padding: 0 }} title="Factor / Multiples"/> */}
                         <div className='factor-multiple-body'>
                             <div className='multipleTitle' style={{ display: 'flex', alignItems: 'center' }}>
@@ -142,7 +145,6 @@ const FactorMultiple = ({ iconVariant }) => {
                     </Card> 
                 </ToolBarDraggableWrapper>
             }
-            <FactorMultipleIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 }

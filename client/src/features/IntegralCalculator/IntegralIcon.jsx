@@ -2,12 +2,13 @@ import { IconButton } from '@mui/material'
 import { ReactComponent as FunctionIcon } from '../../assets/icons/functions.svg'
 import ToolsBarButton from "../../components/buttons/ToolsBarButton"
 import theme from "../../theme"
+import { useUserState } from '../SignUp/UserContext'
+const IntegralIcon = ({ iconVariant }) => {
 
-const IntegralIcon = ({ onClick, open, iconVariant }) => {
-
+    const { userState, setUserState } = useUserState();
     const handleClick = (e) => {
         e.currentTarget.blur();
-        onClick();
+        setUserState({ ...userState, integrate: !userState.integrate})
     }
 
     return (
@@ -16,7 +17,7 @@ const IntegralIcon = ({ onClick, open, iconVariant }) => {
                 iconVariant === 'text' ?
                 <ToolsBarButton style={{
                     position: 'relative',
-                    color: open ? theme.button_active : theme.button_inactive
+                    color:  userState.integrate ? theme.button_active : theme.button_inactive
                 }}
                 onClick={ (e) => handleClick(e) }
                 startIcon={ <FunctionIcon width='30px' height='30px' /> }

@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import Calculator from '../../components/calculator/Calculator';
 import StandardCalculatorIcon from "./StandardCalculatorIcon"
-
+import { useUserState } from '../SignUp/UserContext';
 const StandardCalculator = ({ iconVariant }) => {
-
+    const { userState, setUserState } = useUserState();
     const [ open, toggleOpen ] = useState(false);
 
     const standardButtons = [
@@ -24,10 +24,9 @@ const StandardCalculator = ({ iconVariant }) => {
     return (
         <>
             {
-                open &&
+                userState.standard &&
                 <Calculator calculatorType='standard' buttons={ standardButtons }  closeCalculator={() => toggleOpen(false)} />
             }
-            <StandardCalculatorIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 }
