@@ -19,7 +19,7 @@
   },
   "servers": [
     {
-      "url": "https://localhost:2800/api/v1"
+      "url": "https://nostruggle-server-b8cj6.ondigitalocean.app/openapi"
     }
   ],
   "tags": [
