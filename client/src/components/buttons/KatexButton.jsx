@@ -3,7 +3,7 @@ import katex from 'katex';
 
 import BlueButton from './BlueButton';
 
-const KaTeXButton = ({ handleClick, tex, buttonType }) => {
+const KatexButton = ({ handleClick, tex, buttonType }) => {
     
     const containerRef = useRef();
 
@@ -20,4 +20,4 @@ const KaTeXButton = ({ handleClick, tex, buttonType }) => {
     }
 }
 
-export default KaTeXButton
+export default KatexButton
