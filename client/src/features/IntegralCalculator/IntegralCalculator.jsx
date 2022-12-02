@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import Calculator from '../../components/calculator/Calculator';
 import IntegralIcon from "./IntegralIcon"
-
+import { useUserState } from '../SignUp/UserContext';
 const IntegralCalculator = ({ iconVariant }) => {
     const [ open, toggleOpen ] = useState(false);
-
+    const { userState } = useUserState();
     const integralButtons = [
         { action: 'log',        tex: '\\log' },
         { action: 'cos',        tex: '\\cos' },
@@ -23,10 +23,9 @@ const IntegralCalculator = ({ iconVariant }) => {
     return (
         <>
             {
-                open &&
+                userState.integrate &&
                 <Calculator calculatorType='integrate' buttons={ integralButtons }  closeCalculator={() => toggleOpen(false)} />
             }
-            <IntegralIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 }

@@ -4,7 +4,9 @@ import ToolBarDraggableWrapper from '../../components/navigation/ToolsBar/ToolBa
 import FactorMultipleIcon from "./FactorMultipleIcon"
 import { DragIndicator, Remove } from "@mui/icons-material"
 import './FactorMultiple.css'
+import { useUserState } from "../SignUp/UserContext"
 const FactorMultiple = ({ iconVariant }) => {
+    const { userState, setUserState } = useUserState()
     const [ open, toggleOpen ] = useState(false)
     const [ numberToFactor, setNumberToFactor ] = useState(0)
     const [ factorMessage, setFactorMessage ] = useState({})
@@ -59,13 +61,13 @@ const FactorMultiple = ({ iconVariant }) => {
     }
     return (
         <>
-            { open &&
+            { userState.factor &&
                 <ToolBarDraggableWrapper handle='#factorMultipleHandle'>
                     <Card className='FactorMultiple'>
                         <Button id='factorMultipleHandle'>
                             <DragIndicator color=''/>
                         </Button>
-                        <IconButton sx={{position: 'absolute', right: 10, top: 0}} onClick={() => toggleOpen(false)}><Remove/></IconButton>
+                        <IconButton sx={{position: 'absolute', right: 10, top: 0}} onClick={() => setUserState({...userState, factor: false})}><Remove/></IconButton>
                         <CardHeader sx={{margin: 'auto', paddingTop: 0 }} title="Factor / Multiples"/>
                         <InputLabel>Find factors of: </InputLabel>
                         <TextField type='number' value={numberToFactor} onChange={(e) => setNumberToFactor(e.target.value)} /> 
@@ -86,7 +88,6 @@ const FactorMultiple = ({ iconVariant }) => {
                     </Card> 
                 </ToolBarDraggableWrapper>
             }
-            <FactorMultipleIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 }

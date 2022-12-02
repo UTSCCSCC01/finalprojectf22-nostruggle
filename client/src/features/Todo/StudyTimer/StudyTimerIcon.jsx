@@ -2,12 +2,13 @@ import  { Timer } from "@mui/icons-material"
 import { IconButton } from "@mui/material"
 import ToolsBarButton from "../../../components/buttons/ToolsBarButton"
 import theme from "../../../theme"
-
+import { useUserState } from "../../SignUp/UserContext"
 const StudyTimerIcon = ({ onClick, time, open, iconVariant }) => {
 
+    const { userState, setUserState } = useUserState();
     const handleClick = (e) => {
         e.currentTarget.blur();
-        onClick();
+        setUserState({...userState, timer: !userState.timer})
     }
 
     return (
@@ -16,18 +17,18 @@ const StudyTimerIcon = ({ onClick, time, open, iconVariant }) => {
                 iconVariant === 'text' ?
                 <ToolsBarButton style={{
                     position: 'relative',
-                    top: time ? '10px' : '',
-                    color: open ? theme.button_active : theme.button_inactive
+                    top:  userState.time ? '10px' : '',
+                    color:  userState.timer ? theme.button_active : theme.button_inactive
                 }}
                 onClick={ (e) => handleClick(e) }
-                startIcon={ <Timer sx={{ fontSize: '40px', color: open ? theme.button_active : theme.button_inactive }}/> }
+                startIcon={ <Timer sx={{ fontSize: '40px', color:  userState.timer ? theme.button_active : theme.button_inactive }}/> }
                 >Study Timer</ToolsBarButton>
                 :
                 <IconButton
                 onClick={ (e) => handleClick(e) }
-                children={ <Timer sx={{ width: '20px', height: '20px' , color: open ? theme.button_active : theme.button_inactive }}/> } />
+                children={ <Timer sx={{ width: '20px', height: '20px' , color:  userState.matrix.timer ? theme.button_active : theme.button_inactive }}/> } />
             }
-            <span style={{ fontWeight: 700, position: 'relative', marginBottom: '-10px'}}>{time}</span>
+            <span style={{ fontWeight: 700, position: 'relative', marginBottom: '-10px'}}>{userState.time ? userState.time : ''}</span>
         </div>
     )
 }

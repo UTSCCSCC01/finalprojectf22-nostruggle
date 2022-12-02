@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import Calculator from '../../components/calculator/Calculator';
 import DerivativeIcon from "./DerivativeIcon"
-
+import { useUserState } from '../SignUp/UserContext';
 const DerivativeCalculator = ({ iconVariant }) => {
+    const { userState } = useUserState();
     const [ open, toggleOpen ] = useState(false);
 
     const derivativeButtons = [
@@ -23,10 +24,9 @@ const DerivativeCalculator = ({ iconVariant }) => {
     return (
         <>
             {
-                open &&
+                userState.derive &&
                 <Calculator calculatorType='derive' buttons={ derivativeButtons } closeCalculator={() => toggleOpen(false)} />
             }
-            <DerivativeIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 }

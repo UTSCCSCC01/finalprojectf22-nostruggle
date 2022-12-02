@@ -24,7 +24,7 @@ const StudyTimer = (props) => {
     const [ sound, setSound ] = useState(null)
     const [ isSavingTime, setIsSavingTime ] = useState(false)
     const [ selectTask, toggleSelectTask ] = useState(false)
-    const { userState } = useUserState()
+    const { userState, setUserState } = useUserState()
 
     const convertSecondsToString = (seconds) => {
         let date = new Date(seconds * 1000)
@@ -326,6 +326,7 @@ const StudyTimer = (props) => {
                 saveTime()
                 
             }
+            setUserState({...userState, time: studyTimer.time.seconds > 0 ? studyTimer.time.string : ''})
         }
     }, [studyTimer.time])
 
@@ -335,7 +336,7 @@ const StudyTimer = (props) => {
 
     return (
         <>
-            { open &&
+            { userState.timer &&
             <>
                 <TimerSelectTask 
                     open={selectTask} 
@@ -350,7 +351,7 @@ const StudyTimer = (props) => {
                         <div>
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                 <Button onClick={() => navigate("/todo")}>Edit To-do List</Button>
-                                <IconButton children={<Remove/>}  onClick={() => toggleOpen(false)}/>
+                                <IconButton children={<Remove/>}  onClick={() => setUserState({...userState, timer: false})}/>
                             </div>
                             <div >
                                 { ! studyTimer.running &&
@@ -394,7 +395,6 @@ const StudyTimer = (props) => {
                 </ToolBarDraggableWrapper>
             </>
             }
-            <StudyTimerIcon iconVariant={props.iconVariant} open={open} onClick={() => toggleOpen(!open)} time={studyTimer.time.seconds > 0 ? studyTimer.time.string : ''}/>
         </>    
     )
 }

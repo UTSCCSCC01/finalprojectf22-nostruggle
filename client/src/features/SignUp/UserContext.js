@@ -5,7 +5,14 @@ export const contextState = {
     signedIn: false,
     postId: "",
     signedOut: false,
-    shift: true
+    shift: true,
+    derive: false,
+    matrix: false,
+    integrate: false,
+    factor: false,
+    standard: false,
+    timer: false,
+    time: 0
 }
 
 const UserContext = createContext(contextState)

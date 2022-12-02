@@ -2,12 +2,15 @@ import { IconButton } from '@mui/material'
 import { ReactComponent as TableIcon } from '../../assets/icons/table.svg'
 import ToolsBarButton from "../../components/buttons/ToolsBarButton"
 import theme from "../../theme"
+import { useUserState } from '../SignUp/UserContext';
 
-const MatrixIcon = ({ onClick, open, iconVariant }) => {
+const MatrixIcon = ({ iconVariant }) => {
+    const { userState,
+         setUserState } = useUserState()
 
     const handleClick = (e) => {
         e.currentTarget.blur();
-        onClick();
+        setUserState({...userState, matrix: !userState.matrix})
     }
 
     return (
@@ -16,7 +19,7 @@ const MatrixIcon = ({ onClick, open, iconVariant }) => {
                 iconVariant === 'text' ?
                 <ToolsBarButton style={{
                     position: 'relative',
-                    color: open ? theme.button_active : theme.button_inactive
+                    color: userState.matrix ? theme.button_active : theme.button_inactive
                 }}
                 onClick={ (e) => handleClick(e) }
                 startIcon={ <TableIcon width='30px' height='30px' /> }

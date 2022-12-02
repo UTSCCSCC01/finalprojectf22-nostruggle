@@ -49,7 +49,6 @@ const Scheduler = () => {
     }
     
     const getPage = () =>{
-        console.log(schedule)
         return (
             <div className='Scheduler'>
                 <TodoList 
