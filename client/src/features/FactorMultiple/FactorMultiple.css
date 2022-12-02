@@ -1,13 +1,13 @@
 .FactorMultiple {
     position: fixed;
     left: 70px;
+    top: 300px;
     padding: 0.7rem;
-    background-color: white;
-    max-width: 400px;
+    width: 510px;
+    height: 410px;
     display: flex;
     flex-flow: column wrap;
     align-items: stretch;
-    z-index: 1800;
 }
 
 .multipleTitle > * {
@@ -18,12 +18,22 @@
     font-weight: 600 !important;
 }
 
-.FactorMultiple button {
-    margin-bottom: 1rem !important;
-}
-
 #factorMultipleHandle{
     width: 100%;
     height: 2rem;
     align-self: center;
+}
+
+div.factor-input {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+div.factor-multiple-body {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
 }

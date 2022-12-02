@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import katex from 'katex';
 
-const KaTeXComponent = ({ className, tex }) => {
+const KaTeXComponent = ({ className, tex, onClick }) => {
     const containerRef = useRef();
 
     useEffect(() => {
@@ -10,7 +10,7 @@ const KaTeXComponent = ({ className, tex }) => {
         });
     });
 
-    return <span className={ className } ref={ containerRef } />
+    return <span className={ className } ref={ containerRef } onClick={ onClick }/>
 }
 
 export default KaTeXComponent

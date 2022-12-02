@@ -1,19 +1,17 @@
 import { useState } from 'react'
 import Calculator from '../../components/calculator/Calculator';
-import AlgebraIcon from "./AlgebraIcon"
-
-const AlgebraCalculator = ({ iconVariant }) => {
-
+import StandardCalculatorIcon from "./StandardCalculatorIcon"
+import { useUserState } from '../SignUp/UserContext';
+const StandardCalculator = ({ iconVariant }) => {
+    const { userState, setUserState } = useUserState();
     const [ open, toggleOpen ] = useState(false);
 
-    const algebraButtons = [
-        { action: 'ln',         tex: '\\ln' },
+    const standardButtons = [
         { action: 'log',        tex: '\\log' },
         { action: 'cos',        tex: '\\cos' },
         { action: 'sin',        tex: '\\sin' },
         { action: 'tan',        tex: '\\tan' },
         { action: 'brackets',   tex: '(\\square)' },
-        { action: 'abs',        tex: '\\lvert\\square\\rvert' },
         { action: 'fraction',   tex: '\\frac{\\square}{\\square}' },
         { action: 'exponent',   tex: '\\square^{\\square}' },
         { action: 'root',       tex: '\\sqrt[\\square]{\\square}' },
@@ -26,12 +24,11 @@ const AlgebraCalculator = ({ iconVariant }) => {
     return (
         <>
             {
-                open &&
-                <Calculator calculatorType='algebra' buttons={ algebraButtons }  closeCalculator={() => toggleOpen(false)} />
+                userState.standard &&
+                <Calculator calculatorType='standard' buttons={ standardButtons }  closeCalculator={() => toggleOpen(false)} />
             }
-            <AlgebraIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 }
 
-export default AlgebraCalculator
+export default StandardCalculator

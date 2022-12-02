@@ -7,17 +7,18 @@ const ButtonPad = ({ handleClick, buttons }) => {
     
     const buttonsJsx = [];
 
-    buttonsJsx.push(<RedButton onClick={ (e) => {
-        e.currentTarget.blur();
-        handleClick('CLEAR');
-    }}> CLEAR</RedButton>)
+    buttonsJsx.push(<div style={{ display: 'flex', justifyContent: 'center'}}>
+        <RedButton onClick={ (e) => {
+            e.currentTarget.blur();
+            handleClick('CLEAR');
+        }}> CLEAR</RedButton>
+        <GreenButton onClick={ (e) => {
+            e.currentTarget.blur();
+            handleClick('GO');
+        }}>GO</GreenButton>
+    </div>)
 
-    buttonsJsx.push(<GreenButton onClick={ (e) => {
-        e.currentTarget.blur();
-        handleClick('GO');
-    }}>GO</GreenButton>)
-
-    const numCol = 5;
+    const numCol = 4;
         
     for (let i = 0; i < buttons.length; i += numCol) {
         buttonsJsx.push(
@@ -32,6 +33,7 @@ const ButtonPad = ({ handleClick, buttons }) => {
                         handleClick(button.action)
                     }}
                     tex={`${ button.tex }`}
+                    buttonColour='blue'
                     />
                 ))}
             </Grid>

@@ -16,7 +16,7 @@ const RedButton = styled(Button)({
     fontFamily: theme.primary_fontfamily,
     '&:hover, &:focus': {
         color: '#980707 !important',
-        backgroundColor: '#fad8db !important'
+        backgroundColor: '#fab6bc !important'
     }
 });
 

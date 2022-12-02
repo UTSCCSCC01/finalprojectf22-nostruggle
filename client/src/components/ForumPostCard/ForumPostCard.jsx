@@ -94,19 +94,17 @@ const ForumPostCard = (props) =>{
                 <Typography variant="body1" sx={{fontWeight: "regular"}}>
                     {content}
                 </Typography>
-                <Typography>
+                <Typography sx={{fontWeight:"bold"}}>
                     {updatedDate}
                 </Typography>
-                <Typography>
-                    created by: {created_by}
-                </Typography>
-                <Typography>
-                    nLikes: {likedBy.length}
+                <Typography sx={{fontWeight: "bold", color:"primary.main"}}>
+                    {created_by}
                 </Typography>
                 <Chip label={tag}></Chip>
                 <IconButton>
                     <ThumbUp color={likedBy.includes(userState.user.username) ? "primary" : "default"} onClick={likePost}/>
                 </IconButton>
+                {likedBy.length}
 
             </CardContent>
             <CardContent sx={{display: 'flex', flexFlow: 'column wrap', justifyContent: props.editor ? 'space-between' : 'flex-end', alignItems: 'flex-end'}}>

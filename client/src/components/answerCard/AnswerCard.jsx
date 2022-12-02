@@ -145,29 +145,28 @@ const AnswerCard = (props) =>{
         :
         <Accordion sx={{mb: 3}}>
             <AccordionSummary expandIcon={ <ExpandMoreIcon/>}>
-            <Card>
+            <Card sx={{width: '98%'}} raised={false}>
                 <CardContent>
                     <Typography>
                         {content}
                     </Typography>
-                    <Typography>
+                    <Typography sx={{fontWeight: "bold", color:"primary.main"}}>
                         {created_by}
                     </Typography>
-                    <Typography>
-                        Num Likes:{nLikes}
-                    </Typography>
-                    <Typography>
+                    <Typography sx={{fontWeight: "bold"}}>
                         {date}
                     </Typography>
                     <IconButton>
                         <ThumbUp color={likedBy.includes(userState.user.username) ? "primary" : "default"} onClick={likeAnswer}/>
                     </IconButton>
+                    {nLikes}
                 </CardContent>
                 {
                     props.goToPost &&
                     <CardContent>
                         <Button variant="outlined" onClick={() => navigate(`/postThread/${child_of}`)}>VIEW POST</Button>
                     </CardContent>
+                   
 
                 }
             </Card>
@@ -190,9 +189,10 @@ const AnswerCard = (props) =>{
                 onChange={editCommentField}
                 helperText={commentError ? "Comment is missing" : ""}
                 value={commentContent}
+                sx={{mb: 1}}
                 ></TextField>
 
-                <Button onClick={onCommentSubmit}>Add comment</Button>
+                <Button variant="contained" onClick={onCommentSubmit}>Add comment</Button>
             </AccordionDetails>
         </Accordion>
     )

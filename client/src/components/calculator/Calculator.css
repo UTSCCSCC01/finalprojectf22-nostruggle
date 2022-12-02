@@ -11,6 +11,7 @@
 div.calculator-box {
     position: fixed;
     left: 70px;
+    top: 200px;
     height: 600px;
     width: 440px;
     min-width: 410px;
@@ -20,12 +21,11 @@ div.calculator-box {
     border-radius: 10px;
     background-color: #eeeff9;
     box-shadow: 0 10px 16px 0 rgba(4, 76, 107, 0.2),0 6px 20px 0 rgba(4, 76, 107, 0.19) !important;
-    z-index: 1800;
 }
 
 div.calculator-inputs {
     position: relative;
-    height: 190px;
+    height: 180px;
     width: calc(100% - 40px);
     margin: 20px;
     background-color: white;
@@ -37,7 +37,7 @@ div.calculator-buttons {
     position: relative;
     height: 100px;
     width: calc(100% - 40px);
-    margin: 20px;
+    margin: 16px;
 }
 
 div.calculator-inputs  span {
@@ -49,9 +49,11 @@ div.problem {
     justify-content: flex-start;
     margin: 8px 8px;
     height: 90px;
-    width: 390px;
+    width: inherit;
     overflow-x: scroll;
     align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 div.problem * {
@@ -85,31 +87,43 @@ div.problem .medium-math-symbol *{
     height: 60px;
     width: max-content;
     right: 30px;
-    bottom: 400px;
+    top: 160px;
     margin: 8px;
     border-radius: 4px;
-    justify-content: flex-start;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .user-input > button {
     top: 25px;
 }
 
-div.user-buttons {
+div.user-options {
     display: flex;
     flex-direction: column;
 }
 
 .user-input-container {
-    height: 125px;
+    display: inline-flex;
+    flex-direction: row;
+    height: 55px;
     width: max-content;
     max-width: 280px;
-    padding: 2px 10px;
+    padding: 6px 10px;
     overflow-x: scroll;
+    position: absolute;
+    bottom: -6px;
+    right: 80px;
 }
 
 .user-input-container input {
     border-radius: 4px;
+}
+
+.user-input-container .vertical-align {
+    display: inline-flex;
+    flex-direction: column;
+    width: max-content;
 }
 
 .default-field {
@@ -130,6 +144,18 @@ div.user-buttons {
     bottom: 0px;
 }
 
+.numerator-field {
+    font-family: 'MathFont';
+    font-size: 16px;
+    top: 0px;
+}
+
+.denominator-field {
+    font-family: 'MathFont';
+    font-size: 16px;
+    bottom: 0px;
+}
+
 span.large-math-symbol {
     font-size: 34px;
     margin-top: auto;
@@ -140,4 +166,22 @@ span.medium-math-symbol {
     font-size: 18px;
     margin-top: auto;
     margin-bottom: auto;
+}
+
+.solution {
+    font-size: 22px;
+    display: inline-block;
+}
+.solution *{
+    display: inline-block;
+}
+
+#calculator-handle{
+    width: 100%;
+    height: 2rem;
+    align-self: center;
+}
+
+.error-message {
+    color: #C23726;
 }

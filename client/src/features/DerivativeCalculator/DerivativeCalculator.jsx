@@ -1,18 +1,13 @@
 import { useState } from 'react'
 import Calculator from '../../components/calculator/Calculator';
 import DerivativeIcon from "./DerivativeIcon"
-
+import { useUserState } from '../SignUp/UserContext';
 const DerivativeCalculator = ({ iconVariant }) => {
+    const { userState } = useUserState();
     const [ open, toggleOpen ] = useState(false);
 
     const derivativeButtons = [
-        { action: 'ln',         tex: '\\ln' },
-        { action: 'log',        tex: '\\log' },
-        { action: 'cos',        tex: '\\cos' },
-        { action: 'sin',        tex: '\\sin' },
-        { action: 'tan',        tex: '\\tan' },
         { action: 'brackets',   tex: '(\\square)' },
-        { action: 'abs',        tex: '\\lvert\\square\\rvert' },
         { action: 'fraction',   tex: '\\frac{\\square}{\\square}' },
         { action: 'exponent',   tex: '\\square^{\\square}' },
         { action: 'root',       tex: '\\sqrt[\\square]{\\square}' },
@@ -25,10 +20,9 @@ const DerivativeCalculator = ({ iconVariant }) => {
     return (
         <>
             {
-                open &&
+                userState.derive &&
                 <Calculator calculatorType='derive' buttons={ derivativeButtons } closeCalculator={() => toggleOpen(false)} />
             }
-            <DerivativeIcon iconVariant={iconVariant} open={open} onClick={() => toggleOpen(!open)}/>
         </>
     )
 }

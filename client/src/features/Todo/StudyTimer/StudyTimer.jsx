@@ -1,5 +1,5 @@
-import { Button, Card, Box, Autocomplete, TextField, IconButton, breadcrumbsClasses, accordionActionsClasses } from '@mui/material';
-import { PlayCircleOutline, PauseCircleOutline, Remove } from '@mui/icons-material'
+import { Button, Card, Box, Autocomplete, TextField, IconButton, breadcrumbsClasses, accordionActionsClasses, Select, FormControl, MenuItem } from '@mui/material';
+import { PlayCircleOutline, PauseCircleOutline, Remove, DragIndicator, Replay, ArrowOutward } from '@mui/icons-material'
 import { useState, useReducer, useEffect, useCallback, useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import ToolBarDraggableWrapper from '../../../components/navigation/ToolsBar/ToolBarDraggableWrapper'
@@ -15,6 +15,9 @@ import TimerSelectTask from './TimerSelectTask';
 import { useUserState } from '../../SignUp/UserContext';
 import { convertTimeStringToSeconds } from '../../utils/timeUtils';
 import StudyTimerIcon from './StudyTimerIcon';
+import GreenButton from '../../../components/buttons/GreenButton';
+import RedButton from '../../../components/buttons/RedButton';
+import BlueButton from '../../../components/buttons/BlueButton';
 const StudyTimer = (props) => {
 
     const navigate = useNavigate()
@@ -24,7 +27,8 @@ const StudyTimer = (props) => {
     const [ sound, setSound ] = useState(null)
     const [ isSavingTime, setIsSavingTime ] = useState(false)
     const [ selectTask, toggleSelectTask ] = useState(false)
-    const { userState } = useUserState()
+    const [ studyMode, setStudyMode ] = useState('timer');
+    const { userState, setUserState } = useUserState()
 
     const convertSecondsToString = (seconds) => {
         let date = new Date(seconds * 1000)
@@ -300,6 +304,7 @@ const StudyTimer = (props) => {
     const resetTime = () => {
         dispatch({type: 'time', payload: 0 })
         dispatch({type: 'pomodoroTime', payload: studyTimer.pomodoro.studySeconds })
+        setUserState({...userState, time: ''})
     }
 
     useEffect(() => {
@@ -326,6 +331,7 @@ const StudyTimer = (props) => {
                 saveTime()
                 
             }
+            setUserState({...userState, time: studyTimer.time.seconds > 0 ? studyTimer.time.string : ''})
         }
     }, [studyTimer.time])
 
@@ -333,9 +339,28 @@ const StudyTimer = (props) => {
         console.log("Timer id " + saveTimerId)
     }, [saveTimerId])
 
+    
+    const handleChange = (event) => {
+        setStudyMode(event.target.value);
+    }
+
+    const startStudy = () => {
+        switch (studyMode) {
+            case 'timer': case 'stopwatch': case 'pomodoro':
+                dispatch({ type: 'mode', payload: studyMode});
+                break;
+            default:
+                break;
+        }
+    }
+
+    useEffect(startStudy, [studyMode]);
+
+    const smoothBorder = '1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000, 0px 1px 0 #000, 0px -1px 0 #000, -1px 0px 0 #000, 1px 0px 0 #000, 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 0px 2px 0 #000, 0px -2px 0 #000, -2px 0px 0 #000, 2px 0px 0 #000, 1px 2px 0 #000, -1px 2px 0 #000, 1px -2px 0 #000, -1px -2px 0 #000, 2px 1px 0 #000, -2px 1px 0 #000, 2px -1px 0 #000, -2px -1px 0 #000';
+
     return (
         <>
-            { open &&
+            { userState.timer &&
             <>
                 <TimerSelectTask 
                     open={selectTask} 
@@ -345,56 +370,84 @@ const StudyTimer = (props) => {
                         toggleSelectTask(false)                            
                     }}
                 />
-                <ToolBarDraggableWrapper>
-                    <Card raised={true} className='StudyTimer'>
+                <ToolBarDraggableWrapper handle='#studytimer-handle'>
+                    <Card raised={true} className='StudyTimer'
+                    sx={{
+                        margin: '20px',
+                        padding: '8px',
+                        border: '2px solid #90b0c2',
+                        borderRadius: '10px',
+                        backgroundColor: '#eeeff9',
+                        boxShadow: '0 10px 16px 0 rgba(4, 76, 107, 0.2),0 6px 20px 0 rgba(4, 76, 107, 0.19)'
+                    }}
+                    >
+                    <Button id='studytimer-handle'>
+                        <DragIndicator color=''/>
+                    </Button>
+                    <IconButton sx={{position: "absolute", right: 10, top: 1 }} children={<Remove/>}  onClick={() => setUserState({...userState, timer: false}) }/>
                         <div>
-                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                                <Button onClick={() => navigate("/todo")}>Edit To-do List</Button>
-                                <IconButton children={<Remove/>}  onClick={() => toggleOpen(false)}/>
-                            </div>
                             <div >
-                                { ! studyTimer.running &&
-                                        <>
-                                            <Box sx={{ display: 'flex', padding: '0.5rem', justifyContent: 'space-between'}}>
-                                                <Button variant={studyTimer.mode === 'timer' ? "contained": "outlined"} onClick={() => dispatch({ type: 'mode', payload: 'timer'})}>Timer</Button> 
-                                                <Button variant={studyTimer.mode === 'stopwatch' ? "contained": "outlined"} onClick={() => dispatch({ type: 'mode', payload: 'stopwatch'})}>Stopwatch</Button> 
-                                                <Button variant={studyTimer.mode === 'pomodoro' ? "contained": "outlined"} onClick={() => dispatch({ type: 'mode', payload: 'pomodoro'})}>Pomodoro</Button>
-                                            </Box>
-                                        </>
-                                    }
-                                <header>Mode: {studyTimer.mode}</header>
-                                <div style={{ padding: '0.5rem', fontWeight: 700, textAlign: 'center'}}> 
-                                    <header>{ studyTimer.mode === 'stopwatch' ? "You haven't struggled on:" : "Currently not struggling with: "}</header>
-                                    <div className='StudyTimerTaskTitle' style={{ fontSize: '1.5rem'}}><strong>{studyTimer.todo ? studyTimer.todo.title : <span><i>No task selected</i></span>}</strong> {studyTimer.mode === 'stopwatch' && "for"}</div>
-                                    <div className='StudyTimerTaskTime' style={{ fontSize: '2rem'}}>{studyTimer.time.string}</div>
+                                {/* <header>Mode: {studyTimer.mode}</header> */}
+                                <div style={{ padding: '20px 8px 8px 8px', fontWeight: 700, textAlign: 'center', backgroundColor: 'rgb(207, 221, 237)', borderRadius: '12px'}}> 
+                                    <div className='StudyTimerTaskTitle' style={{ fontSize: '17px'}}>
+                                        <header>{ studyTimer.mode === 'stopwatch' ? "You haven't struggled on" : "Currently not struggling with: "}</header>
+                                        <strong><span style={{ fontSize: '1.7rem', color: '#F1B849', textShadow: smoothBorder.replaceAll('#000', '#2C5B73'), padding: '4px'}}>{studyTimer.todo ? studyTimer.todo.title : 'No task selected'}</span></strong> 
+                                        {studyTimer.mode === 'stopwatch' && "\u00A0for"}
+                                    </div>
+                                    <div style={{ display: 'inline-flex', flexDirection: 'column', height: 60 + 'px', position: 'absolute', top: '56px', right: '16px'}}>
+                                        <BlueButton sx={{ height: '30px', fontSize: '12px', marginLeft: '14px', padding: '0px 4px'}} onClick={(e) => { e.currentTarget.blur(); toggleSelectTask(!selectTask)}}>Select Task</BlueButton>
+                                        <BlueButton sx={{ height: '30px', fontSize: '12px', marginLeft: '14px', padding: '0px 4px'}} onClick={(e) => { e.currentTarget.blur(); dispatch({ type: 'todo', payload: null })}}>Clear Task</BlueButton>
+                                    </div>
+                                    <div className='StudyTimerTaskTime' style={{ fontSize: '6rem', letterSpacing: '5px', fontWeight: '600'}}>{ studyTimer.mode === 'pomodoro' ? studyTimer.pomodoro.string : studyTimer.time.string}</div>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '-16px'}}>
+                                        { 
+                                            !studyTimer.running 
+                                            ? <GreenButton size='small' sx={{ fontSize: '16px', borderRadius: '10px'}} disabled={studyTimer.mode === 'none' || (studyTimer.time.seconds <= 0 && studyTimer.mode === 'timer')} onClick={startTime} startIcon={<PlayCircleOutline sx={{ width: '34px', height: '34px', fontSize: open ?  '2.5rem' : '1.3rem'}}/>}>START</GreenButton>
+                                            : 
+                                            <BlueButton size='small' sx={{ fontSize: '16px', borderRadius: '10px'}} onClick={stopTime} startIcon={<PauseCircleOutline sx={{ width: '34px', height: '34px', fontSize: open ?  '2.5rem' : '1.3rem'}}/>}>PAUSE</BlueButton>
+                                        }
+                                        { !userState.timer  ? ( studyTimer.time.seconds && <div><b>{studyTimer.time.string}</b></div>)
+                                            : (  !studyTimer.running && <RedButton sx={{ fontSize: '16px'}} startIcon={<Replay sx={{ fontSize: open ? '2.5rem' : '1.3rem'}}/>} onClick={resetTime}>RESET</RedButton>)
+                                        }
+                                        {
+                                            studyTimer.mode === 'pomodoro' && <span style={{ position: 'absolute', left: '170px'}}><b>{studyTimer.pomodoro.interval.toUpperCase()} TIME</b></span> 
+                                        }  
+                                    </div> 
                                 </div>
-                                <div>
+                                { ! studyTimer.running ?
+                                    <Box sx={{ height: '67px', display: 'flex', padding: '0.5rem', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
+                                        <span style={{ fontSize: '18px', marginRight: '6px'}} >Study Mode: </span>
+                                        <div className='choose-mode'>
+                                            <TextField
+                                            select
+                                            value={ studyMode }
+                                            onChange={ handleChange }
+                                            autoWidth
+                                            variant='outlined'
+                                            margin='none'
+                                            size='small'
+                                            >
+                                                <MenuItem variant={studyTimer.mode === 'timer' ? "contained": "outlined"} value='timer' sx={{ fontFamily: 'Bahnschrift', fontSize: '18px', padding: '0px 4px'}}>Timer</MenuItem> 
+                                                <MenuItem variant={studyTimer.mode === 'stopwatch' ? "contained": "outlined"} value='stopwatch' sx={{ fontFamily: 'Bahnschrift', fontSize: '18px', padding: '8px 4px'}}>Stopwatch</MenuItem> 
+                                                <MenuItem variant={studyTimer.mode === 'pomodoro' ? "contained": "outlined"} value='pomodoro' sx={{ fontFamily: 'Bahnschrift', fontSize: '18px', padding: '0px 4px'}}>Pomodoro</MenuItem>
+                                            </TextField>
+                                        </div>
+                                    </Box>
+                                    : <Box sx={{ height: '67px', display: 'flex', padding: '0.5rem', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
+                                        <span style={{ fontSize: '18px', marginRight: '6px'}} >{'Study Mode: ' + studyMode.charAt(0).toUpperCase() + studyMode.substr(1).toLowerCase()}</span>
+                                    </Box>
+                                }
+                                { studyTimer.mode === 'pomodoro' && <Box sx={{ height: '67px', display: 'flex', padding: '0.5rem', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', height: '30px'}}><span style={{ fontSize: '18px', marginRight: '6px'}} >Pomodoro Interval:</span><PomodoroTimer isRunning={studyTimer.running} currentTime={studyTimer.time.seconds} intervalMode={studyTimer.pomodoro.interval} currentTimeString={studyTimer.pomodoro.string} setIntervalTime={(time) => dispatch({ type: 'pomodoroStudyInterval', payload: time}) }/></Box> }</div>
+                                <div style={{paddingLeft: '0.5rem'}}>
                                     { studyTimer.mode === 'stopwatch' && <Stopwatch/> }
                                     { studyTimer.mode === 'timer' && <Timer setTime={timerSetTime}/> }
-                                    { studyTimer.mode === 'pomodoro' && <PomodoroTimer isRunning={studyTimer.running} currentTime={studyTimer.time.seconds} intervalMode={studyTimer.pomodoro.interval} currentTimeString={studyTimer.pomodoro.string} setIntervalTime={(time) => dispatch({ type: 'pomodoroStudyInterval', payload: time}) }/> }
-                                </div>
-                                <div>
-                                    <Button onClick={() => toggleSelectTask(!selectTask)}>Select Task</Button>
-                                    <Button onClick={() => dispatch({ type: 'todo', payload: null })}>Clear Task</Button>
-                                </div>
                             </div>
                         </div>                
-                        <div style={{ display: 'flex', justifyContent: 'space-between'}}>
-                            { 
-                                !studyTimer.running 
-                                ? <IconButton size='small' color='primary' disabled={studyTimer.mode === 'none' || (studyTimer.time.seconds <= 0 && studyTimer.mode === 'timer')} onClick={startTime} children={<PlayCircleOutline sx={{ fontSize: open ?  '2.5rem' : '1.3rem'}}/>}/>
-                                : 
-                                <IconButton size='small' color='primary' onClick={stopTime} children={<PauseCircleOutline sx={{ fontSize: open ? '2.5rem' : '1.3rem'}}/>}/>
-                            }
-                            { !open  ? ( studyTimer.time.seconds && <div><b>{studyTimer.time.string}</b></div>)
-                                : (  !studyTimer.running && <Button onClick={resetTime}>Reset</Button>)
-                            }     
-                        </div> 
+                        <BlueButton sx={{ position: 'absolute', left: '0px', bottom: '10px', height: '30px', fontSize: '22px', marginLeft: '14px', padding: '0px 4px'}} endIcon={<ArrowOutward />} onClick={(e) => { e.currentTarget.blur(); navigate("/todo")}}>Edit To-Do List</BlueButton>
                     </Card>
                 </ToolBarDraggableWrapper>
             </>
             }
-            <StudyTimerIcon iconVariant={props.iconVariant} open={open} onClick={() => toggleOpen(!open)} time={studyTimer.time.seconds > 0 ? studyTimer.time.string : ''}/>
         </>    
     )
 }
