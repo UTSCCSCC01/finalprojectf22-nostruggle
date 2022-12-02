@@ -120,9 +120,13 @@ function derivingTerms(terms) {
             if (constant[0] == '(' && constant[constant.length - 1] == ')') {
                 constant = constant.substring(1, constant.length - 1);
             }
+            if(!constant || isNaN(constant)) {
+                constant = '1';
+            }
+
             var exponent = parseInt(terms[i].substring(terms[i].indexOf("^") + 1,));
             var newExponent = exponent - 1;
-            var newConstant;
+            var newConstant = "";
             //Case when the constant is a fraction
             if (constant.includes('/')) {
                 var denominator = parseInt(constant.substring(constant.indexOf("/") + 1, ));
@@ -137,7 +141,7 @@ function derivingTerms(terms) {
             else {
                 constant = parseInt(constant);
                 newConstant = constant*exponent;
-            }
+            } 
 
             //Handling when new exponent becomes "^1" (removing it)
             var derivedTerm; 

@@ -6,7 +6,7 @@ const KaTeXClearButton = ({ setId, className, tex, handleClick }) => {
 
     useEffect(() => {
         try {
-            katex.render('\\LARGE' + tex, containerRef.current, {
+            katex.render('\\LARGE ' + tex, containerRef.current, {
                 throwOnError: true
             });
             //document.getElementById('error-message').innerHTML = '';

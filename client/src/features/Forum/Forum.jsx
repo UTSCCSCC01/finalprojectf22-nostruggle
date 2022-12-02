@@ -8,7 +8,6 @@ import ForumThread from '../ForumThread/ForumThread';
 import { Button } from "@mui/material";
 import CreatePost from "../CreatePost/CreatePost"
 import { useNavigate } from "react-router-dom";
-//import Post from '../../components/pagination/Pagination.js'
 //import Pagination from '../../components/forumCard/ForumCard.jsx'
 import { Pagination} from '@mui/material';
 import * as React from "react";

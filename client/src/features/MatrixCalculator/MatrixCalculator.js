@@ -8,7 +8,6 @@ import { useUserState } from '../SignUp/UserContext';
 import './MatrixCalculator.css'
 import KaTeXComponent from '../../components/calculator/KaTeXComponent';
 import GreenButton from '../../components/buttons/GreenButton';
-import katex from 'katex';
 
 const MatrixCalculator = ({ iconVariant }) => {
     const { userState, setUserState } = useUserState()
@@ -25,7 +24,7 @@ const MatrixCalculator = ({ iconVariant }) => {
         { key: 'transpose',     tex: `A^{T}` },
         { key: 'inverse',       tex: `A^{-1}` },
         // { key: 'rank',          tex: `\\newcommand{\\rank}{\\operatorname{rank}} \\rank(A)` },
-        { key: 'multiply',      tex: `A \\times B` },
+        { key: 'multiply',      tex: `AB` },
         { key: 'addition',      tex: `A + B` },
         { key: 'subtraction',   tex: `A - B` }
     ];
@@ -86,7 +85,7 @@ const MatrixCalculator = ({ iconVariant }) => {
         const m1 = document.querySelectorAll('#matrix1 input');
         for (let i = 0; i < m1.length; i++) {
             const element = m1[i];
-            if (!element.value.match('^(-\\d)?\\d*$')) {
+            if (!element.value.match('^(-\\.?\\d)?\\d*(\\.\\d+)?$')) {
                 console.log('invalid m1')
                 setInvalidMatrix1(true);
                 return;
@@ -97,7 +96,7 @@ const MatrixCalculator = ({ iconVariant }) => {
             const m2 = document.querySelectorAll('#matrix2 input');
             for (let i = 0; i < m2.length; i++) {
                 const element = m2[i];
-                if (!element.value.match('^(-\\d)?\\d*$')) {
+                if (!element.value.match('^(-\\.?\\d)?\\d*(\\.\\d+)?$')) {
                     console.log('invalid m2')
                     setInvalidMatrix2(true);
                     return;

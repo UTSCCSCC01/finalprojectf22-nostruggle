@@ -30,12 +30,13 @@ const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
     const [ showSolution, setShowSolution ] = useState(false);
     const solution = useRef('');
     const operators = [ 'plus', 'minus', 'multiply', 'divide'];
+    const accepted = calculatorType === 'standard' ? '^[0-9+-/*()|^]*$' : '^[x0-9+-/*()|^]*$'
 
 
     const addUserInput = () => {
         for (let i = 0; i < userInput.inputFields.length; i++) {
             const field = userInput.inputFields[i];
-            if (field.value.match('\\d{16,}') || !field.type.includes('math-symbol') && !field.value.match('^[a-zA-Z0-9+-/*()|^]*$')) {
+            if (field.value.match('\\d{16,}') || !field.type.includes('math-symbol') && !field.value.match(accepted)) {
                 setUserError(true);
                 return;
             }
@@ -62,7 +63,7 @@ const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
     const updateUserInput = () => {
         for (let i = 0; i < userInput.inputFields.length; i++) {
             const field = userInput.inputFields[i];
-            if (field.value.match('\\d{16,}') || !field.type.includes('math-symbol') && !field.value.match('^[a-zA-Z0-9+-/*()|^]*$')) {
+            if (field.value.match('\\d{16,}') || !field.type.includes('math-symbol') && !field.value.match(accepted)) {
                 setUserError(true);
                 return;
             }
@@ -155,7 +156,11 @@ const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
             setActiveButton('');
             setUserInput(defaultField);
         }
-    }, [showSolution])
+    }, [showSolution]);
+
+    useEffect(() => {
+        console.log(inputs);
+    }, [inputs])
 
     const addInput = (action) => {
 
@@ -172,8 +177,8 @@ const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
                 setShowSolution(false);
                 return;
             case 'GO':
-                const prefix = calculatorType === 'integrate' ? '\\displaystyle\\int' : calculatorType === 'derive' ? '\\frac{d}{dx}' : '';
-                const affix = calculatorType === 'integrate' ? 'dx' : '';
+                const prefix = calculatorType === 'integrate' ? '\\displaystyle\\int ' : calculatorType === 'derive' ? '\\frac{d}{dx}' : '';
+                const affix = calculatorType === 'integrate' ? 'dx =\u00A0' : ' =\u00A0';
                 solution.current = <>
                 <KaTeXComponent className='solution' tex={ prefix + inputs.map((input) => inputToTex(input)).join('') + affix} />       
                 { calculateSolution() }
@@ -257,28 +262,6 @@ const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
             var inactive = document.getElementById(calculatorType + activeButton);
             inactive.classList.remove('active');
         }
-
-        if (operators.includes(action)) {
-            if (index === 0 || (index > 0 && operators.includes(inputs[index - 1].inputType))) {
-                newInput = [
-                    {
-                        inputType: defaultField.inputType,
-                        inputValue: defaultField.inputValue,
-                        isEmpty: defaultField.isEmpty,
-                        inputFields: defaultField.inputFields
-                    },
-                    ...newInput
-                ];
-            }
-            if (index === inputs.length || (index < inputs.length && operators.includes(inputs[index].inputType))) {
-                newInput.push({
-                    inputType: defaultField.inputType,
-                    inputValue: defaultField.inputValue,
-                    isEmpty: defaultField.isEmpty,
-                    inputFields: defaultField.inputFields
-                });
-            }
-        }
         setActiveButton(index);
         setInputs(inputs.slice(0,index).concat(newInput).concat(inputs.slice(index)));
         setShowSolution(false);
@@ -353,7 +336,7 @@ const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
         const fields = inputArr.inputFields.map((field) => field.value === '' ? '\\square' : convertStringToLatex(field.value));
         switch (inputArr.inputType) {
             case 'cos': case 'sin': case 'tan': case 'log':
-                return `\\${userInput.inputType}(${fields[1]})`;
+                return `\\\\${fields[0]}(${fields[1]})`;
             case 'exponent':
                 return `${fields[0]}^{${fields[1]}}`;
             case 'brackets':
@@ -465,8 +448,14 @@ const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
     const calculateSolution = () => {
         const str = inputs.map((input, i) => {
             switch (input.inputType) {
-                case 'cos': case 'sin': case 'tan': case 'log':
-                    return input.inputType + '(' + input.inputFields[1].value + ')';
+                case 'cos':
+                    return Math.cos(input.inputFields[1].value);
+                case 'sin':
+                    return Math.sin(input.inputFields[1].value);
+                case 'tan': 
+                    return Math.tan(input.inputFields[1].value);
+                case 'log':
+                    return Math.log(input.inputFields[1].value);
                 case 'exponent':
                     return input.inputFields[0].value + '^(' + input.inputFields[1].value + ')';
                 case 'brackets':
@@ -488,13 +477,21 @@ const Calculator = ({ calculatorType, buttons, closeCalculator }) => {
             }
         }).join('');
 
+        var equation = str;        
+        for (let i = equation.split('x').length - 1; i > 1; i--) {
+            while (equation.match('x{' + i + '}')) {
+                equation = equation.replaceAll('x'.repeat(i), 'x^' + i + '');
+            }
+        }
+        console.log(equation);
+
         switch (calculatorType) {
             case 'standard':
-                return <KaTeXComponent className='solution' tex={ '=' + convertStringToLatex(simplify(str)) } />    
+                return <KaTeXComponent className='solution' tex={convertStringToLatex(simplify(equation)) } />    
             case 'derive':
-                return <KaTeXComponent className='solution' tex={ '=' + convertStringToLatex(derivativeType(str)) } />
+                return <KaTeXComponent className='solution' tex={convertStringToLatex(derivativeType(equation)) } />
             case 'integrate':
-                return <KaTeXComponent className='solution' tex={ '=' + convertStringToLatex(findIntegral(str)) } />  
+                return <KaTeXComponent className='solution' tex={convertStringToLatex(findIntegral(equation)) } />  
             case 'default':
                 console.log('nothing yet');
                 return <span></span>;
