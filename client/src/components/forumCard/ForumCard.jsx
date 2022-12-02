@@ -1,5 +1,5 @@
 
-import { Typography, CardContent, Card, Box, Paper, Chip, Item, Button, IconButton} from '@mui/material';
+import { Typography, CardContent, Card, Box, Paper, Chip, Item, Button, IconButton, Divider} from '@mui/material';
 import { useState, useContext, useRef } from 'react';
 import { usePostState } from '../../features/Forum/PostContext';
 import { useNavigate } from 'react-router-dom';
@@ -87,20 +87,20 @@ const ForumCard = (props) => {
                 <Typography variant="body1" sx = {{fontWeight: "regular"}}>
                     {content}
                 </Typography>
-                
-                <Typography>
+
+                <Typography sx={{fontWeight: "bold"}}>
                     {updatedDate}  
                 </Typography>  
-                
-                <Typography>     
-                    Likes: {nLikes}
-                </Typography>
             
-                <Chip label={tag}></Chip>
-                <IconButton>
-                    <ThumbUp color={likedByUser ? "primary" : "default"} onClick={likePost}/>
-                </IconButton>
-                <Button variant="outlined" onClick={goToPost}>View Post</Button>
+                <Box sx={{display: 'grid', gridTemplateColumns:'repeat(4, 1fr)'}}>
+                   <Box sx={{gridColumn: 'span 3'}}><Chip label={tag}></Chip>
+                    <IconButton>
+                        <ThumbUp color={likedByUser ? "primary" : "default"} onClick={likePost}/>
+                    </IconButton>
+                    {nLikes}
+                    </Box>
+                    <Button variant="outlined" onClick={goToPost}>View Post</Button>
+                </Box>
             </CardContent>
            
 

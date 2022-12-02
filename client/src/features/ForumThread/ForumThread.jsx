@@ -150,9 +150,10 @@ function ForumThread(){
         rows={8}
         onChange={enterContent}
         value={answerField}
+        sx={{mb: 2}}
         ></TextField>
 
-        <Button onClick={submitAnswer} >Post Answer</Button>
+        <Button onClick={submitAnswer} variant="contained">Post Answer</Button>
 
 
         <p>{answers.map((item) => <AnswerCard child_of={postIdData} content={item.content} created_by={item.created_by} nLikes={item.nLikes} 
